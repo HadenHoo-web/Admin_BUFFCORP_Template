@@ -1,0 +1,271 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="js/Chart.min.js"></script>
+
+<style>
+.kpi-page{font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px;color:#000;background:#f5f5f5;padding:10px;min-height:100%}
+.kpi-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;border:1px solid #808080;background:#f2f2f2;padding:5px 8px}
+.kpi-toolbar h2{font-size:16px;margin:0;color:#000080;font-weight:bold}
+.kpi-filter{display:flex;align-items:center;gap:5px;flex-wrap:wrap;background:#808080;border:1px solid #666;padding:5px;color:#fff;font-weight:bold}
+.kpi-filter span{line-height:20px}
+.kpi-filter select{height:22px;border:1px solid #808080;background:#f7f7ff;color:#000080;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px}
+.kpi-filter input{height:22px;padding:0 12px;background:#e9e9e9;color:#000080;border:2px solid #000080;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;cursor:pointer}
+.kpi-cards{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:8px}
+.kpi-card{background:#fff;border:1px solid #c0c0c0;padding:0}
+.kpi-card .label{font-size:11px;color:#fff;background:#808080;font-weight:bold;padding:5px 8px}
+.kpi-card .value{font-size:22px;font-weight:bold;color:#000080;padding:8px 8px 2px}
+.kpi-card .note{font-size:11px;color:#666;padding:0 8px 8px}
+.kpi-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:8px;margin-bottom:8px}
+.kpi-panel{background:#fff;border:1px solid #c0c0c0;padding:0;min-width:0}
+.kpi-panel h3{font-size:12px;margin:0 0 8px;background:#808080;color:#fff;padding:6px 8px;font-weight:bold}
+.kpi-chart{height:280px;overflow:hidden;position:relative;width:100%;box-sizing:border-box;padding:0 8px 8px}
+.kpi-chart canvas{display:block;max-width:100%!important;width:100%!important;height:260px!important}
+.kpi-table{width:100%;border-collapse:collapse;background:#fff}
+.kpi-table th{background:#d8d4cb;color:#000;text-align:left;font-size:11px;padding:5px;border:1px solid #c0c0c0}
+.kpi-table td{font-size:11px;padding:5px;border:1px solid #ddd;vertical-align:middle}
+.kpi-name{font-weight:bold}
+.kpi-ok .kpi-name{color:#0000ff}
+.kpi-warn .kpi-name{color:#ff9900}
+.kpi-danger .kpi-name{color:#ff0000}
+.kpi-progress{height:10px;background:#e6e6e6;overflow:hidden;min-width:120px;border:1px solid #c0c0c0}
+.kpi-progress span{display:block;height:10px;background:#0000ff}
+.kpi-ok .kpi-progress span{background:#0000ff}
+.kpi-warn .kpi-progress span{background:#ff9900}
+.kpi-danger .kpi-progress span{background:#ff0000}
+.kpi-reason{color:#ff0000;font-weight:bold}
+.kpi-edit{color:#0000ff;font-weight:bold;text-decoration:none}
+.kpi-message{background:#fff8cc;border:1px solid #c0c0c0;color:#ff0000;padding:6px;margin-bottom:8px;font-weight:bold}
+.kpi-type-select{height:21px;border:1px solid #808080;background:#f7f7ff;color:#000080;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px}
+.kpi-status-new{color:#000;font-weight:bold}
+.kpi-status-doing{color:#ff9900;font-weight:bold}
+.kpi-status-done{color:#0000ff;font-weight:bold}
+@media(max-width:1100px){.kpi-cards{grid-template-columns:repeat(2,1fr)}.kpi-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="kpi-page">
+  <div class="kpi-toolbar">
+    <h2>Dashboard KPI Content</h2>
+    <form action="main.php" method="POST" name="mainForm" class="kpi-filter">
+      <input type="hidden" name="option" value="{funname}">
+      <input type="hidden" name="mode" value="dashboard">
+      <input type="hidden" name="l" value="{LANGUAGEID}">
+      <span>Tháng</span>
+      <select name="month">
+        <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+        <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+        <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+        <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+      </select>
+      <span>Năm</span>
+      <select name="year">
+        <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+      </select>
+      <span>Nhân viên</span>
+      <select name="member_id1">
+        <option value="0" {overview_option_disabled}>Tất cả team Content</option>
+        <!-- BEGIN member_list -->
+        <option value="{member_list.member_id}">{member_list.member_name}</option>
+        <!-- END member_list -->
+      </select>
+      <input type="submit" value="Xem">
+    </form>
+  </div>
+
+  <div class="kpi-message" style="display:{MESSAGE_DISPLAY}">{MESSAGE}</div>
+
+  <div class="kpi-cards">
+    <div class="kpi-card">
+	      <div class="label">KPI chuẩn / bộ lọc</div>
+	      <div class="value">{target}</div>
+	      <div class="note">KPI mặc định theo tháng</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Đã tính KPI</div>
+      <div class="value">{total_done}</div>
+      <div class="note">Chỉ tính việc đủ tiêu chí</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Tỷ lệ tổng</div>
+      <div class="value">{total_percent}%</div>
+      <div class="note">So với KPI team trong bộ lọc</div>
+    </div>
+    <div class="kpi-card">
+      <div class="label">Còn thiếu</div>
+      <div class="value">{total_missing}</div>
+      <div class="note">Số bài cần bổ sung để đạt KPI</div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-panel">
+      <h3>Hiệu suất từng nhân viên</h3>
+      <div class="kpi-chart"><canvas id="memberChart" width="600" height="260"></canvas></div>
+    </div>
+    <div class="kpi-panel">
+      <h3>Tiến độ theo ngày trong tháng</h3>
+      <div class="kpi-chart"><canvas id="dailyChart" width="600" height="260"></canvas></div>
+    </div>
+  </div>
+
+  <div class="kpi-panel">
+    <h3>Bảng KPI team Content</h3>
+    <table class="kpi-table">
+      <tr>
+        <th>Nhân viên</th>
+        <th>Tổng việc</th>
+        <th>Đã xong</th>
+        <th>KPI tính được</th>
+        <th>KPI tháng</th>
+        <th>Còn thiếu</th>
+        <th>Tỷ lệ</th>
+        <th>Việc chưa được tính</th>
+        <th>Cảnh báo</th>
+      </tr>
+      <!-- BEGIN member_kpi -->
+      <tr class="{member_kpi.status_class}">
+        <td class="kpi-name">{member_kpi.fullname}</td>
+        <td>{member_kpi.total_tasks}</td>
+        <td>{member_kpi.done_tasks}</td>
+        <td>{member_kpi.kpi_done}</td>
+        <td>{member_kpi.target}</td>
+        <td>{member_kpi.missing}</td>
+        <td>
+          <div>{member_kpi.percent}%</div>
+          <div class="kpi-progress"><span style="width:{member_kpi.bar_width}%"></span></div>
+        </td>
+        <td>{member_kpi.invalid_tasks}</td>
+        <td>{member_kpi.status_text}</td>
+      </tr>
+      <!-- END member_kpi -->
+    </table>
+  </div>
+
+  <div class="kpi-panel" style="margin-top:12px">
+    <h3>Việc KPI Content chưa được tính / đang xử lý</h3>
+    <table class="kpi-table">
+      <tr>
+        <th>#</th>
+        <th>Ngày tạo</th>
+        <th>Nhân viên</th>
+        <th>Công việc</th>
+        <th>Loại KPI</th>
+        <th>Website</th>
+        <th>Trạng thái</th>
+        <th>Deadline</th>
+        <th>Lý do chưa tính KPI</th>
+        <th>Sửa</th>
+      </tr>
+      <!-- BEGIN invalid_task -->
+      <tr>
+        <td>{invalid_task.order}</td>
+        <td>{invalid_task.created_date}</td>
+        <td>{invalid_task.fullname}</td>
+        <td>{invalid_task.giaoviec_name}</td>
+        <td>
+          <select class="kpi-type-select" disabled="disabled">
+            <option value="viet_content" {invalid_task.viet_selected}>Viết content</option>
+            <option value="audit_content" {invalid_task.audit_selected}>Audit content</option>
+            <option value="nghien_cuu_tu_khoa" {invalid_task.keyword_selected}>Nghiên cứu từ khoá</option>
+          </select>
+        </td>
+        <td>{invalid_task.website_name}</td>
+        <td class="{invalid_task.status_class}">{invalid_task.status_text}</td>
+        <td>{invalid_task.deadline}</td>
+        <td class="kpi-reason">{invalid_task.reason}</td>
+        <td><a class="kpi-edit" href="?option={funname}&mode=info&l={LANGUAGEID}&id={invalid_task.giaoviec_id}">Fill đủ</a></td>
+      </tr>
+      <!-- END invalid_task -->
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+mainForm.month.value = '{month}';
+mainForm.year.value = '{year}';
+mainForm.member_id1.value = '{member_id}';
+
+var memberNames = {chart_names};
+var memberDone = {chart_done};
+var memberTarget = {chart_target};
+var dailyLabels = {daily_labels};
+var dailyDone = {daily_done};
+var dailyTarget = {daily_target};
+var dailyMissing = {daily_missing};
+
+function kpiAxisOptions(seriesList, minMax) {
+  var maxValue = minMax || 100;
+  for (var i = 0; i < seriesList.length; i++) {
+    var series = seriesList[i] || [];
+    for (var j = 0; j < series.length; j++) {
+      var value = parseFloat(series[j]);
+      if (!isNaN(value) && value > maxValue) maxValue = value;
+    }
+  }
+
+  var stepWidth = Math.ceil(maxValue / 10);
+  if (stepWidth <= 5) stepWidth = 5;
+  else if (stepWidth <= 10) stepWidth = 10;
+  else if (stepWidth <= 20) stepWidth = 20;
+  else if (stepWidth <= 50) stepWidth = 50;
+  else stepWidth = Math.ceil(stepWidth / 50) * 50;
+
+  return {
+    responsive: true,
+    scaleOverride: true,
+    scaleSteps: Math.ceil(maxValue / stepWidth),
+    scaleStepWidth: stepWidth,
+    scaleStartValue: 0
+  };
+}
+
+new Chart(document.getElementById('memberChart').getContext('2d')).Bar({
+  labels: memberNames,
+  datasets: [
+    {
+      label: 'Đã tính KPI',
+      fillColor: 'rgba(0,0,255,0.45)',
+      strokeColor: 'rgba(0,0,255,1)',
+      highlightFill: 'rgba(0,0,255,0.65)',
+      highlightStroke: 'rgba(0,0,255,1)',
+      data: memberDone
+    },
+    {
+      label: 'KPI tháng',
+      fillColor: 'rgba(255,0,0,0.20)',
+      strokeColor: 'rgba(255,0,0,1)',
+      highlightFill: 'rgba(255,0,0,0.35)',
+      highlightStroke: 'rgba(255,0,0,1)',
+      data: memberTarget
+    }
+  ]
+}, kpiAxisOptions([memberDone, memberTarget], 100));
+
+new Chart(document.getElementById('dailyChart').getContext('2d')).Line({
+  labels: dailyLabels,
+  datasets: [
+    {
+      label: 'KPI hoàn thành',
+      fillColor: 'rgba(0,0,255,0.04)',
+      strokeColor: 'rgba(0,0,255,1)',
+      pointColor: 'rgba(0,0,255,1)',
+      pointStrokeColor: '#fff',
+      data: dailyDone
+    },
+    {
+      label: 'KPI chuẩn ngày',
+      fillColor: 'rgba(255,0,0,0.04)',
+      strokeColor: 'rgba(255,0,0,1)',
+      pointColor: 'rgba(255,0,0,1)',
+      pointStrokeColor: '#fff',
+      data: dailyTarget
+    },
+    {
+      label: 'Còn thiếu',
+      fillColor: 'rgba(255,153,0,0.08)',
+      strokeColor: 'rgba(255,153,0,1)',
+      pointColor: 'rgba(255,153,0,1)',
+      pointStrokeColor: '#fff',
+      data: dailyMissing
+    }
+  ]
+}, {responsive: true, scaleBeginAtZero: true});
+</script>

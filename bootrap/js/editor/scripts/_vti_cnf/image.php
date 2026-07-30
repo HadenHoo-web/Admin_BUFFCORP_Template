@@ -1,0 +1,20 @@
+vti_encoding:SR|utf8-nl
+vti_timelastmodified:TR|21 Jan 2005 00:49:34 -0000
+vti_extenderversion:SR|6.0.2.5516
+vti_author:SR|MINHTRI\\Minh Tri
+vti_modifiedby:SR|MINHTRI\\Minh Tri
+vti_timecreated:TR|21 Jan 2005 00:49:34 -0000
+vti_cacheddtm:TX|21 Jan 2005 00:49:34 -0000
+vti_filesize:IR|9239
+vti_cachedtitle:SR|Image
+vti_cachedbodystyle:SR|<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+vti_cachedlinkinfo:VX|S|selection_for_dialogs.js
+vti_cachedsvcrellinks:VX|FSUS|administration/js/editor/scripts/selection_for_dialogs.js
+vti_cachedneedsrewrite:BR|false
+vti_cachedhasbots:BR|false
+vti_cachedhastheme:BR|false
+vti_cachedhasborder:BR|false
+vti_metatags:VR|HTTP-EQUIV=Content-Type text/html;\\ charset=utf-8
+vti_charset:SR|utf-8
+vti_title:SR|Image
+vti_backlinkinfo:VX|

@@ -1,0 +1,176 @@
+body 
+{ 	font-family:tahoma; font-size:11px; 
+	margin-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; 
+}
+
+p { 
+	font-family: Tahoma; font-size: 11px; margin-top: 4; margin-bottom: 4 
+}
+
+p.mainTitle
+{	color:	#3399FF;
+	font-family: tahoma; font-size:13px;
+	font-weight: bold;
+}
+
+table.mainTable {
+	align: center;
+	background-color: #F0F0F0;	
+	border-collapse: collapse; border: 1px solid #B0B0B0;
+	font-family: Tahoma; font-size: 11px;
+}
+
+table.mainTable td
+{	height:25;
+	padding-left: 5; padding-right: 5;
+	font-family: Tahoma; font-size: 11px;	
+}
+
+table.mainTable td.blankRow, table.subTable td.blankRow
+{	height:8;
+}
+
+table.mainTable td.header, table.subTable td.header
+{	height:22;
+	font-weight:bold; color:#000000;
+	background-color: #E3E3E3;
+	border-bottom: 1px solid #808080;	
+}
+
+table.mainTable td.oddRow, table.mainTable tr.oddRow
+{	height:22;
+	background-color: #FFF;
+}
+
+table.mainTable td.evenRow, table.mainTable tr.evenRow
+{	height:22;
+	background-color: #F0F0F0;
+}
+
+table.mainTable td.row0, table.mainTable tr.row0
+{	height:22;
+	background-color: #F0F0F0;
+}
+
+table.mainTable td.row1, table.mainTable tr.row1	
+{	height:22;
+	background-color: #FFFFFF;
+}
+
+
+table.mainTable td.caption, table.subTable td.caption
+{	height:22;
+	align:center;
+	font-weight:bold; color:#FFFFFF;
+	background-color: #3979B5;
+}
+
+
+table.mainTable td.footer, table.subTable td.footer
+{	height:22;
+	font-weight:bold; color:#FFFFFF;
+	background-color: #C0C0C0;
+	border-top: 1px solid #808080;
+}
+
+table.functionTable
+{	font-family: Tahoma; font-size: 11px;
+}
+
+table.functionTable td
+{	background-color: #F5F5F5;	
+	height:23;
+	font-family: Tahoma; font-size: 11px;
+	border:1px solid #C0C0C0; padding-left: 10; padding-right: 10	;
+	cursor:hand;
+}
+
+table.functionTable td.hover
+{	background-color: #DDEEFF;	
+	height:23;
+	font-family: Tahoma; font-size: 11px;
+	border:1px solid #808080; padding-left: 10; padding-right: 10	;
+	cursor:hand;	
+}
+
+
+table.subTable {
+	border-collapse: collapse; border: 1px solid #B0B0B0;
+	font-family: Tahoma; font-size: 11px;
+}
+
+table.subTable td { 
+	padding-left: 5; padding-right: 5;
+	font-family: Tahoma; font-size: 11px;	
+}
+
+input, textarea
+{	font-family: Tahoma; font-size: 11px; color: #000080; 
+	padding-left: 2; padding-right: 2;
+	background-color: #F5F5FF;	
+}
+
+input.radio, select
+{	font-family: Tahoma; font-size: 11px; color: #000080; 
+	padding-left: 2; padding-right: 2;
+	background-color: #F0F0F0;	
+}
+
+table.menu {
+	font-family: Tahoma; font-size: 11px;
+	border:none;
+	border-collapse: separate;
+}
+
+table.menu td {
+	border: 1px solid #B0B0B0;
+	padding-left: 8; padding-right: 8;
+	height:24px;
+	cursor:hand;
+} 
+
+table.menu td.hover {
+	border: 1px solid #808080;
+	padding-left: 8; padding-right: 8;
+	height:24px;
+	cursor:hand;
+	background-color: #F0F5FF;		
+}
+
+p.message { 
+	font-family: Tahoma; font-size: 12px;
+	color: #FF0000;
+	font-weight:bold;	
+}
+
+.menubackgr {
+	background: #F1F3F5;
+	border-bottom: 1px solid #cccccc;
+
+}
+
+.menudottedline {
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #F1F3F5;
+}
+
+a 			{font-family:tahoma;  font-size:11px; text-decoration:none; color: #3979B5;}
+a : visited {color:#003366;}
+a : active  {color:#003366;}
+a : hover  	{text-decoration:none; color:#663300;}
+
+table.mainTable a { color:#003366; }
+tr.caption a, td.caption a 	{ color : #DADAFF}
+tr.oddRow a, tr.evenRow a, tr.row0 a, tr.row1 a 	{ color : #3979B5}
+td.oddRow a, td.evenRow a, td.row0 a, td.row1 a 	{ color : #3979B5}
+
+.subTitle		{ color:#FFF; }
+.itemName		{ color:#DADAFF; }
+
+a.captionLink 	{ color:#003366; }
+a.captionLink : hover { color:#F0F0FF;}
+.membername {
+	font-weight:bold; color:#000000;
+	padding-right:10px;	
+}

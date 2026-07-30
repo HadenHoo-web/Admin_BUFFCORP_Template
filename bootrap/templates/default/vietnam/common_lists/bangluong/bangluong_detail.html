@@ -1,0 +1,174 @@
+<div class="toolbar">
+    <a href="{back_link}">
+        <img border="0" src="templates/{skin}/images/button-article-create.gif">
+        <span>Quay lại</span>
+    </a>
+
+    &nbsp;&nbsp;
+
+    <a href="{export_link}" target="_blank">
+        <img border="0" src="templates/{skin}/images/button-article-create.gif">
+        <span>Xuất Excel phiếu lương</span>
+    </a>
+</div>
+
+<div class="tabtitle" style="padding:10px; font-weight:bold;">
+    PHIẾU LƯƠNG NHÂN VIÊN: {member_name} - THÁNG {month}/{year}
+</div>
+
+<div style="padding:10px 10px 0 10px;">
+    <table width="100%" cellpadding="6" cellspacing="6" border="0">
+        <tr>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Lương cơ bản</b></div>
+                <div style="font-size:18px; color:#003399;">{base_salary}</div>
+            </td>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Tổng giờ tính lương</b></div>
+                <div style="font-size:18px; color:#003399;">{total_paid_text}</div>
+            </td>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Công quy đổi</b></div>
+                <div style="font-size:18px; color:#003399;">{work_days_float}</div>
+            </td>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Tổng HH</b></div>
+                <div style="font-size:18px; color:#003399;">{total_commission}</div>
+            </td>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Trách nhiệm</b></div>
+                <div style="font-size:18px; color:#003399;">{responsibility_amount}</div>
+            </td>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Số lần đi trễ</b></div>
+                <div style="font-size:18px; color:#cc0000;">{late_count}</div>
+            </td>
+            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
+                <div><b>Tổng lương</b></div>
+                <div style="font-size:20px; color:#008000; font-weight:bold;">{total_salary}</div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="padding:10px;">
+    <table border="0" cellpadding="6" cellspacing="1" width="100%" class="selector">
+        <tr class="header">
+            <td colspan="4">THÔNG TIN TỔNG HỢP</td>
+        </tr>
+        <tr class="alt">
+            <td width="20%"><b>Nhân viên</b></td>
+            <td width="30%">{member_name}</td>
+            <td width="20%"><b>Lương cơ bản</b></td>
+            <td width="30%">{base_salary}</td>
+        </tr>
+        <tr class="inv">
+            <td><b>Số công chuẩn tháng</b></td>
+            <td>{working_days}</td>
+            <td><b>1 công</b></td>
+            <td>{hours_per_day} tiếng</td>
+        </tr>
+        <tr class="alt">
+            <td><b>Lương / ngày</b></td>
+            <td>{salary_per_day}</td>
+            <td><b>Lương / giờ</b></td>
+            <td>{salary_per_hour}</td>
+        </tr>
+        <tr class="inv">
+            <td><b>Tổng ngày đi làm</b></td>
+            <td>{actual_days}</td>
+            <td><b>Tổng giờ tính lương</b></td>
+            <td>{total_paid_text}</td>
+        </tr>
+        <tr class="alt">
+            <td><b>Công quy đổi</b></td>
+            <td>{work_days_float}</td>
+            <td><b>Số giờ nghỉ</b></td>
+            <td>{absent_hours}</td>
+        </tr>
+        <tr class="inv">
+            <td><b>Số lần đi trễ</b></td>
+            <td>{late_count}</td>
+            <td><b>Tiền trừ nghỉ</b></td>
+            <td>{deduct_amount}</td>
+        </tr>
+        <tr class="alt">
+            <td><b>Ngày phép tháng</b></td>
+            <td>{leave_default}</td>
+            <td><b>Đã dùng phép</b></td>
+            <td>{leave_used}</td>
+        </tr>
+        <tr class="inv">
+            <td><b>Còn phép</b></td>
+            <td>{leave_remain}</td>
+            <td><b>Chuyên cần thực nhận</b></td>
+            <td>{attendance_bonus}</td>
+        </tr>
+        <tr class="alt">
+            <td><b>Doanh thu Kinh Doanh</b></td>
+            <td>{sales_revenue}</td>
+            <td><b>Doanh thu Kỹ thuật</b></td>
+            <td>{technical_revenue}</td>
+        </tr>
+        <tr class="inv">
+            <td><b>Hoa hồng cá nhân</b></td>
+            <td>{sales_commission}</td>
+            <td><b>HH kỹ thuật 1%</b></td>
+            <td>{technical_commission}</td>
+        </tr>
+        <tr class="alt">
+            <td><b>Hoa hồng trưởng phòng</b></td>
+            <td>{manager_commission}</td>
+            <td><b>Tổng HH</b></td>
+            <td>{total_commission}</td>
+        </tr>
+        <tr class="inv">
+            <td><b>Lương làm việc</b></td>
+            <td>{salary_work}</td>
+            <td><b>Trách nhiệm</b></td>
+            <td>{responsibility_amount}</td>
+        </tr>
+        <tr class="alt">
+            <td><b>Tổng trước trách nhiệm</b></td>
+            <td>{salary_work} + {attendance_bonus} + {total_commission}</td>
+            <td><b>TỔNG LƯƠNG</b></td>
+            <td style="color:#cc0000; font-size:18px; font-weight:bold;">{total_salary}</td>
+        </tr>
+    </table>
+</div>
+
+<div style="padding:10px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="selector">
+        <tr class="header">
+            <td>#</td>
+            <td>Ngày</td>
+            <td>Thứ</td>
+            <td>Check In</td>
+            <td>Check Out</td>
+            <td>Giờ tính lương</td>
+            <td>Giờ nghỉ</td>
+            <td>Đi trễ</td>
+            <td>Dùng phép</td>
+            <td>Trạng thái</td>
+            <td>Note</td>
+            <td>Đếm</td>
+        </tr>
+
+        <!-- BEGIN detail -->
+        <tr class="{detail.className}">
+            <td>{detail.order}</td>
+            <td>{detail.work_date}</td>
+            <td>{detail.thu}</td>
+            <td>{detail.check_in}</td>
+            <td>{detail.check_out}</td>
+            <td>{detail.work_time}</td>
+            <td>{detail.absent_time}</td>
+            <td>{detail.late_text}</td>
+            <td>{detail.used_leave}</td>
+            <td>{detail.status}</td>
+            <td>{detail.note}</td>
+            <td style="text-align:left;">{detail.count_text}</td>
+        </tr>
+        <!-- END detail -->
+    </table>
+</div>

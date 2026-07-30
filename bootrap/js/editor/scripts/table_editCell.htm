@@ -1,0 +1,613 @@
+<html>
+<head>
+<title>Cell Properties</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script language="JavaScript" src="table.js"></script>
+<script>
+/************************
+	TABS
+************************/
+function tabClick(n)
+	{
+	switch(n)
+		{
+		case 1:			
+			tab1.style.border="#d3d3d3 2 solid";
+			tab1.style.borderBottom="none";	
+			tab1.style.background="#f7f7f7";
+			tab1.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#f7f7f7)"			
+			tab1.style.cursor="";
+			
+			tab2.style.border="#d3d3d3 2 solid";
+			tab2.style.borderLeft="none";
+			tab2.style.background="gainsboro";
+			tab2.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#dcdcdc)"
+			tab2.style.cursor="hand";
+			
+			tab3.style.border="#d3d3d3 2 solid";
+			tab3.style.borderLeft="none";
+			tab3.style.background="gainsboro";
+			tab3.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#dcdcdc)"
+			tab3.style.cursor="hand";				
+			
+			
+			divAutoFit.style.display="block"
+			divProperties.style.display="none"
+			divStyle.style.display="none"	
+						
+			break;
+		case 2:
+			tab1.style.border="#d3d3d3 2 solid";
+			tab1.style.borderRight="none";
+			tab1.style.background="gainsboro";
+			tab1.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#dcdcdc)"
+			tab1.style.cursor="hand";
+			
+			tab2.style.border="#d3d3d3 2 solid";
+			tab2.style.borderBottom="none";	
+			tab2.style.background="#f7f7f7";
+			tab2.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#f7f7f7)"
+			tab2.style.cursor="";	
+			
+			tab3.style.border="#d3d3d3 2 solid";
+			tab3.style.borderLeft="none";
+			tab3.style.background="gainsboro";
+			tab3.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#dcdcdc)"
+			tab3.style.cursor="hand";					
+			
+			divAutoFit.style.display="none"
+			divProperties.style.display="block"
+			divStyle.style.display="none"				
+					
+			break;
+		case 3:			
+			tab1.style.border="#d3d3d3 2 solid";
+			tab1.style.borderRight="none";
+			tab1.style.background="gainsboro";
+			tab1.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#dcdcdc)"
+			tab1.style.cursor="hand";
+			
+			tab2.style.border="#d3d3d3 2 solid";
+			tab2.style.borderRight="none";
+			tab2.style.background="gainsboro";
+			tab2.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#dcdcdc)"
+			tab2.style.cursor="hand";
+			
+			tab3.style.border="#d3d3d3 2 solid";
+			tab3.style.borderBottom="none";
+			tab3.style.background="#f7f7f7";
+			tab3.style.filter="progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7, endColorstr=#f7f7f7)"
+			tab3.style.cursor="";				
+
+			divAutoFit.style.display="none"
+			divProperties.style.display="none"
+			divStyle.style.display="block"
+									
+			break;				
+		}
+	}	
+
+/************************
+	COMMON
+************************/
+function GetElement(oElement,sMatchTag)
+	{
+	while (oElement!=null && oElement.tagName!=sMatchTag)
+		{
+		if(oElement.id=="idContent") return null;
+		oElement = oElement.parentElement;
+		}
+	return oElement;
+	}
+	
+/************************
+	REALTIME & Sekaligus PREVIEW
+************************/
+function doWindowFocus()
+	{
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	}
+function bodyOnLoad()
+	{	
+	tabClick(1);
+	window.onfocus=doWindowFocus;	
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	
+	realTime()
+	}
+	
+function realTime()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+		
+	var oTable = (oSel.parentElement != null ? GetElement(oSel.parentElement(),"TABLE") : GetElement(oSel.item(0),"TABLE"));
+	var oTD = (oSel.parentElement != null ? GetElement(oSel.parentElement(),"TD") : GetElement(oSel.item(0),"TD"))
+	if (oTD == null) return;
+	
+	divPreview.style.cssText=oTD.style.cssText; //PREVIEW
+
+	//AUTOFIT
+	inpWidth.value=="";//reset
+	if(oTD.style.width == "")inpAutoFit1[0].checked=true;
+	else
+		{
+		if(oTD.style.width.substr(oTD.style.width.length-2,2)=="px")
+			{
+			inpAutoFit1[1].checked=true;			
+			inpAutoFitMeasure1.value = "px";
+			inpWidth.value = oTD.style.width.substr(0,oTD.style.width.length-2);
+			}		
+		if(oTD.style.width.substr(oTD.style.width.length-1,1)=="%")
+			{
+			inpAutoFit1[1].checked=true;
+			inpAutoFitMeasure1.value = "%";
+			inpWidth.value = oTD.style.width.substr(0,oTD.style.width.length-1)
+			}
+		}
+	
+	inpHeight.value=="";//reset
+	if(oTD.style.height == "")inpAutoFit2[0].checked=true;
+	else
+		{
+		if(oTD.style.height.substr(oTD.style.height.length-2,2)=="px")
+			{
+			inpAutoFit2[1].checked=true;			
+			inpAutoFitMeasure2.value = "px";
+			inpHeight.value = oTD.style.height.substr(0,oTD.style.height.length-2);
+			}		
+		if(oTD.style.height.substr(oTD.style.height.length-1,1)=="%")
+			{
+			inpAutoFit2[1].checked=true;
+			inpAutoFitMeasure2.value = "%";
+			inpHeight.value = oTD.style.height.substr(0,oTD.style.height.length-1)
+			}
+		}	
+		
+	//STYLE
+	inpCSSText.value = oTD.style.cssText
+	
+	//PROPERTIES
+	/**** Align ****/   //=>OK
+	if(oTD.style.textAlign=="")
+		{
+		if(oTD.align!="") 
+			{
+			inpAlign.value=oTD.align;
+			divPreview.style.textAlign=oTD.align; //PREVIEW (not standard)
+			}
+		else
+			{//Not Set
+			inpAlign.value="";
+			}
+		}
+	else 
+		{
+		inpAlign.value=oTD.style.textAlign;
+		}
+	
+	/**** Vertical Align ****/   //=>OK
+	if(oTD.style.verticalAlign=="")
+		{
+		if(oTD.vAlign!="") 
+			{
+			inpVAlign.value=oTD.vAlign;
+			divPreview.style.verticalAlign=oTD.vAlign; //PREVIEW (not standard)
+			}
+		else 
+			{//Not Set
+			inpVAlign.value = "";
+			}
+		}
+	else 
+		{
+		inpVAlign.value=oTD.style.verticalAlign;
+		}	
+
+	/**** No Wrap (White Space) ****/   //=>OK
+	if(oTD.style.whiteSpace=="")
+		{
+		if(oTD.noWrap)
+			{
+			inpWhtSpace.value="nowrap";
+			divPreview.style.whiteSpace="nowrap"; //PREVIEW (not standard)
+			}
+		else
+			{
+			inpWhtSpace.value="";
+			}
+		}
+	else 
+		{
+		inpWhtSpace.value=oTD.style.whiteSpace;
+		}
+
+	/**** background ****/   //=>OK (harus lebih dulu dari background color)
+	if(oTD.style.background=="")
+		{
+		if(oTD.background)
+			{
+			divPreview.style.background="url('"+oTD.background+"')"; //PREVIEW (not standard)
+			}
+		else
+			{
+			divPreview.style.background=""
+			}
+		}
+	else 
+		{
+		divPreview.style.background=oTD.style.background;
+		}	
+		
+	/**** backgroundColor ****/   //=>OK
+	if(oTD.style.backgroundColor=="")
+		{
+		if(oTD.bgColor)
+			{
+			inpBackgroundColor.style.backgroundColor=oTD.bgColor;
+			divPreview.style.backgroundColor=oTD.bgColor; //PREVIEW (not standard)
+			}
+		else
+			{
+			inpBackgroundColor.style.backgroundColor="";
+			}
+		}
+	else 
+		{
+		inpBackgroundColor.style.backgroundColor=oTD.style.backgroundColor;
+		}
+	
+	/**** Padding (default: selalu ketambahan px kalo satuan gak diset) ****/   //=>OK
+	//Berkaitan dgn "Not Available"
+	if(oTD.style.paddingLeft!="")
+		{
+		if(oTD.style.paddingLeft.substr(oTD.style.paddingLeft.length-2,2)!="px") inpPaddingLeft.value="na";
+		else inpPaddingLeft.value = oTD.style.paddingLeft.substring(0,oTD.style.paddingLeft.length-2);
+		}
+	else inpPaddingLeft.value="";
+	
+	if(oTD.style.paddingRight!="")
+		{
+		if(oTD.style.paddingRight.substr(oTD.style.paddingRight.length-2,2)!="px") inpPaddingRight.value="na";
+		else inpPaddingRight.value = oTD.style.paddingRight.substring(0,oTD.style.paddingRight.length-2);
+		}
+	else inpPaddingRight.value="";
+	
+	if(oTD.style.paddingTop!="")
+		{
+		if(oTD.style.paddingTop.substr(oTD.style.paddingTop.length-2,2)!="px") inpPaddingTop.value="na";
+		else inpPaddingTop.value = oTD.style.paddingTop.substring(0,oTD.style.paddingTop.length-2);
+		}
+	else inpPaddingTop.value="";
+	
+	if(oTD.style.paddingBottom!="")
+		{
+		if(oTD.style.paddingBottom.substr(oTD.style.paddingBottom.length-2,2)!="px") inpPaddingBottom.value="na";
+		else inpPaddingBottom.value = oTD.style.paddingBottom.substring(0,oTD.style.paddingBottom.length-2);
+		}
+	else inpPaddingBottom.value="";	
+	}
+	
+function refresh()
+	{
+	divPreview.style.textAlign=inpAlign.value;
+	divPreview.style.verticalAlign=inpVAlign.value;
+	divPreview.style.whiteSpace=inpWhtSpace.value;
+
+	//Berkaitan dgn "Not Available"
+	if(inpPaddingLeft.value!="na") divPreview.style.paddingLeft = inpPaddingLeft.value; //by default satuanya pixel
+	if(inpPaddingRight.value!="na") divPreview.style.paddingRight = inpPaddingRight.value;
+	if(inpPaddingTop.value!="na") divPreview.style.paddingTop = inpPaddingTop.value;
+	if(inpPaddingBottom.value!="na") divPreview.style.paddingBottom = inpPaddingBottom.value;
+
+	divPreview.style.backgroundColor=inpBackgroundColor.style.backgroundColor;
+	}
+	
+function doApply()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************	
+		
+	var oTable = (oSel.parentElement != null ? GetElement(oSel.parentElement(),"TABLE") : GetElement(oSel.item(0),"TABLE"));
+	var oTD = (oSel.parentElement != null ? GetElement(oSel.parentElement(),"TD") : GetElement(oSel.item(0),"TD"))
+	if (oTD == null) return;
+	
+	if(inpApplyTo.value=="Current Cell")
+		{
+		format(oTD)
+		}
+	if(inpApplyTo.value=="Current Row")
+		{
+		var arrCells=rowOperation(true,false,false,false);
+		for (var i=0;i<arrCells.length;i++)
+			{
+			format(oTable.rows[arrCells[i][0]].childNodes[arrCells[i][1]])
+			}
+		}
+	if(inpApplyTo.value=="Current Column")
+		{
+		var arrCells=colOperation(true,false,false,false);
+		for (var i=0;i<arrCells.length;i++)
+			{			
+			format(oTable.rows[arrCells[i][0]].childNodes[arrCells[i][1]])
+			}
+		}
+		
+	realTime()
+	
+	//*** RUNTIME BORDERS ***
+	var oName=dialogArguments.oUtil.oName;
+	eval("dialogArguments."+oName).runtimeBorder(false);
+	//***********************	
+	}
+	
+function format(oTD)
+	{
+	//STYLE
+	 oTD.style.cssText = inpCSSText.value;
+	
+	//AUTOFIT
+	if(inpAutoFit1[0].checked==true) oTD.style.width="";
+	else
+		{
+		if(inpWidth.value!="") oTD.style.width=inpWidth.value+inpAutoFitMeasure1.value;
+		else oTD.style.width="";
+		}
+	if(inpAutoFit2[0].checked==true) oTD.style.height="";
+	else
+		{
+		trigger1.innerHTML="";
+		if(inpWidth.height!="") oTD.style.height=inpHeight.value+inpAutoFitMeasure2.value;
+		else oTD.style.height="";
+		}
+	
+	//PROPERTIES
+	oTD.style.textAlign=inpAlign.value;
+	oTD.style.verticalAlign=inpVAlign.value;	
+	oTD.style.whiteSpace=inpWhtSpace.value;	
+	
+	//Berkaitan dgn "Not Available"
+	if(inpPaddingLeft.value!="na") oTD.style.paddingLeft = inpPaddingLeft.value; //by default satuanya pixel
+	if(inpPaddingRight.value!="na") oTD.style.paddingRight = inpPaddingRight.value;
+	if(inpPaddingTop.value!="na") oTD.style.paddingTop = inpPaddingTop.value;
+	if(inpPaddingBottom.value!="na") oTD.style.paddingBottom = inpPaddingBottom.value;
+	
+	//Background sec. umum harus lebih dulu, baru kmd background color.
+	oTD.style.background=divPreview.style.background;
+	oTD.style.backgroundColor=inpBackgroundColor.style.backgroundColor;
+	
+	//Border & Shading
+	if(divPreview.style.borderLeftWidth=="" || divPreview.style.borderLeftWidth==0) oTD.style.borderLeft="";
+	else oTD.style.borderLeft=divPreview.style.borderLeft;
+		
+	if(divPreview.style.borderRightWidth=="" || divPreview.style.borderRightWidth==0) oTD.style.borderRight="";
+	else oTD.style.borderRight=divPreview.style.borderRight;
+		
+	if(divPreview.style.borderTopWidth=="" || divPreview.style.borderTopWidth==0) oTD.style.borderTop="";
+	else oTD.style.borderTop=divPreview.style.borderTop;
+		
+	if(divPreview.style.borderBottomWidth=="" || divPreview.style.borderBottomWidth==0) oTD.style.borderBottom="";
+	else oTD.style.borderBottom=divPreview.style.borderBottom;		
+
+	//Text Formatting
+	if(divPreview.style.fontFamily!="") oTD.style.fontFamily=divPreview.style.fontFamily;
+	else
+		{
+		oTD.style.cssText = oTD.style.cssText.replace("FONT-FAMILY: ; ","");
+		oTD.style.cssText = oTD.style.cssText.replace("FONT-FAMILY: ","");
+		}
+		
+	if(divPreview.style.fontSize!="") oTD.style.fontSize=divPreview.style.fontSize;
+	else
+		{
+		oTD.style.cssText = oTD.style.cssText.replace("FONT-SIZE: ; ","");
+		oTD.style.cssText = oTD.style.cssText.replace("FONT-SIZE: ","");
+		}
+		
+	oTD.style.fontStyle=divPreview.style.fontStyle;//
+	oTD.style.fontWeight=divPreview.style.fontWeight;//
+	oTD.style.fontVariant=divPreview.style.fontVariant;//
+	oTD.style.textDecoration=divPreview.style.textDecoration;//
+	oTD.style.verticalAlign=divPreview.style.verticalAlign;//
+	oTD.style.textTransform=divPreview.style.textTransform;//
+	oTD.style.color=divPreview.style.color;
+	oTD.style.backgroundColor=divPreview.style.backgroundColor;//sama
+		
+	oTD.style.letterSpacing=divPreview.style.letterSpacing;
+	oTD.style.wordSpacing=divPreview.style.wordSpacing;
+	if(oTD.style.letterSpacing=="") 
+		{
+		oTD.style.letterSpacing=0
+		oTD.style.cssText = oTD.style.cssText.replace("LETTER-SPACING: 0px; ","");
+		oTD.style.cssText = oTD.style.cssText.replace("LETTER-SPACING: 0px","");
+		}
+	if(oTD.style.wordSpacing=="") 
+		{
+		oTD.style.wordSpacing=0
+		oTD.style.cssText = oTD.style.cssText.replace("WORD-SPACING: 0px; ","");
+		oTD.style.cssText = oTD.style.cssText.replace("WORD-SPACING: 0px","");		
+		}
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+<table width=427 align=center style="height:100%" cellpadding=0 cellspacing=0>
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Cell Properties</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding-top:15;padding-left:15;padding-right:15;padding-bottom:0;height:100%">
+
+
+	<table cellpadding=0 cellspacing=0 style="border-collapse:collapse;width:100%;" ID="Table2">
+	<tr>
+	<td id=tab1 style="cursor:hand;padding:8;" onclick="tabClick(1)"><b>AutoFit</b></td>
+	<td id=tab2 style="cursor:hand;padding:8;" onclick="tabClick(2)"><b>Properties</b></td>
+	<td id=tab3 style="cursor:hand;padding:8;" onclick="tabClick(3)"><b>Style</b></td>
+	<td style="border-bottom:#d3d3d3 2 solid;" width=100%></td>
+	</tr>
+	</table>	
+	
+
+	<table cellpadding=0 cellspacing=0 style="border:#d3d3d3 2 solid;border-top:none;border-collapse:collapse;width:100%;height:285;background:#f7f7f7;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#f7f7f7,endColorstr=#f4f4f4)" ID="Table1">
+	<tr>
+	<td style="padding:10;" valign=top height=100%>
+
+	<!-- AUTOFIT -->
+	<div id=divAutoFit style="display:block;">
+		<div style="margin-bottom:7;margin-top:3;">Width:</div>
+		<input type="radio" class=inpRdo name="inpAutoFit1">AutoFit to contents<br>
+		<input type="radio" class=inpRdo name="inpAutoFit1">Fixed cell width:  
+		<input type="text" name="inpWidth" size=3 onblur="inpAutoFit1[1].checked=true">
+		<select ID="inpAutoFitMeasure1" name="inpAutoFitMeasure1">
+			<option value="px">pixels</option>
+			<option value="%">percent</option>
+		</select>
+		
+		<br><br>
+		
+		<div style="margin-bottom:7;margin-top:3;">Height:</div>
+		<input type="radio" class=inpRdo name="inpAutoFit2">AutoFit to contents<br>
+		<input type="radio" class=inpRdo name="inpAutoFit2">Fixed cell height: 
+		<input type="text" name="inpHeight" size=3 onblur="inpAutoFit2[1].checked=true">
+		<select ID="inpAutoFitMeasure2" name="inpAutoFitMeasure2">
+			<option value="px">pixels</option>
+			<option value="%">percent</option>
+		</select>
+		<br>
+		<span id=trigger1></span>
+	</div>
+
+
+	<!-- PROPERTIES -->
+	<div id="divProperties" style="display:none;">
+	
+		<div style="margin-bottom:9;margin-top:3;">Text Alignment:
+		<select name="inpVAlign" onchange="refresh()">
+			<option value="">not set</OPTION>
+			<option value="top" selected>top</OPTION>
+			<option value="middle">middle</OPTION>
+			<option value="bottom">bottom</OPTION>
+			<option value="baseline">baseline</OPTION>
+			<option value="sub">sub</OPTION>
+			<option value="super">super</OPTION>
+			<option value="text-top">text-top</OPTION>
+			<option value="text-bottom">text-bottom</OPTION></SELECT>
+		<select name="inpAlign" onchange="refresh()">
+			<option value="">not set</OPTION>
+			<option value="left" selected>left</OPTION>
+			<option value="center">center</OPTION>
+			<option value="right">right</OPTION>
+			<option value="justify">justify</OPTION></SELECT>
+		</div>	
+		
+		<div style="margin-bottom:9;">Padding - 
+		Left:	<input type="text" name="inpPaddingLeft" size=2 onblur="refresh()" style="margin-left:6">
+		Right:	<input type="text" name="inpPaddingRight" size=2 onblur="refresh()">
+		Top:	<input type="text" name="inpPaddingTop" size=2 onblur="refresh()">
+		Bottom: <input type="text" name="inpPaddingBottom" size=2 onblur="refresh()"> pixels
+		</div>
+		
+		<div style="margin-bottom:9;margin-top:3;">White Space:&nbsp;&nbsp;&nbsp;&nbsp;
+		<select name="inpWhtSpace" onchange="refresh()">
+			<option value="" selected>Not Set</option>
+			<option value="nowrap">No Wrap</option>
+			<option value="pre">pre</option>
+			<option value="normal">Normal</option></select>
+		</div>
+		
+		<div style="margin-bottom:9;margin-top:3;">Background: 
+		<span style="background:#ffffff"><span id="inpBackgroundColor" style="border:gray 1 solid;width:20;margin-left:19;margin-right:3;"></span></span>
+		<input type=button value=Pick onclick="window.showModalDialog('colors.htm',inpBackgroundColor,'dialogWidth:380px;dialogHeight:245px;edge:Raised;center:Yes;help:No;resizable:No;status:No');refresh()">
+
+		<input type="button" value="Image" onclick="window.showModelessDialog('image_background.htm',divPreview,'dialogWidth:416px;dialogHeight:255px;;edge:Raised;center:Yes;help:No;resizable:No;status:No');refresh()">
+		</div>
+		
+		<div style="margin-bottom:5;margin-top:5;">Preview:</div>
+		<table cellpadding=0 cellspacing=0>
+		<tr>
+		<td style="overflow:auto;border:#999999 1 solid;width:360;height:70;background:#ffffff" valign=middle align=center>
+			<table style="border-collapse: collapse;" cellSpacing=0 cellPadding=0>
+			<tr><td id=divPreview style="border:#000000 1 solid;width:50;height:50;">Text 123</td></tr>
+			</table>
+		</td>
+		</tr>
+		</table>
+
+		<input type="button" value=" Text Formatting " style="width:120;margin-top:5;margin-bottom:5;" 
+			onclick="window.showModelessDialog('text2.htm',[eval('dialogArguments.'+dialogArguments.oUtil.oName).arrFontName,divPreview],'dialogWidth:505px;dialogHeight:503px;;edge:Raised;center:Yes;help:No;resizable:No;status:No')" ID="Button1" NAME="Button1">
+		<input type="button" value=" Border Style " style="width:120;margin-top:5;margin-bottom:5;" 
+			onclick="window.showModelessDialog('border2.htm',divPreview,'dialogWidth:450px;dialogHeight:255px;edge:Raised;center:Yes;help:No;resizable:No;status:No')" ID="Button3" NAME="Button1">
+
+	</div>
+
+
+	<!-- CSS -->
+	<div id="divStyle" style="display:none;">
+		<div style="margin-bottom:9;margin-top:3;">CSS Text: <br>
+		<textarea name="inpCSSText" style="width:100%;height:200"></textarea>
+		</div>	
+	</div>
+
+	</td>
+	</tr>
+	<tr>
+	<td style="padding-right:8;padding-bottom:8">
+
+		<table align=right cellpadding=0 cellspacing=0>
+		<tr>
+		<td>Apply to:&nbsp;</td>
+		<td>
+			<select name=inpApplyTo>
+			<option value="Current Cell" selected>Current Cell</option>
+			<option value="Current Row">Current Row</option>
+			<option value="Current Column">Current Column</option>
+			<!--<option value="Odd Row">Odd Row</option>
+			<option value="Even Row">Even Row</option>
+			<option value="Odd Column">Odd Column</option>
+			<option value="Even Column">Even Column</option>
+			<option value="Whole Table">Whole Table</option>-->
+			</select>
+		</td>
+		</tr>
+		</table>
+
+	</td>
+	</tr>
+	</table>
+
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 1 solid;height:40;padding-right:15;" align=right valign=middle>
+	<input type="button" value="CLOSE" onclick="self.close()">
+	<input type="button" value="APPLY" onclick="doApply()">
+	<input type="button" value="APPLY & CLOSE" onclick="doApply();self.close()" style="width:110" ID="Button2" NAME="Button2">
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

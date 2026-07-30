@@ -1,0 +1,428 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="js/Chart.min.js"></script>
+
+<style>
+.kpi-report{font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px;color:#2b2b2b;background:#f3f3f3;padding:12px;min-height:100%}
+.kpi-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.kpi-head h2{font-size:24px;line-height:30px;color:#2D6BC0;margin:0;font-weight:bold}
+.kpi-filter{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#fff;border:1px solid #d8d8d8;padding:8px 10px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.kpi-filter span{font-weight:bold;color:#555}
+.kpi-filter select{height:24px;border:1px solid #b8b8b8;background:#f7f7ff;color:#000080;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px}
+.kpi-filter input{height:24px;padding:0 16px;border:1px solid #1F4F91;background:#2D6BC0;color:#fff;font-weight:bold;cursor:pointer}
+.kpi-export{display:inline-block;height:22px;line-height:22px;padding:0 12px;border:1px solid #1F4F91;background:#fff;color:#2D6BC0;text-decoration:none;font-weight:bold}
+.kpi-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.kpi-tabs a{display:block;background:#fff;border:1px solid #c9d8ec;color:#2D6BC0;text-decoration:none;font-weight:bold;padding:8px 12px;box-shadow:0 1px 5px rgba(0,0,0,.06)}
+.kpi-tabs a:hover{background:#eef5ff}
+.kpi-tabs a.active{background:#2D6BC0;border-color:#2D6BC0;color:#fff}
+.kpi-message{display:block;background:#fff8cc;border:1px solid #d9c36d;color:#ff0000;padding:8px;margin-bottom:10px;font-weight:bold}
+.kpi-summary{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin-bottom:12px}
+.kpi-card{background:#fff;border:1px solid #ddd;box-shadow:0 1px 8px rgba(0,0,0,.08);min-height:92px}
+.kpi-card .label{background:#2D6BC0;color:#fff;font-size:14px;text-align:center;font-weight:bold;padding:10px 8px}
+.kpi-card .value{font-size:28px;text-align:center;font-weight:bold;color:#262626;padding:12px 8px 2px;line-height:34px;overflow-wrap:anywhere}
+.kpi-card .note{text-align:center;color:#666;padding:0 8px 10px}
+.kpi-card.good .label{background:#27ae60}.kpi-card.slow .label{background:#f39c12}.kpi-card.bad .label{background:#e74c3c}
+.kpi-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-bottom:12px}
+.kpi-panel{background:#fff;border:1px solid #ddd;box-shadow:0 1px 8px rgba(0,0,0,.08);min-width:0}
+.kpi-panel h3{margin:0;background:#2D6BC0;color:#fff;text-align:center;font-size:16px;line-height:22px;padding:10px;font-weight:bold}
+.kpi-chart{height:310px;padding:14px;box-sizing:border-box;position:relative}
+.kpi-chart canvas{display:block;max-width:100%!important;width:100%!important;height:280px!important}
+.kpi-chart-tip{display:none;position:absolute;z-index:20;background:#222;color:#fff;border-radius:3px;padding:5px 8px;font-size:11px;font-weight:bold;pointer-events:none;white-space:nowrap}
+.kpi-table-wrap{overflow:auto}
+.kpi-table{width:100%;border-collapse:collapse;background:#fff}
+.kpi-table th{background:#d8d4cb;border:1px solid #c0c0c0;color:#000;text-align:left;padding:7px;font-size:11px}
+.kpi-table td{border:1px solid #ddd;padding:7px;font-size:11px;vertical-align:middle}
+.kpi-name{font-weight:bold}
+.kpi-good .kpi-name{color:#008000}.kpi-slow .kpi-name{color:#cc8500}.kpi-bad .kpi-name{color:#ff0000}
+.kpi-badge{display:inline-block;min-width:72px;text-align:center;padding:3px 6px;color:#fff;font-weight:bold}
+.kpi-good .kpi-badge{background:#27ae60}.kpi-slow .kpi-badge{background:#f39c12}.kpi-bad .kpi-badge{background:#e74c3c}
+.kpi-progress{height:12px;background:#e9e9e9;border:1px solid #c0c0c0;min-width:130px}
+.kpi-progress span{display:block;height:12px}
+.kpi-good .kpi-progress span{background:#27ae60}.kpi-slow .kpi-progress span{background:#f39c12}.kpi-bad .kpi-progress span{background:#e74c3c}
+.kpi-sales-panel{display:{sales_panel_display}}.kpi-content-panel{display:{content_panel_display}}
+.kpi-legend{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;padding:0 12px 12px;color:#555;font-weight:bold}
+.kpi-legend span{display:inline-flex;align-items:center;gap:5px}
+.kpi-dot{display:inline-block;width:11px;height:11px}
+.kpi-dot.sales{background:#2D6BC0}.kpi-dot.seo{background:#8E6CCB}.kpi-dot.content{background:#6AA6A1}
+.kpi-top-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:12px;margin-bottom:12px}
+.kpi-top-panel{background:#fff;border:1px solid #ddd;box-shadow:0 1px 8px rgba(0,0,0,.08)}
+.kpi-top-panel h3{margin:0;background:#2D6BC0;color:#fff;text-align:center;font-size:16px;line-height:22px;padding:10px;font-weight:bold}
+.kpi-winners{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end;padding:14px}
+.kpi-winner{text-align:center;border:1px solid #e0e0e0;background:#fbfbfb;padding:12px 8px;min-height:150px}
+.kpi-winner.rank-1{transform:translateY(-8px);background:#fffdf4;border-color:#f1c40f}
+.kpi-winner.rank-1{order:2}.kpi-winner.rank-2{order:1}.kpi-winner.rank-3{order:3}
+.kpi-medal{width:66px;height:66px;border-radius:50%;margin:0 auto 8px;border:8px solid #f1c40f;background:#fff6b8;color:#9a6a00;line-height:50px;font-size:24px;font-weight:bold;box-sizing:border-box}
+.rank-2 .kpi-medal{border-color:#9aa1aa;background:#eef1f5;color:#68707a}.rank-3 .kpi-medal{border-color:#c87942;background:#f6dec9;color:#9d542a}
+.kpi-rank{font-size:24px;font-weight:bold;color:#f1c40f;line-height:24px}.rank-2 .kpi-rank{color:#9aa1aa}.rank-3 .kpi-rank{color:#c87942}
+.kpi-winner-name{font-size:13px;font-weight:bold;color:#111;margin-top:5px;min-height:18px}.kpi-winner-meta{color:#555;margin-top:3px;line-height:17px}
+@media(max-width:1200px){.kpi-summary{grid-template-columns:repeat(2,1fr)}.kpi-grid{grid-template-columns:1fr}.kpi-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:900px){.kpi-top-grid{grid-template-columns:1fr}.kpi-winners{grid-template-columns:1fr}.kpi-winner.rank-1{transform:none}}
+</style>
+
+<div class="kpi-report">
+  <div class="kpi-head">
+    <h2>Hiệu suất</h2>
+    <form action="main.php" method="POST" name="mainForm" class="kpi-filter">
+      <input type="hidden" name="option" value="{funname}">
+      <input type="hidden" name="mode" value="dashboard">
+      <input type="hidden" name="l" value="{LANGUAGEID}">
+      <input type="hidden" name="tab" value="{tab}">
+      <span>Tháng</span>
+      <select name="month">
+        <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+        <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+        <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+        <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+      </select>
+      <span>Năm</span>
+      <select name="year">
+        <option value="2027">2027</option><option value="2026">2026</option><option value="2025">2025</option>
+        <option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option>
+      </select>
+      <span>Phòng ban</span>
+      <select name="department" onchange="mainForm.member_id1.value='0'; mainForm.submit();">
+        <option value="all">Xem tất cả</option>
+        <option value="sales">Kinh Doanh</option>
+        <option value="seo">KT SEO</option>
+        <option value="content">Content</option>
+      </select>
+      <span>Nhân viên</span>
+      <select name="member_id1">
+        <option value="0">Tổng quan tất cả</option>
+        <!-- BEGIN member_list -->
+        <option value="{member_list.member_id}">{member_list.member_name}</option>
+        <!-- END member_list -->
+      </select>
+      <input type="submit" value="Xem">
+      <a class="kpi-export" href="{export_link}" target="_blank">Xuất Excel</a>
+    </form>
+  </div>
+
+  <div class="kpi-message" style="display:{MESSAGE_DISPLAY}">{MESSAGE}</div>
+
+  <div class="kpi-tabs">
+    <a class="{tab_overview_class}" href="{tab_overview_url}">Tổng quan</a>
+    <a class="{tab_progress_class}" href="{tab_progress_url}">Tiến độ theo ngày</a>
+    <a class="{tab_table_class}" href="{tab_table_url}">Bảng hiệu suất</a>
+    <a class="{tab_export_class}" href="{tab_export_url}">Dữ liệu đối chiếu</a>
+  </div>
+
+  <div style="display:{overview_display}">
+    <div class="kpi-summary" id="overview">
+      <div class="kpi-card {detail_status_class}">
+        <div class="label">{dashboard_title}</div>
+        <div class="value">{detail_name}</div>
+        <div class="note">{dashboard_note}</div>
+      </div>
+      <div class="kpi-card {detail_status_class}">
+        <div class="label">Kết quả hiện tại</div>
+        <div class="value">{detail_main_value}</div>
+        <div class="note">KPI tháng: {detail_target_value}</div>
+      </div>
+      <div class="kpi-card {detail_status_class}">
+        <div class="label">Tỷ lệ hoàn thành</div>
+        <div class="value">{detail_percent}%</div>
+        <div class="note">{detail_status_text}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Còn thiếu</div>
+        <div class="value">{detail_missing_value}</div>
+        <div class="note">KPI giữ nguyên theo tháng</div>
+      </div>
+    </div>
+
+    <div class="kpi-summary">
+      <div class="kpi-card good">
+        <div class="label">Hiệu suất tốt</div>
+        <div class="value">{good_count}</div>
+        <div class="note">Đạt từ 100% KPI</div>
+      </div>
+      <div class="kpi-card slow">
+        <div class="label">Đang chậm</div>
+        <div class="value">{slow_count}</div>
+        <div class="note">Từ 80% đến dưới 100%</div>
+      </div>
+      <div class="kpi-card bad">
+        <div class="label">Quá chậm</div>
+        <div class="value">{bad_count}</div>
+        <div class="note">Dưới 80% KPI</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">Hiệu suất TB</div>
+        <div class="value">{avg_percent}%</div>
+        <div class="note">Theo KPI mặc định tháng</div>
+      </div>
+    </div>
+
+    <div class="kpi-top-grid">
+      <div class="kpi-top-panel" style="display:{top_sales_display}">
+        <h3>Top nhân viên Kinh Doanh</h3>
+        <div class="kpi-winners">
+          <!-- BEGIN top_sales -->
+          <div class="kpi-winner rank-{top_sales.rank}">
+            <div class="kpi-rank">{top_sales.rank_text}</div>
+            <div class="kpi-medal">{top_sales.rank}</div>
+            <div class="kpi-winner-name">{top_sales.fullname}</div>
+            <div class="kpi-winner-meta">{top_sales.percent}% - {top_sales.status_text}</div>
+            <div class="kpi-winner-meta">{top_sales.main_value} / {top_sales.target_value}</div>
+          </div>
+          <!-- END top_sales -->
+        </div>
+      </div>
+      <div class="kpi-top-panel" style="display:{top_content_display}">
+        <h3>Top nhân viên Content</h3>
+        <div class="kpi-winners">
+          <!-- BEGIN top_content -->
+          <div class="kpi-winner rank-{top_content.rank}">
+            <div class="kpi-rank">{top_content.rank_text}</div>
+            <div class="kpi-medal">{top_content.rank}</div>
+            <div class="kpi-winner-name">{top_content.fullname}</div>
+            <div class="kpi-winner-meta">{top_content.percent}% - {top_content.status_text}</div>
+            <div class="kpi-winner-meta">{top_content.main_value} / {top_content.target_value}</div>
+          </div>
+          <!-- END top_content -->
+        </div>
+      </div>
+      <div class="kpi-top-panel" style="display:{top_seo_display}">
+        <h3>Top nhân viên KT SEO</h3>
+        <div class="kpi-winners">
+          <!-- BEGIN top_seo -->
+          <div class="kpi-winner rank-{top_seo.rank}">
+            <div class="kpi-rank">{top_seo.rank_text}</div>
+            <div class="kpi-medal">{top_seo.rank}</div>
+            <div class="kpi-winner-name">{top_seo.fullname}</div>
+            <div class="kpi-winner-meta">{top_seo.percent}% - {top_seo.status_text}</div>
+            <div class="kpi-winner-meta">{top_seo.main_value} / {top_seo.target_value}</div>
+          </div>
+          <!-- END top_seo -->
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-panel" id="compare-data">
+        <h3>Hiệu suất từng nhân viên</h3>
+        <div class="kpi-chart"><canvas id="memberChart" width="720" height="280"></canvas></div>
+      </div>
+      <div class="kpi-panel">
+        <h3>Hiệu suất so với KPI cần đạt</h3>
+        <div class="kpi-chart">
+          <canvas id="departmentChart" width="560" height="280"></canvas>
+          <div id="departmentChartTip" class="kpi-chart-tip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="display:{progress_display}">
+    <div class="kpi-panel kpi-sales-panel" id="sales-panel">
+      <h3>Doanh thu theo ngày</h3>
+      <div class="kpi-chart"><canvas id="salesDailyChart" width="720" height="280"></canvas></div>
+    </div>
+    <div class="kpi-panel kpi-content-panel" id="content-panel">
+      <h3>KPI Content hoàn thành theo ngày</h3>
+      <div class="kpi-chart"><canvas id="seoDailyChart" width="560" height="280"></canvas></div>
+    </div>
+  </div>
+
+  <div class="kpi-panel" style="display:{table_display}">
+    <h3>Bảng đánh giá hiệu suất cá nhân</h3>
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <tr>
+          <th>Nhân viên</th>
+          <th>Phòng ban</th>
+          <th>Kết quả hiện tại</th>
+          <th>KPI tháng</th>
+          <th>Còn thiếu</th>
+          <th>Thông tin phụ</th>
+          <th>Tỷ lệ</th>
+          <th>Trạng thái</th>
+        </tr>
+        <!-- BEGIN member_kpi -->
+        <tr class="{member_kpi.status_class}">
+          <td class="kpi-name">{member_kpi.fullname}</td>
+          <td>{member_kpi.department}</td>
+          <td>{member_kpi.main_value}</td>
+          <td>{member_kpi.target_value}</td>
+          <td>{member_kpi.missing_value}</td>
+          <td>{member_kpi.extra_text}</td>
+          <td>
+            <div>{member_kpi.percent}%</div>
+            <div class="kpi-progress"><span style="width:{member_kpi.bar_width}%"></span></div>
+          </td>
+          <td><span class="kpi-badge">{member_kpi.status_text}</span></td>
+        </tr>
+        <!-- END member_kpi -->
+      </table>
+    </div>
+  </div>
+
+  <div class="kpi-panel" style="display:{export_display}">
+    <h3>Dữ liệu đối chiếu</h3>
+    <div style="padding:14px;background:#fff">
+      <p style="margin:0 0 10px;color:#555">Xuất file Excel để đối chiếu hiệu suất, doanh thu Kinh Doanh / KT SEO và task Content theo bộ lọc hiện tại.</p>
+      <a class="kpi-export" href="{export_link}" target="_blank">Xuất Excel đối chiếu</a>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+mainForm.month.value = '{month}';
+mainForm.year.value = '{year}';
+mainForm.department.value = '{department}';
+mainForm.member_id1.value = '{member_id}';
+
+var memberNames = {chart_names};
+var memberPercent = {chart_percent};
+var memberTarget = {chart_target};
+var statusColors = {chart_status_colors};
+var dailyLabels = {daily_labels};
+var dailySales = {daily_sales};
+var dailySeoDone = {daily_seo_done};
+var deptLabels = {dept_labels};
+var deptValues = {dept_values};
+var detailPercent = {detail_percent};
+var selectedMemberId = parseInt('{member_id}', 10) || 0;
+var selectedDepartment = '{department}';
+var detailDonePercent = Math.min(100, Math.max(0, detailPercent));
+var detailMissingPercent = Math.max(0, 100 - detailDonePercent);
+
+function kpiCanvasVisible(canvas) {
+  return canvas && canvas.offsetWidth > 0 && canvas.offsetHeight > 0;
+}
+
+function kpiAxisOptions(seriesList, minMax) {
+  var maxValue = minMax || 100;
+  for (var i = 0; i < seriesList.length; i++) {
+    var series = seriesList[i] || [];
+    for (var j = 0; j < series.length; j++) {
+      var value = parseFloat(series[j]);
+      if (!isNaN(value) && value > maxValue) maxValue = value;
+    }
+  }
+
+  var stepWidth = Math.ceil(maxValue / 10);
+  if (stepWidth <= 5) stepWidth = 5;
+  else if (stepWidth <= 10) stepWidth = 10;
+  else if (stepWidth <= 20) stepWidth = 20;
+  else if (stepWidth <= 50) stepWidth = 50;
+  else stepWidth = Math.ceil(stepWidth / 50) * 50;
+
+  return {
+    responsive: true,
+    scaleOverride: true,
+    scaleSteps: Math.ceil(maxValue / stepWidth),
+    scaleStepWidth: stepWidth,
+    scaleStartValue: 0
+  };
+}
+
+var memberCanvas = document.getElementById('memberChart');
+if (kpiCanvasVisible(memberCanvas)) {
+  new Chart(memberCanvas.getContext('2d')).Bar({
+    labels: memberNames,
+    datasets: [
+      {
+        label: 'Hiệu suất',
+        fillColor: 'rgba(45,107,192,0.45)',
+        strokeColor: '#2D6BC0',
+        highlightFill: 'rgba(45,107,192,0.65)',
+        highlightStroke: '#2D6BC0',
+        data: memberPercent
+      },
+      {
+        label: 'Mốc đạt KPI',
+        fillColor: 'rgba(60,60,60,0.12)',
+        strokeColor: '#666',
+        highlightFill: 'rgba(60,60,60,0.18)',
+        highlightStroke: '#666',
+        data: memberTarget
+      }
+    ]
+  }, kpiAxisOptions([memberPercent, memberTarget], 100));
+}
+
+var departmentDoughnutData = [];
+if (selectedMemberId == 0 && selectedDepartment == 'all') {
+  var deptColors = ['#2D6BC0', '#8E6CCB', '#6AA6A1'];
+  var deptHighlights = ['#4C86D8', '#A888D8', '#86BBB7'];
+  var deptSum = 0;
+  var deptCount = 0;
+  for (var i = 0; i < deptValues.length; i++) {
+    var deptPercent = parseFloat(deptValues[i]) || 0;
+    deptSum += deptPercent;
+    deptCount++;
+    departmentDoughnutData.push({
+      value: Math.min(100, Math.max(0, deptPercent)),
+      color: deptColors[i % deptColors.length],
+      highlight: deptHighlights[i % deptHighlights.length],
+      label: (deptLabels[i] || 'Phòng ban') + ' đã đạt'
+    });
+  }
+  var averagePercent = deptCount > 0 ? Math.min(100, Math.max(0, deptSum / deptCount)) : 0;
+  var averageMissing = Math.max(0, 100 - averagePercent);
+  departmentDoughnutData.push({value: averageMissing, color:'#e5e5e5', highlight:'#eeeeee', label:'KPI trung bình còn thiếu'});
+} else {
+  departmentDoughnutData = [
+    {value: detailDonePercent, color:'#2D6BC0', highlight:'#4C86D8', label:'Đã đạt'},
+    {value: detailMissingPercent, color:'#e5e5e5', highlight:'#eeeeee', label:'Còn thiếu'}
+  ];
+}
+
+var departmentCanvas = document.getElementById('departmentChart');
+if (kpiCanvasVisible(departmentCanvas)) {
+  var departmentChart = new Chart(departmentCanvas.getContext('2d')).Doughnut(departmentDoughnutData, {
+    responsive:true,
+    tooltipTemplate: '<%=label%>: <%=value%>%'
+  });
+  var departmentTip = document.getElementById('departmentChartTip');
+  departmentCanvas.onmousemove = function(evt) {
+    var activeSegments = departmentChart.getSegmentsAtEvent(evt);
+    if (activeSegments && activeSegments.length > 0) {
+      var segment = activeSegments[0];
+      var rect = departmentCanvas.getBoundingClientRect();
+      var left = evt.clientX - rect.left + 12;
+      var top = evt.clientY - rect.top + 12;
+      departmentTip.innerHTML = segment.label + ': ' + segment.value + '%';
+      departmentTip.style.left = left + 'px';
+      departmentTip.style.top = top + 'px';
+      departmentTip.style.display = 'block';
+    } else {
+      departmentTip.style.display = 'none';
+    }
+  };
+  departmentCanvas.onmouseleave = function() {
+    departmentTip.style.display = 'none';
+  };
+}
+
+var salesDailyCanvas = document.getElementById('salesDailyChart');
+if (kpiCanvasVisible(salesDailyCanvas)) {
+  new Chart(salesDailyCanvas.getContext('2d')).Line({
+    labels: dailyLabels,
+    datasets: [{
+      label:'Doanh thu',
+      fillColor:'rgba(39,174,96,0.12)',
+      strokeColor:'#27ae60',
+      pointColor:'#27ae60',
+      pointStrokeColor:'#fff',
+      data:dailySales
+    }]
+  }, {responsive:true, scaleBeginAtZero:true});
+}
+
+var seoDailyCanvas = document.getElementById('seoDailyChart');
+if (kpiCanvasVisible(seoDailyCanvas)) {
+  new Chart(seoDailyCanvas.getContext('2d')).Line({
+    labels: dailyLabels,
+    datasets: [{
+      label:'KPI Content',
+      fillColor:'rgba(106,166,161,0.14)',
+      strokeColor:'#6AA6A1',
+      pointColor:'#6AA6A1',
+      pointStrokeColor:'#fff',
+      data:dailySeoDone
+    }]
+  }, {responsive:true, scaleBeginAtZero:true});
+}
+</script>

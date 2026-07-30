@@ -1,0 +1,69 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+.system-info-permission-cell{
+  max-width:120px;
+  white-space:normal;
+  word-break:break-all;
+  overflow-wrap:break-word;
+  line-height:18px;
+}
+</style>
+
+<div class="toolbar">
+<a href="JavaScript:doCreate()" style="display:{CREATE_DISPLAY}"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create new</span></a>
+</div>
+
+<div class="tabtitle">
+  Thông tin hệ thống - {CATEGORY_TITLE}:
+</div>
+
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%" class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="25" align="center">#</td>
+      <td width="300" align="left">Tên thông tin</td>
+      <td width="220" align="left">File</td>
+      <td width="120" align="left" style="display:{PERMISSION_COL_DISPLAY}">ID được sửa</td>
+      <td width="120" align="left" style="display:{PERMISSION_COL_DISPLAY}">ID chỉ xem</td>
+      <td width="130" align="left">Người tạo</td>
+      <td width="130" align="left">Cập nhật</td>
+      <td width="70" align="center">Tải</td>
+      <td colspan="2"></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}">
+      <td align="center" style="vertical-align:middle">{list.order}</td>
+      <td style="vertical-align:middle"><a href="{list.view_link}">{list.info_title}</a></td>
+      <td style="vertical-align:middle">{list.file_name}</td>
+      <td class="system-info-permission-cell" style="vertical-align:middle;display:{list.permission_col_display}">{list.editable_member_ids}</td>
+      <td class="system-info-permission-cell" style="vertical-align:middle;display:{list.permission_col_display}">{list.share_user_ids}</td>
+      <td style="vertical-align:middle">{list.created_by}</td>
+      <td style="vertical-align:middle">{list.last_modified}</td>
+      <td align="center" style="vertical-align:middle"><a href="{list.download_link}" style="display:{list.download_display}">Download</a></td>
+      <td width="24" align="center"><a href="JavaScript:updateItem({list.info_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20" style="display:{list.is_owner}"></a></td>
+      <td width="35" align="center"><a href="JavaScript:deleteItem({list.info_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete" style="display:{list.is_owner}"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+</div>
+
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+
+<script language="JavaScript" type="text/javascript">
+function doCreate()
+{
+  document.location='?option={funname}&mode=info&category={CATEGORY}&l={LANGUAGEID}';
+}
+
+function updateItem(id)
+{
+  document.location='?option={funname}&mode=info&category={CATEGORY}&l={LANGUAGEID}&id=' + id;
+}
+
+function deleteItem(id)
+{
+  if (confirm('Are you sure you want to delete ?.')) {
+    document.location='?option={funname}&mode=delete&category={CATEGORY}&l={LANGUAGEID}&id=' + id;
+  }
+}
+</script>

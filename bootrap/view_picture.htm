@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>HK Vietnam - VIEW PICTURE</title>
+<link rel="stylesheet" type="text/css" href="templates/xp_theme/css/default.css">
+</head>
+
+<Script language="JavaScript">
+function parseURL(prop) {
+	var URLString;
+	URLString = location.search;
+	if (URLString.indexOf(prop)>-1) URLString = URLString.substring(URLString.indexOf(prop),URLString.length);
+	else return "";
+	if (URLString.indexOf("&")>-1) URLString = URLString.substring(0,URLString.indexOf("&"));
+	return unescape(URLString.substring(URLString.indexOf("=")+1,URLString.length));
+}
+var filename = parseURL("fn")
+function Loadimg()
+{	pix01.src = filename
+	window.setInterval("resizewin()", 100)	
+}
+
+function resizewin()
+{	if (pix01.height != 30)
+		window.resizeTo(pix01.width + 30, pix01.height + 50)
+}
+
+</Script>
+
+<body OnLoad="Loadimg()" topmargin="10" leftmargin="0">
+
+<p align="center">
+<img id="pix01" border="0" src="" onClick="window.close()" alt="Close">
+</body>
+</html>

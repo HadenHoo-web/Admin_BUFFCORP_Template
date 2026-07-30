@@ -1,0 +1,329 @@
+<html>
+<head>
+<title>Hyperlink</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script>
+/************************
+	COMMON
+************************/
+function GetElement(oElement,sMatchTag)
+	{
+	while (oElement!=null && oElement.tagName!=sMatchTag)
+		{
+		if(oElement.id=="idContent") return null;
+		oElement = oElement.parentElement;
+		}
+	return oElement;
+	}
+	
+/************************
+	REALTIME & Sekaligus PREVIEW
+************************/
+function doWindowFocus()
+	{
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	}
+function bodyOnLoad()
+	{	
+	window.onfocus=doWindowFocus;	
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	
+	realTime()
+	}
+	
+	
+function realTime()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	var oName=dialogArguments.oUtil.oName;
+
+	//If text or control is selected, Get A element if any
+	if (oSel.parentElement)	oEl=GetElement(oSel.parentElement(),"A");
+	else oEl=GetElement(oSel.item(0),"A");
+
+	//Is there an A element ?
+	if (oEl)
+		{
+		btnLinkInsert.style.display="none";
+		btnLinkUpdate.style.display="block";
+		btnLinkUpdateAndClose.style.display="block";
+		
+
+		//~~~~~~~~~~~~~~~~~~~~~~~~
+		sTmp=oEl.outerHTML;
+		if(sTmp.indexOf("href")!=-1) //1.5.1
+			{
+			sTmp=sTmp.substring(sTmp.indexOf("href")+6);
+			sTmp=sTmp.substring(0,sTmp.indexOf('"'));
+			var arrTmp = sTmp.split("&amp;");
+			if (arrTmp.length > 1) sTmp = arrTmp.join("&");		
+			sURL=sTmp
+			//sURL=oEl.href;
+			}
+		else
+			{
+			sURL=""
+			}
+
+		if(sType!="Control")
+			{
+			var oEditor=eval("dialogArguments.idContent"+oName);
+			var oSelRange = oEditor.document.body.createTextRange()
+			oSelRange.moveToElementText(oEl)
+			oSel.setEndPoint("StartToStart",oSelRange);
+			oSel.setEndPoint("EndToEnd",oSelRange);
+			oSel.select();
+			}
+			
+		if(oEl.target=="_self" || oEl.target=="_blank" || oEl.target=="_parent")
+			inpTarget.value=oEl.target;//inpTarget
+		else
+			inpTargetCustom.value=oEl.target;
+		if(oEl.name!=null) inpName.value=oEl.name;//inpName
+		if(oEl.NAME!=null) inpName.value=oEl.NAME;
+		
+		if(oEl.title!=null) inpTitle.value=oEl.title;//inpTitle //1.5.1
+		
+		if(sURL.indexOf(":")!=-1)
+			{
+			switch(sURL.split(":")[0])
+				{
+				case "http":
+					inpType.value="http://";//inpType
+					inpURL.value=sURL.substr(7);//idLinkURL
+					break;
+				case "https":
+					inpType.value="https://";
+					inpURL.value=sURL.substr(8);
+					break;
+				case "mailto":
+					inpType.value="mailto:";
+					inpURL.value=sURL.split(":")[1];
+					break;
+				case "ftp":
+					inpType.value="ftp://";
+					inpURL.value=sURL.substr(6);
+					break;
+				case "news":
+					inpType.value="news:";
+					inpURL.value=sURL.split(":")[1];
+					break;
+				}
+			}
+		else
+			{
+			inpType.value="";
+			inpURL.value=sURL;
+			}
+		}
+	else
+		{
+		btnLinkInsert.style.display="block";
+		btnLinkUpdate.style.display="none";
+		btnLinkUpdateAndClose.style.display="none";
+
+		inpTarget.value="";
+		inpName.value="";
+		inpTitle.value="";//1.5.1
+		inpType.value="";
+		inpURL.value="";
+		}			
+	}
+
+function applyHyperlink()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+
+	var sURL=inpType.value + inpURL.value;
+
+	/*Ada 3 Case:
+	1. url ada
+	2. url tdk ada, name ada
+	3. url tdk ada, name tdk ada*/
+	if(inpURL.value!="")//url ada
+		{
+		if (oSel.parentElement)
+			{
+			if(btnLinkInsert.style.display=="block")
+				{
+				if(oSel.text=="")//If no (text) selection, then build selection using the typed URL
+					{
+					var oSelTmp=oSel.duplicate();
+					oSel.text=sURL;
+					oSel.setEndPoint("StartToStart",oSelTmp);
+					oSel.select();
+					}
+				}
+			}
+		oSel.execCommand("CreateLink",false,sURL);
+
+		//get A element
+		if (oSel.parentElement)	oEl=GetElement(oSel.parentElement(),"A");
+		else oEl=GetElement(oSel.item(0),"A");
+		if(oEl)
+			{
+			if(inpTarget.value=="" && inpTargetCustom.value=="") oEl.removeAttribute("target",0);//target
+			else 
+				{
+				if(inpTargetCustom.value!="")
+					oEl.target=inpTargetCustom.value;
+				else
+					oEl.target=inpTarget.value;
+				}
+
+			oEl.removeAttribute("NAME",0);//name
+			oEl.removeAttribute("name",0);
+			oEl.NAME=inpName.value;
+			
+			if(inpTitle.value=="") oEl.removeAttribute("title",0);//1.5.1
+			else oEl.title=inpTitle.value;
+			}
+		}
+	else if(inpName.value!="")//url tdk ada, name ada
+		{
+		if (oSel.parentElement)
+			{
+			if(btnLinkInsert.style.display=="block")
+				{
+				if(oSel.text=="")//If no (text) selection, then build selection using the typed URL
+					{
+					var oSelTmp=oSel.duplicate();
+					oSel.text="[anchor]";
+					oSel.setEndPoint("StartToStart",oSelTmp);
+					oSel.select();
+					}
+				}
+			}
+
+		oSel.execCommand("CreateLink",false,"");
+
+		//get A element
+		if (oSel.parentElement)	oEl=GetElement(oSel.parentElement(),"A");
+		else oEl=GetElement(oSel.item(0),"A");
+		if(oEl)
+			{
+			oEl.removeAttribute("target",0);
+			oEl.removeAttribute("href",0);
+
+			oEl.removeAttribute("NAME",0);
+			oEl.removeAttribute("name",0);
+			oEl.NAME=inpName.value;
+			
+			if(inpTitle.value=="") oEl.removeAttribute("title",0);//1.5.1
+			else oEl.title=inpTitle.value;
+
+			if(oSel.text=="[anchor]") oSel.text="";
+			}
+		}
+	else//url tdk ada, name tdk ada
+		{
+		oSel.execCommand("unlink");//unlink
+		}
+
+	//self.close()
+	realTime()
+	
+	//~~~~~~~~ Focus stuff //1.5.1
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);
+	oEditor.focus()
+	
+	//*** RUNTIME STYLES ***
+	var oName=dialogArguments.oUtil.oName;
+	eval("dialogArguments."+oName).runtimeStyles();
+	//***********************	
+	}				
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=285 align=center style="" cellpadding=0 cellspacing=0 ID="Table2">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Hyperlink</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding:5;padding-left:15;padding-right:15;padding-bottom:12;">
+
+
+	<table>
+	<tr>
+		<td>
+		<select ID="inpType" NAME="inpType">
+			<option value=""></option>
+			<option value="http://">http://</option>
+			<option value="https://">https://</option>
+			<option value="mailto:">mailto:</option>
+			<option value="ftp://">ftp://</option>
+			<option value="news:">news:</option>
+		</select></td>
+		<td><INPUT type="text" ID="inpURL" NAME="inpURL" size=30></td>
+	</tr>
+	<tr>
+		<td>Target:</td>
+		<td><INPUT type="text" ID="inpTargetCustom" NAME="inpTargetCustom" size=15>
+		<select ID="inpTarget" NAME="inpTarget">
+			<option value=""></option>
+			<option value="_self">Self</option>
+			<option value="_blank">Blank</option>
+			<option value="_parent">Parent</option>
+		</select></td>
+	</tr>
+	<tr>
+		<td>Name:</td>
+		<td><INPUT type="text" ID="inpName" NAME="inpName" size=15></td>
+	</tr>
+	<tr>
+		<td>Title:</td>
+		<td><INPUT type="text" ID="inpTitle" NAME="inpTitle" size=15></td>
+	</tr>
+	</table>
+
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 2 solid;height:40;padding-right:15;" align=right valign=middle>
+		<table callpadding=1 cellspacing=0>
+		<td>
+		<input type=button value="CLOSE" onclick="self.close()">
+		</td>
+		<td>
+		<input type=button id=btnLinkInsert name=btnLinkInsert value="INSERT" style="display:none" onclick="applyHyperlink()">
+		</td>
+		<td>
+		<input type=button id="btnLinkUpdate" name=btnLinkUpdate value="UPDATE" style="display:none" onclick="applyHyperlink()">
+		</td>
+		<td>
+		<input type=button id="btnLinkUpdateAndClose" name=btnLinkUpdateAndClose value="UPDATE & CLOSE" style="display:none;width:120" onclick="applyHyperlink();self.close()">
+		</td>
+		</table>
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

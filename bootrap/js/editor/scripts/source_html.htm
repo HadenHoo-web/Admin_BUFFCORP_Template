@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>Source Editor</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script>
+function jsReplace(sText, sFind, sReplace)
+	{
+	var arrTmp = sText.split(sFind);
+	if (arrTmp.length > 1) sText = arrTmp.join(sReplace);
+	return sText;
+	}
+
+var sBodyHeader;
+var sBodyFooter;
+var sBodyTag;
+
+function bodyOnLoad()
+	{
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);
+	
+	/*
+	var s="";
+	for(var i=0;i<oEditor.document.childNodes.length;i++)
+		{
+		s+=oEditor.document.childNodes[i].outerHTML;
+		}
+	alert(s)*/
+		
+	//Save sBodyHeader, sBodyFooter, sBodyTag
+	var s=oEditor.document.documentElement.outerHTML;
+	var arrTmp=s.split("<BODY");
+	sBodyHeader=arrTmp[0];
+	s=arrTmp[1];
+	arrTmp=s.split("</BODY>");
+	sBodyFooter=arrTmp[1];
+	s=oEditor.document.documentElement.outerHTML;
+	s=s.substr(s.indexOf("<BODY"));
+	s=s.substr(0,s.indexOf(">")+1);
+	sBodyTag=s;	
+	
+	var sHTML="";
+	sHTML = oEditor.document.body.innerHTML;
+	sHTML = jsReplace(sHTML," contentEditable=true","");
+	
+	idSource.document.body.innerText=sHTML;
+	idSource.document.body.style.cssText="overflow-x:scroll;overflow-y:scroll;white-space:nowrap";
+
+	idSource.document.body.contentEditable=true;	
+	idSource.document.body.clearAttributes;
+	idSource.document.body.style.marginTop='4';
+	idSource.document.body.style.marginLeft='10';
+	idSource.document.body.style.fontFamily='Courier New';
+	idSource.document.body.style.fontSize='12px';
+	idSource.document.body.style.color='black';
+	idSource.document.body.style.background='white';	
+	idSource.document.body.onkeydown = new Function("doKeyPress(idSource.event)");
+	}
+function doKeyPress(evt)
+	{
+	if (evt.keyCode==13)
+		{
+		var thisSel = document.selection.createRange();
+		thisSel.pasteHTML('<br>')
+		evt.cancelBubble = true; 
+		evt.returnValue = false; 
+		thisSel.select();
+		thisSel.moveEnd("character", 1);
+		thisSel.moveStart("character", 1);
+		thisSel.collapse(false);
+		return false;
+		idSource.focus();
+		}
+	}
+function doUpdate()
+	{
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);
+	var obj = eval("dialogArguments."+oName)
+
+	sBodyContent = idSource.document.body.innerText;
+	var sHTML = sBodyHeader + sBodyTag + sBodyContent + "</BODY>" + sBodyFooter;
+	obj.putHTML(sHTML);//tdk menggunakan loadHTML() krn loadHTML() hanya utk first load.
+	
+	//*** RUNTIME STYLES ***
+	obj.runtimeBorder(false);
+	obj.runtimeStyles();//1.5.1
+	//***********************	
+	}
+	
+function doWrap()
+	{
+	if(inpWrap.checked==true)
+		{
+		//Wrap Text
+		idSource.document.body.style.whiteSpace="normal";
+		}
+	else
+		{
+		idSource.document.body.style.whiteSpace="nowrap";
+		}
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=100% height=100% align=center style="" cellpadding=0 cellspacing=0 ID="Table1">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Source Editor</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding:5;padding-left:15;padding-right:15;padding-bottom:12;">
+
+		
+		<iframe style="width:100%;height:100%;" src="blank.gif"  name="idSource" id="idSource" contentEditable="true"></iframe>		
+		
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 2 solid;height:40;padding-right:18;padding-left:15" align=right valign=middle>
+		<table callpadding=0 cellspacing=0>
+		<td width=100%>
+		<input type="checkbox" ID="inpWrap" NAME="inpWrap" onclick="doWrap()"> Wrap Text
+		</td>
+		<td>
+		<input type=button value="CLOSE" onclick="self.close()">
+		</td>
+		<td>
+		<input type=button value="UPDATE" onclick="doUpdate();bodyOnLoad()">
+		</td>
+		<td>
+		<input type=button value="UPDATE & CLOSE" onclick="doUpdate();self.close()" style="width:120">
+		</td>
+		</table>
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

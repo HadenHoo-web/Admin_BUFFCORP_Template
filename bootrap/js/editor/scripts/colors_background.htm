@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>Background Colors</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script language="JavaScript" src="colors.js"></script>
+<script>
+/************************
+	REALTIME & Sekaligus PREVIEW
+************************/
+function doWindowFocus()
+	{
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	}
+function bodyOnLoad()
+	{	
+	var oName=dialogArguments.oUtil.oName;
+	var obj=eval("dialogArguments."+oName);
+
+	if(obj.useLastBackColor)
+		{
+		inpLastColor.checked=true;
+		doClick(obj.stateBackColor)
+		}
+	else
+		{
+		inpLastColor.checked=false;
+		
+		window.onfocus=doWindowFocus;	
+		dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+		realTime()
+		}
+	}
+
+function noop()
+	{
+	;
+	}
+	
+function realTime()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	var oName=dialogArguments.oUtil.oName;
+
+	var oEditor=eval("dialogArguments.idContent"+oName);
+	if(oEditor.document.queryCommandEnabled("BackColor"))
+		{
+		if(oEditor.document.queryCommandValue("BackColor")!=null)
+			{
+			decColor=convertDecToHex3(oEditor.document.queryCommandValue("BackColor"))
+			doClick(decColor)
+			}
+		}
+	}
+		
+function doApply()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	oSel.execCommand("BackColor",false,idSelColorText.value);
+	
+	var oName=dialogArguments.oUtil.oName;
+	var obj=eval("dialogArguments."+oName);
+	obj.stateBackColor=idSelColorText.value;
+
+	//self.close()
+	}
+
+function lastColor()
+	{
+	var oName=dialogArguments.oUtil.oName;
+	var obj=eval("dialogArguments."+oName);
+	if(inpLastColor.checked)
+		{
+		obj.useLastBackColor=true;
+		if(obj.stateBackColor) 
+			{
+			doClick(obj.stateBackColor);
+			}
+		else
+			{
+			document.all.idSelColorPreview.style.background="white"
+			}
+			
+		window.onfocus=new Function("noop()");
+		dialogArguments.document.all.btnRealTime.onclick=new Function("noop()");
+		}
+	else
+		{
+		obj.useLastBackColor=false;
+		window.onfocus=doWindowFocus;	
+		dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+		realTime();
+		}
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=340 align=center style="" cellpadding=0 cellspacing=0 ID="Table3">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Background Colors</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding-top:5;padding-left:15;padding-right:15;padding-bottom:5;">
+
+
+	<table>
+	<tr>
+	<td align=center>
+			<span id="idSelColorPreview" style="BORDER-RIGHT: darkgray 1px solid; BORDER-TOP: darkgray 1px solid; MARGIN: 3px 3px 2px; BORDER-LEFT: darkgray 1px solid; WIDTH: 45px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 45; BACKGROUND-COLOR: white"></span>
+			<br><input name="idSelColorText" style="FONT-SIZE: 9px; WIDTH: 44px; FONT-FAMILY: arial; HEIGHT: 18px" onblur="updateSelColor()">
+	</td>
+
+	<td style="padding-bottom:3">
+	
+			<div style='font-family:Verdana;font-size:10px;color:black;padding:3'>Web-safe Pallete:</div>
+			
+			<table cellpadding=0 cellspacing=0 style='padding:2;border:gray 1 solid;' onmouseout="idPreview.style.backgroundColor='white'">
+			<tr>
+			<td>
+				<script>
+				drawPlate()
+				</script>
+			</td>
+			</tr>
+			</table>
+
+	</td>
+	<td style="padding-bottom:3">
+			<div style='font-family:Verdana;font-size:10px;color:black;padding:3'>&nbsp;</div>
+			<div id="idSelColorRange" style="BORDER-RIGHT: darkgray 1px solid; BORDER-TOP: darkgray 1px solid;  BORDER-LEFT: darkgray 1px solid; WIDTH: 35px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 128; BACKGROUND-COLOR: white"></div>
+	</td>
+	<td align=right>
+			<span id=idPreview style="BORDER-RIGHT: darkgray 1px solid; BORDER-TOP: darkgray 1px solid; MARGIN: 3px 3px 2px; BORDER-LEFT: darkgray 1px solid; WIDTH: 45px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 27px; BACKGROUND-COLOR: white"></span>
+			<div id="idPreviewText" style="FONT-SIZE: 9px; FONT-FAMILY: arial;BORDER-RIGHT: darkgray 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: darkgray 1px solid; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; MARGIN: 1px 3px 3px; BORDER-LEFT: darkgray 1px solid; WIDTH: 45px; PADDING-TOP: 1px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 15px; BACKGROUND-COLOR: white"></div>
+			
+			<table cellpadding=0 cellspacing=0 ID="Table1">
+			<tr><td align=right>Red:</td><td align=right><span id=idRed style="BORDER-RIGHT: darkgray 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: darkgray 1px solid; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; MARGIN: 1px 3px 3px; BORDER-LEFT: darkgray 1px solid; WIDTH: 25px; PADDING-TOP: 1px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 15px; BACKGROUND-COLOR: white" 
+					></span></td></tr>
+			<tr><td align=right>Green:</td><td align=right><span id="idGreen" style="BORDER-RIGHT: darkgray 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: darkgray 1px solid; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; MARGIN: 1px 3px 3px; BORDER-LEFT: darkgray 1px solid; WIDTH: 25px; PADDING-TOP: 1px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 15px; BACKGROUND-COLOR: white" 
+					></span></td></tr>
+			<tr><td align=right>Blue:</td><td align=right><span id="idBlue" style="BORDER-RIGHT: darkgray 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: darkgray 1px solid; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; MARGIN: 1px 3px 3px; BORDER-LEFT: darkgray 1px solid; WIDTH: 25px; PADDING-TOP: 1px; BORDER-BOTTOM: darkgray 1px solid; HEIGHT: 15px; BACKGROUND-COLOR: white" 
+					></span></td></tr>
+			</table>
+
+	</td>
+	</tr>
+	<tr>
+	<td colspan=4 align=right>
+			<input type="checkbox" ID="inpLastColor" NAME="inpLastColor" onclick="lastColor()"> Last used Color
+	</td>
+	</tr>
+	</table>
+	
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 1 solid;height:40;padding-right:20;" align=right valign=middle>
+	<input type="button" value="CLOSE" onclick="self.close()">
+	<input type="button" value="APPLY" onclick="doApply()">
+	<input type="button" value="APPLY & CLOSE" onclick="doApply();self.close()" style="width:110">
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+2026-07-25 10:47:15 | DONE_CHECK | old=1 new=1 assignee=1 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-07-29 17:11:33 | {"step":"INPUT","zalo_user_id":"3155295268579151995","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Ads - trao đổi anh Nghĩa thông tin chạy ads font chữ + thông tin cung cấp mã tạo\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Trợ Lý T.Anh"}
+2026-07-29 17:11:33 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:11:33 | CREATE_TASK | false
+2026-07-29 17:12:37 | {"step":"INPUT","zalo_user_id":"3155295268579151995","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Ads - Call với khách hàng thông tin chạy ads cho DA FB, website, tiktok ngân sách 50.000.000đ\/tháng\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: [CSW] Cuacuonchinhhang.com\n👤 Giao bởi: Trợ Lý T.Anh"}
+2026-07-29 17:12:37 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:12:37 | CREATE_TASK | false
+2026-07-29 17:14:44 | {"step":"INPUT","zalo_user_id":"1159081918582355879","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Check vị trí (Dichvutaichinh.vn; Antoannhanvien.com; Tuvanvision.com; Ototoyota.com.vn; Lapmangviettel24h.vn; Senvangwater.vn; Innhanhnhanh.com; Camdotanphu.com)\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Quang"}
+2026-07-29 17:14:44 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:14:44 | CREATE_TASK | false
+2026-07-29 17:15:28 | {"step":"INPUT","zalo_user_id":"1159081918582355879","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Dịch vụ thiết kế Web - Tìm khách hàng tư vấn đăng ký dịch vụ SEO [ Cố Đô hội Quán ]\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Quang"}
+2026-07-29 17:15:28 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:15:28 | CREATE_TASK | false
+2026-07-29 17:16:21 | {"step":"INPUT","zalo_user_id":"1159081918582355879","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Dịch vụ thiết kế Web - Tìm khách hàng tư vấn đăng ký dịch vụ SEO [ Nhà hàng cây cau Ecopark ]\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Quang"}
+2026-07-29 17:16:21 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:16:21 | CREATE_TASK | false
+2026-07-29 17:17:10 | {"step":"INPUT","zalo_user_id":"1159081918582355879","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Dịch vụ thiết kế Web - Tìm khách hàng tư vấn đăng ký dịch vụ SEO [ Nhà Hàng Hoàng Gia ]\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Quang"}
+2026-07-29 17:17:10 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:17:10 | CREATE_TASK | false
+2026-07-29 17:17:14 | DONE_CHECK | old=1 new=1 assignee=34 actor_login=34 actor_member=0 created_by_id=34 should=0
+2026-07-29 17:17:29 | DONE_CHECK | old=1 new=1 assignee=34 actor_login=34 actor_member=0 created_by_id=34 should=0
+2026-07-29 17:17:50 | {"step":"INPUT","zalo_user_id":"1159081918582355879","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Dịch vụ thiết kế Web - Tìm khách hàng tư vấn đăng ký dịch vụ SEO [ Hải Sản Viễn Dương ]\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Quang"}
+2026-07-29 17:17:50 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:17:50 | CREATE_TASK | false
+2026-07-29 17:18:34 | {"step":"INPUT","zalo_user_id":"1159081918582355879","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Dịch vụ thiết kế Web - Tìm khách hàng tư vấn đăng ký dịch vụ SEO [ Nhà hàng Phương Đông Ân Thi ]\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Quang"}
+2026-07-29 17:18:34 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-29 17:18:34 | CREATE_TASK | false
+2026-07-29 17:22:43 | NO_ZALO_USER_ID | member_id=78
+2026-07-29 17:23:14 | NO_ZALO_USER_ID | member_id=78
+2026-07-29 17:25:05 | NO_ZALO_USER_ID | member_id=78
+2026-07-30 08:37:59 | NO_ZALO_USER_ID | member_id=79
+2026-07-30 08:52:11 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=65 actor_member=0 created_by_id=65 should=1
+2026-07-30 08:52:11 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"✅ VIỆC ĐÃ HOÀN THÀNH\n\n📝 Việc: Update + Fix lỗi web sipvietnam.vn ( PROAUTO)\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Hoàn thành bởi: Mr Duy"}
+2026-07-30 08:52:11 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-30 08:52:11 | DONE_NOTIFY | giaoviec_id=47173 | false
+2026-07-30 10:03:23 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=71 actor_member=0 created_by_id=71 should=1
+2026-07-30 10:03:23 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"✅ VIỆC ĐÃ HOÀN THÀNH\n\n📝 Việc: Dựng lại toàn bộ giao diện ad.buffseo.com\n⏰ Deadline: 29-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Hoàn thành bởi: Mr Huy Code"}
+2026-07-30 10:03:23 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-30 10:03:23 | DONE_NOTIFY | giaoviec_id=47153 | false
+2026-07-30 10:03:33 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Dựng lại toàn bộ giao diện ad.buffseo.com\n⏰ Deadline: 30-07-2026 23:59\n🌐 Website: Ad.buffseo.com\n👤 Giao bởi: Mr Huy Code"}
+2026-07-30 10:03:33 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-30 10:03:33 | CREATE_TASK | false
+2026-07-30 10:04:57 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Chỉnh sửa giao diện theo yêu cầu khách hàng web sipvietnam.vn [ PROAUTO ]\n⏰ Deadline: 30-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Mr Duy"}
+2026-07-30 10:04:57 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-30 10:04:57 | CREATE_TASK | false
+2026-07-30 10:09:20 | DONE_CHECK | old=1 new=2 assignee=79 actor_login=79 actor_member=0 created_by_id=79 should=1
+2026-07-30 10:09:20 | DONE_NOTIFY_NO_BOSS_ZALO | created_by_id=79 | giaoviec_id=47211
+2026-07-30 10:27:34 | {"step":"INPUT","zalo_user_id":"3096884466588820040","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Kiểm tra vị trí chính xác bằng GG ads các từ khóa \\\"spa thú cưng, spa chó mèo\\\" so sánh giữa 2 địa điểm là hà nội và hcm\n⏰ Deadline: 30-07-2026 23:59\n🌐 Website: [SEO] Kimipet.vn\n👤 Giao bởi: Ms.Tú"}
+2026-07-30 10:27:34 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-30 10:27:34 | CREATE_TASK | false
+2026-07-30 10:27:55 | {"step":"INPUT","zalo_user_id":"3096884466588820040","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Kiểm tra tín hiệu các dự án đang phụ trách\n⏰ Deadline: 30-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Ms.Tú"}
+2026-07-30 10:27:55 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-07-30 10:27:55 | CREATE_TASK | false

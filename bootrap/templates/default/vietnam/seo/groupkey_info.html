@@ -1,0 +1,96 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <div class="toolbar">
+<a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Lưu"><span>Lưu</span></a>
+<a href="JavaScript:returnToList()"><img border="0" src="templates/{skin}/images/back.gif" alt="Về danh sách" width="20" height="20"><span>Về danh sách</span></a>
+</div>
+ <div class="tabtitle">
+ Thông tin Groupkey :</div>
+ <div style="overflow:auto; height:80%">
+<form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" >
+	<input type="hidden" name="l" value="{LANGUAGEID}">
+	<input type="hidden" name="option" value="{funname}">
+	<input type="hidden" name="id" value="{groupkey_id}">
+	<input type="hidden" name="mode" value="save">
+<table width="100%">
+  <tr >
+    <td height="25" >Cấp cha<font color="#FF0000">*</font></td>
+    <td width="88%">
+    <select size="1" name="parent_id" id="parent_id" value="0">
+      <option value="0" selected> Chọn Groupkey cha</option>
+      <!-- BEGIN select_list -->
+      <option value="{select_list.groupkey_id}" >{select_list.groupkey_name}</option>
+      <!-- END select_list -->
+    </select> Thứ tự
+    <input name="priority" notnull = 1 type="text" size="10" alt="priotiry" value="{priority}" /> Chọn website :
+    <!-- DO ComboFromTable("website_id", "tbl_website", "website_id", "website_name", "website_id", 0, " Chọn Website" , "0" , "active = 1 order by priority" , "", 1) -->
+    </td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Tên nhóm:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="groupkey_name" notnull = 1 type="text" size="140" alt="Tên nhóm" value="{groupkey_name}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >URL:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="url" notnull = 1 type="text" size="140" alt="Url" value="{url}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Title seo:</td>
+    <td width="78%"><input name="title_seo" notnull = 1 type="text" size="140" alt="title_seo" value="{title_seo}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Slug:</td>
+    <td width="78%"><input name="slug" notnull = 1 type="text" size="140" alt="Slug" value="{slug}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Meta des:</td>
+    <td width="78%"><textarea name="meta_des" cols="140" rows="5">{meta_des}</textarea></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Meta key:</td>
+    <td width="78%"><textarea name="meta_key" cols="140" rows="10">{meta_key}</textarea></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Fanpage:</td>
+    <td width="78%"><input name="fanpage" type="text" size="140" alt="Fanpage" value="{fanpage}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Youtube:</td>
+    <td width="78%"><input name="youtube" type="text" size="140" alt="Youtube" value="{youtube}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Network 1:</td>
+    <td width="78%"><input name="network1" type="text" size="140" alt="Network 1" value="{network1}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Network 2:</td>
+    <td width="78%"><input name="network2" type="text" size="140" alt="Network 2" value="{network2}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Ghi chú:</td>
+    <td width="78%"><textarea name="note" cols="80" rows="5">{note}</textarea></td>
+  </tr>
+  <tr>
+    <td ></td>
+    <td ><input type="checkbox" name="active" value="1" id="fp1" {active} /> <label for="fp1"> Active</label><input type="checkbox" name="isshare" value="1" id="fp1" {isshare} /> <label for="fp1"> Share chéo</label><input type="checkbox" name="issource" value="1" id="fp1" {issource} /> <label for="fp1"> Đi nguồn</label><input type="checkbox" name="isupdate" value="1" {isupdate} /> <label for="fp1"> Update lên SEO</label></td>
+  </tr>
+<tr style="visibility:{allow}">
+      <td  colspan="2" >&nbsp;</td>
+    </tr>
+  </table>
+   
+</form><p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+</div>
+<Script Language="JavaScript">
+
+	function doSave()
+	{	if (verify(mainForm))	
+			mainForm.submit()
+	}
+
+	function returnToList()
+	{	document.location='?option={funname}&mode=list&l={LANGUAGEID}'
+	}
+	mainForm.parent_id.value = '{parent_id}';
+	mainForm.website_id.value = '{website_id}';
+	mainForm.groupkey_name.focus()
+</Script>

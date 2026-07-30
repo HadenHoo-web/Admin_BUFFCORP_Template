@@ -1,0 +1,137 @@
+<style type="text/css">
+.content-link-row {margin-bottom:6px;}
+.content-link-row input {width:78%;}
+.content-link-group {margin-bottom:10px;}
+.content-link-title {font-weight:bold; margin-bottom:5px;}
+.content-help {color:#777; margin-left:8px;}
+</style>
+
+<div class="toolbar">
+  <a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Lưu"><span>Lưu</span></a>
+  <a href="JavaScript:returnToList()"><img border="0" src="templates/{skin}/images/back.gif" alt="Về danh sách" width="20" height="20"><span>Về danh sách</span></a>
+</div>
+
+<form action="main.php" method="POST" name="mainForm" id="mainForm" style="margin:0px;">
+  <input type="hidden" name="option" value="{funname}">
+  <input type="hidden" name="mode" value="save">
+  <input type="hidden" name="id" value="{content_task_id}">
+
+  <table border="0" cellpadding="3" cellspacing="0" width="100%" class="adminform">
+    <tr>
+      <td colspan="2" class="tabtitle">Quản lý Content</td>
+    </tr>
+    <tr>
+      <td width="18%">Tiêu đề / yêu cầu bài viết</td>
+      <td><input name="title" type="text" size="90" value="{title}" notnull="1" {title_readonly}></td>
+    </tr>
+    <tr>
+      <td>Loại</td>
+      <td>
+        <select name="content_type" id="content_type" {assign_disabled}>
+          <option value="1">Viết bài</option>
+          <option value="2">Viết bài + Đăng</option>
+          <option value="3">Viết bài + Đăng + Thiết kế hình</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Website</td>
+      <td>
+        <select name="website_id" id="website_id" {assign_disabled}>
+          <option value="0">Chọn Website</option>
+          <!-- BEGIN website_list -->
+          <option value="{website_list.website_id}">{website_list.website_name}</option>
+          <!-- END website_list -->
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Nhân viên thực hiện</td>
+      <td>
+        <select name="member_id" id="member_id" {assign_disabled}>
+          <option value="0">Chọn nhân viên</option>
+          <!-- BEGIN member_list -->
+          <option value="{member_list.member_id}">{member_list.member_name}</option>
+          <!-- END member_list -->
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Ghi chú</td>
+      <td><textarea name="note" rows="5" cols="90" {note_readonly}>{note}</textarea></td>
+    </tr>
+    <tr>
+      <td>Link GG Docs</td>
+      <td>
+        <div class="content-link-group">
+          <!-- BEGIN google_doc_link_list -->
+          <div class="content-link-row"><input name="google_doc_url[]" type="text" value="{google_doc_link_list.url}"></div>
+          <!-- END google_doc_link_list -->
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Bộ từ khoá</td>
+      <td>
+        <div class="content-link-group">
+          <!-- BEGIN keyword_set_link_list -->
+          <div class="content-link-row"><input name="keyword_set_url[]" type="text" value="{keyword_set_link_list.url}"></div>
+          <!-- END keyword_set_link_list -->
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Link Website</td>
+      <td>
+        <div class="content-link-group">
+          <!-- BEGIN website_link_list -->
+          <div class="content-link-row"><input name="website_url[]" type="text" value="{website_link_list.url}"></div>
+          <!-- END website_link_list -->
+        </div>
+      </td>
+    </tr>
+    <tr style="display:{approve_display}">
+      <td>Xác nhận duyệt</td>
+      <td>
+        <label><input type="checkbox" name="approved" value="1" {approved} {approve_disabled}> Xác nhận bài viết đã được duyệt</label>
+        <span class="content-help">{approve_note}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>Thông tin duyệt</td>
+      <td>{approved_by} {approved_date}</td>
+    </tr>
+  </table>
+  <p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+</form>
+
+<script>
+document.getElementById('website_id').value = '{website_id}';
+document.getElementById('member_id').value = '{member_id}';
+document.getElementById('content_type').value = '{content_type}';
+
+function doSave()
+{
+  if (mainForm.title.value == '') {
+    alert('Vui lòng nhập tiêu đề / yêu cầu bài viết');
+    mainForm.title.focus();
+    return;
+  }
+  if (mainForm.website_id.value == '0') {
+    alert('Vui lòng chọn website');
+    mainForm.website_id.focus();
+    return;
+  }
+  if (mainForm.member_id.value == '0') {
+    alert('Vui lòng chọn nhân viên thực hiện');
+    mainForm.member_id.focus();
+    return;
+  }
+  mainForm.submit();
+}
+
+function returnToList()
+{
+  document.location='?option={funname}&mode=list&l={LANGUAGEID}';
+}
+</script>

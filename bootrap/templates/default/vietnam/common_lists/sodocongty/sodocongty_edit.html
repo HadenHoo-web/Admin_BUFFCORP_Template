@@ -1,0 +1,83 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+.org-edit{font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:12px;background:#f5f5f5;padding:10px;box-sizing:border-box}
+.org-toolbar{background:#f4f4f4;border:1px solid #888;padding:6px 8px;margin-bottom:8px}
+.org-toolbar a,.org-toolbar button{color:#000;text-decoration:none;font-weight:bold;margin-right:14px;border:0;background:transparent;cursor:pointer;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:12px}
+.org-title{background:#808080;color:#fff;font-weight:bold;padding:6px 8px;margin-bottom:8px}
+.org-table{width:100%;border-collapse:collapse;background:#fff}
+.org-table th{background:#d8d4cb;text-align:left;padding:7px;border:1px solid #c8c8c8}
+.org-table td{padding:6px;border:1px solid #ddd;vertical-align:top}
+.org-table input,.org-table textarea{width:100%;box-sizing:border-box}
+.org-table textarea{height:72px}
+.org-key{background:#f1f5ff;color:#0b3770;font-weight:bold}
+.org-delete{color:#b00000;font-weight:bold;border:1px solid #d5a0a0;background:#fff5f5;padding:4px 8px;cursor:pointer}
+.org-help{color:#666;margin:7px 0 10px}
+</style>
+
+<div class="org-edit">
+  <div class="org-toolbar">
+    <a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" align="absmiddle"> Lưu</a>
+    <button type="button" onclick="addPersonRow()"><img border="0" src="templates/{skin}/images/button-create.gif" width="20" height="20" align="absmiddle"> Thêm nhân sự</button>
+    <a href="{BACK_URL}"><img border="0" src="templates/{skin}/images/back.gif" width="20" height="20" align="absmiddle"> Trở về</a>
+  </div>
+  <div class="org-title">Sửa sơ đồ công ty</div>
+  <div class="org-help">Muốn xoá nhân sự khỏi sơ đồ thì bấm Xoá rồi Lưu. Key không dấu, viết liền bằng dấu gạch dưới, ví dụ: <b>nguyen_van_a</b>.</div>
+  <form action="main.php" method="POST" name="mainForm">
+    <input type="hidden" name="l" value="{LANGUAGEID}">
+    <input type="hidden" name="option" value="{funname}">
+    <input type="hidden" name="mode" value="{SAVE_MODE}">
+    <table class="org-table">
+      <tr>
+        <th width="120">Key</th>
+        <th width="120">Key cấp trên</th>
+        <th width="150">Tên</th>
+        <th width="180">Vai trò</th>
+        <th width="180">Phòng ban</th>
+        <th>Nhiệm vụ</th>
+        <th width="60">Thứ tự</th>
+        <th width="60">Xoá</th>
+      </tr>
+      <tbody id="orgRows">
+      <!-- BEGIN person -->
+      <tr>
+        <td><input class="org-key" type="text" name="person_key[]" value="{person.person_key}" readonly></td>
+        <td><input type="text" name="parent_key[]" value="{person.parent_key}"></td>
+        <td><input type="text" name="display_name[]" value="{person.display_name}"></td>
+        <td><input type="text" name="role_title[]" value="{person.role_title}"></td>
+        <td><input type="text" name="department[]" value="{person.department}"></td>
+        <td><textarea name="mission[]">{person.mission}</textarea></td>
+        <td><input type="text" name="sort_order[]" value="{person.sort_order}"></td>
+        <td align="center"><button type="button" class="org-delete" onclick="deletePersonRow(this)">Xoá</button></td>
+      </tr>
+      <!-- END person -->
+      </tbody>
+    </table>
+  </form>
+  <p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+</div>
+<script type="text/javascript">
+function doSave(){
+  document.mainForm.submit();
+}
+function deletePersonRow(btn){
+  if (!confirm('Xoá nhân sự này khỏi sơ đồ?')) return;
+  var row = btn;
+  while (row && row.tagName != 'TR') row = row.parentNode;
+  if (row) row.parentNode.removeChild(row);
+}
+function addPersonRow(){
+  var tbody = document.getElementById('orgRows');
+  var row = document.createElement('tr');
+  var key = 'nhan_su_' + (new Date()).getTime();
+  row.innerHTML =
+    '<td><input class="org-key" type="text" name="person_key[]" value="'+key+'"></td>' +
+    '<td><input type="text" name="parent_key[]" value=""></td>' +
+    '<td><input type="text" name="display_name[]" value=""></td>' +
+    '<td><input type="text" name="role_title[]" value=""></td>' +
+    '<td><input type="text" name="department[]" value=""></td>' +
+    '<td><textarea name="mission[]"></textarea></td>' +
+    '<td><input type="text" name="sort_order[]" value="1"></td>' +
+    '<td align="center"><button type="button" class="org-delete" onclick="deletePersonRow(this)">Xoá</button></td>';
+  tbody.appendChild(row);
+}
+</script>

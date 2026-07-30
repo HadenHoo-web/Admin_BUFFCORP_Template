@@ -1,0 +1,433 @@
+<html>
+<head>
+<title>Source Editor</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script>
+function bodyOnLoad()
+	{
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);
+
+	//XHTML Full
+	sHTML=recur2(oEditor.document.documentElement,"");
+	idSource.document.body.innerHTML=sHTML;
+	idSource.document.body.style.cssText="overflow-x:scroll;overflow-y:scroll;white-space:nowrap";
+	
+	//Format
+	idSource.document.body.contentEditable=true;	
+	idSource.document.body.clearAttributes;
+	idSource.document.body.style.marginTop='4';
+	idSource.document.body.style.marginLeft='10';
+	idSource.document.body.style.fontFamily='Courier New';
+	idSource.document.body.style.fontSize='12px';
+	idSource.document.body.style.color='black';
+	idSource.document.body.style.background='white';	
+	idSource.document.body.onkeydown = new Function("doKeyPress(idSource.event)");
+	}
+function doKeyPress(evt)
+	{
+	if (evt.keyCode==13)
+		{
+		var thisSel = document.selection.createRange();
+		thisSel.pasteHTML('<br>')
+		evt.cancelBubble = true; 
+		evt.returnValue = false; 
+		thisSel.select();
+		thisSel.moveEnd("character", 1);
+		thisSel.moveStart("character", 1);
+		thisSel.collapse(false);
+		return false;
+		idSource.focus();
+		}
+	}
+function doUpdate()
+	{
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);
+	var obj = eval("dialogArguments."+oName);
+
+	var sHTML = idSource.document.body.innerText;
+	obj.putHTML(sHTML);//tdk menggunakan loadHTML() krn loadHTML() hanya utk first load.
+	
+	//*** RUNTIME STYLES ***
+	obj.runtimeBorder(false);
+	obj.runtimeStyles();//1.5.1
+	//***********************		
+	}
+
+/************************
+	Utility
+************************/
+function trimComment1(sTmp)// => SCRIPT
+	{
+	//Remove "//<![CDATA[", "//]]>" and spaces at the beginning & end of text, why?
+	//karena nanti akan ditambahkan, utk memastikan spy tidak double
+	var arrTmp = sTmp.split("//<![CDATA[");
+	if (arrTmp.length > 1) 
+		{
+		if(arrTmp[0].replace(/^\s+/,'').replace(/\s+$/,'')=="") 
+			sTmp = arrTmp[1];
+		}
+	arrTmp = sTmp.split("//]]>");
+	if (arrTmp.length > 1) 
+		{
+		if(arrTmp[1].replace(/^\s+/,'').replace(/\s+$/,'')=="")
+			sTmp = arrTmp[0]
+		}
+	sTmp=sTmp.replace(/^\s+/,'').replace(/\s+$/,'');
+	return sTmp;
+	}
+function trimComment2(sTmp)// => STYLE & Comment
+	{
+	//Remove "<!--", "-->" and spaces at the beginning & end of text, why?
+	//karena nanti akan ditambahkan, utk memastikan spy tidak double
+	var arrTmp = sTmp.split("<!--");
+	if (arrTmp.length > 1) 
+		{
+		if(arrTmp[0].replace(/^\s+/,'').replace(/\s+$/,'')=="") 
+			sTmp = arrTmp[1];
+		}
+	arrTmp = sTmp.split("-->");
+	if (arrTmp.length > 1) 
+		{
+		if(arrTmp[1].replace(/^\s+/,'').replace(/\s+$/,'')=="")
+			sTmp = arrTmp[0]
+		}
+	sTmp=sTmp.replace(/^\s+/,'').replace(/\s+$/,'');
+	return sTmp;
+	}
+
+/************************
+	HTML to XHTML (formatted)
+************************/
+function fixXML2a(s) //hanya utk attribute
+	{
+	s = String(s).replace(/&/g, "&amp;amp;");//harus di awal
+	s = String(s).replace(/</g, "&amp;lt;");
+	//s = String(s).replace(/>/g, "&amp;gt;");//tdk apa2
+	s = String(s).replace(/"/g, "&amp;quot;");
+	//s = String(s).replace(/'/g, "&amp;apos;");//tdk apa2
+	return s;
+	}
+function fixXML2b(s) //hanya utk node value
+	{
+	s = String(s).replace(/&/g, "&amp;amp;");//harus di awal
+	s = String(s).replace(/</g, "&amp;lt;");
+	return s;
+	}
+function lineBreak2(tag) //[0]<TAG>[1]text[2]</TAG>
+	{	
+	arrReturn = ["<br>", "", ""];
+	if(	tag=="A" || tag=="B" || tag=="CITE" || tag=="CODE" || tag=="EM" || tag=="FONT" || tag=="I" ||
+		tag=="SMALL" || tag=="STRIKE" || tag=="STRONG" || tag=="SUB" || tag=="SUP" || tag=="U" || tag=="BIG" ||
+		tag=="S" || tag=="VAR" || tag=="BASEFONT" || tag=="KBD" || tag=="SAMP" || tag=="TT") arrReturn = ["", "", ""];
+		
+	if(	tag=="TEXTAREA" || tag=="TABLE" || tag=="THEAD" || tag=="TBODY" || tag=="TR" || tag=="OL" || tag=="UL" ||
+		tag=="DIR" || tag=="MENU" || tag=="FORM" || tag=="SELECT" || tag=="SCRIPT" || tag=="MAP" || tag=="DL" || tag=="STYLE"  || tag=="HEAD" || tag=="BODY" || tag=="HTML") arrReturn = ["<br>", "", "<br>"];		
+
+	//Special
+	if(tag=="BR" || tag=="HR") arrReturn = ["", "<br>", ""];
+	//if(tag=="P") arrReturn = ["<br><br>", "", ""];
+	//if(tag=="TABLE") arrReturn = ["<br><br>", "", "<br>"];
+	
+	return arrReturn;		
+	}
+
+var bContainP;
+var bDoNotProcess;
+function recP(oEl)
+	{
+	if(bContainP) return;
+
+	for(var k=0;k<oEl.childNodes.length;k++)
+		{
+		ss=oEl.childNodes(k).nodeName
+		if(ss=="P")
+			{
+			bContainP = true;
+			return;
+			}
+		else
+			{
+			recP(oEl.childNodes(k));
+			}
+		}
+	}
+	
+function recur2(oEl,sTab)//1.5.1
+	{
+	var sHTML="";
+
+	for(var i=0;i<oEl.childNodes.length;i++)
+		{
+		var oNode=oEl.childNodes(i);
+		
+		if(oNode.nodeType==1)//tag
+			{			
+			//Extract Attributes
+			var sAttrName = "";
+			var arrAttrName = [];
+			var sTmp = oNode.outerHTML.split(">")[0];
+			for(var k=0;k<oNode.attributes.length;k++)
+				{
+				attrName=oNode.attributes[k].nodeName;							
+				if(sTmp.indexOf(" "+attrName+"=")!=-1)
+					{
+					if(attrName.toLowerCase()!="contenteditable")
+						sAttrName+=",'" + attrName + "'";
+					}				
+				}
+			if(sAttrName!="") arrAttrName = eval("["+sAttrName.substr(1)+"]");
+
+			var sTagName = oNode.nodeName;
+			
+
+			if(sTagName=="P")
+				{
+				bContainP=false
+				recP(oNode)
+				}
+			
+			bDoNotProcess=false;
+			if(oEl.nodeName=="TR")
+				{				
+				if(oNode.nodeName!="TD")
+					{
+					bDoNotProcess=true;
+					}
+				}					
+
+			//special fix : <THEAD></THEAD><TBODY></TBODY><TR></TR>
+			//if(sTagName.substr(0,1)!="/") 
+			if(sTagName.substr(0,1)!="/" && !bContainP && !bDoNotProcess) 
+				{
+				//~~~~~~~~~
+				var sT= sTab; //base Tabs
+				sHTML+= lineBreak2(sTagName)[0];	
+				if(lineBreak2(sTagName)[0] !="") sHTML+= sT;//If new line, use base Tabs
+				//~~~~~~~~~
+				
+				
+				//OPENING TAG
+				sHTML+= "<font color='#0000ff'>&lt;</font>";
+				sHTML+= "<font color='#800000'>" + sTagName.toLowerCase() + "</font>"; //example: <TABLE
+
+
+				/*****************************************************
+								IMPORTANT
+				******************************************************/
+				
+				//NAVIGATE THE ATTRIBUTES
+				for(var j=0;j<arrAttrName.length;j++)
+					{
+					var sName = arrAttrName[j];
+					
+					//UNSUPPORTED Attributes (LEAVE the Attributes)
+					if(sTagName.toLowerCase()=="hr" && ( sName.toLowerCase()=="noshade" || sName.toLowerCase()=="size" ) ) sName="";
+					else if(sTagName.toLowerCase()=="select" && sName.toLowerCase()=="multiple" ) sName="";
+					else if(sTagName.toLowerCase()=="option" && sName.toLowerCase()=="selected") sName="";
+					else if(sTagName.toLowerCase()=="a" && sName.toLowerCase()=="href")//FIX THE VALUE
+						{
+						sTmp=oNode.outerHTML;
+						sTmp=sTmp.substring(sTmp.indexOf(" href=")+7);
+						sTmp=sTmp.substring(0,sTmp.indexOf('"'));
+						var arrTmp = sTmp.split("&amp;");
+						if (arrTmp.length > 1) sTmp = arrTmp.join("&");		
+						var sValue=sTmp	
+						}
+					else if(sTagName.toLowerCase()=="img" && sName.toLowerCase()=="src")//FIX THE VALUE
+						{
+						sTmp=oNode.outerHTML;
+						sTmp=sTmp.substring(sTmp.indexOf(" src=")+6);
+						sTmp=sTmp.substring(0,sTmp.indexOf('"'));
+						var arrTmp = sTmp.split("&amp;");
+						if (arrTmp.length > 1) sTmp = arrTmp.join("&");		
+						var sValue=sTmp	
+						}
+					else if(sName.toLowerCase()=="class")//FIX THE VALUE
+						{
+						var sValue = oNode.className;
+						}
+					else if(sName.toLowerCase()=="style")//FIX THE VALUE
+						{
+						var sValue=oNode.style.cssText;
+						}
+					else
+						{
+						try {var sValue = eval("oNode.attributes."+arrAttrName[j]+".nodeValue");}//OK (Set the Value)
+						catch(e) {sName="";}//UNSUPPORTED Attributes (LEAVE the Attributes)
+						}
+
+					if(sName!="")//OK
+						{
+						sHTML+= " <font color='#ff0000'>" + sName.toLowerCase() + "</font>";
+						sHTML+= "<font color='#0000ff'>=\"" + fixXML2a(sValue) + "\"</font>";
+						}
+					}	
+					
+					
+				//UNSUPPORTED; CATCH the UNSUPPORTED Attributes & Add before the closing tag
+				if(sTagName.toLowerCase()=="hr" && oNode.noShade)
+					{
+					sHTML+= " <font color='#ff0000'>noshade</font><font color='#0000ff'>=\"noshade\"</font>";
+					}
+				if(sTagName.toLowerCase()=="hr" && oNode.size!="")
+					{
+					sHTML+= " <font color='#ff0000'>size</font><font color='#0000ff'>=\""+oNode.size+"\"</font>";
+					}
+				if(sTagName.toLowerCase()=="select" && oNode.multiple)
+					{
+					sHTML+= " <font color='#ff0000'>multiple</font><font color='#0000ff'>=\"multiple\"</font>";
+					}
+				if(sTagName.toLowerCase()=="option" && oNode.selected)
+					{
+					sHTML+= " <font color='#ff0000'>selected</font><font color='#0000ff'>=\"selected\"</font>";
+					}			
+				if(oNode.outerHTML.indexOf(" CHECKED ")!=-1 && oNode.nodeName!="BODY" && oNode.nodeName!="BASE")	
+					{
+					sHTML+= " <font color='#ff0000'>checked</font><font color='#0000ff'>=\"checked\"</font>";
+					}									
+
+				/*****************************************************
+								/IMPORTANT
+				******************************************************/
+				
+				//CLOSING TAG
+				if(sTagName=="IMG" || sTagName=="BR" || sTagName=="AREA" || sTagName=="HR" || sTagName=="INPUT" || sTagName=="BASE")//If Element doesn't need Closing Tag
+					{
+					sHTML+= "<font color='#0000ff'>/&gt;</font>"; //doesn't need closing tag
+					
+					//~~~~~~~~~
+					sHTML+= lineBreak2(sTagName)[1];
+					if(lineBreak2(sTagName)[1] !="") sHTML+= sT;//If new line, use base Tabs
+					//~~~~~~~~~					
+					}
+				else
+					{
+					sHTML+= "<font color='#0000ff'>&gt;</font>";
+					
+					//~~~~~~~~~
+					sHTML+= lineBreak2(sTagName)[1];
+					if(lineBreak2(sTagName)[1] !="") sHTML+= sT;//If new line, use base Tabs
+					//~~~~~~~~~
+					
+					if(sTagName=="SCRIPT") 
+						{
+						if(oNode.attributes.src.nodeValue=="")
+							{
+							var sTmp=trimComment1(oNode.innerHTML);
+							sHTML+= "<font color='#008000'>//&lt;![CDATA[<xmp>"+sTmp+"</xmp>//]]&gt;</font>";//1.4.9
+							}
+						else
+							{//external script
+							sHTML+= "";
+							}						
+						}
+					else if(sTagName=="STYLE") 
+						{
+						var sTmp=trimComment2(oNode.innerHTML);
+						sHTML+= "<font color='#008000'>&lt;!--<xmp>"+sTmp+"</xmp>--&gt;</font>";
+						}
+					else if(sTagName=="TITLE") 
+						sHTML+= oNode.innerHTML; 					
+					else
+						{
+						sHTML+=recur2(oNode,sT+"&nbsp;&nbsp;"); //Increase base Tabs for the next recursion
+						}
+
+					//~~~~~~~~~
+					sHTML+= lineBreak2(sTagName)[2];
+					if(lineBreak2(sTagName)[2] !="") sHTML+= sT;//If new line, use base Tabs
+					//~~~~~~~~~			
+					
+					sHTML+= "<font color='#0000ff'>&lt;/</font>";
+					sHTML+= "<font color='#800000'>" + sTagName.toLowerCase() + "</font>";
+					sHTML+= "<font color='#0000ff'>&gt;</font>"; //example: </TABLE>
+					}
+				}
+			}
+		else if(oNode.nodeType==3)//text
+			{
+			sHTML+= fixXML2b(oNode.nodeValue);
+			}
+		else if(oNode.nodeType==8)//comments
+			{
+			if(oNode.outerHTML.substring(0,2)=="<"+"%")
+				{
+				sHTML+=  "<span style='background:#ffff80'><xmp>" + oNode.outerHTML + "</xmp></span>"
+				}
+			else
+				{
+				var sTmp=trimComment2(oNode.nodeValue);								
+				sHTML+= "<font color='#008000'>&lt;!--<xmp>"+sTmp+"</xmp>--&gt;</font>";
+				}
+			}	
+		else
+			{
+			sHTML+= "<font color='#008000'>&lt;!-- Not Processed :"+ sTagName + " - " + oNode.nodeValue+"--&gt;</font>";
+			}					
+		}
+	return sHTML;
+	}
+
+function doWrap()
+	{
+	if(inpWrap.checked==true)
+		{
+		//Wrap Text
+		idSource.document.body.style.whiteSpace="normal";
+		}
+	else
+		{
+		idSource.document.body.style.whiteSpace="nowrap";
+		}
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=100% height=100% align=center style="" cellpadding=0 cellspacing=0>
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Source Editor</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding:5;padding-left:15;padding-right:15;padding-bottom:12;">
+
+		<iframe style="width:100%;height:100%;" src="blank.gif"  name="idSource" id="idSource" contentEditable="true"></iframe>		
+		
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 2 solid;height:40;padding-right:18;padding-left:15" align=right valign=middle>
+		<table callpadding=0 cellspacing=0>
+		<td width=100%>
+		<input type="checkbox" ID="inpWrap" NAME="inpWrap" onclick="doWrap()"> Wrap Text
+		</td>
+		<td>
+		<input type=button value="CLOSE" onclick="self.close()">
+		</td>
+		<td>
+		<input type=button value="UPDATE" onclick="doUpdate();bodyOnLoad()">
+		</td>
+		<td>
+		<input type=button value="UPDATE & CLOSE" onclick="doUpdate();self.close()" style="width:120">
+		</td>
+		</table>
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

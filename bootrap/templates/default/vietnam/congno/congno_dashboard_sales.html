@@ -1,0 +1,240 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="js/Chart.min.js"></script>
+
+<style>
+.sales-page{font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px;color:#000;background:#f5f5f5;padding:10px;min-height:100%}
+.sales-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;border:1px solid #808080;background:#f2f2f2;padding:5px 8px}
+.sales-toolbar h2{font-size:16px;margin:0;color:#000080;font-weight:bold}
+.sales-filter{display:flex;align-items:center;gap:5px;flex-wrap:wrap;background:#808080;border:1px solid #666;padding:5px;color:#fff;font-weight:bold}
+.sales-filter span{line-height:20px}
+.sales-filter select{height:22px;border:1px solid #808080;background:#f7f7ff;color:#000080;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px}
+.sales-filter input{height:22px;padding:0 12px;background:#e9e9e9;color:#000080;border:2px solid #000080;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;cursor:pointer}
+.sales-cards{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:8px}
+.sales-card{background:#fff;border:1px solid #c0c0c0;padding:0}
+.sales-card .label{font-size:11px;color:#fff;background:#808080;font-weight:bold;padding:5px 8px}
+.sales-card .value{font-size:22px;font-weight:bold;color:#000080;padding:8px 8px 2px}
+.sales-card .note{font-size:11px;color:#666;padding:0 8px 8px}
+.sales-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:8px;margin-bottom:8px}
+.sales-panel{background:#fff;border:1px solid #c0c0c0;padding:0;min-width:0}
+.sales-panel h3{font-size:12px;margin:0 0 8px;background:#808080;color:#fff;padding:6px 8px;font-weight:bold}
+.sales-chart{height:280px;overflow:hidden;position:relative;width:100%;box-sizing:border-box;padding:0 8px 8px}
+.sales-chart canvas{display:block;max-width:100%!important;width:100%!important;height:260px!important}
+.sales-table{width:100%;border-collapse:collapse;background:#fff}
+.sales-table th{background:#d8d4cb;color:#000;text-align:left;font-size:11px;padding:5px;border:1px solid #c0c0c0}
+.sales-table td{font-size:11px;padding:5px;border:1px solid #ddd;vertical-align:middle}
+.sales-name{font-weight:bold}
+.sales-ok .sales-name{color:#0000ff}
+.sales-warn .sales-name{color:#ff9900}
+.sales-danger .sales-name{color:#ff0000}
+.sales-progress{height:10px;background:#e6e6e6;overflow:hidden;min-width:120px;border:1px solid #c0c0c0}
+.sales-progress span{display:block;height:10px;background:#0000ff}
+.sales-ok .sales-progress span{background:#0000ff}
+.sales-warn .sales-progress span{background:#ff9900}
+.sales-danger .sales-progress span{background:#ff0000}
+.sales-message{background:#fff8cc;border:1px solid #c0c0c0;color:#ff0000;padding:6px;margin-bottom:8px;font-weight:bold}
+@media(max-width:1100px){.sales-cards{grid-template-columns:repeat(2,1fr)}.sales-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="sales-page">
+  <div class="sales-toolbar">
+    <h2>{dashboard_title}</h2>
+    <form action="main.php" method="POST" name="mainForm" class="sales-filter">
+      <input type="hidden" name="option" value="{funname}">
+      <input type="hidden" name="mode" value="{dashboard_mode}">
+      <input type="hidden" name="l" value="{LANGUAGEID}">
+      <span>Tháng</span>
+      <select name="month">
+        <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+        <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+        <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+        <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+      </select>
+      <span>Năm</span>
+      <select name="year">
+        <option value="2027">2027</option><option value="2026">2026</option><option value="2025">2025</option>
+        <option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option>
+      </select>
+      <span>Nhân viên</span>
+      <select name="member_id1">
+        <option value="0" {overview_option_disabled}>Tất cả team {team_name}</option>
+        <!-- BEGIN member_list -->
+        <option value="{member_list.member_id}">{member_list.member_name}</option>
+        <!-- END member_list -->
+      </select>
+      <input type="submit" value="Xem">
+    </form>
+  </div>
+
+  <div class="sales-message" style="display:{MESSAGE_DISPLAY}">{MESSAGE}</div>
+
+  <div class="sales-cards">
+    <div class="sales-card">
+      <div class="label">KPI / người</div>
+      <div class="value">{target}đ</div>
+      <div class="note">Mục tiêu doanh thu tháng</div>
+    </div>
+    <div class="sales-card">
+      <div class="label">Doanh thu đã thu</div>
+      <div class="value">{total_revenue}đ</div>
+      <div class="note">{revenue_note}</div>
+    </div>
+    <div class="sales-card">
+      <div class="label">Tỷ lệ tổng</div>
+      <div class="value">{total_percent}%</div>
+      <div class="note">So với KPI trong bộ lọc</div>
+    </div>
+    <div class="sales-card">
+      <div class="label">Còn thiếu</div>
+      <div class="value">{total_missing}đ</div>
+      <div class="note">Doanh thu cần thêm để đạt KPI</div>
+    </div>
+  </div>
+
+  <div class="sales-grid">
+    <div class="sales-panel">
+      <h3>Doanh thu từng nhân viên</h3>
+      <div class="sales-chart"><canvas id="memberChart" width="600" height="260"></canvas></div>
+    </div>
+    <div class="sales-panel">
+      <h3>Doanh thu theo ngày trong tháng</h3>
+      <div class="sales-chart"><canvas id="dailyChart" width="600" height="260"></canvas></div>
+    </div>
+  </div>
+
+  <div class="sales-panel">
+    <h3>Bảng KPI team {team_name}</h3>
+    <table class="sales-table">
+      <tr>
+        <th>Nhân viên</th>
+        <th>Số lần thu</th>
+        <th>Doanh thu</th>
+        <th>KPI tháng</th>
+        <th>Còn thiếu</th>
+        <th>Tỷ lệ</th>
+        <th>Trạng thái</th>
+      </tr>
+      <!-- BEGIN member_kpi -->
+      <tr class="{member_kpi.status_class}">
+        <td class="sales-name">{member_kpi.fullname}</td>
+        <td>{member_kpi.receipt_count}</td>
+        <td>{member_kpi.revenue}đ</td>
+        <td>{member_kpi.target}đ</td>
+        <td>{member_kpi.missing}đ</td>
+        <td>
+          <div>{member_kpi.percent}%</div>
+          <div class="sales-progress"><span style="width:{member_kpi.bar_width}%"></span></div>
+        </td>
+        <td>{member_kpi.status_text}</td>
+      </tr>
+      <!-- END member_kpi -->
+    </table>
+  </div>
+
+  <div class="sales-panel" style="margin-top:8px;display:{quarter_display}">
+    <h3>So sánh KPI theo quý - {quarter_label}</h3>
+    <table class="sales-table">
+      <tr>
+        <th>Nhân viên</th>
+        <th>Quý</th>
+        <th>Tổng doanh thu quý</th>
+        <th>KPI quý</th>
+        <th>Tháng đạt KPI</th>
+        <th>Tháng chưa đạt</th>
+        <th>Tỷ lệ quý</th>
+        <th>Đánh giá</th>
+      </tr>
+      <!-- BEGIN quarter_kpi -->
+      <tr class="{quarter_kpi.status_class}">
+        <td class="sales-name">{quarter_kpi.fullname}</td>
+        <td>{quarter_kpi.quarter_name}</td>
+        <td>{quarter_kpi.total_revenue}đ</td>
+        <td>{quarter_kpi.target}đ</td>
+        <td>{quarter_kpi.passed_months}/3</td>
+        <td>{quarter_kpi.failed_months}/3</td>
+        <td>
+          <div>{quarter_kpi.percent}%</div>
+          <div class="sales-progress"><span style="width:{quarter_kpi.bar_width}%"></span></div>
+        </td>
+        <td>{quarter_kpi.status_text}</td>
+      </tr>
+      <!-- END quarter_kpi -->
+    </table>
+  </div>
+
+  <div class="sales-panel" style="margin-top:8px;display:{search_display}">
+    <h3>KPI Tìm khách hàng</h3>
+    <table class="sales-table">
+      <tr>
+        <th>Nhân viên</th>
+        <th>Ngày tính KPI</th>
+        <th>Đã tìm được</th>
+        <th>KPI tháng</th>
+        <th>Còn thiếu</th>
+        <th>Tỷ lệ</th>
+        <th>Trạng thái</th>
+      </tr>
+      <!-- BEGIN search_kpi -->
+      <tr class="{search_kpi.status_class}">
+        <td class="sales-name">{search_kpi.fullname}</td>
+        <td>{search_kpi.work_days}</td>
+        <td>{search_kpi.done_count}</td>
+        <td>{search_kpi.target}</td>
+        <td>{search_kpi.missing}</td>
+        <td>
+          <div>{search_kpi.percent}%</div>
+          <div class="sales-progress"><span style="width:{search_kpi.bar_width}%"></span></div>
+        </td>
+        <td>{search_kpi.status_text}</td>
+      </tr>
+      <!-- END search_kpi -->
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+mainForm.month.value = '{month}';
+mainForm.year.value = '{year}';
+mainForm.member_id1.value = '{member_id}';
+
+var memberNames = {chart_names};
+var memberRevenue = {chart_revenue};
+var memberTarget = {chart_target};
+var dailyLabels = {daily_labels};
+var dailyRevenue = {daily_revenue};
+
+new Chart(document.getElementById('memberChart').getContext('2d')).Bar({
+  labels: memberNames,
+  datasets: [
+    {
+      label: 'Doanh thu',
+      fillColor: 'rgba(0,0,255,0.45)',
+      strokeColor: 'rgba(0,0,255,1)',
+      highlightFill: 'rgba(0,0,255,0.65)',
+      highlightStroke: 'rgba(0,0,255,1)',
+      data: memberRevenue
+    },
+    {
+      label: 'KPI tháng',
+      fillColor: 'rgba(255,0,0,0.20)',
+      strokeColor: 'rgba(255,0,0,1)',
+      highlightFill: 'rgba(255,0,0,0.35)',
+      highlightStroke: 'rgba(255,0,0,1)',
+      data: memberTarget
+    }
+  ]
+}, {responsive: true, scaleBeginAtZero: true});
+
+new Chart(document.getElementById('dailyChart').getContext('2d')).Line({
+  labels: dailyLabels,
+  datasets: [
+    {
+      label: 'Doanh thu',
+      fillColor: 'rgba(0,0,255,0.04)',
+      strokeColor: 'rgba(0,0,255,1)',
+      pointColor: 'rgba(0,0,255,1)',
+      pointStrokeColor: '#fff',
+      data: dailyRevenue
+    }
+  ]
+}, {responsive: true, scaleBeginAtZero: true});
+</script>

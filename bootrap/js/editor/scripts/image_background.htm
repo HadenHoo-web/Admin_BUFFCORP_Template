@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>Background Image</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script>
+/************************
+	REALTIME
+************************/
+function bodyOnLoad()
+	{	
+	var oCell = dialogArguments;
+	
+	sImgUrl=oCell.style.backgroundImage;
+	if(sImgUrl=="none")sImgUrl="";
+	else sImgUrl=sImgUrl.substring(4,sImgUrl.length-1);
+	inpCell_BgImgURL.value=sImgUrl;
+	
+	inpCell_BgImgRepeat.value=oCell.style.backgroundRepeat;
+
+	if(oCell.style.backgroundPositionX=="left"||oCell.style.backgroundPositionX=="center"||oCell.style.backgroundPositionX=="right")
+		{
+		inpCell_BgImgHAlign[0].checked=true;
+		inpCell_BgImgHAlignPos.value=oCell.style.backgroundPositionX;
+		}
+	else
+		{
+		var sPosX=oCell.style.backgroundPositionX;
+		if(sPosX.substring(sPosX.length-1)=="%")
+			{
+			sPosXVal=sPosX.substring(0,sPosX.length-1);
+			if(sPosXVal*1!=0)
+				{
+				inpCell_BgImgHAlign[1].checked=true;
+				inpCell_BgImgHAlignVal.value=sPosXVal;
+				inpCell_BgImgHAlignMeasure.value="%";				
+				}
+			}
+		else if(sPosX.substring(sPosX.length-2)=="px")
+			{
+			sPosXVal=sPosX.substring(0,sPosX.length-2);
+			if(sPosXVal*1!=0)
+				{
+				inpCell_BgImgHAlign[1].checked=true;
+				inpCell_BgImgHAlignVal.value=sPosXVal;
+				inpCell_BgImgHAlignMeasure.value="px";
+				}
+			}
+		}
+
+	if(oCell.style.backgroundPositionY=="top"||oCell.style.backgroundPositionY=="middle"||oCell.style.backgroundPositionY=="bottom")
+		{
+		inpCell_BgImgVAlign[0].checked=true;
+		inpCell_BgImgVAlignPos.value=oCell.style.backgroundPositionY;
+		}
+	else
+		{
+		var sPosY=oCell.style.backgroundPositionY;
+		
+		if(sPosY.substring(sPosY.length-1)=="%")
+			{
+			sPosYVal=sPosY.substring(0,sPosY.length-1);
+			if(sPosYVal*1!=0)
+				{
+				inpCell_BgImgVAlign[1].checked=true;
+				inpCell_BgImgVAlignVal.value=sPosYVal;
+				inpCell_BgImgVAlignMeasure.value="%";
+				}
+			}
+		else if(sPosY.substring(sPosY.length-2)=="px")
+			{
+			sPosYVal=sPosY.substring(0,sPosY.length-2);
+			if(sPosYVal*1!=0)
+				{
+				inpCell_BgImgVAlign[1].checked=true;
+				inpCell_BgImgVAlignVal.value=sPosYVal;
+				inpCell_BgImgVAlignMeasure.value="px";
+				}
+			}
+		}
+	}
+	
+/************************
+	UPDATE
+************************/
+function doApply()
+	{
+	var oCell = dialogArguments;
+	
+	sColor = oCell.style.backgroundColor;
+
+	if(inpCell_BgImgVAlign[0].checked) sVAlign = inpCell_BgImgVAlignPos.value;
+	else if(inpCell_BgImgVAlign[1].checked) sVAlign = inpCell_BgImgVAlignVal.value + inpCell_BgImgVAlignMeasure.value;
+	else sVAlign = "";
+	
+	if(inpCell_BgImgHAlign[0].checked) sHAlign = inpCell_BgImgHAlignPos.value;
+	else if(inpCell_BgImgHAlign[1].checked) sHAlign = inpCell_BgImgHAlignVal.value + inpCell_BgImgHAlignMeasure.value;
+	else sHAlign = "";
+
+	if(inpCell_BgImgURL.value=="") oCell.style.background = sColor;	
+	else oCell.style.background = "url("+inpCell_BgImgURL.value+") " + sColor + " " + inpCell_BgImgRepeat.value + " "+sHAlign+" "+sVAlign;
+	}				
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=410 align=center style="" cellpadding=0 cellspacing=0 ID="Table1">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Background Image</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding:15;">
+
+
+		<table>
+		<tr>
+		<td colspan=2 valign=top style="padding-top:5">
+
+
+					<table cellpadding=1 cellspacing=0 border=0>
+					<tr>
+						<td>Image Source: </td>
+						<td><input type=text id=inpCell_BgImgURL name=inpCell_BgImgURL size=40></td>
+					</tr>
+					<tr>
+						<td>Repeat: </td>
+						<td>
+							<select name=inpCell_BgImgRepeat ID=inpCell_BgImgRepeat>
+								<option value=repeat>Repeat</option>
+								<option value=no-repeat>No repeat</option>
+								<option value=repeat-x>Repeat horizontally</option>
+								<option value=repeat-y>Repeat vertically</option>
+							</select>		
+						</td>
+					</tr>
+					<tr>
+					<td nowrap>Horizontal Align: &nbsp;</td>
+					<td>	
+							<input type=radio name=inpCell_BgImgHAlign class=inpRdo>
+							<select name=inpCell_BgImgHAlignPos  style="width:70">
+								<option value=left>left</option>
+								<option value=center>center</option>
+								<option value=right>right</option>
+							</select>
+			
+							<input type=radio name=inpCell_BgImgHAlign class=inpRdo>
+							<input type=text name=inpCell_BgImgHAlignVal size=3>
+							<select name=inpCell_BgImgHAlignMeasure style="width:70">
+								<option value=px>pixels</option>
+								<option value="%">percent</option>
+							</select>
+					</td>
+					</tr>
+					<tr>
+					<td nowrap>Vertical Align: </td>
+					<td>
+						<input type=radio name=inpCell_BgImgVAlign class=inpRdo>
+						<select name=inpCell_BgImgVAlignPos style="width:70">
+							<option value=top>top</option>
+							<option value=middle>middle</option>
+							<option value=bottom>bottom</option>
+						</select>
+								
+						<input type=radio name=inpCell_BgImgVAlign class=inpRdo>
+						<input type=text name=inpCell_BgImgVAlignVal size=3>
+						<select name=inpCell_BgImgVAlignMeasure style="width:70">
+							<option value=px>pixels</option>
+							<option value="%">percent</option>
+						</select>			
+					</td>
+					</tr>					
+					</table>
+
+
+		</td>
+		</tr>
+		</table>
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 1 solid;height:40;padding-right:18;" align=right valign=middle>
+	<input type="button" value="CANCEL" onclick="self.close()">
+	<input type="button" value=" O K" onclick="doApply();self.close()">
+</td>
+</tr>
+</table>
+
+</body>
+</html>

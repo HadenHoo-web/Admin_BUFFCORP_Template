@@ -1,0 +1,358 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-internal-autofill-selected,
+input:-internal-autofill-previewed {
+	background-color: white !important;
+	-webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+body {
+	font-family: tahoma;
+	font-size: 11px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	height: 100%;
+	overflow: hidden;
+}
+
+p {
+	font-family: Tahoma;
+	font-size: 11px;
+	margin-top: 4;
+	margin-bottom: 4
+}
+
+p.mainTitle {
+	color: #3399FF;
+	font-family: tahoma;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.wraper {
+	position: relative;
+	font-family: "Roboto", helvetica, arial, sans-serif;
+	font-size: 1.5em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	text-align: center;
+}
+
+.logobuff {
+	max-width: 100px;
+	margin-bottom: 20px;
+}
+
+.login-form {
+	width: 100%;
+
+	position: relative;
+	background: inherit;
+	margin: 0 auto;
+	border-radius: 10px;
+	height: 50%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 10px;
+	background: #fff;
+	flex-direction: column;
+
+
+}
+
+.login-form form {
+	position: relative;
+	z-index: 11;
+	width: 88%;
+}
+
+.login-form .group_form {
+	background-color: #fff;
+	/* padding: 8px 15px; */
+	border-radius: 15px;
+	border: 1px solid #ccc;
+}
+
+@media screen and (min-width: 992px) {
+	.login-form {
+		max-width: 23vw;
+	}
+}
+
+.flex-row {
+	display: flex;
+	/* margin-bottom: 1em; */
+}
+
+.lf--label {
+	width: 2em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #7d8693;
+	cursor: pointer;
+}
+
+.lf--input {
+	border: 0;
+	outline: none;
+	box-shadow: none;
+	display: block;
+	/* height: 30px; */
+	/* line-height: 30px; */
+	padding: 16px 24px;
+	border-bottom: 1px solid #eee;
+	width: 100%;
+	font-size: 12px;
+	background: none;
+	background-color: #fff !important;
+}
+
+.flex-row:first-child .lf--input {
+	border-top-right-radius: 15px !important;
+	border-top-left-radius: 15px !important;
+}
+
+.flex-row:last-child .lf--input {
+	border-bottom: none;
+	border-bottom-right-radius: 15px !important;
+	border-bottom-left-radius: 15px !important;
+}
+
+.lf--input:focus {
+	outline: none;
+	transition: transform 0.15s ease;
+	/* transform: scale(1.1); */
+}
+
+.lf--submit {
+
+	color: rgba(255, 255, 255, 0.7);
+	border: 0;
+	border-radius: 15px;
+	display: block;
+	margin: 15px auto;
+	padding: 15px 45px;
+	width: 100%;
+	font-size: 13px;
+	font-weight: bold;
+	cursor: pointer;
+	opacity: 1;
+	visibility: visible;
+	-webkit-transition: all 0.3s ease;
+	background: #356eb5;
+	color: #fff;
+}
+
+.lf--submit:focus {
+	outline: none;
+	transition: transform 0.15s ease;
+	transform: scale(1.1);
+}
+
+.lf--forgot {
+	margin-top: 1em;
+	color: #00d6b7;
+	font-size: 0.65em;
+	text-align: center;
+	position: relative;
+}
+
+::-moz-placeholder {
+	color: #7d8693;
+}
+
+::placeholder {
+	color: #7d8693;
+}
+
+/*# sourceMappingURL=style.css.map */
+
+
+
+
+.functionTable {
+	font-family: Tahoma;
+	font-size: 11px;
+}
+
+.functionTable td {
+	background-color: #F5F5F5;
+	height: 23;
+	font-family: Tahoma;
+	font-size: 11px;
+	border: 1px solid #C0C0C0;
+	padding-left: 10;
+	padding-right: 10;
+	cursor: hand;
+}
+
+.functionTable td.hover {
+	background-color: #DDEEFF;
+	height: 23;
+	font-family: Tahoma;
+	font-size: 11px;
+	border: 1px solid #808080;
+	padding-left: 10;
+	padding-right: 10;
+	cursor: hand;
+}
+
+.subTable {
+	border-collapse: collapse;
+	border: 1px solid #B0B0B0;
+	font-family: Tahoma;
+	font-size: 11px;
+}
+
+.subTable td {
+	padding-left: 5;
+	padding-right: 5;
+	font-family: Tahoma;
+	font-size: 11px;
+}
+
+input,
+textarea {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #000080;
+	padding-left: 2;
+	padding-right: 2;
+	background-color: #F5F5FF;
+}
+
+input.radio,
+select {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #000080;
+	padding-left: 2;
+	padding-right: 2;
+	background-color: #F0F0F0;
+}
+
+table.menu {
+	font-family: Tahoma;
+	font-size: 11px;
+	border: none;
+	border-collapse: separate;
+}
+
+table.menu td {
+	border: 1px solid #B0B0B0;
+	padding-left: 8;
+	padding-right: 8;
+	height: 24px;
+	cursor: hand;
+}
+
+table.menu td.hover {
+	border: 1px solid #808080;
+	padding-left: 8;
+	padding-right: 8;
+	height: 24px;
+	cursor: hand;
+	background-color: #F0F5FF;
+}
+
+p.message {
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.menubackgr {
+	background: #F1F3F5;
+	border-bottom: 1px solid #cccccc;
+}
+
+.menudottedline {
+	border-bottom: 1px solid #cccccc;
+	border-top: 1px solid #ffffff;
+	background-color: #F1F3F5;
+}
+
+a {
+	font-family: tahoma;
+	font-size: 11px;
+	text-decoration: none;
+	color: #3979B5;
+}
+
+a:visited {
+	color: #003366;
+}
+
+a:active {
+	color: #003366;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #663300;
+}
+
+table.mainTable a {
+	color: #003366;
+}
+
+tr.caption a,
+td.caption a {
+	color: #DADAFF
+}
+
+tr.oddRow a,
+tr.evenRow a,
+tr.row0 a,
+tr.row1 a {
+	color: #3979B5
+}
+
+td.oddRow a,
+td.evenRow a,
+td.row0 a,
+td.row1 a {
+	color: #3979B5
+}
+
+.subTitle {
+	color: #FFF;
+}
+
+.itemName {
+	color: #DADAFF;
+}
+
+a.captionLink {
+	color: #003366;
+}
+
+a.captionLink:hover {
+	color: #F0F0FF;
+}
+
+.membername {
+	font-weight: bold;
+	color: #000000;
+	padding-right: 10px;
+}
+
+@media (max-width:767px) {
+
+
+}

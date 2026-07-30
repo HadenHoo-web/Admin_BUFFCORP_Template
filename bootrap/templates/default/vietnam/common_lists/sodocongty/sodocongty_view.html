@@ -1,0 +1,375 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+*{box-sizing:border-box}
+.org-page{font-family:Tahoma,Arial,Helvetica,sans-serif;background:#f2f4f8;color:#102033;padding:8px;min-height:100%}
+.org-head{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid #d7dde8;border-radius:8px;padding:9px 12px;margin-bottom:8px;box-shadow:0 3px 10px rgba(15,23,42,.06)}
+.org-title{font-size:19px;font-weight:bold;color:#123b73}
+.org-actions a{display:{EDIT_DISPLAY};color:#123b73;font-weight:bold;text-decoration:none;padding:6px 9px;border-radius:6px;background:#eef6ff;border:1px solid #c8dcf4}
+.org-note{display:block;color:#9a5b00;background:#fff8df;border:1px solid #efd58c;border-radius:8px;padding:8px 10px;margin-bottom:8px}
+.org-note:empty{display:none}
+.org-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:10px;align-items:start}
+.org-card{background:#fff;border:1px solid #d7dde8;border-radius:9px;overflow:hidden;box-shadow:0 5px 14px rgba(15,23,42,.08)}
+.org-card-title{background:linear-gradient(180deg,#7b7f88 0%,#666b74 100%);color:#fff;font-weight:bold;font-size:17px;padding:9px 12px}
+.org-chart-wrap{padding:18px 12px 20px;overflow:auto;min-height:560px;background:#fff}
+.org-chart-v2{position:relative;width:1120px;min-width:1120px;margin:0 auto;padding:0 6px 20px;text-align:center;zoom:.88;--org-line:#202020;--org-blue-dark:#082bbf;--org-blue:#0073bd;--org-box-light:#dff3ff}
+.org-ceo-row{position:relative;display:flex;justify-content:center;margin-bottom:54px}
+.org-ceo-row::after{content:"";position:absolute;left:50%;bottom:-29px;width:3px;height:54px;transform:translateX(-50%);background:var(--org-line)}
+.org-main-row{position:relative;display:grid;grid-template-columns:306px 210px 306px;justify-content:center;align-items:start;column-gap:48px;width:918px;margin:0 auto 62px}
+.org-main-row::before{content:"";position:absolute;left:153px;right:153px;top:-28px;height:3px;background:var(--org-line)}
+.org-main-cell{position:relative;display:flex;justify-content:center;align-items:flex-start}
+.org-main-cell::before{content:"";position:absolute;left:50%;top:-28px;width:3px;height:28px;transform:translateX(-50%);background:var(--org-line)}
+.org-marketing-cell::after{content:"";position:absolute;left:50%;top:231px;width:3px;height:350px;transform:translateX(-50%);background:var(--org-line)}
+.org-admin-cell .org-admin-wrap{position:relative;margin-top:104px}
+.org-admin-cell::before{height:132px}
+.org-admin-wrap::before{display:none}
+.org-unit-row{position:relative;display:grid;grid-template-columns:410px 150px 160px 160px 150px;justify-content:center;column-gap:14px;align-items:start;width:1086px;margin:0 auto}
+.org-unit-row::before{content:"";position:absolute;left:205px;right:75px;top:-30px;height:3px;background:var(--org-line)}
+.org-unit{position:relative}
+.org-unit::before{content:"";position:absolute;left:50%;top:-30px;width:3px;height:30px;transform:translateX(-50%);background:var(--org-line)}
+.org-dept{position:relative;display:flex;flex-direction:column;align-items:center}
+.org-dept-title,.org-sub-title{position:relative;z-index:2;width:100%;min-height:34px;display:flex;align-items:center;justify-content:center;padding:7px 8px;background:linear-gradient(180deg,#061fd0 0%,#0832aa 100%);color:#fff;font-size:14px;line-height:1.18;font-weight:bold;text-transform:uppercase;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),0 3px 7px rgba(15,23,42,.14)}
+.org-sub-title{min-height:50px;background:#a8d5f7;color:#102033;border:1px solid #9bc9ea;box-shadow:none}
+.org-sub-title-dark{background:linear-gradient(180deg,#047bd0 0%,#0068b1 100%);color:#fff;border-color:#0068b1}
+.org-person{position:relative;z-index:2;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:150px;min-height:68px;padding:7px 8px;border:0;border-radius:0;background:linear-gradient(180deg,#048bd7 0%,#0073bd 100%);color:#fff;cursor:pointer;font-family:Tahoma,Arial,Helvetica,sans-serif;text-align:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),0 3px 8px rgba(15,23,42,.12);transition:background .18s ease,box-shadow .18s ease,outline .18s ease}
+.org-person strong{display:block;font-size:12px;line-height:1.18;font-weight:700;color:#fff;text-transform:uppercase;white-space:normal}
+.org-person em{display:block;font-size:9px;line-height:1.2;color:#e8f6ff;font-style:normal;margin-top:3px}
+.org-role-line{display:block;font-size:10px;line-height:1.18;color:#fff;font-weight:bold;text-transform:uppercase;margin-bottom:3px}
+.org-ceo{width:230px;min-height:58px;background:linear-gradient(180deg,#062bd4 0%,#0625a8 100%)}
+.org-ceo .org-role-line{font-size:12px;margin-bottom:4px}
+.org-ceo strong{font-size:14px}
+.org-ceo em{display:none}
+.org-leader{width:230px;min-height:60px;margin-top:8px}
+.org-sales-leader{width:286px;min-height:70px;background:#0879c3}
+.org-marketing-leader{width:230px;min-height:64px}
+.org-main-row .org-dept-title+.org-person{margin-top:10px}
+.org-main-row .org-dept-title+.org-person::before{content:"";position:absolute;left:50%;top:-10px;width:3px;height:10px;transform:translateX(-50%);background:var(--org-line)}
+.org-admin-person{width:190px;min-height:68px;background:#dff3ff;color:#102033;box-shadow:none}
+.org-admin-person strong,.org-admin-person .org-role-line{color:#102033}
+.org-admin-person em{color:#3d5268}
+.org-member-list{position:relative;display:flex;justify-content:center;align-items:flex-start;flex-wrap:wrap;gap:8px;width:100%;margin-top:44px}
+.org-member-list::before{content:"";position:absolute;left:50%;top:-44px;width:3px;height:44px;transform:translateX(-50%);background:var(--org-line)}
+.org-member-list::after{content:"";position:absolute;left:18%;right:18%;top:-18px;height:3px;background:var(--org-line)}
+.org-member-list.org-count-0::before,.org-member-list.org-count-0::after,.org-member-list.org-count-1::after{display:none}
+.org-member-list.org-count-1>.org-member::before,.org-member-list.org-count-1>.org-empty-box::before{display:none}
+.org-member{width:128px;min-height:70px;background:#dff3ff;color:#102033;box-shadow:none;border:1px solid #d5ebfa}
+.org-member::before,.org-empty-box::before{content:"";position:absolute;left:50%;top:-18px;width:3px;height:18px;transform:translateX(-50%);background:var(--org-line)}
+.org-member strong,.org-member .org-role-line{color:#102033}
+.org-member em{color:#415a70}
+.org-empty-box{position:relative;z-index:2;width:128px;min-height:70px;display:flex;align-items:center;justify-content:center;padding:10px 8px;background:#dff3ff;color:#556879;border:1px solid #d5ebfa;font-size:12px;line-height:1.35;font-weight:bold;text-align:center}
+.org-sales-staff{position:relative;display:grid;grid-template-columns:repeat(2,136px);justify-content:center;align-items:start;column-gap:10px;row-gap:26px;width:286px;margin-top:46px}
+.org-sales-staff::before{content:"";position:absolute;left:50%;top:-46px;width:3px;height:28px;transform:translateX(-50%);background:var(--org-line)}
+.org-sales-staff::after{content:"";position:absolute;left:68px;right:68px;top:-18px;height:3px;background:var(--org-line)}
+.org-sales-staff .org-member{width:136px;min-height:70px;position:relative}
+.org-sales-staff .org-member:nth-child(1)::before,.org-sales-staff .org-member:nth-child(2)::before{top:-18px;height:18px}
+.org-sales-staff .org-member:nth-child(1)::after,.org-sales-staff .org-member:nth-child(2)::after{content:"";position:absolute;left:50%;bottom:-14px;width:3px;height:13px;transform:translateX(-50%);background:var(--org-line)}
+.org-sales-staff .org-member:nth-child(3){grid-column:1/span 2;justify-self:center;width:154px;margin-top:0}
+.org-sales-staff .org-member:nth-child(3)::before{top:-13px;height:11px}
+.org-sales-staff .org-member:nth-child(3)::after{content:"";position:absolute;left:50%;top:-14px;width:150px;height:3px;transform:translateX(-50%);background:var(--org-line)}
+.org-seo-groups{position:relative;display:grid;grid-template-columns:repeat(3,1fr);column-gap:10px;width:100%;margin-top:46px}
+.org-seo-groups::before{content:"";position:absolute;left:16%;right:16%;top:-20px;height:3px;background:var(--org-line)}
+.org-seo-groups::after{content:"";position:absolute;left:50%;top:-46px;width:3px;height:26px;transform:translateX(-50%);background:var(--org-line)}
+.org-seo-sub{position:relative}
+.org-seo-sub::before{content:"";position:absolute;left:50%;top:-20px;width:3px;height:20px;transform:translateX(-50%);background:var(--org-line)}
+.org-sub-leader{width:128px;min-height:60px;margin-top:8px}
+.org-seo-sub .org-sub-title+.org-person::before{content:"";position:absolute;left:50%;top:-8px;width:3px;height:8px;transform:translateX(-50%);background:var(--org-line)}
+.org-seo-lead-sub .org-member-list{margin-top:40px}
+.org-seo-lead-sub .org-member-list::before{top:-40px;height:40px}
+.org-seo-lead-sub .org-member-list>.org-member::before{display:none}
+.org-seo-sub>.org-member-list.org-count-1{margin-top:0;padding-top:50px}
+.org-seo-sub>.org-member-list.org-count-1::before{top:0;height:50px}
+.org-seo-sub>.org-member-list.org-count-1>.org-empty-box::before{display:none}
+.org-ads-unit .org-member,.org-website-unit .org-member,.org-content-unit .org-member,.org-service-unit .org-member,.org-ads-unit .org-empty-box,.org-website-unit .org-empty-box,.org-content-unit .org-empty-box,.org-service-unit .org-empty-box{width:140px}
+.org-website-list,.org-content-list,.org-service-list,.org-ads-list{gap:8px}
+.org-ads-list::before{height:44px}
+.org-ads-list>.org-member::before{display:none}
+.org-website-list::before{top:-44px;height:240px}
+.org-website-list>.org-member::before{display:none}
+.org-content-list::before{top:-44px;height:150px}
+.org-content-list>.org-member::before{display:none}
+.org-ads-list::after,.org-website-list::after,.org-content-list::after,.org-service-list::after,.org-seo-lead-sub .org-member-list::after{display:none}
+.org-person:hover,.org-person.active{background:linear-gradient(180deg,#2f95df 0%,#137bc2 100%);outline:3px solid #d9ecff;box-shadow:0 6px 15px rgba(15,23,42,.18);transform:none}
+.org-member:hover,.org-member.active,.org-admin-person:hover,.org-admin-person.active{background:#c8eaff}
+.org-panel{position:sticky;top:8px}
+.org-detail{padding:14px;min-height:230px}
+.org-person-name{font-size:21px;line-height:1.15;font-weight:bold;color:#162336;margin:4px 0 7px}
+.org-role{font-size:14px;color:#123b73;font-weight:bold;margin-bottom:11px}
+.org-chip{display:inline-block;background:#eef6ff;border:1px solid #b9d4ff;border-radius:999px;color:#123b73;padding:5px 10px;margin-bottom:10px;font-weight:bold}
+.org-info-row{border-top:1px solid #edf1f6;padding:9px 0}
+.org-label{font-weight:bold;color:#667085;margin-bottom:5px}
+.org-value{color:#111827}
+.org-mission{border:1px solid #d7dde8;background:#fafafa;border-radius:8px;padding:10px 11px;line-height:1.55;font-size:13px;white-space:pre-line;margin-top:7px}
+.org-empty{color:#697586;line-height:1.55}
+@media(max-width:1320px){.org-layout{grid-template-columns:1fr}.org-panel{position:static}.org-chart-wrap{min-height:520px}.org-chart-v2{zoom:.82}}
+@media(max-width:768px){.org-page{padding:6px}.org-head{flex-direction:column;align-items:flex-start}.org-title{font-size:18px}.org-card-title{font-size:15px}.org-chart-wrap{padding:14px 8px 18px}.org-chart-v2{zoom:.72}}
+.org-empty-box{
+    display:none !important;
+}
+/* Đường ngang từ Ms.Triêu Anh chỉa qua Ms.Xuân Hằng */
+.org-main-row::after{
+    content:"";
+    position:absolute;
+    top:70px;
+    left:32%;
+    width:61%;
+    height:3px;
+    background:#222;
+    z-index:1;
+}
+/* Bắt buộc để line bám đúng hàng */
+.org-main-row{
+    position:relative;
+}
+
+/* ===== FIX 03/06: Thêm phòng Hành chính - Nhân sự cùng cấp KD + hạ Marketing ===== */
+.org-main-row{
+    grid-template-columns:306px 240px 306px !important;
+    column-gap:42px !important;
+    width:936px !important;
+    align-items:start !important;
+}
+
+/* Ẩn đường ngang phụ cũ từ Triêu Anh qua Xuân Hằng để không cắt ngang phòng HCNS mới */
+.org-main-row::after{
+    display:none !important;
+}
+
+.org-admin-cell::before{
+    height:28px !important;
+}
+
+.org-admin-dept{
+    width:240px;
+}
+
+.org-admin-dept .org-dept-title{
+    font-size:13px;
+    padding-left:6px;
+    padding-right:6px;
+}
+
+.org-admin-dept .org-admin-person{
+    margin-top:10px;
+    width:239px;
+    min-height:68px;
+}
+
+/* Hạ nguyên cụm Phòng Marketing xuống thấp hơn */
+.org-marketing-cell{
+    padding-top:160px;
+}
+
+.org-marketing-cell::before{
+    height:188px !important;
+}
+
+
+.org-sales-cell{
+    position:relative;
+}
+
+.org-sales-cell::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:125px;
+    width:629px;
+    height:3px;
+    background:#202020;
+    z-index:1;
+}
+.org-admin-person{
+    width:286px;
+    min-height:70px;
+    background:#0879c3 !important;
+    color:#fff !important;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),0 3px 8px rgba(15,23,42,.12) !important;
+}
+
+.org-admin-person strong,
+.org-admin-person .org-role-line,
+.org-admin-person em{
+    color:#fff !important;
+}
+
+/* Bỏ đường nối từ CEO xuống trực tiếp phòng HCNS */
+.org-admin-cell::before{
+    display:none !important;
+    content:none !important;
+}
+
+/* Đẩy nguyên cụm HCNS xuống dưới đường ngang giữa */
+.org-admin-dept{
+    transform:translateY(160px) !important;
+    position:relative !important;
+    z-index:3 !important;
+}
+
+/* Tạo đường nối từ đường ngang giữa xuống phòng HCNS */
+.org-admin-cell::after{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    top:125px !important;
+    width:3px !important;
+    height:48px !important;
+    background:#202020 !important;
+    transform:translateX(-50%) !important;
+    z-index:1 !important;
+}
+
+/* Tạo khoảng trống để HCNS không đè xuống khu dưới */
+.org-main-row{
+    margin-bottom:180px !important;
+}
+/* ===== Đổi layout Phòng Kinh Doanh ===== */
+
+.org-sales-custom{
+    position:relative !important;
+}
+
+/* Ô Trợ lý giám đốc ở trên */
+.org-sales-assistant{
+    width:286px !important;
+    min-height:70px !important;
+    margin-top:0 !important;
+}
+
+/* Title PHÒNG KINH DOANH đưa xuống dưới ô Trợ lý */
+.org-sales-title-lower{
+    position:relative;
+    z-index:2;
+    width:286px;
+    min-height:34px;
+    margin-top:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:7px 8px;
+    background:linear-gradient(180deg,#061fd0 0%,#0832aa 100%);
+    color:#fff;
+    font-size:14px;
+    line-height:1.18;
+    font-weight:bold;
+    text-transform:uppercase;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,.18),0 3px 7px rgba(15,23,42,.14);
+}
+
+/* Đường nối từ Trợ lý xuống title Phòng Kinh Doanh */
+.org-sales-title-lower::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:-34px;
+    width:3px;
+    height:34px;
+    background:#202020;
+    transform:translateX(-50%);
+}
+
+/* Ô Trưởng phòng kinh doanh dưới title */
+.org-sales-manager{
+    width:286px !important;
+    min-height:70px !important;
+    margin-top:10px !important;
+    background:#0879c3 !important;
+}
+
+/* Đường nối từ title xuống Trưởng phòng kinh doanh */
+.org-sales-manager::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:-10px;
+    width:3px;
+    height:10px;
+    background:#202020;
+    transform:translateX(-50%);
+}
+
+/* Đẩy 2 nhân viên Trúc Anh / Bảo Ngân xuống dưới Trưởng phòng */
+.org-sales-staff{
+    margin-top:46px !important;
+}
+/* Xích nguyên khối Phòng Kinh Doanh xuống */
+.org-sales-dept{
+    transform:translateY(32px) !important;
+}
+
+/* Kéo đường dọc từ trên xuống theo Phòng Kinh Doanh */
+.org-sales-cell::before{
+    height:60px !important;
+}
+</style>
+
+<div class="org-page">
+  <div class="org-head">
+    <div class="org-title">Chi tiết sơ đồ công ty</div>
+    <div class="org-actions">
+      <a href="{EDIT_URL}"><img border="0" src="templates/{skin}/images/editbutton.gif" width="18" height="18" align="absmiddle"> Sửa nội dung</a>
+    </div>
+  </div>
+  <div class="org-note">{TABLE_MESSAGE}</div>
+
+  <div class="org-layout">
+    <div class="org-card">
+      <div class="org-card-title">Sơ đồ nhân sự</div>
+      <div class="org-chart-wrap">{ORG_TREE}</div>
+    </div>
+
+    <div class="org-card org-panel">
+      <div class="org-card-title">Nhiệm vụ chính</div>
+      <div class="org-detail">
+        <div class="org-empty" id="orgEmpty">Bấm hoặc rê chuột vào từng nhân sự để xem nhiệm vụ riêng của người đó.</div>
+        <div id="orgInfo" style="display:none">
+          <div class="org-chip" id="orgGroup"></div>
+          <div class="org-person-name" id="orgName"></div>
+          <div class="org-role" id="orgRole"></div>
+          <div class="org-info-row">
+            <div class="org-label">Phòng ban</div>
+            <div class="org-value" id="orgDepartment"></div>
+          </div>
+          <div class="org-info-row">
+            <div class="org-label">Nhiệm vụ riêng</div>
+            <div class="org-mission" id="orgMission"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function orgText(id,value){
+  var el=document.getElementById(id);
+  if(!el)return;
+  if(typeof el.textContent!='undefined')el.textContent=value||'';
+  else el.innerText=value||'';
+}
+function orgRemoveActive(){
+  var nodes=document.getElementsByClassName('org-person');
+  for(var i=0;i<nodes.length;i++)nodes[i].className=nodes[i].className.replace(/\sactive/g,'');
+}
+function orgShowPerson(el){
+  if(!el)return;
+  orgRemoveActive();
+  if(el.className.indexOf('active')<0)el.className+=' active';
+  var empty=document.getElementById('orgEmpty');
+  var info=document.getElementById('orgInfo');
+  if(empty)empty.style.display='none';
+  if(info)info.style.display='block';
+  orgText('orgGroup',el.getAttribute('data-group'));
+  orgText('orgName',el.getAttribute('data-name'));
+  orgText('orgRole',el.getAttribute('data-role'));
+  orgText('orgDepartment',el.getAttribute('data-department'));
+  orgText('orgMission',el.getAttribute('data-mission'));
+}
+window.onload=function(){
+  var people=document.getElementsByClassName('org-person');
+  for(var p=0;p<people.length;p++){
+    if(people[p].getAttribute('data-name')){
+      orgShowPerson(people[p]);
+      break;
+    }
+  }
+};
+</script>

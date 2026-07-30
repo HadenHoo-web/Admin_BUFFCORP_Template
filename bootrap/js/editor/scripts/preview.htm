@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Preview</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script>
+/************************
+	REAL TIME
+************************/
+function bodyOnLoad()
+	{
+	var oName=dialogArguments.oUtil.oName;
+		
+	var sHTML=eval("dialogArguments."+oName).getHTML()
+	var oDoc=idPreview.document.open("text/html", "replace");
+	oDoc.write(sHTML);		
+	oDoc.close();
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=100% align=center style="height:100%" cellpadding=0 cellspacing=0>
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Preview</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding-top:15;padding-left:15;padding-right:15;padding-bottom:0;">
+
+	<iframe style="width:100%;height:100%;" src="blank.gif" name=idPreview id=idPreview></iframe>	
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 1 solid;height:40;padding-right:18;" align=right valign=middle>
+	<input type="button" value="CLOSE" onclick="self.close()">
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

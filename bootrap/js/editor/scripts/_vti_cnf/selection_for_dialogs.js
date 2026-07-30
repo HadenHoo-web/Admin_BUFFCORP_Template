@@ -1,0 +1,6 @@
+vti_encoding:SR|utf8-nl
+vti_timelastmodified:TR|28 Jun 2004 23:06:32 -0000
+vti_extenderversion:SR|6.0.2.5516
+vti_cacheddtm:TX|28 Jun 2004 23:06:32 -0000
+vti_filesize:IR|2297
+vti_backlinkinfo:VX|administration/js/editor/scripts/form_button.htm administration/js/editor/scripts/bookmark.htm administration/js/editor/scripts/hyperlink.htm administration/js/editor/scripts/text1.htm administration/js/editor/scripts/border1.htm administration/js/editor/scripts/colors_background.htm administration/js/editor/scripts/colors_foreground.htm administration/js/editor/scripts/form_file.htm administration/js/editor/scripts/form_list.htm administration/js/editor/scripts/form_text.htm administration/js/editor/scripts/table_editCell.htm administration/js/editor/scripts/table_insert.htm administration/js/editor/scripts/form_hidden.htm administration/js/editor/scripts/form_radio.htm administration/js/editor/scripts/table_edit.htm administration/js/editor/scripts/form_check.htm administration/js/editor/scripts/form_form.htm administration/js/editor/scripts/image.htm administration/js/editor/scripts/image.php administration/js/editor/scripts/styles.htm administration/js/editor/scripts/styles_cssText.htm

@@ -1,0 +1,283 @@
+<html>
+<head>
+<title>Insert Table</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script>
+var oTU=new TableUtilities();
+	
+function TableUtilities()
+	{
+	this.oTD;
+	}
+
+function GetElement(oElement,sMatchTag)
+	{
+	while(oElement!=null && oElement.tagName!=sMatchTag)
+		{
+		if(oElement.id=="idContent"+this.oName)return null;
+		oElement=oElement.parentElement;
+		}
+	return oElement;
+	}
+		
+function tableClick(oTD)
+	{
+	oTable=GetElement(oTD,"TABLE")
+	if(oTD.tagName!="TD")return;
+		
+	for(var i=0;i<oTable.rows.length;i++)
+		{
+		oCurrTR=oTable.rows(i)
+		for(var j=0;j<oCurrTR.cells.length;j++)
+			{
+			oCurrTD=oCurrTR.cells(j)
+			oCurrTD.style.backgroundColor="white";
+			}
+		}
+	oTD.style.backgroundColor="#fac606";
+	oTU.oTD=oTD;
+	}
+
+function colSpan()
+	{
+	if(oTU.oTD==null)return;
+	var oTD = oTU.oTD
+	var oTable=GetElement(oTD,"TABLE")
+
+	if(oTD.nextSibling!=null)
+		{
+		numOfSpan=oTD.nextSibling.colSpan
+		oTable.rows[oTD.parentElement.rowIndex].deleteCell(oTD.nextSibling.cellIndex);
+			
+		oTD.colSpan=oTD.colSpan+numOfSpan;
+		}
+	}
+		
+function rowSpan()
+	{
+	if(oTU.oTD==null)return;
+	var oTD = oTU.oTD
+	var oTable=GetElement(oTD,"TABLE")
+		
+	selectedRow=oTD.innerText.split(",")[0]*1//asumsi:displayed=actual
+	selectedCol=oTD.innerText.split(",")[1]*1
+
+	isFinish=false
+	for(var k=1;k<oTable.rows.length-(selectedRow);k++)
+		{
+		var isExist=false;
+		for(var i=0;i<oTable.rows(selectedRow+k).childNodes.length;i++)
+			{
+			if(oTable.rows(selectedRow+k).childNodes(i).innerText.split(",")[1]*1==selectedCol)
+				{
+				nActualToDelete=i
+				isExist=true
+				}
+			}		
+		if(isExist)
+			{
+			if(!isFinish)
+				{
+				oTD.rowSpan+=oTable.rows(selectedRow+k).childNodes(nActualToDelete).rowSpan
+				oTable.rows(selectedRow+k).deleteCell(nActualToDelete)
+				isFinish=true
+				}
+			}
+		}
+	}
+
+function doPreview()
+	{
+	if(inpCollapse.value=="Yes")
+		sTmp="BORDER-COLLAPSE: collapse"
+	else
+		sTmp="";		
+	sHTML="<table id=idTable style='"+sTmp+";background-color:white' cellspacing="+inpSpacing.value+" width=100% height=100%>"
+		
+	for(var i=0;i<inpRows.value;i++)
+		{
+		sHTML+="<tr>"
+		for(var j=0;j<inpCols.value;j++)
+			{
+			if(inpBorder.value==0)
+				sHTML+="<td style='border:black 1px dotted;padding:1px;cursor:default;' align=center onclick='tableClick(this)'>" + i + "," + j + "</td>";
+			else
+				sHTML+="<td style='border:black " + inpBorder.value + "px solid;padding:1px;cursor:default;' align=center onclick='tableClick(this)'>" + i + "," + j + "</td>";
+			}
+		sHTML+="</tr>"
+		}
+	sHTML+="</table>"
+	idPreview.innerHTML=sHTML
+	}
+	
+function doPreview2()
+	{
+	var oTable=idPreview.document.all.idTable
+	
+	if(inpCollapse.value=="Yes")
+		oTable.style.borderCollapse="collapse";
+	else
+		oTable.style.borderCollapse="";
+	oTable.cellSpacing=inpSpacing.value;
+	
+	for(var i=0;i<oTable.rows.length;i++)
+		{
+		oCurrTR=oTable.rows(i)
+		for(var j=0;j<oCurrTR.cells.length;j++)
+			{
+			oCurrTD=oCurrTR.cells(j)
+			if(inpBorder.value==0)
+				oCurrTD.style.border="black 1px dotted";
+			else
+				oCurrTD.style.border="black " + inpBorder.value + "px solid";
+			}
+		}
+	}	
+	
+function doInsert()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+
+	var oNodes=idPreview.childNodes(0).childNodes(0).childNodes
+
+	if(inpCollapse.value=="Yes")
+		sTmp="BORDER-COLLAPSE: collapse"
+	else
+		sTmp="";
+	sHTML="<table style='"+sTmp+";width:100%;' cellspacing="+inpSpacing.value+">" //BORDER-COLLAPSE:collapse; cellpadding=0 cellspacing=0
+	for(var i=0;i<oNodes.length;i++)
+		{
+		sHTML+="<tr>"
+		for(var j=0;j<oNodes(i).childNodes.length;j++)
+			{			
+			nRowSpan=oNodes(i).childNodes(j).rowSpan
+			nColSpan=oNodes(i).childNodes(j).colSpan
+			var sRowSpan=(nRowSpan>1 ? " rowspan="+nRowSpan+ " " : "");
+			var sColSpan=(nColSpan>1 ? " colspan="+nColSpan+ " " : "");
+			if(inpBorder.value==0)
+				sHTML+="<td style='padding: 3px;' "+sRowSpan+sColSpan+" valign=top></td>";
+			else
+				sHTML+="<td style='border:black " + inpBorder.value + "px solid; padding: 3px;' "+sRowSpan+sColSpan+" valign=top></td>";
+			}
+		sHTML+="</tr>"
+		}
+	sHTML+="</table>"
+				
+	if(oSel.parentElement)
+		oSel.pasteHTML(sHTML);
+	else
+		oSel.item(0).outerHTML = sHTML;
+		
+	//~~~~~~~~ Focus stuff
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);
+	oEditor.focus()
+	
+	//*** RUNTIME BORDERS ***
+	var oName=dialogArguments.oUtil.oName;
+	eval("dialogArguments."+oName).runtimeBorder(false);
+	//***********************		
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="doPreview()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=360 align=center style="" cellpadding=0 cellspacing=0>
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Insert Table</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding-top:15;padding-left:15;padding-right:15;padding-bottom:0;">
+
+<!---->	
+	<table style="margin-bottom:4">
+	<tr>
+		<td>Rows:</td><td colspan=3><input type="text" ID="inpRows" NAME="inpRows" size=3 value=3 onblur="doPreview()"></td>
+	</tr>
+	<tr>
+		<td>Columns:</td>
+		<td><input type="text" ID="inpCols" NAME="inpCols" size=3 value=3 onblur="doPreview()"></td>
+		<td>Spacing:</td>
+		<td><select ID="inpSpacing" NAME="inpSpacing" onchange="doPreview2()">
+				<option value=0 selected>0</option>
+				<option value=1>1</option>
+				<option value=2>2</option>
+				<option value=3>3</option>
+				<option value=4>4</option>
+				<option value=5>5</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Borders:</td>
+		<td>
+			<select ID="inpBorder" NAME="inpBorder" onchange="doPreview2()">
+				<option value=0 selected>No Border</option>
+				<option value=1>1px</option>
+				<option value=2>2px</option>
+				<option value=3>3px</option>
+				<option value=4>4px</option>
+				<option value=5>5px</option>
+			</select>
+		</td>
+		<td>Collapse:</td>
+		<td>
+			<select ID="inpCollapse" NAME="inpCollapse" onchange="doPreview2()">
+				<option value="Yes" selected>Yes</option>
+				<option value="No">No</option>
+			</select>	
+		</td>
+<!---->
+	</tr>
+	</table>
+
+
+	<table style="table-layout:fixed;height:170;" cellpadding=0 cellspacing=0 border=0>
+	<col width=300>
+	<col width=55>
+	<tr>
+		<td style="background-color:ghostWhite; padding:0; border:2 inset;" height=100%>
+			<div id=idPreview style="overflow:auto;width:100%;height:100%;padding:10"></div>
+		</td>
+		<td>
+			<INPUT type="button" value="Span v" onclick="rowSpan()" unselectable=on style="width:53;height:22;">
+		</td>
+	</tr>
+	<tr>
+		<td align=center>
+			<INPUT type="button" value="Span >" onclick="colSpan()" unselectable=on style="width:55;height:22;">
+		</td>
+		<td>&nbsp;</td>
+	</tr>
+	</table>
+	
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 1 solid;height:40;padding-right:15;" align=right valign=middle>
+	<input type="button" value="CLOSE" onclick="self.close()">
+	<input type="button" value="INSERT" onclick="doInsert()">
+</td>
+</tr>
+</table>
+
+</body>
+</html>

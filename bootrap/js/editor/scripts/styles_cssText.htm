@@ -1,0 +1,291 @@
+<html>
+<head>
+<title>Custom CSS</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script>
+/************************
+	COMMON
+************************/
+function GetElement(oElement,sMatchTag)
+	{
+	while (oElement!=null && oElement.tagName!=sMatchTag)
+		{
+		if(oElement.id=="idContent") return null;
+		oElement = oElement.parentElement;
+		}
+	return oElement;
+	}
+/************************
+	REAL TIME
+************************/
+function doWindowFocus()
+	{	
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	}
+function bodyOnLoad()
+	{
+	window.onfocus=doWindowFocus;
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+
+	var oName=dialogArguments.oUtil.oName;
+	arrStyle = eval("dialogArguments."+oName).arrStyle;
+	var sStyle=""
+	for(var i=0;i<arrStyle.length;i++)
+		{
+		sStyle+=arrStyle[i][0]+"{"+	arrStyle[i][3]+"}"+ "\n"
+		}			
+		
+	var sHTML="<HTML><HEAD><STYLE>"+sStyle+"</STYLE></HEAD><BODY margin-left=0 margin-top=0 margin-right=0 margin-bottom=0 style='border:#808080 1 solid' id=idPreviewTarget></BODY></HTML>"
+	var oDoc=idPreview.document.open("text/html", "replace");
+	if(eval("dialogArguments."+oName).publishingPath!="") oDoc.write("<BASE HREF=\""+eval("dialogArguments."+oName).publishingPath+"\"/>" + sHTML);
+	else oDoc.write(sHTML);		
+	oDoc.close();
+			
+	realTime()
+	}
+function realTime()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	var oName=dialogArguments.oUtil.oName;
+		
+	if (oSel.parentElement)	oElement=oSel.parentElement();
+	else oElement=oSel.item(0);
+	var tagName=oElement.tagName;
+	
+	if(tagName=="TD")
+		idPreview.document.all.idPreviewTarget.innerHTML="<table caption='styles_cssText_internal_use'><tr>" + oElement.outerHTML + "</tr></table>"
+	else
+		idPreview.document.all.idPreviewTarget.innerHTML=oElement.outerHTML
+
+	inpCssText.value=oElement.style.cssText
+	inpClassName.value=oElement.className;
+	}
+		
+function doApply()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	var oName=dialogArguments.oUtil.oName;
+	var oEditor=eval("dialogArguments.idContent"+oName);	
+	
+	
+	if(inpCssText.value=="" && inpClassName.value=="")//Selalu berarti me-remove style & class di CURRENT TAG!
+		{
+		if (oSel.parentElement)	oElement=oSel.parentElement();
+		else oElement=oSel.item(0);
+				
+		if(oElement)
+			{
+			if(oElement.tagName!="BODY") 
+				{				
+				oElement.removeAttribute("style",0);
+				oElement.removeAttribute("className",0);
+
+				if(oElement.tagName=="FONT" && oElement.color=="" && oElement.face=="" && oElement.size=="" && oElement.id=="")
+					eval("dialogArguments."+oName).doCmd('RemoveFormat');
+				}
+			else
+				{
+				alert("You're selecting BODY element.");
+				return;
+				}
+			}
+		}	
+	else if(selApply_to.value=="Selected Text")
+		{
+		if(sType=="Control")
+			{
+			alert("Please select a text.")
+			return;
+			}
+		
+		var oTarget=(sType=="None"?oEditor.document:oSel);
+		oTarget.execCommand("fontname",false,"");//create new tag (FONT tag), tapi kalau sdh ada tag FONT sebelumnya (selection sama) maka tdk double (tdk create new)
+		
+		
+		
+		if (oSel.parentElement)	oElement=GetElement(oSel.parentElement(),"FONT");
+		else oElement=GetElement(oSel.item(0),"FONT");		
+		if(oElement)
+			{
+			if(oElement.tagName=="FONT") 
+				{
+				if(inpCssText.value=="") oElement.removeAttribute("style",0);//jadi kalo CSS Text input dibuat empty, tetap akan melakukan remove
+				else oElement.style.cssText=inpCssText.value;
+						
+				if(inpClassName.value=="") oElement.removeAttribute("className",0);
+				else oElement.className=inpClassName.value;	
+				}
+			if(oElement.tagName=="BODY")
+				{
+				alert("You're selecting BODY element.");
+				return;
+				}
+			}
+		
+		/*	
+		var oBodyRange=oEditor.document.body.createTextRange();
+		doc_fonts=oEditor.document.all.tags("FONT");		
+		for(var i=0;i<doc_fonts.length;i++)
+			{
+			oBodyRange.moveToElementText(doc_fonts[i]);
+
+			if(oSel.compareEndPoints("StartToStart",oBodyRange)==1 && oSel.compareEndPoints("EndToEnd",oBodyRange)==-1)
+				{
+				if(inpCssText.value=="") doc_fonts[i].removeAttribute("style",0);//jadi kalo CSS Text input dibuat empty, tetap akan melakukan remove
+				else doc_fonts[i].style.cssText=inpCssText.value;//no selection, just place the cursor
+				
+				if(inpClassName.value=="") doc_fonts[i].removeAttribute("className",0);
+				else doc_fonts[i].className=inpClassName.value;	
+				
+				i=doc_fonts.length;//finish
+				}
+
+			if(oSel.compareEndPoints("StartToStart",oBodyRange)==0 || oSel.inRange(oBodyRange))	
+				{
+				if(inpCssText.value=="") doc_fonts[i].removeAttribute("style",0);//jadi kalo CSS Text input dibuat empty, tetap akan melakukan remove
+				else doc_fonts[i].style.cssText=inpCssText.value;
+				
+				if(inpClassName.value=="") doc_fonts[i].removeAttribute("className",0);
+				else doc_fonts[i].className=inpClassName.value;
+				
+				i=doc_fonts.length;//finish
+				}
+			}			
+		*/						
+		}
+	else if(selApply_to.value=="Current Tag")
+		{
+		if (oSel.parentElement)	oElement=oSel.parentElement();
+		else oElement=oSel.item(0);
+				
+		if(oElement)
+			{
+			if(oElement.tagName!="BODY") 
+				{
+				if(inpCssText.value=="") oElement.removeAttribute("style",0);
+				else oElement.style.cssText=inpCssText.value;
+						
+				if(inpClassName.value=="") oElement.removeAttribute("className",0);
+				else oElement.className=inpClassName.value;	
+				}
+			else
+				{
+				alert("You're selecting BODY element.");
+				return;
+				}
+			}
+		}
+	realTime()
+	
+	//*** RUNTIME BORDERS ***
+	//var oName=dialogArguments.oUtil.oName;
+	eval("dialogArguments."+oName).runtimeBorder(false);
+	//***********************		
+	}
+	
+function doCssTextChange()
+	{
+	if(idPreview.document.all.idPreviewTarget.innerHTML.substring(0,1)=="<")//means there is a tag for the style to be applied. Kalau tdk ada berarti BODY.
+		{
+		if(idPreview.document.all.idPreviewTarget.innerHTML.substring(0,6)=="<TABLE")
+			{
+			if(idPreview.document.all.idPreviewTarget.childNodes(0).caption=="styles_cssText_internal_use")
+				{//kalau yg di select text dalam table cell (TD)
+				idPreview.document.all.idPreviewTarget.childNodes(0).childNodes(0).childNodes(0).childNodes(0).style.cssText=inpCssText.value;
+				idPreview.document.all.idPreviewTarget.childNodes(0).childNodes(0).childNodes(0).childNodes(0).className=inpClassName.value;
+				}
+			else
+				{//kalau yg di select TABLE
+				idPreview.document.all.idPreviewTarget.childNodes(0).style.cssText=inpCssText.value;
+				idPreview.document.all.idPreviewTarget.childNodes(0).className=inpClassName.value;
+				}
+			}
+		else
+			{
+			idPreview.document.all.idPreviewTarget.childNodes(0).style.cssText=inpCssText.value;
+			idPreview.document.all.idPreviewTarget.childNodes(0).className=inpClassName.value;
+			}
+		}
+	//else => BODY
+	//	idPreview.document.all.idPreviewTarget.style.cssText=inpCssText.value;		
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=450 align=center style="" cellpadding=0 cellspacing=0 ID="Table1">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Custom CSS</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding-top:15;padding-left:15;padding-right:15;padding-bottom:0;">
+
+
+	<table width=100%>
+	<tr>
+	<td>
+		<div style='font-family:Verdana;font-size:10px;padding-bottom:3'><b>CSS Text:</b></div>
+		<textarea rows=8 style="width:100%;" id="inpCssText" name="inpCssText" onblur="doCssTextChange()" style="font-family:courier new;font-size:12px"></textarea>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		<span style='font-family:Verdana;font-size:10px;'><b>Class Name:</b></span>
+		<input type="text" name="inpClassName" onblur="doCssTextChange()" style="width:225">
+	</td>
+	</tr>
+	<tr>
+	<td style="padding-top:5;padding-bottom:5">
+		<div style='font-family:Verdana;font-size:10px;padding-bottom:4;'align=left><b>Preview:</b></div>
+		<iframe style="width:100%;height:75;" src="blank.gif" name=idPreview id=idPreview></iframe>	
+	</td>
+	</tr>
+	<tr>
+	<td align=right><b>Apply to:&nbsp;</b> 
+		<select name="selApply_to">
+			<option value="Selected Text">Selected Text</option>
+			<option value="Current Tag" selected>Current Tag</option>
+		</select>	
+	</td>
+	</tr>
+	</table>
+	
+	
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 1 solid;height:40;padding-right:18;" align=right valign=middle>
+	<input type="button" value="CLOSE" onclick="self.close()">
+	<input type="button" value="APPLY" onclick="doApply()">
+	<input type="button" value="APPLY & CLOSE" onclick="doApply();self.close()" style="width:110">
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

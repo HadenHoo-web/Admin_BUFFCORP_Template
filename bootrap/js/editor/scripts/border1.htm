@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Borders & Shading</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script language="JavaScript" src="border.js"></script>
+<script>
+function doApply()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+			
+	if (oSel.parentElement)	oElement=oSel.parentElement();
+	else oElement=oSel.item(0);
+	
+	if(oElement.tagName!="BODY") doApplyBorder(oElement);
+	
+	//*** RUNTIME BORDERS ***
+	var oName=dialogArguments.oUtil.oName;
+	eval("dialogArguments."+oName).runtimeBorder(false);
+	//***********************		
+	}
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+
+<body style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+<table width=428 align=center style="" cellpadding=0 cellspacing=0 ID="Table1">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Borders & Shading</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding:5;padding-left:15;padding-right:15;padding-bottom:12;">
+
+
+	<table>
+	<tr>
+	<td valign=top style="padding:5">
+		<div style='font-family:Verdana;font-size:10px;color:black;padding:3'align=left>Style:</div>
+		<script>
+		drawBorderStyleSelection()
+		</script>
+	</td>
+	<td valign=top style="padding:5">
+		<div style='font-family:Verdana;font-size:10px;color:black;padding:3'align=left>Width:</div>
+		<script>
+		drawBorderWidthSelection()
+		</script>
+	</td>
+	<td valign=top style="padding:5" nowrap>
+		<div style='font-family:Verdana;font-size:10px;color:black;padding:3'align=left>Apply to:</div>
+		<script>
+		drawBorderApplyToSelection()
+		</script>
+	</td>
+	<td valign=top style="padding:5" nowrap>
+		<div style='font-family:Verdana;font-size:10px;color:black;padding:3'align=left>Color:</div>
+		<script>
+		drawBorderColorSelection()
+		</script>
+
+		<div style='font-family:Verdana;font-size:10px;color:black;padding:3'align=left>Shading:</div>
+		<script>
+		drawShadingColorSelection()
+		</script>	
+	</td>
+	</tr>
+	</table>
+
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 2 solid;height:40;padding-right:20;" align=right valign=middle>
+	<input type="button" value="CLOSE" onclick="self.close()">
+	<input type="button" value="APPLY" onclick="doApply()">
+	<input type="button" value="APPLY & CLOSE" onclick="doApply();self.close()" style="width:110">
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

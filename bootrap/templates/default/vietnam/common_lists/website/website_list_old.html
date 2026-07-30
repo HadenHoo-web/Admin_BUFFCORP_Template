@@ -1,0 +1,83 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Tạo mới"><span>Tạo mới</span></a>
+</div>
+<div class="tabtitle">
+  <form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
+    <input type="hidden" name="option" id="option" value="{funname}">
+    <input type="hidden" name="mode" id="mode" value="list">
+    <input type="hidden" name="issearch" id="issearch" value="1">
+  Danh sách Dự Án : KH
+  <!-- DO ComboFromTable("customer_id1", "tbl_customer", "customer_id", "customer_name", "customer_id", 0, " All " , "0" , "active=1 and customer_type_id=8 order by customer_id" , "doReShow()", 1) -->
+    NV Quản lý :
+    <!-- DO ComboFromTable("member_id1", "tbl_member", "member_id", "fullname", "member_id", 0, " All " , "0" , "active=1 order by member_id" , "doReShow()", 1) -->
+    NV KT
+    <!-- DO ComboFromTable("kt_id1", "tbl_member", "member_id", "fullname", "member_id", 0, " All " , "0" , "active=1 order by member_id" , "doReShow()", 1) -->
+    Phân Loại
+    <select name="website_type_id1" size="1" onchange="doReShow()"><option value="0">All</option><option value="100">Chưa triển khai</option><option value="1">Đang triển khai</option><option value="2">Hệ thống</option><option value="3">Đã xong</option><option value="4">Đã ngừng</option><option value="5">PBN &amp; GP</option><option value="6">Khách từ chối</option><option value="7">Pri</option></select>
+   Active <input type="checkbox" name="active" value="1" {active} /> <input type="submit" value="Search">
+  </form>
+  <script>mainForm.customer_id1.value = '{customer_id}';mainForm.member_id1.value = '{member_id}';mainForm.kt_id1.value = '{kt_id}';mainForm.website_type_id1.value = '{website_type_id}';</script>
+</div>
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="20" align="center" >#</td>
+      <td width="30" align="left" >Code</td>
+      <td width="150" align="left" >Dự án </td>
+      <td width="200" align="left" >Khách hàng</td>
+      <td width="70" align="left" >Ngày bắt đầu</td>
+      <td width="70" align="left" >NV KD</td>
+      <td width="70" align="left" >Phụ Trách KT</td>
+      <td width="35" align="left" >Sheet KT</td>
+      <td width="20" align="left" >HĐ</td>
+      <td width="20" align="left" >BG</td>
+      <td width="50" align="left" >Active</td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+      <td width="20"></td>
+    </tr>
+    <!-- BEGIN list -->
+
+    <tr class="{list.className}{list.status}">
+      <td align="center" style="vertical-align:middle;background-color:{list.bg_website}">{list.order}</td>
+      <td style="vertical-align:middle;">{list.website_code}</td>
+      <td style="vertical-align:middle;"><a href="https://{list.website_name}" target="_blank">{list.website_name}</a></td>
+      <td style="vertical-align:middle">{list.customer_name}</td>
+      <td style="vertical-align:middle">{list.ngay}</td>
+      <td style="vertical-align:middle">{list.member_name}</td>
+      <td style="vertical-align:middle">{list.kt_name}</td>
+      <td style="vertical-align:middle">{list.ip}</td>
+      <td style="vertical-align:middle">{list.sheet}</td>
+      <td style="vertical-align:middle">{list.title_seo}</td>
+      <td style="vertical-align:middle">{list.active}</td>
+      <td width="18" align="center"><a href="?option={funname}&mode=up&id={list.website_id}&l={LANGUAGEID}&parent_id={parent_id}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
+      <td width="21" align="center"><a href="?option={funname}&mode=down&id={list.website_id}&l={LANGUAGEID}&parent_id={parent_id}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
+      <td width="23" align="center"><a href="JavaScript:updateItem({list.website_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="35" align="center"><a href="JavaScript:deleteItem({list.website_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+  </center>
+
+</div>
+
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+<Script Language="JavaScript">
+  function doReShow(){
+    mainForm.submit();
+  }
+  function doCreate(){
+    document.location='?option={funname}&parent_id={parent_id}&mode=info&l={LANGUAGEID}'
+  }
+  function updateItem(id){
+    document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
+  }
+  function subItem(id){
+    document.location = '?option={funname}&mode=list&l={LANGUAGEID}&parent_id=' + id
+  }
+  function deleteItem(id){
+    if (confirm ("Are you sure you want to delete ?."))
+    document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+  }
+</Script>

@@ -1,0 +1,163 @@
+<style type="text/css">
+.leave-stats {display:flex; gap:10px; margin:8px 0 10px 0; flex-wrap:wrap;}
+.leave-stat {border:1px solid #c9d7e2; background:#f5f9fc; padding:8px 12px; min-width:125px;}
+.leave-stat b {display:block; font-size:18px; color:#005a8f;}
+.leave-wrap {overflow:auto; height:38%; margin-bottom:12px;}
+.leave-table {width:100%; border-collapse:collapse;}
+.leave-table td {padding:5px 6px; vertical-align:middle;}
+.leave-table .header td {font-weight:bold; text-align:center;}
+.leave-number {text-align:center; font-weight:bold;}
+.leave-remain {color:#1f7a33;}
+.leave-used {color:#cc6600;}
+.leave-half {color:#cc6600; font-weight:bold;}
+.leave-zero {color:#cc0000; font-weight:bold;}
+.leave-detail-note {min-width:260px; line-height:1.35;}
+.leave-section-title {background:#777; color:#fff; font-weight:bold; padding:5px 8px; margin-top:8px;}
+.leave-month-cell {text-align:center; min-width:42px;}
+</style>
+
+<div class="toolbar">
+  <a href="main.php?option={funname}&mode=list"><img border="0" src="templates/{skin}/images/button-article-create.gif"><span>Thống kê phép</span></a>
+</div>
+
+<div class="tabtitle">
+<form action="main.php" method="GET" name="mainForm" id="mainForm" style="margin:0px;">
+  <input type="hidden" name="option" value="{funname}">
+  <input type="hidden" name="mode" value="list">
+
+  <span style="display:{filter_member_display}">
+    Nhân viên
+    <select name="member_id1">
+      <option value="0">All</option>
+      <!-- BEGIN member_list -->
+      <option value="{member_list.member_id}" {member_list.selected}>{member_list.member_name}</option>
+      <!-- END member_list -->
+    </select>
+  </span>
+
+  Tháng
+  <select name="month">
+    <option value="01" {m01}>01</option>
+    <option value="02" {m02}>02</option>
+    <option value="03" {m03}>03</option>
+    <option value="04" {m04}>04</option>
+    <option value="05" {m05}>05</option>
+    <option value="06" {m06}>06</option>
+    <option value="07" {m07}>07</option>
+    <option value="08" {m08}>08</option>
+    <option value="09" {m09}>09</option>
+    <option value="10" {m10}>10</option>
+    <option value="11" {m11}>11</option>
+    <option value="12" {m12}>12</option>
+  </select>
+
+  Năm
+  <select name="year">
+    <option value="2023" {y2023}>2023</option>
+    <option value="2024" {y2024}>2024</option>
+    <option value="2025" {y2025}>2025</option>
+    <option value="2026" {y2026}>2026</option>
+    <option value="2027" {y2027}>2027</option>
+    <option value="2028" {y2028}>2028</option>
+    <option value="2029" {y2029}>2029</option>
+    <option value="2030" {y2030}>2030</option>
+    <option value="2031" {y2031}>2031</option>
+    <option value="2032" {y2032}>2032</option>
+    <option value="2033" {y2033}>2033</option>
+    <option value="2034" {y2034}>2034</option>
+    <option value="2035" {y2035}>2035</option>
+  </select>
+
+  <input type="submit" value="Lọc" style="height:18px; margin-top:4px;">
+</form>
+</div>
+
+<div class="leave-stats">
+  <div class="leave-stat"><b>{total_members}</b>Nhân viên</div>
+  <div class="leave-stat"><b>{total_annual_default}</b>Tổng phép năm</div>
+  <div class="leave-stat"><b>{total_month_used}</b>Đã trừ tháng {month}</div>
+  <div class="leave-stat"><b>{total_annual_used}</b>Đã trừ năm {year}</div>
+  <div class="leave-stat"><b>{total_annual_remain}</b>Còn lại năm {year}</div>
+</div>
+
+<div class="leave-section-title">Tổng hợp phép năm {year} - phép theo từng tháng</div>
+<div class="leave-wrap">
+  <table border="0" cellpadding="0" cellspacing="0" class="selector leave-table">
+    <tr class="header">
+      <td width="35">#</td>
+      <td width="180">Nhân viên</td>
+      <td width="120">Mã chấm công</td>
+      <td width="70">Phép / tháng</td>
+      <td width="55">T1</td>
+      <td width="55">T2</td>
+      <td width="55">T3</td>
+      <td width="55">T4</td>
+      <td width="55">T5</td>
+      <td width="55">T6</td>
+      <td width="55">T7</td>
+      <td width="55">T8</td>
+      <td width="55">T9</td>
+      <td width="55">T10</td>
+      <td width="55">T11</td>
+      <td width="55">T12</td>
+      <td width="85">Đã trừ năm</td>
+      <td width="85">Còn lại năm</td>
+      <td width="100">Số ngày trong tháng</td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}">
+      <td align="center">{list.order}</td>
+      <td><b>{list.member_name}</b></td>
+      <td>{list.attendance_user_id}</td>
+      <td class="leave-number">{list.monthly_default}</td>
+      <td class="leave-month-cell {list.m01_class}" title="Đã trừ: {list.m01_used}">{list.m01_remain}</td>
+      <td class="leave-month-cell {list.m02_class}" title="Đã trừ: {list.m02_used}">{list.m02_remain}</td>
+      <td class="leave-month-cell {list.m03_class}" title="Đã trừ: {list.m03_used}">{list.m03_remain}</td>
+      <td class="leave-month-cell {list.m04_class}" title="Đã trừ: {list.m04_used}">{list.m04_remain}</td>
+      <td class="leave-month-cell {list.m05_class}" title="Đã trừ: {list.m05_used}">{list.m05_remain}</td>
+      <td class="leave-month-cell {list.m06_class}" title="Đã trừ: {list.m06_used}">{list.m06_remain}</td>
+      <td class="leave-month-cell {list.m07_class}" title="Đã trừ: {list.m07_used}">{list.m07_remain}</td>
+      <td class="leave-month-cell {list.m08_class}" title="Đã trừ: {list.m08_used}">{list.m08_remain}</td>
+      <td class="leave-month-cell {list.m09_class}" title="Đã trừ: {list.m09_used}">{list.m09_remain}</td>
+      <td class="leave-month-cell {list.m10_class}" title="Đã trừ: {list.m10_used}">{list.m10_remain}</td>
+      <td class="leave-month-cell {list.m11_class}" title="Đã trừ: {list.m11_used}">{list.m11_remain}</td>
+      <td class="leave-month-cell {list.m12_class}" title="Đã trừ: {list.m12_used}">{list.m12_remain}</td>
+      <td class="leave-number leave-used">{list.annual_used}</td>
+      <td class="leave-number leave-remain">{list.annual_remain}</td>
+      <td class="leave-number">{list.detail_count}</td>
+    </tr>
+    <!-- END list -->
+  </table>
+</div>
+
+<div class="leave-section-title">Chi tiết ngày bị trừ phép trong tháng {month}/{year}</div>
+<div class="leave-wrap">
+  <table border="0" cellpadding="0" cellspacing="0" class="selector leave-table">
+    <tr class="header">
+      <td width="35">#</td>
+      <td width="170">Nhân viên</td>
+      <td width="90">Ngày</td>
+      <td width="120">Loại nghỉ</td>
+      <td width="90">Phép bị trừ</td>
+      <td width="90">Còn lại sau ngày đó</td>
+      <td width="80">Check In</td>
+      <td width="80">Check Out</td>
+      <td>Ghi chú</td>
+    </tr>
+    <!-- BEGIN detail_list -->
+    <tr class="{detail_list.className}">
+      <td align="center">{detail_list.order}</td>
+      <td><b>{detail_list.member_name}</b></td>
+      <td>{detail_list.date}</td>
+      <td>{detail_list.session}</td>
+      <td class="leave-number leave-used">{detail_list.used_leave}</td>
+      <td class="leave-number leave-remain">{detail_list.remain_after}</td>
+      <td>{detail_list.check_in}</td>
+      <td>{detail_list.check_out}</td>
+      <td class="leave-detail-note">{detail_list.note}</td>
+    </tr>
+    <!-- END detail_list -->
+  </table>
+</div>
+
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>

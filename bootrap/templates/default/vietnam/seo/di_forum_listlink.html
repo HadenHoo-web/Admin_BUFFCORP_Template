@@ -1,0 +1,71 @@
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create Link to Groupkey</span></a> <a href="JavaScript:doCreateLink()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Link to Link"><span>Create Link to Link</span></a> <a href="?option={funname}&mode=listlink&l={LANGUAGEID}"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Link to Link"><span>List Link2</span></a> <a href="?option={funname}&mode=export"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Link to Link"><span>Export</span></a></div>
+
+<div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
+	<input type="hidden" name="option" id="option" value="{funname}">
+	<input type="hidden" name="mode" id="mode" value="listlink">
+Danh sách đi forum : STT: <input name="from_date" id="from_date" type="text" size="8" value="{from_date}" style="height:17px;"> -> <input name="to_date" id="to_date" type="text" notnull="1" size="8" value="{to_date}" style="height:17px;"> 
+	  &nbsp; <select name="isindex1" size="1" onchange="doReShow()"><option value="2">All</option><option value="1">Index</option><option value="0">No index</option></select> <input type="checkbox" name="ishu1" value="1" {ishu1} /> Bị hư &nbsp;<input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" />
+ Sum: {num_row}, Index: {index}, Hư: {bihu}</form></div>
+ <script>mainForm.isindex1.value = '{isindex1}';</script>
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="30" align="center" >#</td>
+      <td width="60" align="left" >Ngày đi</td>
+      <td width="400" align="left" >Tầng 2</td>
+      <td width="300" align="left" >Tầng 1</td>
+      <td width="150" align="left" >Forum</td>
+      <td width="300" align="left" >Anchor text</td>
+      <td width="30" align="left" >Index</td>
+      <td width="30" align="left" >Bị hư</td>
+      <td width="30" align="left" >NV</td>
+      <td width="60" align="left" >BookMark link</td>
+      <td  colspan="3" ></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}{list.status}">
+      <td width="85" align="center" style="vertical-align:middle">{list.order}</td>
+      <td style="vertical-align:middle">{list.date}</td>
+      <td style="vertical-align:middle"><a href="{list.di_forum_name}" target="_blank">{list.di_forum_name}</a> <a href="?option={funname}&mode=listlink&id={list.di_forum_id}"  target="_self"><b><font color="#FF0000" size="-1">{list.count}</font></b></a></td>
+      <td style="vertical-align:middle"><a href="{list.link2_name}" target="_blank">{list.link2_name}</a></td>
+      <td style="vertical-align:middle"><a href="{list.forum_name}" target="_blank">{list.forum_name}</a></td>
+      <td style="vertical-align:middle">{list.anchor_text}</td>
+      <td style="vertical-align:middle">{list.isindex}</td>
+      <td style="vertical-align:middle">{list.ishu}</td>
+      <td style="vertical-align:middle">{list.nv}</td>
+      <td style="vertical-align:middle"><a href="{list.link}" target="_blank">{list.bookmark_name}</a></td>
+	  <td width="4%" align="center"><a href="#"><img border="0" src="templates/{skin}/images/button-article-list.gif" width="20" height="20" alt="Detail"></a></td>
+      <td width="30" align="center"><a href="?option={funname}&mode=infolink&l={LANGUAGEID}&id={list.di_forum_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="42" align="center"><a href="JavaScript:deleteItem({list.di_forum_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+  </center>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+<Script Language="JavaScript">
+
+function doCreate()
+{	
+	document.location='?option={funname}&parent_id={parent_id}&mode=info&l={LANGUAGEID}'
+}
+
+function doCreateLink()
+{	
+	document.location='?option={funname}&parent_id={parent_id}&mode=infolink&l={LANGUAGEID}'
+}
+
+function updateItem(id)
+{	document.location = '?option={funname}&mode=infolink&l={LANGUAGEID}&id=' + id
+}
+
+function copyItem(id)
+{	document.location = '?option={funname}&mode=copy&l={LANGUAGEID}&id=' + id
+}
+
+function deleteItem(id)
+{	if (confirm ("Are you sure you want to delete ?."))
+		document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+}	
+</Script>
+

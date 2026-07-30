@@ -1,0 +1,63 @@
+<Script Language="JavaScript">
+function doCreate()
+{	
+	document.location='?option={funname}&mode=info&l={LANGUAGEID}'
+}
+function updateItem(id)
+{	document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
+}
+function deleteItem(id)
+{	if (confirm ("Are you sure you want to delete ?."))
+		document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+}	
+function doReShow()
+{	alert();
+	mainForm.submit();
+}
+</Script>
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Tạo mới"><span>Tạo mới</span></a>
+</div>
+<div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
+	<input type="hidden" name="option" id="option" value="{funname}">
+	<input type="hidden" name="mode" id="mode" value="list">
+Profile chất DA>20 - TF>15 - Link out<5 - DR>42 : DA>= <input name="da_point1" id="da_point1" type="text" size="8" value="{da_point}" style="height:17px;"> TF>= <input name="tf_point1" id="tf_point1" type="text" size="8" value="{tf_point}" style="height:17px;"> 
+	  &nbsp; <input type="checkbox" name="dofollow" value="1" {dofollow} /> Do &nbsp; <input type="checkbox" name="nofollow" value="1" {nofollow} /> No &nbsp;<input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" /></form></div>
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="30" align="center" >#</td>
+      <td width="200" align="left" >Link profile</td>
+      <td width="30" align="left" >DA</td>
+      <td width="30" align="left" >TF</td>
+      <td width="40" align="left" >Bio</td>
+      <td width="30" align="left" >DR</td>
+	  <td width="350" align="left">Note</td>
+      <td width="30" align="left" >Follow</td>
+      <td width="60" align="left" >Sum Point</td>
+      <td width="60" align="left" >Active</td>
+      <td width="60" align="left" >Trình trạng</td>
+      <td  colspan="4" ></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}{list.status}">
+      <td align="center" style="vertical-align:middle">{list.order}</td>
+      <td style="vertical-align:middle"><a href="{list.profile_name}" target="_blank">{list.profile_name}</a></td>
+      <td style="vertical-align:middle"><b><font color="#FF0000">{list.da_point}</font></b></td>
+      <td style="vertical-align:middle"><b><font color="#FF0000">{list.tf_point}</font></b></td>
+      <td style="vertical-align:middle"><b><font color="#FF0000">{list.bio}</font></b></td>
+      <td style="vertical-align:middle">{list.dr_point}</td>
+	  <td style="vertical-align:middle">{list.note}</td>
+      <td style="vertical-align:middle">{list.follow}</td>
+      <td style="vertical-align:middle">{list.sum}</td>
+      <td style="vertical-align:middle">{list.active}</td>
+      <td style="vertical-align:middle">{list.isno}</td>
+      <td align="center"><a href="?option={funname}&mode=up&id={list.profile_id}&l={LANGUAGEID}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
+      <td width="28" align="center"><a href="?option={funname}&mode=down&id={list.profile_id}&l={LANGUAGEID}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
+      <td width="30" align="center"><a href="JavaScript:updateItem({list.profile_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="42" align="center"><a href="JavaScript:deleteItem({list.profile_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+  </center>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>

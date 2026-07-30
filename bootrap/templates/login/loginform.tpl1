@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="css/admintool.css">
+<link rel="shortcut icon" href="../favico.png" type="image/x-icon">
+<link rel="icon" href="../favico.png" type="image/x-icon">
+<title>Welcome HK Control Panel</title>
+<Script language="javascript" src="js/commoncheck.js"></Script>
+</head>
+<body style="background-color: #F7F7F7" OnLoad="init()">
+<table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%" height="293">
+  <tr>
+    <td width="100%" align="center"><p class="message">{MESSAGE}</p><td>
+  </tr>
+  <tr> 
+    <td width="100%" align="center" valign="top" height="31">
+	<form method="POST" action="login.php" onSubmit="return verify(this)" name="LoginForm">
+        <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="42%" class="mainTable">
+          <tr>
+            <td width="100%" colspan="2" align="center" class="caption">Login information</td>
+          </tr>
+          <tr>
+            <td width="100%" colspan="2" class="blankRow"></td>
+          </tr>
+          <tr>
+            <td width="30%">User name:</td>
+            <td width="70%"><input type="text" name="loginname" size="34" notnull=1 alt="User name"></td>
+          </tr>
+          <tr>
+            <td width="100%" colspan="2" class="blankRow"></td>
+          </tr>
+          <tr>
+            <td width="30%">Password:</td>
+            <td width="70%"><input type="password" name="password" size="34" notnull=1 alt="Password"></td>
+          </tr>
+          <tr>
+            <td width="100%" colspan="2" class="blankRow"></td>
+          </tr>         
+          <tr>
+            <td width="100%" colspan="2" align="center">
+            <input type="submit" value="   Login   " name="submit"></td>
+          </tr>
+        </table>
+</form>
+    
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+<Script Language="JavaScript">
+	function init()
+	{	LoginForm.loginname.focus()
+	}
+</Script>

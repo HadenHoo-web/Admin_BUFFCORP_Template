@@ -1,0 +1,95 @@
+<div class="toolbar"> 
+<a href="JavaScript:doCreate()">
+<img border="0" src="templates/{skin}/images/button-article-create.gif">
+<span>Thêm mới</span>
+</a>
+</div>
+
+<div class="tabtitle">
+<form action="main.php" method="GET" style="margin:0px;">
+<input type="hidden" name="option" value="{funname}">
+<input type="hidden" name="mode" value="list">
+
+Tìm tên:
+<input type="text" name="keyword" value="{keyword}" size="15">
+
+Tháng:
+<select name="month">
+<option value="01" {m01}>01</option>
+<option value="02" {m02}>02</option>
+<option value="03" {m03}>03</option>
+<option value="04" {m04}>04</option>
+<option value="05" {m05}>05</option>
+<option value="06" {m06}>06</option>
+<option value="07" {m07}>07</option>
+<option value="08" {m08}>08</option>
+<option value="09" {m09}>09</option>
+<option value="10" {m10}>10</option>
+<option value="11" {m11}>11</option>
+<option value="12" {m12}>12</option>
+</select>
+
+Năm:
+<select name="year">
+<option value="2023" {y2023}>2023</option>
+<option value="2024" {y2024}>2024</option>
+<option value="2025" {y2025}>2025</option>
+<option value="2026" {y2026}>2026</option>
+<option value="2027" {y2027}>2027</option>
+<option value="2028" {y2028}>2028</option>
+<option value="2029" {y2029}>2029</option>
+<option value="2030" {y2030}>2030</option>
+</select>
+
+<input type="submit" value="Lọc">
+
+<a href="main.php?option={funname}&mode=export&month={month}&year={year}" target="_blank">
+<input type="button" value="Xuất Excel">
+</a>
+
+</form>
+</div>
+
+<div style="overflow:auto; height:80%">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="selector">
+<tr class="header">
+<td>#</td>
+<td>Ngày</td>
+<td>Nhân viên</td>
+<td>Check In</td>
+<td>Check Out</td>
+<td>Tổng giờ</td>
+<td>Trạng thái</td>
+<td>Note</td>
+</tr>
+
+<!-- BEGIN list -->
+<tr class="{list.className}">
+<td>{list.order}</td>
+<td>{list.created_date}</td>
+<td>{list.member_name}</td>
+<td class="{list.check_time_class}">{list.check_in}</td>
+<td class="{list.check_time_class}">{list.check_out}</td>
+<td>{list.work_time}</td>
+<td>{list.soluong}</td>
+<td class="{list.note_class}">{list.note}</td>
+</tr>
+<!-- END list -->
+
+</table>
+</div>
+<style>
+.selector td.note-late,
+.selector tr.alt td.note-late,
+.selector tr.inv td.note-late{
+    color: red !important;
+    font-weight: bold !important;
+}
+
+.selector td.time-error,
+.selector tr.alt td.time-error,
+.selector tr.inv td.time-error{
+    color: red !important;
+    font-weight: bold !important;
+}
+</style>

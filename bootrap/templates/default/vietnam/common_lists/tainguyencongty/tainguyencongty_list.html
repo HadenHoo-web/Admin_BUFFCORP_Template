@@ -1,0 +1,54 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<div class="toolbar">
+<a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create new</span></a>
+</div>
+
+<div class="tabtitle">
+  Danh sách:
+</div>
+
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%" class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="25" align="center">#</td>
+      <td width="420" align="left">Link</td>
+      <td width="240" align="left">Tên riêng</td>
+      <td width="180" align="left">Phân loại</td>
+      <td width="130" align="left">Share ID</td>
+      <td colspan="2"></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}">
+      <td align="center" style="vertical-align:middle">{list.order}</td>
+      <td style="vertical-align:middle"><a href="{list.resource_link}" target="_blank">{list.resource_link}</a></td>
+      <td style="vertical-align:middle">{list.resource_name}</td>
+      <td style="vertical-align:middle">{list.resource_category}</td>
+      <td style="vertical-align:middle">{list.share_user_ids}</td>
+      <td width="24" align="center"><a href="JavaScript:updateItem({list.resource_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20" style="display:{list.is_owner}"></a></td>
+      <td width="35" align="center"><a href="JavaScript:deleteItem({list.resource_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete" style="display:{list.is_owner}"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+</div>
+
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+
+<script language="JavaScript" type="text/javascript">
+function doCreate()
+{
+  document.location='?option={funname}&mode=info&l={LANGUAGEID}';
+}
+
+function updateItem(id)
+{
+  document.location='?option={funname}&mode=info&l={LANGUAGEID}&id=' + id;
+}
+
+function deleteItem(id)
+{
+  if (confirm('Are you sure you want to delete ?.')) {
+    document.location='?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id;
+  }
+}
+</script>

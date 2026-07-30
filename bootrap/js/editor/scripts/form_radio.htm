@@ -1,0 +1,188 @@
+<html>
+<head>
+<title>Radio Button</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="selection_for_dialogs.js"></script>
+<script>
+/************************
+	COMMON
+************************/
+function GetElement(oElement,sMatchTag)
+	{
+	while (oElement!=null && oElement.tagName!=sMatchTag)
+		{
+		if(oElement.id=="idContent") return null;
+		oElement = oElement.parentElement;
+		}
+	return oElement;
+	}
+	
+/************************
+	REALTIME & Sekaligus PREVIEW
+************************/
+function doWindowFocus()
+	{
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	}
+function bodyOnLoad()
+	{	
+	window.onfocus=doWindowFocus;	
+	dialogArguments.document.all.btnRealTime.onclick=new Function("realTime()");
+	
+	realTime()
+	}
+	
+function realTime()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	var oName=dialogArguments.oUtil.oName;
+
+	if (oSel.parentElement)	oEl=GetElement(oSel.parentElement(),"INPUT");
+	else oEl=GetElement(oSel.item(0),"INPUT");
+
+	if (oEl)
+		{
+		if(oEl.type=="radio")
+			{
+			btnInsert.style.display="none";
+			btnUpdate.style.display="block";
+			btnUpdateAndClose.style.display="block";
+
+			if(oEl.NAME)inpName.value=oEl.NAME;	
+			if(oEl.name)inpName.value=oEl.name;	
+			if(oEl.value) inpValue.value=oEl.value;
+			
+			if(oEl.checked) inpState.value="checked";	
+			else inpState.value="unchecked";	
+			}
+		}
+	else
+		{
+		btnInsert.style.display="block";
+		btnUpdate.style.display="none";
+		btnUpdateAndClose.style.display="none";
+
+		inpName.value="radio1";	
+		inpValue.value="";
+		inpState.value="unchecked";
+		}			
+	}
+
+function doApply()
+	{
+	//*** SELECTION *********
+	oSELUtil.check();
+	if(!oSELUtil.oSel)return;
+	oSel=oSELUtil.oSel;
+	sType=oSELUtil.sType;
+	//***********************
+	
+	var oName=dialogArguments.oUtil.oName;
+
+	if (oSel.parentElement)	oEl=GetElement(oSel.parentElement(),"INPUT");
+	else oEl=GetElement(oSel.item(0),"INPUT");
+
+	if (oEl)
+		{
+		if(oEl.type=="radio")
+			{
+			if(oEl.NAME) oEl.NAME=inpName.value;		
+			else if(oEl.name) oEl.name=inpName.value;		
+			else oEl.NAME=inpName.value; 
+ 
+			if(inpValue.value!="") oEl.value=inpValue.value;
+			if(inpState.value=="checked") oEl.checked=true;
+			else oEl.checked=false;
+			}
+		}
+	else
+		{
+		oSel.execCommand("InsertInputRadio");
+		var oEditor=eval("dialogArguments.idContent"+oName);
+		oSel = oEditor.document.selection.createRange()
+		oEl=GetElement(oSel.item(0),"INPUT");
+		
+		if(oEl.NAME) oEl.NAME=inpName.value;		
+		else if(oEl.name) oEl.name=inpName.value;		
+		else oEl.NAME=inpName.value; 
+			
+		if(inpValue.value!="") oEl.value=inpValue.value;
+		if(inpState.value=="checked") oEl.checked=true;		
+		}
+
+	realTime()
+	}				
+</script>
+<link rel="stylesheet" type="text/css" href="../../../templates/xp_theme/css/default.css">
+</head>
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+
+<table width=100% align=center style="height:100%" cellpadding=0 cellspacing=0 ID="Table2">
+<tr>
+<td style="border-bottom:#f7f7f7 2 solid;background-color:#7e94ca;height:50;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f1f1f1, endColorstr=#d4d4d4);}" valign=middle>
+	<font style="font-family:Arial Black;color:#3d4d5d;font-size:25;LETTER-SPACING:1px">&nbsp;Radio Button</font>
+</td>
+</tr>
+<tr>
+<td valign=top style="padding:5;padding-left:8;padding-right:15;padding-bottom:12;height:100%">
+
+
+	<table width=100%>
+	<tr>
+		<td>Name:</td>
+		<td><INPUT type="text" ID="inpName" NAME="inpName" size=15 value="radio1"></td>
+	</tr>
+	<tr>
+		<td>Value:</td>
+		<td><INPUT type="text" ID="inpValue" NAME="inpValue" size=15></td>
+	</tr>
+	<tr>
+		<td nowrap>Default State:</td>
+		<td>
+		<select ID="inpState" NAME="inpState">
+			<option value="checked">Checked</option>
+			<option value="unchecked" selected>Unchecked</option>
+		</select></td>
+	</tr>	
+	</table>
+
+
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 2 solid;height:40;padding-right:15;" align=right valign=middle>
+		<table callpadding=1 cellspacing=0>
+		<td>
+		<input type=button value="CLOSE" onclick="self.close()">
+		</td>
+		<td>
+		<input type=button name=btnInsert value="INSERT" style="display:none" onclick="doApply()">
+		</td>
+		<td>
+		<input type=button name=btnUpdate value="UPDATE" style="display:none" onclick="doApply()">
+		</td>
+		<td>
+		<input type=button name=btnUpdateAndClose value="UPDATE & CLOSE" style="display:none;width:120" onclick="doApply();self.close()">
+		</td>
+		</table>
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>

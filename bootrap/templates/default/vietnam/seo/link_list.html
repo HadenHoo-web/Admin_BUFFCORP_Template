@@ -1,0 +1,60 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Tạo mới"><span>Tạo mới</span></a>
+</div>
+
+<div class="tabtitle">Danh sách Forum chất DA>20 - TF>15 - Link out<5 - DR>42</div>
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="85" align="center" >#</td>
+      <td width="300" align="left" >Link Forum</td>
+      <td width="150" align="left" >Ghi chú</td>
+      <td width="50" align="left" >DA</td>
+      <td width="50" align="left" >TF</td>
+      <td width="50" align="left" >Link Out</td>
+      <td width="50" align="left" >DR</td>
+      <td width="50" align="left" >Follow</td>
+      <td width="60" align="left" >Sum Point</td>
+      <td width="60" align="left" >Active</td>
+      <td  colspan="4" ></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}{list.status}">
+      <td align="center" style="vertical-align:middle">{list.order}</td>
+      <td style="vertical-align:middle"><a href="{list.link_name}" target="_blank">{list.link_name}</a></td>
+      <td style="vertical-align:middle">{list.note}</td>
+      <td style="vertical-align:middle">{list.da_point}</td>
+      <td style="vertical-align:middle">{list.tf_point}</td>
+      <td style="vertical-align:middle">{list.link_out}</td>
+      <td style="vertical-align:middle">{list.dr_point}</td>
+      <td style="vertical-align:middle">{list.follow}</td>
+      <td style="vertical-align:middle">{list.sum}</td>
+      <td style="vertical-align:middle">{list.active}</td>
+      <td align="center"><a href="?option={funname}&mode=up&id={list.link_id}&l={LANGUAGEID}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
+      <td width="28" align="center"><a href="?option={funname}&mode=down&id={list.link_id}&l={LANGUAGEID}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
+      <td width="30" align="center"><a href="JavaScript:updateItem({list.link_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="42" align="center"><a href="JavaScript:deleteItem({list.link_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+  </center>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+<Script Language="JavaScript">
+
+function doCreate()
+{	
+	document.location='?option={funname}&mode=info&l={LANGUAGEID}'
+}
+
+function updateItem(id)
+{	document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
+}
+
+function deleteItem(id)
+{	if (confirm ("Are you sure you want to delete ?."))
+		document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+}	
+</Script>
+

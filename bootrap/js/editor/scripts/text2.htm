@@ -1,0 +1,337 @@
+<html>
+<title>Text Formatting</title>
+<style>
+	body {font:8pt verdana,arial,sans-serif}
+	.inpChk {width:13;height:13;margin-right:3;margin-bottom:1}
+	.inpRdo {width:13;height:13;margin-right:3;margin-bottom:1}
+	input {font:8pt verdana,arial,sans-serif}
+	td {font-size:10}
+	select {font:8pt verdana,arial,sans-serif}
+</style>
+<script language="JavaScript" src="list.js"></script>
+<script>
+var obj1 = new ListEditor("obj1")
+
+function bodyOnLoad()
+	{
+	//Font-Family
+	var arrFontName=dialogArguments[0];
+	var sTmp="["
+	for(var i=0;i<arrFontName.length;i++)
+		{
+		sFontName=arrFontName[i];
+		sTmp+="['"+sFontName+"','"+sFontName+"','font:8pt "+sFontName+";']," 
+		}
+	sTmp=sTmp.substr(0,sTmp.length-1)
+	sTmp+="]";
+	obj1.items=eval(sTmp);
+	divFont_family.innerHTML=obj1.RUN()
+	obj1.onEdit = updateFont_Family	
+	
+	//Load current style
+	oPreview=dialogArguments[1];
+	
+	inpFont_Family.value=oPreview.style.fontFamily;		
+	inpFont_Size.value=oPreview.style.fontSize;
+	
+	if(oPreview.style.fontStyle=="italic" && oPreview.style.fontWeight=="bold")
+		inpFont_StyleWeight.value = "Bold Italic";
+	else if(oPreview.style.fontStyle=="italic")
+		inpFont_StyleWeight.value = "Italic";
+	else if(oPreview.style.fontWeight=="bold")
+		inpFont_StyleWeight.value = "Bold";
+	else if(oPreview.style.fontWeight=="normal" && oPreview.style.fontStyle=="normal")
+		inpFont_StyleWeight.value = "Regular";
+	else
+		inpFont_StyleWeight.value = "";
+
+	if(oPreview.style.textDecoration=="underline") inpText_Decoration[1].checked=true;
+	else if(oPreview.style.textDecoration=="overline") inpText_Decoration[2].checked=true;
+	else if(oPreview.style.textDecoration=="line-through") inpText_Decoration[3].checked=true;
+	else if(oPreview.style.textDecoration=="none") inpText_Decoration[4].checked=true;
+	else inpText_Decoration[0].checked=true;
+	
+	if(oPreview.style.textTransform=="capitalize") inpText_Case[1].checked=true;
+	else if(oPreview.style.textTransform=="uppercase") inpText_Case[2].checked=true;
+	else if(oPreview.style.textTransform=="lowercase") inpText_Case[3].checked=true;
+	else if(oPreview.style.textTransform=="none") inpText_Case[4].checked=true;
+	else inpText_Case[0].checked=true;	
+	
+	if(oPreview.style.fontVariant=="small-caps")inpFont_Variant[1].checked=true;
+	else if(oPreview.style.fontVariant=="normal")inpFont_Variant[2].checked=true;
+	else inpFont_Variant[0].checked=true;	
+
+	if(oPreview.style.verticalAlign=="super") inpText_VAlign[1].checked=true;
+	else if(oPreview.style.verticalAlign=="sub") inpText_VAlign[2].checked=true;
+	else if(oPreview.style.verticalAlign=="top" || oPreview.style.verticalAlign=="middle" || oPreview.style.verticalAlign=="bottom" || 
+			oPreview.style.verticalAlign=="text-top" || oPreview.style.verticalAlign=="text-bottom") 
+		{
+		inpText_VAlign[3].checked=true;
+		inpText_VAlign_Relative.value=oPreview.style.verticalAlign;
+		}
+	else if(oPreview.style.verticalAlign=="baseline") inpText_VAlign[4].checked=true;
+	else inpText_VAlign[0].checked=true;
+
+	inpText_ForegroundColor.style.backgroundColor=oPreview.style.color;
+	inpText_BackgroundColor.style.backgroundColor=oPreview.style.backgroundColor;	
+
+	//Asumsi: satuan pixels, kalau tdk => kosongi.
+	//Berkaitan dgn "Not Available"
+	if(oPreview.style.letterSpacing!="")
+		{
+		if(oPreview.style.letterSpacing.substr(oPreview.style.letterSpacing.length-2,2)!="px") inpText_LetterSpacing.value="na";
+		else inpText_LetterSpacing.value = oPreview.style.letterSpacing.substring(0,oPreview.style.letterSpacing.length-2);
+		}
+	else inpText_LetterSpacing.value="";
+	
+	preview()
+	}
+
+function updateFont_Family()
+	{
+	sVal = ""
+	var arrList = obj1.getResultValues()
+	for(var i=0;i<arrList.length;i++) sVal += arrList[i] + ", ";
+	sVal = sVal.substring(0,sVal.length-2)
+	inpFont_Family.value = sVal
+	
+	preview()
+	}
+	
+function preview()
+	{
+	//divPreview selalu di-renew (bukan di-update) setiap kali style berubah (shg tdk perlu remove rule).
+	divPreview.innerHTML= "<table height=100% width=100%><tr><td valign=middle align=center>____________ <span id=spanPreview></span> ____________</td></tr></table>"
+	if(inpFont_Family.value!="") spanPreview.innerHTML=inpFont_Family.value;
+	else spanPreview.innerHTML="Text Preview";
+	
+	format(spanPreview);
+	}
+	
+function format(s)
+	{	
+	if(inpFont_Family.value!="")s.style.fontFamily=inpFont_Family.value;
+	else
+		{//Not Set
+		s.style.fontFamily="";	
+		s.style.cssText = s.style.cssText.replace("FONT-FAMILY: ; ","");
+		s.style.cssText = s.style.cssText.replace("FONT-FAMILY: ","");
+		}
+	
+	if(inpFont_Size.value!="")s.style.fontSize=inpFont_Size.value;
+	else
+		{//Not Set
+		s.style.fontSize="";
+		s.style.cssText = s.style.cssText.replace("FONT-SIZE: ; ","");
+		s.style.cssText = s.style.cssText.replace("FONT-SIZE: ","");
+		}	
+	
+	if(inpFont_StyleWeight.value=="")
+		{//Not Set
+		s.style.fontWeight="normal";s.style.fontStyle="normal"
+		s.style.cssText = s.style.cssText.replace("FONT-WEIGHT: normal; ","");
+		s.style.cssText = s.style.cssText.replace("FONT-WEIGHT: normal","");
+		
+		s.style.cssText = s.style.cssText.replace("FONT-STYLE: normal; ","");
+		s.style.cssText = s.style.cssText.replace("FONT-STYLE: normal","");
+		}
+	if(inpFont_StyleWeight.value=="Regular"){s.style.fontWeight="normal";s.style.fontStyle="normal"}
+	if(inpFont_StyleWeight.value=="Italic"){s.style.fontWeight="normal";s.style.fontStyle="italic"}
+	if(inpFont_StyleWeight.value=="Bold"){s.style.fontWeight="bold";s.style.fontStyle="normal"}
+	if(inpFont_StyleWeight.value=="Bold Italic"){s.style.fontWeight="bold";s.style.fontStyle="italic";}
+	
+	if(inpText_Decoration[0].checked) 
+		{
+		s.style.textDecoration="none";		
+		s.style.cssText = s.style.cssText.replace("TEXT-DECORATION: none; ","");
+		s.style.cssText = s.style.cssText.replace("TEXT-DECORATION: none","");
+		}
+	if(inpText_Decoration[1].checked) s.style.textDecoration="underline";
+	if(inpText_Decoration[2].checked) s.style.textDecoration="overline";
+	if(inpText_Decoration[3].checked) s.style.textDecoration="line-through";
+	if(inpText_Decoration[4].checked) s.style.textDecoration="none";
+	
+	if(inpText_Case[0].checked) s.style.textTransform = "";
+	if(inpText_Case[1].checked) s.style.textTransform = "capitalize";
+	if(inpText_Case[2].checked) s.style.textTransform = "uppercase";
+	if(inpText_Case[3].checked) s.style.textTransform = "lowercase";
+	if(inpText_Case[4].checked) s.style.textTransform = "none";
+	
+	if(inpFont_Variant[0].checked) s.style.fontVariant=""
+	if(inpFont_Variant[1].checked) s.style.fontVariant="small-caps";
+	if(inpFont_Variant[2].checked) s.style.fontVariant="normal";	
+	
+	if(inpText_VAlign[0].checked)s.style.verticalAlign = "";
+	if(inpText_VAlign[1].checked) s.style.verticalAlign = "super";
+	if(inpText_VAlign[2].checked) s.style.verticalAlign = "sub"	;	
+	if(inpText_VAlign[3].checked) s.style.verticalAlign = inpText_VAlign_Relative.value;	
+	if(inpText_VAlign[4].checked) s.style.verticalAlign = "baseline"	;	
+	
+	s.style.color=inpText_ForegroundColor.style.backgroundColor;
+	s.style.backgroundColor=inpText_BackgroundColor.style.backgroundColor;
+	
+	if(inpText_LetterSpacing.value=="") 
+		{
+		s.style.letterSpacing=0
+		s.style.cssText = s.style.cssText.replace("LETTER-SPACING: 0px; ","");
+		s.style.cssText = s.style.cssText.replace("LETTER-SPACING: 0px","");
+		}
+	else 
+		{
+		//Berkaitan dgn "Not Available"
+		if(inpText_LetterSpacing.value!="na") s.style.letterSpacing=inpText_LetterSpacing.value+"px";	
+		}
+	}	
+	
+function doApply()
+	{	
+	oPreview=dialogArguments[1];
+	format(oPreview)
+	self.close()
+	}
+</script>
+
+<body onload="bodyOnLoad()" style="overflow:hidden;margin:0;background: #ffffff;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ededed, endColorstr=#f4f4f4)">
+
+<table width=470 align=center style="" cellpadding=0 cellspacing=0>
+<tr>
+<td valign=top style="padding-top:5;padding-left:15;padding-right:15;padding-bottom:12;">
+
+
+	<table>
+	<tr>
+	<td valign=top style="padding-left:5;padding-top:7;">
+
+	<div style="margin-bottom:3;"><b>Font :</b></div>
+	<input type=text name=inpFont_Family size=37 onchange="preview()"><div style="padding:1;"></div>
+	<div id=divFont_family></div>
+
+	</td>
+	<td valign=top style="padding-top:7;">
+
+			<div style="margin-bottom:3;"><b>Style :</b></div>
+			<input type=text name=inpFont_StyleWeight size=10 onchange="preview()" ID="Text2"><div style="padding:1;"></div>
+			<select size=6 style="width:70" name="selFont_StyleWeight" onchange="inpFont_StyleWeight.value=selFont_StyleWeight.value; preview();">
+				<option value="Regular" selected>Regular</option>
+				<option value="Italic">Italic</option>
+				<option value="Bold">Bold</option>
+				<option value="Bold Italic">Bold Italic</option>
+			</select>
+
+	</td>
+	<td valign=top style="padding-top:7;">
+
+			<div style="margin-bottom:3;"><b>Size :</b></div>
+			<input type=text name=inpFont_Size size=10 onchange="preview()" ID="Text3"><div style="padding:1;"></div>
+			<select size=6 style="width:70" name="selFont_Size" onchange="inpFont_Size.value=selFont_Size.value+'pt'; preview();">
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="14">14</option>
+				<option value="16">16</option>
+				<option value="18">18</option>
+				<option value="20">20</option>
+				<option value="22">22</option>
+				<option value="24">24</option>
+				<option value="26">26</option>
+				<option value="28">28</option>
+				<option value="36">36</option>
+				<option value="48">48</option>
+				<option value="72">72</option>
+			</select>
+
+	</td>
+	</tr>
+	<tr>
+	<td colspan=3 style="padding-left:5;padding-right:5;">
+
+			<div style="margin-bottom:5;margin-top:3;"><b>Foreground:</b>
+			<span style="background:#ffffff">
+			<span id="inpText_ForegroundColor" style="margin-left:17;border:gray 1 solid;width:20;margin-right:3;"></span>
+			</span>
+			<input type=button value=Pick onblur="preview()" onclick="window.showModalDialog('colors.htm',inpText_ForegroundColor,'dialogWidth:380px;dialogHeight:245px;edge:Raised;center:Yes;help:No;resizable:No;status:No')">
+				
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Background:</b>
+			<span style="background:#ffffff">
+			<span id="inpText_BackgroundColor" style="margin-left:17;border:gray 1 solid;width:20;margin-right:3;"></span>
+			</span>
+			<input type=button value=Pick onblur="preview()" onclick="window.showModalDialog('colors.htm',inpText_BackgroundColor,'dialogWidth:380px;dialogHeight:245px;edge:Raised;center:Yes;help:No;resizable:No;status:No')">
+			</div>	
+			
+			
+			<div style="margin-bottom:5;margin-top:3;"><b>Effects :</b><div style="padding:3;"></div>
+			<table width=100% style="border:solid 1 #d4d1c9;background:#ececec">
+			<tr>
+			<td>Decoration:</td><td>Text Case:</td><td>Minicaps:</td><td>Vertical:</td>
+			</tr>
+			<tr><td valign=top>
+			<input type=radio class=inpRdo name="inpText_Decoration" onclick="preview()" checked> Not Set<br>
+			<input type=radio class=inpRdo name="inpText_Decoration" onclick="preview()"> Underline<br>
+			<input type=radio class=inpRdo name="inpText_Decoration" onclick="preview()"> Overline<br>
+			<input type=radio class=inpRdo name="inpText_Decoration" onclick="preview()"> Line-through<br>
+			<input type=radio class=inpRdo name="inpText_Decoration" onclick="preview()"> None
+			</td>
+			<td valign=top>
+			<input type=radio class=inpRdo name="inpText_Case" onclick="preview()" checked> Not Set<br>
+			<input type=radio class=inpRdo name="inpText_Case" onclick="preview()"> Capitalize<br>
+			<input type=radio class=inpRdo name="inpText_Case" onclick="preview()"> Uppercase<br>
+			<input type=radio class=inpRdo name="inpText_Case" onclick="preview()"> Lowercase<br>
+			<input type=radio class=inpRdo name="inpText_Case" onclick="preview()"> None
+			</td>
+			<td valign=top>
+			<input type=radio class=inpRdo name="inpFont_Variant" onclick="preview()" checked> Not Set<br>
+			<input type=radio class=inpRdo name="inpFont_Variant" onclick="preview()"> Small-Caps<br>
+			<input type=radio class=inpRdo name="inpFont_Variant" onclick="preview()"> Normal
+			</td>
+			<td valign=top>
+			<input type=radio class=inpRdo name="inpText_VAlign" onclick="preview()" checked> Not Set<br>
+			<input type=radio class=inpRdo name="inpText_VAlign" onclick="preview()"> Superscript<br>
+			<input type=radio class=inpRdo name="inpText_VAlign" onclick="preview()"> Subscript<br>
+			
+			
+			<table cellpadding=0 cellspacing=0><tr><td>
+			<input type=radio class=inpRdo name="inpText_VAlign" onclick="preview()">&nbsp;
+			</td><td>
+			Relative :&nbsp;
+			</td><td>
+			<select name="inpText_VAlign_Relative" style="vertical:bottom" onchange="preview()">
+				<option value="top">Top</option>
+				<option value="middle" selected>Middle</option>
+				<option value="bottom">Bottom</option>
+				<option value="text-top">Text-Top</option>
+				<option value="text-bottom">Text-Bottom</option>
+			</select>
+			</td></tr></table>			
+
+			<input type=radio class=inpRdo name="inpText_VAlign" onclick="preview()"> Baseline<br>
+			</td>
+			</tr></table>
+			</div>
+
+			<div style="margin-bottom:10;margin-top:3;">
+			<b>Character Spacing : </b><input type=text name=inpText_LetterSpacing size=3 value="" style="text-align:right" onblur="preview()"> pixels.
+			</div>
+
+			<div style="margin-top:3;"><b>Preview :</b>
+			<div style="padding:3;"></div>
+			<div id="divPreview" style="overflow:auto;border:1 dimgray solid;width:455;height:70;background:#ffffff"></div>
+			</div>
+	</td>
+	</tr>
+	</table>
+	
+</td>
+</tr>
+<tr>
+<td style="background-color:#efefef;border-top:#e6e6e6 2 solid;height:40;padding-right:22;" align=right valign=middle>
+	<input type="button" value="CANCEL" onclick="self.close()">
+	<input type="button" value=" O K" onclick="doApply()">
+</td>
+</tr>
+</table>
+
+</body>
+</html>

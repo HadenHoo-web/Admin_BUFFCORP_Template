@@ -1,0 +1,79 @@
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/admintool.css">
+
+<link rel="shortcut icon" href="../favico.png" type="image/x-icon">
+<link rel="icon" href="../favico.png" type="image/x-icon">
+
+<title>Welcome HK Control Panel</title>
+
+<Script language="javascript" src="js/commoncheck.js"></Script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+</head>
+
+<body style="background-color: #F7F7F7" OnLoad="init()">
+
+<div class="wraper" style="background-image: url(images/buffseo.png);" >	
+  <div class="container">
+
+  <div class="login-form" >
+  <img src="images/logo-xanh.png" alt="Logo-Buffseo" class="logobuff">
+ 
+        <form method="POST" action="login.php" onSubmit="return verifyLogin(this)" name="LoginForm" >
+          <p class="message">{MESSAGE}</p>
+              <div class="group_form">
+              
+        <div class="flex-row">
+          <input id="username" class='lf--input' placeholder='Tên đăng nhập' type='text' name="loginname" size="34" notnull=1 alt="User name">
+		    </div>
+        <div class="flex-row">
+          <input id="password" name="password"  class='lf--input' placeholder='Mật khẩu' type='password'  notnull=1 alt="Password">
+		    </div>
+              </div>
+
+          <div style="margin: 12px 0;">
+            <div class="g-recaptcha" data-sitekey="{RECAPTCHA_SITE_KEY}"></div>
+          </div>
+
+       <button class='lf--submit' type='submit' >LOGIN</button>
+       
+</form>
+</div>
+<img src="images/buffseo-white.png.png" alt="Logo-Buffseo" class="logobuff">
+</div>
+</div>
+
+</body>
+
+</html>
+
+<Script Language="JavaScript">
+
+	function init()
+	{	LoginForm.loginname.focus()
+	}
+
+  function verifyLogin(f){
+    if (typeof verify === 'function') {
+      if (!verify(f)) return false;
+    }
+
+    if (typeof grecaptcha !== 'undefined') {
+      var r = grecaptcha.getResponse();
+      if (!r || r.length === 0) {
+        alert('Vui lòng xác nhận reCAPTCHA.');
+        return false;
+      }
+    }
+    return true;
+  }
+
+</Script>

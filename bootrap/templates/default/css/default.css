@@ -1,0 +1,109 @@
+@charset "iso-8859-1";
+/* CSS Document */
+html, body { background: #EDECE9; margin: 0px; padding: 0px; width: 100% }
+BODY { font-size: 70% }
+#mainDiv 	 { border: solid 3px #F6F5F4; background: white; overflow: auto; padding: 2px;}
+table        { font-family: Arial; font-size: 11px; }
+
+.title { border:1px solid #C0C0C0; font-family: Arial; font-size: 11px; padding-left:4px; padding-right:4 }
+.tabtitle { width: 100%; color: white; background: #808080; padding: 3px 2px; table-layout: fixed; font-weight: bold;}
+.tabtitle a { color: white; text-decoration: none }
+.tabtitle a:hover { color: white; text-decoration: underline; }
+.tabtitle .header { font-family: Arial; font-size: 11px; padding-left:4px; padding-right:4;}
+
+
+.ct { margin-left: 0px; white-space: nowrap; margin-top: 0px; margin-bottom: 0}
+.ct a, .ct_hidden a, .ct a:hover, .ct_hidden a:hover, .ct a:link, .ct_hidden a:link, .ct a:visited, .ct_hidden a:visited { color: black; text-decoration: none; cursor: hand;}
+.ct_hidden .subdir{ display:none;}
+.ct .subdir { margin-left: 16px;}
+.ct img, .ct_col img { width: 16px; height: 16px;  border: none 0px; margin: 2px 2px 0px 2px; }
+.ct a:hover, .ct_hidden a:hover { background: #0A246A; color: white;}
+.tc	{ cursor:hand }
+
+.bar#buttons { background: #EAE8E4 width: 100%; padding: 0px 2px; margin: 20px 0px; border: solid 1px #808080; cursor: default }
+.bar#buttons a { padding: 3px 1px 2px 1px; height: 23px; text-decoration: none; color: black; cursor: default; font-weight: bold;  }
+.bar#buttons a:hover { background: #B6BDD2; padding: 2px 0px 1px 0px; border: solid 1px #0A246A }
+.bar#buttons a img { width: 24px; height: 24px; border: none 0px; margin: 0px 1px 0px 1px }
+.bar#buttons a span { display: none }
+
+.toolbar { background: #EAE8E4 url('../images/toolbar-bg.gif'); width: 100%; height: 31px; padding: 0px; margin: 0px; overflow: hidden; border: solid 1px #808080; cursor: default;}
+.imgbutton { height: 27px; padding: 0px; margin: 0px; overflow: hidden;}
+
+.toolbar a, .imgbutton a { padding: 2px 5px; margin: 1px; display: inline-block; text-decoration: none; color: #000000; cursor: default; white-space: nowrap  }
+.toolbar a:hover, .imgbutton  a:hover { background: #B6BDD2; border: solid 1px #0A246A; padding: 1px 4px}
+.toolbar a span, .toolbar a:visited span, .toolbar a:link span { padding: 5px 4px; color: #808080; display: expression((screen.width >= 1024) ? inline-block : none)  }
+.toolbar a:visited span, .toolbar a:link span { padding: 5px 4px; color: #000000; display: expression((screen.width >= 1024) ? 'inline-block' : 'none')  }
+.toolbar a:hover span {  padding: 5px 4px; color: #000000; display: inline-block}
+.toolbar a img { height: 20px; width:20px; border: none 0px }
+
+
+.selector { width: 100%; border: solid 1px black; table-layout: fixed }
+.selector td { background: white; padding: 1px 3px; border: solid 1px #E0E0E0; vertical-align:middle}
+.selector .alt td { background: #f8f8f8; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .inv td { color: Gray; vertical-align:middle}
+.selector .checked td { color: Gray; vertical-align:middle; background:#CCCCCC;}
+.selector .issuc td { background: #FFCC99; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .header { border: solid 2px #D4D0C8; text-align: center; vertical-align:middle}
+.selector .header a { text-decoration: none; color: black; }
+.selector .header td { background: #D4D0C8; border: solid 1px #808080; font-weight: bold; padding: 3px }
+.selector img { border: 0px none;  }
+
+
+.selector .alt1 td, .stat1 { background: #FFFFF0; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .inv1 td  { background: #FFFFE0; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .alt2 td, .stat2 { background: #999999; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .inv2 td { background: #999999; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .alt3 td, .stat3 { background: #F0FFFF; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .inv3 td { background: #E0FFFF; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .alt4 td, .stat4 { background: #F0F0FF; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .inv4 td { background: #E0E0FF; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .alt5 td, .stat5 { background: #FFF0F0; padding: 1px 3px; border: solid 1px #E0E0E0;}
+.selector .inv5 td { background: #FFE0E0; padding: 1px 3px; border: solid 1px #E0E0E0;}
+
+
+input, select, textarea, button, label { font-family: Arial; font-size: 100% }
+input { padding: 0px 2px; }
+.is_label { background: background-color; border: 0px none; readonly}
+.in_grid	{background: background-color; border: 1px none;}
+.leftnav { width: 100%; height: 100%; table-layout: fixed }
+.leftnav #logo { height: 50px; text-align: center; vertical-align: middle }
+
+.leftnav #main { border: solid 3px #F6F5F4; background: white; overflow: auto; padding: 2px; width: 100%; height: 100% }
+.leftnav #shrink { height: 8px }
+.leftnav #buttons { overflow: hidden }
+.leftnav #toolbar { height: 20px; overflow: hidden }
+.leftnav .title td { height: 22px; background: #EAE8E4 url('../images/title-bg.gif'); padding: 0px 5px; border: solid 1px #808080; font-weight: bold; cursor: default }
+
+a.shrinker-h { cursor: n-resize; text-align: center; display: block; height: 8px; background: #4273C6 url('../images/shrink-h-bg.gif'); }
+a.shrinker-h img { width: 35px; height: 8px; border: none 0px }
+
+a.shrinker-v { text-align: center; display: inline-block; width: 8px; height: 100%; background: #4273C6 url('shrink-v-bg.gif'); border-top: none 0px; border-bottom: none 0px }
+a.shrinker-v img { width: 8px; height: 35px; border: none 0px }
+
+.cancle { text-decoration:line-through}
+
+
+.leftnav {width: 210; height: 100%; table-layout: fixed }
+.leftnav #logo { height: 50px; text-align: center; vertical-align: middle }
+.leftnav .mainrow { height: 100%; padding-left:0; padding-right:0; padding-top:0; padding-bottom:0 }
+.leftnav .normalrow { padding-left:0; padding-right:0; padding-top:0; padding-bottom:0 }
+.mainrow .header, .normalrow .header{padding-top:1;padding-left:5;  background: #EAE8E4 url('../images/button-bg.gif'); display: block; text-decoration: none; height: 24px; color: black; white-space: nowrap; text-owerflow: ellipsis; border: solid 1px #808080; border-top: none 0px; font-family: Arial; size:11;}
+
+.mainrow .header img, .normalrow .header img{
+	margin-right:5;
+	margin-bottom:2;
+	width:20px;
+	height:20px;
+}
+
+.normalrow .children { display : none; visibility : hidden}
+.children		  { font-size: 11px; cursor : hand}
+.children a 	  { padding: 1px; display: block; text-decoration: none; height: 16px; color: black; white-space: nowrap;}
+.children a:hover { background: #B6BDD2 }
+.children a img   { width: 16px; height: 16px; border: none 0px; margin: 2px 5px 0px 20px;}
+.children a span  { height:16px; overflow: hidden; cursor:hand; text-owerflow: ellipsis;}
+
+.buttons#buttons a { padding: 1px; background: #EAE8E4 url('../images/button-bg.gif'); display: block; text-decoration: none; height: 24px; color: black; white-space: nowrap; text-owerflow: ellipsis; border: solid 1px #808080; border-top: none 0px }
+.buttons#buttons a:hover { background: #B6BDD2 }
+.buttons#buttons a img   { width: 20px; height: 22px; border: none 0px; margin: 0px 5px 0px 3px }
+.buttons#buttons a span { height: 21px; overflow: hidden }

@@ -1,0 +1,100 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <div class="toolbar">
+<a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Save"><span>Save</span></a>
+<a href="JavaScript:returnToList()"><img border="0" src="templates/{skin}/images/back.gif" alt="Trở về danh sách phân loại đối tác" width="20" height="20"><span>Trở về danh sách</span></a>
+
+</div>
+ <div class="tabtitle">
+ Thông tin Camp Traffic </div>
+ <div style="overflow:auto; height:80%">
+<form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" >
+	<input type="hidden" name="l" value="{LANGUAGEID}">
+	<input type="hidden" name="option" value="{funname}">
+	<input type="hidden" name="id" value="{camp_traffic_id}">
+	<input type="hidden" name="mode" value="save">
+<table width="100%">
+  <tr >
+    <td width="22%" height="25" >Camp Traffic:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="camp_traffic_name" notnull = "1" type="text" size="70" alt="Loại khách hàng" value="{camp_traffic_name}" /> Volum1 <input name="volum" notnull = "1" type="text" size="10" alt="Volum" value="{volum}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Slug:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="pass" notnull = "1" type="text" size="70" alt="Pass" value="{pass}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Sort 1:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="sort1" notnull = "1" type="text" size="70" alt="Sort 1" value="{sort1}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Sort 2:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="sort2" notnull = "1" type="text" size="70" alt="Sort 2" value="{sort2}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Link Us:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="linkus" notnull = "1" type="text" size="70" alt="Link Us" value="{linkus}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Link Us 2:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="linkus2" notnull = "1" type="text" size="70" alt="Link Us 2" value="{linkus2}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Link Down:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="linkdown" notnull = "1" type="text" size="70" alt="Link Down" value="{linkdown}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Link Down 2:<font color="#FF0000">*</font></td>
+    <td width="78%"><input name="linkdown2" notnull = "1" type="text" size="70" alt="Link Down 2" value="{linkdown2}" /></td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Loại Traffic:</td>
+    <td width="78%">
+    <!-- DO ComboFromTable("traffic_type_id", "tbl_traffic_type", "traffic_type_id", "traffic_type_name", "traffic_type_id", 0, "Loại Traffic" , "0" , "1 and active = 1 order by  priority" , "", 1) --> 
+    </td>
+  </tr>
+  <tr >
+    <td width="22%" height="25" >Ghi chú:<font color="#FF0000">*</font></td>
+    <td width="78%"><textarea rows="20" cols="100" name="ghichu">{ghichu}</textarea></td>
+  </tr>
+  <tr>
+    <td ></td>
+    <td ><input type="checkbox" name="active" value="1" id="fp1" {active} />
+        <label kind="fp1"> Active</label></td>
+  </tr>
+<tr style="visibility:{allow}">
+      <td  colspan="2" >&nbsp;</td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td style="padding-left: 10" height="23">Create date:</td>
+      <td height="23"><input type="text" name="T1" size="33" class="is_label" readonly value="{created_date}"></td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td style="padding-left: 10" height="23">Create by:</td>
+      <td height="23"><input type="text" name="created_by" size="33" class="is_label" readonly value="{created_by}"></td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td style="padding-left: 10" height="23">Last_modified</td>
+      <td height="23"> 
+        <input type="text" name="last_modified" size="33" class="is_label" readonly value="{last_modified}">
+      </td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td style="padding-left: 10" height="23">Modified by</td>
+      <td height="23"><input type="text" name="modified_by" size="33" class="is_label" readonly value="{modified_by}"></td>
+    </tr>
+  </table>
+   
+</form><p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+</div>
+<Script Language="JavaScript">
+
+	function doSave()
+	{	if (verify(mainForm))	
+			mainForm.submit()
+	}
+
+	function returnToList()
+	{	document.location='?option={funname}&mode=list&l={LANGUAGEID}'
+	}
+	mainForm.camp_traffic_name.focus()
+	mainForm.traffic_type_id.value 	= {traffic_type_id}
+</Script>

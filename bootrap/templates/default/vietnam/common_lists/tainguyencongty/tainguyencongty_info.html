@@ -1,0 +1,107 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+.share-user-wrap{display:inline-block;vertical-align:top}
+.share-user-note{margin-top:4px;max-width:820px;line-height:20px}
+.share-user-note span{display:inline-block;margin:0 4px 4px 0;padding:1px 6px;border:1px solid #b8c7dd;background:#eef5ff;color:#000080;font-size:11px;white-space:nowrap;cursor:pointer}
+.share-user-note b{color:#333}
+</style>
+
+<div class="toolbar">
+<a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Save"><span>Save</span></a>
+<a href="JavaScript:returnToList()"><img border="0" src="templates/{skin}/images/back.gif" alt="Trở về danh sách" width="20" height="20"><span>Trở về danh sách</span></a>
+</div>
+
+<div class="tabtitle">
+  Thông tin Tài nguyên công ty
+</div>
+
+<div style="overflow:auto; height:80%">
+<form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm">
+  <input type="hidden" name="l" value="{LANGUAGEID}">
+  <input type="hidden" name="option" value="{funname}">
+  <input type="hidden" name="id" value="{resource_id}">
+  <input type="hidden" name="mode" value="save">
+
+  <table width="100%">
+    <tr>
+      <td width="22%" height="25">Link:<font color="#FF0000">*</font></td>
+      <td width="78%"><input name="resource_link" notnull="1" type="text" size="90" alt="Link" value="{resource_link}" /></td>
+    </tr>
+    <tr>
+      <td width="22%" height="25">Tên riêng:<font color="#FF0000">*</font></td>
+      <td width="78%"><input name="resource_name" notnull="1" type="text" size="70" alt="Tên riêng" value="{resource_name}" /></td>
+    </tr>
+    <tr>
+      <td width="22%" height="25">Phân loại:</td>
+      <td width="78%">
+        <select name="resource_category" alt="Phân loại">
+          <option value="1" {resource_category_1}>A</option>
+          <option value="2" {resource_category_2}>B</option>
+          <option value="3" {resource_category_3}>C</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td width="22%" height="25">Share cho ID nào:</td>
+      <td width="78%">
+        <span class="share-user-wrap">
+          <input name="share_user_ids" type="text" size="35" alt="Share cho ID nào" value="{share_user_ids}" />
+          <div class="share-user-note">
+            <!-- BEGIN share_member_note -->
+            <span onclick="addShareId('{share_member_note.member_id}')">{share_member_note.member_name}:<b>{share_member_note.member_id}</b></span>
+            <!-- END share_member_note -->
+          </div>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="checkbox" name="active" value="1" id="active" {active} />
+        <label kind="active"> Active</label></td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td width="20%" style="padding-left:10" height="23">Create date:</td>
+      <td width="80%" height="23"><input type="text" name="T1" size="33" class="is_label" readonly value="{created_date}"></td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td width="20%" style="padding-left:10" height="23">Create by:</td>
+      <td width="80%" height="23"><input type="text" name="created_by" size="33" class="is_label" readonly value="{created_by}"></td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td width="20%" style="padding-left:10" height="23">Last_modified</td>
+      <td width="80%" height="23"><input type="text" name="last_modified" size="33" class="is_label" readonly value="{last_modified}"></td>
+    </tr>
+    <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
+      <td width="20%" style="padding-left:10" height="23">Modified by</td>
+      <td width="80%" height="23"><input type="text" name="modified_by" size="33" class="is_label" readonly value="{modified_by}"></td>
+    </tr>
+  </table>
+</form>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+function doSave()
+{
+  if (verify(mainForm)) {
+    mainForm.submit();
+  }
+}
+
+function returnToList()
+{
+  document.location='?option={funname}&mode=list&l={LANGUAGEID}';
+}
+
+function addShareId(id)
+{
+  var input = mainForm.share_user_ids;
+  var current = ',' + input.value.replace(/\s/g, '') + ',';
+  if (current.indexOf(',' + id + ',') < 0) {
+    input.value = input.value.replace(/\s+$/g, '');
+    input.value = input.value == '' ? id : input.value + ',' + id;
+  }
+}
+
+mainForm.resource_link.focus();
+</script>

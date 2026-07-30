@@ -1,0 +1,124 @@
+<style type="text/css">
+.content-stats {display:flex; gap:10px; margin:8px 0 10px 0;}
+.content-stat {border:1px solid #c9d7e2; background:#f5f9fc; padding:8px 12px; min-width:115px;}
+.content-stat b {display:block; font-size:18px; color:#005a8f;}
+.content-links a {color:#005a8f; font-weight:bold; word-break:break-all;}
+.content-approved-row td {background:#e7f8ed !important; border-top:1px solid #9bd5ad; border-bottom:1px solid #9bd5ad;}
+.content-approved-row td:first-child {border-left:4px solid #1f9d55;}
+.content-approved-badge {display:inline-block; background:#1f9d55; color:#fff; font-weight:bold; padding:2px 7px; border-radius:3px;}
+.content-task-cell {min-width:360px; max-width:560px; white-space:normal; line-height:1.35;}
+.content-task-wide {min-width:420px;}
+.content-type-cell {font-size:12px; line-height:1.25;}
+.content-compact {font-size:12px;}
+.content-website-cell {min-width:150px; white-space:nowrap; overflow:hidden;}
+.content-action-cell {white-space:nowrap;}
+</style>
+
+<div class="toolbar">
+  <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Giao bài mới</span></a>
+</div>
+
+<div class="content-stats">
+  <div class="content-stat"><b>{total_tasks}</b>Tổng task</div>
+  <div class="content-stat"><b>{waiting_link_tasks}</b>Chờ link</div>
+  <div class="content-stat"><b>{waiting_approve_tasks}</b>Chờ duyệt</div>
+  <div class="content-stat"><b>{approved_tasks}</b>Đã duyệt</div>
+</div>
+
+<div class="tabtitle">
+<form action="main.php" method="POST" name="mainForm" id="mainForm" style="margin:0px;">
+  <input type="hidden" name="option" id="option" value="{funname}">
+  <input type="hidden" name="mode" id="mode" value="list">
+  NV Thực hiện
+  <select name="member_id1" id="member_id1" onchange="doReShow()">
+    <option value="0">All</option>
+    <!-- BEGIN member_list -->
+    <option value="{member_list.member_id}">{member_list.member_name}</option>
+    <!-- END member_list -->
+  </select>
+  Website
+  <select name="website_id1" id="website_id1" onchange="doReShow()">
+    <option value="0">All</option>
+    <!-- BEGIN website_list -->
+    <option value="{website_list.website_id}">{website_list.website_name}</option>
+    <!-- END website_list -->
+  </select>
+  Trạng thái
+  <select name="approved1" id="approved1" onchange="doReShow()">
+    <option value="">All</option>
+    <option value="0">Chưa duyệt</option>
+    <option value="1">Đã duyệt</option>
+  </select>
+  <input type="submit" value="Search" style="height:18px; margin-top:4px;">
+</form>
+</div>
+<script>
+mainForm.member_id1.value = '{member_id}';
+mainForm.website_id1.value = '{website_id}';
+mainForm.approved1.value = '{approved_filter}';
+</script>
+
+<div style="overflow:auto; height:75%">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="25" align="center">#</td>
+      <td width="28" align="center">Sửa</td>
+      <td width="30" align="center">Xóa</td>
+      <td width="68">Ngày giao</td>
+      <td width="150">Website</td>
+      <td width="92">Nhân viên</td>
+      <td width="78">Loại</td>
+      <td width="390">Nội dung task</td>
+      <td width="90">Link GG Docs</td>
+      <td width="90">Bộ từ khoá</td>
+      <td width="360">Link Website</td>
+      <td width="68">Trạng thái</td>
+      <td width="68">Ngày duyệt</td>
+      <td width="68">Người giao</td>
+      <td width="68">Người sửa</td>
+      <td width="78">Lúc sửa</td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}">
+      <td align="center" style="vertical-align:middle">{list.order}</td>
+      <td width="28" align="center" class="content-action-cell"><a href="JavaScript:updateItem({list.content_task_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="30" align="center" class="content-action-cell"><a style="display:{list.delete_display}" href="JavaScript:deleteItem({list.content_task_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+      <td style="vertical-align:middle"><b><font color="red">{list.created_date}</font></b></td>
+      <td width="150" style="vertical-align:middle" class="content-compact content-website-cell">{list.website_name}</td>
+      <td style="vertical-align:middle" class="content-compact"><b>{list.member_name}</b></td>
+      <td style="vertical-align:middle" class="content-type-cell">{list.content_type}</td>
+      <td style="vertical-align:middle" class="content-task-cell{list.title_cell_style}"><a href="JavaScript:updateItem({list.content_task_id})">{list.title}</a></td>
+      <td style="vertical-align:middle" class="content-links">{list.google_docs_links}</td>
+      <td style="vertical-align:middle" class="content-links">{list.keyword_set_links}</td>
+      <td style="vertical-align:middle" class="content-links">{list.website_links}</td>
+      <td style="vertical-align:middle">{list.approved}</td>
+      <td style="vertical-align:middle">{list.approved_date}</td>
+      <td style="vertical-align:middle">{list.created_by}</td>
+      <td style="vertical-align:middle">{list.modified_by}</td>
+      <td style="vertical-align:middle">{list.last_modified}</td>
+    </tr>
+    <!-- END list -->
+  </table>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+
+<script>
+function doReShow()
+{
+  mainForm.submit();
+}
+function doCreate()
+{
+  document.location='?option={funname}&mode=info&l={LANGUAGEID}';
+}
+function updateItem(id)
+{
+  document.location='?option={funname}&mode=info&l={LANGUAGEID}&id=' + id;
+}
+function deleteItem(id)
+{
+  if (confirm('Are you sure you want to delete ?.')) {
+    document.location='?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id;
+  }
+}
+</script>

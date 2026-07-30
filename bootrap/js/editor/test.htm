@@ -1,0 +1,308 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../templates/xp_theme/css/default.css">
+<script type="text/javascript" src="scripts/i_javascript.js"></script>
+</head>
+
+<body leftmargin=0 topmargin=0>
+
+<table>
+<tr>
+	<td class='MainTDHead' colspan='3'> </td>
+</tr>
+<tr>
+	<td class='LeftTD'>
+
+</td>
+	<td class='DivTD'> </td>
+	<td class='RightTD'>
+<script language="JavaScript">
+function update_field(sNewValue,sForm,sField)
+{
+	eval("document." + sForm + "[sField].value = sNewValue;");
+}
+</script>
+<script language="JavaScript" src="scripts/editor.js"></script>
+
+
+<table  >
+<form id="edit_Content" name="edit_Content" action="submit_content.asp" method="post" >
+		
+		<input type=hidden name="Expire" value="10/29/2004 9:09:55 PM">
+		
+		
+		<input type=hidden name="Impressions" value="0">
+		
+		
+		<input type=hidden name="DateAdded" value="9/29/2004 9:09:55 PM">
+		
+		
+		<input type=hidden name="Ratings" value="0">
+		
+		
+		<input type=hidden name="Display" value="0">
+		
+		
+		<input type=hidden name="AvgRating" value="0">
+		
+		
+		<input type=hidden name="ClickThrus" value="0">
+		
+		
+		<input type=hidden name="ContentID" value="">
+		
+		
+		<input type=hidden name="user_id" value="213">
+		
+		
+		<input type=hidden name="ContentTypeID" value="4">
+	
+<tr>
+	<td class='labelTD'>Title</td>
+	<td class='dataTD' >
+		<input type=text  name="Title" size="50" maxlength="100" value="">
+	</td>
+</tr>
+
+<tr>
+	<td class='labelTD'>Author</td>
+	<td class='dataTD' >
+		<input type=text  name="Author" size="30" maxlength="50" value="">
+	</td>
+</tr>
+
+<tr>
+	<td class='labelTD'>Website URL</td>
+	<td class='dataTD' >
+		<input type=text  name="RelatedURL" size="60" maxlength="70" value="">
+	</td>
+</tr>
+
+<tr>
+	<td class='labelTD'>Brief / Abstract</td>
+	<td class='dataTD' >
+		
+	<!-- create hidden field for editor -->
+	<pre id="Edit0" style="display:none"></pre>
+	<input type="hidden" name="ShortDesc" id="ShortDesc" value="">
+	<script>
+	//init editor
+	var oEdit0 = new InnovaEditor("oEdit0");
+	oEdit0.scriptPath="scripts/";
+	oEdit0.width="300";
+	oEdit0.height="180";
+	
+	//turn some buttons off
+	oEdit0.btnUndo=false;
+	oEdit0.btnRedo=false;
+	oEdit0.btnItalic=false;
+	oEdit0.btnUnderline=false;
+	oEdit0.btnJustifyLeft=false;
+	oEdit0.btnBorder=false;
+	oEdit0.btnForm=false;
+	oEdit0.btnBookmark=false;
+	oEdit0.btnGuidelines=false;
+	oEdit0.btnPasteWord=false;
+	oEdit0.btnIndent=false;
+	oEdit0.btnOutdent=false;
+	oEdit0.btnClean=false;
+	oEdit0.btnNumbering=false;
+	oEdit0.btnCut=false;
+	oEdit0.btnCharacters=false;
+	oEdit0.btnTagSelector=false;
+
+	//turn on assets button
+	oEdit0.btnAssets=true;
+		
+	//turn on internal link button
+	oEdit0.btnInternalLink=true;
+	oEdit0.cmdInternalLink = "modelessDialogShow('innova/InternalLinks.asp',465,250)"
+	
+	//map styles
+	var sTmp="";
+	var ss=document.styleSheets[0];
+	for(var i=0;i<document.styleSheets[0].rules.length;i++)
+		{
+		if (ss.rules.item(i).selectorText=='P'||ss.rules.item(i).selectorText=='A'||ss.rules.item(i).selectorText=='A:hover'||ss.rules.item(i).selectorText=='A:link'||ss.rules.item(i).selectorText=='A:visited'){
+			sSelector = ss.rules.item(i).selectorText;
+			sCssText = ss.rules.item(i).style.cssText;
+			sTmp+=",[\""+sSelector+"\",false,\"\",\""+ sCssText + "\"]";
+		}
+		if (ss.rules.item(i).selectorText=='.ContentTD'){
+			sSelector = "BODY";
+			sCssText = ss.rules.item(i).style.cssText;
+			sTmp+=",[\""+sSelector+"\",false,\"\",\""+ sCssText + "\"]";
+		}
+		}
+	var arrStyle = eval("["+sTmp.substr(1)+"]");
+	oEdit0.arrStyle = arrStyle;	
+
+	oEdit0.RENDER();	
+	oEdit0.loadHTML(Edit0.innerHTML);
+	</script>
+
+	</td>
+</tr>
+
+<tr>
+	<td class='labelTD'>Full Content</td>
+	<td class='dataTD' >
+		
+	<!-- create hidden field for editor -->
+	<pre id="Edit1" style="display:none"></pre>
+	<input type="hidden" name="LongDesc" id="LongDesc" value="">
+	<script>
+	//init editor
+	var oEdit1 = new InnovaEditor("oEdit1");
+	oEdit1.scriptPath="scripts/";
+	oEdit1.width="465";
+	oEdit1.height="360";
+	
+	//turn on assets button
+	oEdit1.btnAssets=true;
+	oEdit1.btnAssetManager=true;
+	oEdit1.btnCharacters=false;
+	oEdit1.btnTagSelector=false;
+	
+	//turn on internal link button
+	oEdit1.btnInternalLink=true;
+	oEdit1.cmdInternalLink = "modelessDialogShow('innova/InternalLinks.asp',465,250)"
+	
+	oEdit1.RENDER();
+	oEdit1.loadHTML(Edit1.innerHTML);
+	</script>
+
+	</td>
+</tr>
+
+<input type=hidden name='Priority' value='3'>
+
+<tr>
+	<td class='labelTD'>Previous item</td>
+	<td class='dataTD' >
+		
+		<select name="PrevContentId"  "0">
+		<option value=''>[none]</option>
+		<option value='485'>A new Customer win</option>
+		<option value='475'>Basics / 101</option>
+		<option value='496'>Bell Canyon News</option>
+		<option value='397'>Categories / Topics</option>
+		<option value='517'>Change the Section Layout</option>
+		<option value='494'>CMS</option>
+		<option value='396'>Content</option>
+		<option value='381'>Example FAQ</option>
+		<option value='378'>Example Resource/Link</option>
+		<option value='464'>How does PortalApp CMS Work?</option>
+		<option value='384'>Iatek lauches PortalApp 3 CMS</option>
+		<option value='385'>Item Title</option>
+		<option value='386'>Item Title 2</option>
+		<option value='406'>Manage Web Content</option>
+		<option value='471'>Michael's Test</option>
+		<option value='472'>More Information</option>
+		<option value='473'>MyTestApp</option>
+		<option value='389'>News 2</option>
+		<option value='388'>News Article 1</option>
+		<option value='391'>Ollie Test</option>
+		<option value='488'>PFI site home page</option>
+		<option value='410'>Pharma Industry Oa a High</option>
+		<option value='463'>PortalApp 3</option>
+		<option value='382'>PortalApp v3: Ready-to-run Content Management</option>
+		<option value='392'>Prova I'm Italy</option>
+		<option value='479'>Results</option>
+		<option value='511'>Test</option>
+		<option value='481'>Test Title</option>
+		<option value='387'>Test1</option>
+		<option value='469'>This is a Title</option>
+		<option value='480'>This is simply a test!</option>
+		<option value='502'>This is Tom's Test Page</option>
+		<option value='437'>This site is a Demo</option>
+		<option value='474'>This Works!</option>
+		<option value='504'>Title - MyTitle</option>
+		<option value='514'>Toutatis makes an elliptical four-year trek</option>
+		<option value='294'>Try the Demo</option>
+		<option value='470'>Very Nice App</option>
+		<option value='466'>Will it Work for the Law Office?</option>
+		
+		</select>
+		
+	</td>
+</tr>
+<tr>
+	<td class='labelTD'>Next item</td>
+	<td class='dataTD' >
+		
+		<select name="NextContentId"  "0">
+		<option value=''>[none]</option>
+		<option value='485'>A new Customer win</option>
+		<option value='475'>Basics / 101</option>
+		<option value='496'>Bell Canyon News</option>
+		<option value='397'>Categories / Topics</option>
+		<option value='517'>Change the Section Layout</option>
+		<option value='494'>CMS</option>
+		<option value='396'>Content</option>
+		<option value='381'>Example FAQ</option>
+		<option value='378'>Example Resource/Link</option>
+		<option value='464'>How does PortalApp CMS Work?</option>
+		<option value='384'>Iatek lauches PortalApp 3 CMS</option>
+		<option value='385'>Item Title</option>
+		<option value='386'>Item Title 2</option>
+		<option value='406'>Manage Web Content</option>
+		<option value='471'>Michael's Test</option>
+		<option value='472'>More Information</option>
+		<option value='473'>MyTestApp</option>
+		<option value='389'>News 2</option>
+		<option value='388'>News Article 1</option>
+		<option value='391'>Ollie Test</option>
+		<option value='488'>PFI site home page</option>
+		<option value='410'>Pharma Industry Oa a High</option>
+		<option value='463'>PortalApp 3</option>
+		<option value='382'>PortalApp v3: Ready-to-run Content Management</option>
+		<option value='392'>Prova I'm Italy</option>
+		<option value='479'>Results</option>
+		<option value='511'>Test</option>
+		<option value='481'>Test Title</option>
+		<option value='387'>Test1</option>
+		<option value='469'>This is a Title</option>
+		<option value='480'>This is simply a test!</option>
+		<option value='502'>This is Tom's Test Page</option>
+		<option value='437'>This site is a Demo</option>
+		<option value='474'>This Works!</option>
+		<option value='504'>Title - MyTitle</option>
+		<option value='514'>Toutatis makes an elliptical four-year trek</option>
+		<option value='294'>Try the Demo</option>
+		<option value='470'>Very Nice App</option>
+		<option value='466'>Will it Work for the Law Office?</option>
+		
+		</select>
+		
+	</td>
+</tr>
+
+
+<tr>
+	<td class=labelTD align=right>&nbsp;
+	
+	</td>
+	<td class=dataTD>
+	<input type=submit class=cmd name=insert_button value='SUBMIT' onclick="try{ShortDesc.value=oEdit0.getHTMLBody()}catch(err){}try{LongDesc.value=oEdit1.getHTMLBody()}catch(err){return;}">
+	</td>
+<input type=hidden name="action" value="insert_edit_Content"></tr>
+
+</form>
+</table>
+
+	</td>
+</tr>
+<tr>
+	<td class='MainTDFoot' colspan='3'> </td>
+</tr>
+</TABLE>
+<TABLE class='FooterTable'>
+<tr>
+	<td class='FooterTD'> </td>
+</tr>
+</TABLE>
+<div class='copyright'>Copyright @2003-2004 Iatek LLC | Powered by <A href='http://www.portalapp.com'><img src='images/palogo_gr_17.gif' height=23 alt='powered by PortalApp' align='middle'></A></div>
+
+</body>
+</html>

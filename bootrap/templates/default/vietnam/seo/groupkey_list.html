@@ -1,0 +1,79 @@
+<Script Language="JavaScript">
+function doReShow()
+{	
+	mainForm.submit();
+}
+
+function doCreate()
+{	
+	document.location='?option={funname}&parent_id={parent_id}&mode=info&l={LANGUAGEID}'
+}
+
+function updateItem(id)
+{	document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
+}
+
+function subItem(id)
+{	document.location = '?option={funname}&mode=list&l={LANGUAGEID}&parent_id=' + id
+}
+
+function detailItem(id)
+{	document.location = '?option={funname}&mode=detail&l={LANGUAGEID}&id=' + id
+}
+
+function viewBacklink(id)
+{	document.location = '?option={funname}&mode=list&l={LANGUAGEID}&parent_id=' + id
+}
+
+function deleteItem(id)
+{	if (confirm ("Are you sure you want to delete ?."))
+		document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+}	
+</Script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create new</span></a></div>
+<div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
+	<input type="hidden" name="option" id="option" value="{funname}">
+	<input type="hidden" name="mode" id="mode" value="list">
+Danh sách Groupkey : 
+<!-- DO ComboFromTable("website_id", "tbl_website", "website_id", "website_name", "website_id", 0, " Chọn Website" , "0" , "active = 1 order by priority" , "doReShow()", 1) -->
+ <select name="isvn1" size="1" onchange="doReShow()"><option value="0">All</option><option value="1">VN</option><option value="2">NN</option></select>   
+	 <input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" /></form> 
+</div>
+<script>mainForm.website_id.value = '{website_id}';</script>
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="85" align="center" >#</td>
+      <td width="350" align="left" >Tên Groupkeys</td>
+      <td width="300" align="left" >URL</td>
+      <td width="60" align="left" ><font color="#FF0000"><strong>Backlink</strong></font></td>
+      <td width="100" align="left" >Website</td>
+      <td width="60" align="left" >Share chéo</td>
+      <td width="60" align="left" >Đi nguồn</td>
+      <td width="70" align="left" >Update SEO</td>
+      <td width="40" align="left" >Thứ tự</td>
+      <td  colspan="5" ></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}{list.status}">
+      <td align="center" style="vertical-align:middle">{list.order}</td>
+      <td style="vertical-align:middle">{list.groupkey_name}</td>
+      <td style="vertical-align:middle"><a href="{list.url}" title="{list.title_seo}" target="_blank">{list.url}</a></td>
+      <td style="vertical-align:middle" align="right"><a href="JavaScript:detailItem({list.groupkey_id})">{list.backlink}</a></td>
+      <td>{list.website_name}</td>
+      <td align="center">{list.isshare}</td>
+      <td align="center">{list.issource}</td>
+      <td align="center">{list.isupdate}</td>
+      <td align="right">{list.priority}</td>
+      <td width="23" align="center"><a href="?option={funname}&mode=up&id={list.groupkey_id}&l={LANGUAGEID}&parent_id={parent_id}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
+      <td width="28" align="center"><a href="?option={funname}&mode=down&id={list.groupkey_id}&l={LANGUAGEID}&parent_id={parent_id}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
+	  <td width="4%" align="center"><a href="JavaScript:subItem({list.groupkey_id})"><img border="0" src="templates/{skin}/images/button-article-list.gif" width="20" height="20" alt="Detail"></a></td>
+      <td width="30" align="center"><a href="?option={funname}&mode=info&l={LANGUAGEID}&id={list.groupkey_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="42" align="center"><a href="JavaScript:deleteItem({list.groupkey_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+  </center>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>

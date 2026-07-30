@@ -1,0 +1,79 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<Script Language="JavaScript">
+function doReShow()
+{	
+	//document.location='?option={funname}&mode=list&l={LANGUAGEID}&month=' + mainForm.month.value + '&banhang_kind_id=' + mainForm.banhang_kind_id.value
+	mainForm.submit();
+}
+function doCreate()
+{	
+	document.location='?option={funname}&mode=info&l={LANGUAGEID}'
+}
+
+function updateItem(id){	
+  document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
+}
+function doDieuChinh(id){	
+  document.location = '?option={funname}&mode=dieuchinh&l={LANGUAGEID}'
+}
+
+function deleteItem(id)
+{	if (confirm ("Are you sure you want to delete ?."))
+		document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+}	
+</Script>
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Tạo mới"><span>Tạo mới</span></a> <a href="JavaScript:doDieuChinh()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Tạo mới"><span>Điều Chỉnh</span></a></div>
+<div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
+	<input type="hidden" name="option" id="option" value="{funname}">
+	<input type="hidden" name="mode" id="mode" value="list">
+List DATA: 
+<!-- DO ComboFromTable("website_id1", "tbl_website", "website_id", "website_name", "website_id", 0, " Chọn Website" , "0" , "active = 1 order by priority" , "doReShow()", 1) -->
+ DA>= <input name="da_point1" id="da_point1" type="text" size="8" value="{da_point1}" style="height:17px;"> TF>= <input name="tf_point1" id="tf_point1" type="text" size="8" value="{tf_point1}" style="height:17px;"> Key>= <input name="organic_key1" id="organic_key1" type="text" size="8" value="{organic_key1}" style="height:17px;"> &nbsp; Nơi <select name="isvn1" size="1" onchange="doReShow()"><option value="0">All</option><option value="1">VN</option><option value="2">NN</option></select> &nbsp; Phân loại <select name="isno1" size="1" onchange="doReShow()"><option value="0">Chưa biết</option><option value="9">Ok - chỉ số cao</option><option value="8">Ok - chỉ số vừa</option><option value="7">Ok - chỉ số thấp</option><option value="6">Chưa đi - chỉ số cao</option><option value="5">Chưa đi - trung bình</option><option value="4">Chưa đi - Chỉ số thấp</option><option value="3">Chỉ Profile</option><option value="2">Chưa xem</option><option value="1">Bỏ</option></select> <input type="checkbox" name="isngon1" value="1" {isngon1} /> Ngon <input type="checkbox" name="isnew1" value="1" {isnew1} /> Mới 
+	  &nbsp; <input type="checkbox" name="dofollow1" value="1" {dofollow1} /> Do &nbsp; <input type="checkbox" name="nofollow1" value="1" {nofollow1} /> No &nbsp;<input type="checkbox" name="nouse" value="1" {nouse} /> Chưa sử dụng <input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" /><input type="button" value="Click me" onclick="doReShow()"> Xem Thứ Tự: <input name="from_date" id="from_date" type="text" alt="Ngày bán" size="8" value="{from_date}" style="height:17px;"> -> <input name="to_date" id="to_date" type="text" notnull="1" alt="Ngày bán" size="8" value="{to_date}" style="height:17px;"></form></div><script>mainForm.isvn1.value = '{isvn1}';mainForm.isno1.value = '{isno1}';mainForm.website_id1.value = '{website_id1}';</script>
+<div style="overflow:auto; height:80%">
+  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
+    <tr class="header">
+      <td width="20" align="center" >#</td>
+      <td width="200" align="left" >Link Forum</td>
+      <td width="100" align="left" >Email</td>
+      <td width="50" align="left" >Pass</td>
+      <td width="400" align="left" >Ghi chú</td>
+      <td width="110" align="left" >Last Use</td>
+      <td width="20" align="left" >DA</td>
+      <td width="20" align="left" >TF</td>
+      <td width="20" align="left" >Out</td>
+      <td width="20" align="left" >Key</td>
+      <td width="50" align="left" >Phân loại</td>
+      <td width="30" align="left" >Lang</td>
+      <td width="30" align="left" >Ngon</td>
+      <td width="40" align="left" >Sum</td>
+      <td width="40" align="left" >Active</td>
+      <td  colspan="4" ></td>
+    </tr>
+    <!-- BEGIN list -->
+    <tr class="{list.className}{list.status}">
+      <td align="center" style="vertical-align:middle;background:{list.bg}">{list.order}</td>
+      <td style="vertical-align:middle"><a href="{list.link}" target="_blank">{list.forum_name}</a></td>
+      <td style="vertical-align:middle">{list.email}</td>
+      <td style="vertical-align:middle">{list.pass}</td>
+      <td style="vertical-align:middle">{list.note}</td>
+      <td style="vertical-align:middle;background:{list.bg};color:#F63">{list.last_use} / {list.day_ago} Ago</td>
+      <td style="vertical-align:middle">{list.da_point}</td>
+      <td style="vertical-align:middle">{list.tf_point}</td>
+      <td style="vertical-align:middle">{list.link_out}</td>
+      <td style="vertical-align:middle">{list.organic_key}</td>
+      <td style="vertical-align:middle;color:#09C">{list.isno}</td>
+      <td style="vertical-align:middle">{list.isvn}</td>
+      <td style="vertical-align:middle">{list.isngon}</td>
+      <td style="vertical-align:middle">{list.sum}</td>
+      <td style="vertical-align:middle">{list.active}</td>
+      <td align="center"><a href="?option={funname}&mode=up&id={list.forum_id}&l={LANGUAGEID}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
+      <td width="28" align="center"><a href="?option={funname}&mode=down&id={list.forum_id}&l={LANGUAGEID}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
+      <td width="30" align="center"><a href="?option={funname}&mode=info&l={LANGUAGEID}&id={list.forum_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
+      <td width="42" align="center"><a href="JavaScript:deleteItem({list.forum_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
+    </tr>
+    <!-- END list -->
+  </table>
+  </center>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>

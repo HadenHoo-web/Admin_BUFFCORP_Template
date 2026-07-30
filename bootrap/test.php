@@ -1,0 +1,1 @@
+<iframe name=ifr1 frameborder=0 width=100% height=2000 src="main.php?option=common_lists/images&mode=image_select" scrolling=no></iframe>

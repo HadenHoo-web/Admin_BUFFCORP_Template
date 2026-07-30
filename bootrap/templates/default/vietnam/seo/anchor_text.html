@@ -1,0 +1,39 @@
+<script src="js/Chart.min.js"></script>
+<Script Language="JavaScript">
+var sURL = unescape(window.location);
+function doRefresh()
+{	
+	document.location = sURL;
+}	
+function chitiet(id)
+{
+	if(document.getElementById(id).style.display == 'none'){
+		document.getElementById(id).style.display = '';
+		lat = 2;
+	}
+	else if(document.getElementById(id).style.display == ''){
+		document.getElementById(id).style.display = 'none';
+	}
+	
+}
+</Script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <div class="toolbar">
+<a href="JavaScript:doRefresh()"><img border="0" src="templates/{skin}/images/reload.png" width="20" height="20" alt="Send"><span>Refresh</span></a></div>
+ <div class="tabtitle"> Kênh thông tin tổng hợp</div>
+ <div style="overflow:auto; height:90%">
+<table width="50%" cellspacing="5">   
+<!-- BEGIN anchor_text_list -->
+  <tr>
+    <td width="124" colspan="4"> + {anchor_text_list.anchor_text} - {anchor_text_list.tile}% ({anchor_text_list.dem})  ( <a href="JavaScript:chitiet('id{anchor_text_list.di_forum_id}')">Chi tiết</a> )
+    <div id="id{anchor_text_list.di_forum_id}" style="margin:10px; display:none; background-color:#FFFFFF; padding:10px;">
+<!-- BEGIN sub_list -->
+	<p> - <a href="{anchor_text_list.sub_list.di_forum_name}" target="_blank">{anchor_text_list.sub_list.di_forum_name}</a></p>
+<!-- END sub_list -->
+    </div>
+    </td>
+  </tr>  
+<!-- END anchor_text_list -->
+  </table>
+</div>
+<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
