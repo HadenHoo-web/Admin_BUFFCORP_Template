@@ -3,5 +3,5 @@
 	session_start();
 	if(!isset($_SESSION["adminkh"]) || !$_SESSION["adminkh"])
 	$_SESSION["adminkh"]="adminkh";
-	header("Location:bootrap");
+	header("Location: bootrap/");
 ?>
