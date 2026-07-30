@@ -1,4 +1,29 @@
 <?php
+	function cms_env($name, $default = '')
+	{
+		$value = getenv($name);
+		return ($value === false || $value === '') ? $default : $value;
+	}
+
+	$cmsLocalConfig = array();
+	$cmsLocalConfigFile = __DIR__ . '/config.local.php';
+	if (file_exists($cmsLocalConfigFile)) {
+		$loadedLocalConfig = include $cmsLocalConfigFile;
+		if (is_array($loadedLocalConfig)) {
+			$cmsLocalConfig = $loadedLocalConfig;
+		}
+	}
+
+	function cms_config($key, $default = '')
+	{
+		global $cmsLocalConfig;
+		$value = getenv($key);
+		if ($value !== false && $value !== '') {
+			return $value;
+		}
+		return array_key_exists($key, $cmsLocalConfig) ? $cmsLocalConfig[$key] : $default;
+	}
+
 	$debug_mode		= false;
 	
 	$product_name	= "HK CMS";
@@ -10,27 +35,27 @@
 	$copyRights		= "";
 	$developed		= "Developed by HK Viet Nam";
 	
-	$dbms			= 'mysql';
-	$dbhost			= 'localhost';
-	$dbname			= 'adbuff_1';
-	$dbuser			= 'adbuff_1';
-	$dbpasswd 		= 'dQ8nrOPmfh';
+	$dbms			= cms_config('DB_DRIVER', 'mysql');
+	$dbhost			= cms_config('DB_HOST', 'localhost');
+	$dbname			= cms_config('DB_NAME', 'admin_buffcorp');
+	$dbuser			= cms_config('DB_USER', 'root');
+	$dbpasswd 		= cms_config('DB_PASSWORD', '');
 	
 	$topTemplateName	= "default.tpl";
 	$mainTemplateName	= "default.tpl";
 	$skin				= "default";
 	$theme				= "default.css";
 
-	define('RECAPTCHA_SITE_KEY','6LemKWUsAAAAAIRGJfIe4he6HS9QOO4efHJBMoTv');
-	define('RECAPTCHA_SECRET_KEY','6LemKWUsAAAAAJNkcIUyS5mQvF-sTeN9XXkLuir0');
-	define('CUTTPW_API_URL', 'https://cutt.pw/api/admin-stats');
-	define('CUTTPW_API_TOKEN', '3a48bc1c0a86d2fce2b8ecc7b6186ceff0d90ef8f9663135ec07f81fc2ed8989');
+	define('RECAPTCHA_SITE_KEY', cms_config('RECAPTCHA_SITE_KEY', ''));
+	define('RECAPTCHA_SECRET_KEY', cms_config('RECAPTCHA_SECRET_KEY', ''));
+	define('CUTTPW_API_URL', cms_config('CUTTPW_API_URL', 'https://cutt.pw/api/admin-stats'));
+	define('CUTTPW_API_TOKEN', cms_config('CUTTPW_API_TOKEN', ''));
 
-	define('GETPASS_API_URL', 'https://getpass.top/api/adbuffseo-category-web.php');
-	define('GETPASS_API_TOKEN', 'bfd8d62e9e1df39307cf8a93ba0fc0eb8827af954ace3ff77ceea690cb1b1838');
+	define('GETPASS_API_URL', cms_config('GETPASS_API_URL', 'https://getpass.top/api/adbuffseo-category-web.php'));
+	define('GETPASS_API_TOKEN', cms_config('GETPASS_API_TOKEN', ''));
 
-	define('GETPASS_EXACT_API_URL', 'https://getpass.top/api/adbuffseo-category-web-exact.php');
-	define('GETPASS_EXACT_API_TOKEN', 'bfd8d62e9e1df39307cf8a93ba0fc0eb8827af954ace3ff77ceea690cb1b1838');
+	define('GETPASS_EXACT_API_URL', cms_config('GETPASS_EXACT_API_URL', 'https://getpass.top/api/adbuffseo-category-web-exact.php'));
+	define('GETPASS_EXACT_API_TOKEN', cms_config('GETPASS_EXACT_API_TOKEN', ''));
 
 	$legacyMessageConstants = array(
 		'CANT_NOT_DELETE',

@@ -4,7 +4,9 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 mysqli_report(MYSQLI_REPORT_OFF);
-$conn = new mysqli("localhost","adbuff_1","dQ8nrOPmfh","adbuff_1");
+require_once dirname(__DIR__) . '/bootrap/config.php';
+
+$conn = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
 
 if ($conn->connect_error) {
     die("DB ERROR: " . $conn->connect_error);

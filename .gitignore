@@ -1,0 +1,37 @@
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local-only credentials
+bootrap/config.local.php
+bootrap/zalo/config/zalo.local.php
+.env
+.env.*
+!.env.example
+
+# Runtime logs
+debug_json.txt
+api/debug_json.txt
+bootrap/logs/*.log
+bootrap/zalo/logs/*.log
+
+# Runtime token/session storage
+bootrap/zalo/storage/*.json
+
+# Runtime uploads
+bootrap/uploads/*
+!bootrap/uploads/.gitkeep
+!bootrap/uploads/bieumau/
+!bootrap/uploads/bieumau/.gitkeep
+!bootrap/uploads/thongtinhethong/
+!bootrap/uploads/thongtinhethong/.gitkeep
+
+# Database/backups/archives
+*.sql
+*.bak
+*.backup
+*.zip
+*.tar
+*.gz

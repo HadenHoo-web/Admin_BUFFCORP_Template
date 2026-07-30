@@ -123,33 +123,36 @@ Import file SQL backup của team nếu có. Source hiện tại không kèm fil
 
 ### 4. Cấu hình database và secret
 
-Mở file:
+Tạo file cấu hình local từ file mẫu:
 
-```text
-bootrap/config.php
+```bash
+cp bootrap/config.local.example.php bootrap/config.local.php
+cp bootrap/zalo/config/zalo.local.example.php bootrap/zalo/config/zalo.local.php
 ```
 
-Cập nhật các biến:
+Sau đó cập nhật `bootrap/config.local.php`:
 
 ```php
-$dbhost   = 'localhost';
-$dbname   = 'admin_buffcorp';
-$dbuser   = 'root';
-$dbpasswd = '';
+'DB_HOST' => 'localhost',
+'DB_NAME' => 'admin_buffcorp',
+'DB_USER' => 'root',
+'DB_PASSWORD' => '',
 
-define('RECAPTCHA_SITE_KEY', 'your_recaptcha_site_key');
-define('RECAPTCHA_SECRET_KEY', 'your_recaptcha_secret_key');
-define('CUTTPW_API_URL', 'your_cuttpw_api_url');
-define('CUTTPW_API_TOKEN', 'your_cuttpw_api_token');
-define('GETPASS_API_URL', 'your_getpass_api_url');
-define('GETPASS_API_TOKEN', 'your_getpass_api_token');
+'RECAPTCHA_SITE_KEY' => 'your_recaptcha_site_key',
+'RECAPTCHA_SECRET_KEY' => 'your_recaptcha_secret_key',
+'CUTTPW_API_TOKEN' => 'your_cuttpw_api_token',
+'GETPASS_API_TOKEN' => 'your_getpass_api_token',
 ```
 
-Nếu dùng Zalo OA, cấu hình thêm:
+Nếu dùng Zalo OA, cập nhật thêm `bootrap/zalo/config/zalo.local.php`:
 
-```text
-bootrap/zalo/config/zalo.php
+```php
+'oa_id' => 'your_zalo_oa_id',
+'app_id' => 'your_zalo_app_id',
+'secret_key' => 'your_zalo_secret_key',
 ```
+
+Hai file `bootrap/config.local.php` và `bootrap/zalo/config/zalo.local.php` đã được đưa vào `.gitignore`, không nên commit lên GitHub.
 
 ### 5. Cấp quyền thư mục ghi
 
@@ -262,9 +265,9 @@ git commit -m "docs: cap nhat huong dan cai dat local"
 - Test đăng nhập admin, phân quyền, upload file và các module vừa sửa.
 - Nếu sửa cron/API, test bằng CLI hoặc Postman trước khi merge.
 
-## Gợi ý `.gitignore`
+## `.gitignore`
 
-Nên tạo `.gitignore` trước khi push public/private repo:
+Repo đã có `.gitignore` để chặn credential local, log, token runtime, upload và backup trước khi push GitHub:
 
 ```gitignore
 # OS/editor
@@ -273,18 +276,31 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Local-only credentials
+bootrap/config.local.php
+bootrap/zalo/config/zalo.local.php
+.env
+.env.*
+!.env.example
+
 # Runtime logs
+debug_json.txt
+api/debug_json.txt
 bootrap/logs/*.log
 bootrap/zalo/logs/*.log
 
 # Runtime token/session storage
 bootrap/zalo/storage/*.json
 
-# Local uploads/backups
+# Runtime uploads
 bootrap/uploads/*
 !bootrap/uploads/.gitkeep
+!bootrap/uploads/bieumau/
+!bootrap/uploads/bieumau/.gitkeep
+!bootrap/uploads/thongtinhethong/
+!bootrap/uploads/thongtinhethong/.gitkeep
 
-# Local config/backup
+# Database/backups/archives
 *.sql
 *.bak
 *.backup
@@ -297,7 +313,7 @@ Nếu team cần version một số file mẫu trong `uploads`, hãy whitelist r
 
 ## Bảo mật
 
-Source hiện tại có các cấu hình nhạy cảm trong file PHP config. Trước khi đưa lên GitHub, team nên:
+Source đã hỗ trợ tách cấu hình nhạy cảm qua file local hoặc biến môi trường. Trước khi đưa lên GitHub, team nên:
 
 1. Rotate toàn bộ database password, reCAPTCHA secret, Zalo secret, CuttPW/GetPass token đã từng nằm trong source.
 2. Tách config theo môi trường: local, staging, production.
@@ -313,7 +329,7 @@ Source hiện tại có các cấu hình nhạy cảm trong file PHP config. Tr�
 git pull origin main
 ```
 
-2. Cập nhật cấu hình production trong `bootrap/config.php` và `bootrap/zalo/config/zalo.php`.
+2. Cập nhật cấu hình production bằng biến môi trường hoặc tạo `bootrap/config.local.php` và `bootrap/zalo/config/zalo.local.php` trực tiếp trên server.
 3. Đảm bảo Apache trỏ `DocumentRoot` về root project.
 4. Bật HTTPS.
 5. Cấp quyền ghi cho thư mục log/upload/storage.
