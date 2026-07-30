@@ -563,8 +563,10 @@ function mosLogApplicationError($msg_code, $msg_text = '', $msg_title = '', $err
 
 function checkLogin()
 {	global $root_path;
-	if (!isLoged())
+	if (!isLoged()) {
 		header("Location: index.html");
+		exit;
+	}
 }
 
 function mosSetRecord(&$template, &$rec_count, &$item_per_page, &$page, $link) 
