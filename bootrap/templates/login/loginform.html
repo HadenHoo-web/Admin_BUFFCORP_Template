@@ -1,79 +1,176 @@
-<html>
+<!doctype html>
+<html lang="vi">
 
 <head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/admintool.css">
+<link rel="stylesheet" type="text/css" href="css/login.css">
 
 <link rel="shortcut icon" href="../favico.png" type="image/x-icon">
 <link rel="icon" href="../favico.png" type="image/x-icon">
 
-<title>Welcome HK Control Panel</title>
+<title>Đăng nhập quản trị BUFFCORP</title>
 
-<Script language="javascript" src="js/commoncheck.js"></Script>
-
+<script language="javascript" src="js/commoncheck.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
 </head>
 
-<body style="background-color: #F7F7F7" OnLoad="init()">
+<body class="buffcorp-login-body" onload="init()">
+<main class="buffcorp-login-page">
+  <section class="buffcorp-login-visual" aria-label="Nền tảng quản lý tăng trưởng số BUFFCORP">
+    <div class="buffcorp-visual-media" aria-hidden="true"></div>
+    <div class="buffcorp-visual-overlay" aria-hidden="true"></div>
 
-<div class="wraper" style="background-image: url(images/buffseo.png);" >	
-  <div class="container">
+    <div class="buffcorp-visual-inner">
+      <h1>BUFFCORP</h1>
+      <h2>Nền tảng quản lý tăng trưởng số</h2>
+      <p class="buffcorp-visual-description">Quản lý SEO, website, khách hàng và vận hành nội bộ trên một hệ thống tập trung.</p>
+      <p class="buffcorp-copyright">© BUFFCORP. Đã đăng ký bản quyền.</p>
+    </div>
+  </section>
 
-  <div class="login-form" >
-  <img src="images/logo-xanh.png" alt="Logo-Buffseo" class="logobuff">
- 
-        <form method="POST" action="login.php" onSubmit="return verifyLogin(this)" name="LoginForm" >
-          <p class="message">{MESSAGE}</p>
-              <div class="group_form">
-              
-        <div class="flex-row">
-          <input id="username" class='lf--input' placeholder='Tên đăng nhập' type='text' name="loginname" size="34" notnull=1 alt="User name">
-		    </div>
-        <div class="flex-row">
-          <input id="password" name="password"  class='lf--input' placeholder='Mật khẩu' type='password'  notnull=1 alt="Password">
-		    </div>
-              </div>
+  <section class="buffcorp-login-content" aria-label="Đăng nhập hệ thống BUFFCORP">
+    <div class="buffcorp-mobile-brand">
+      <img src="images/logo-xanh.png" alt="Buff logo">
+      <strong>BUFFCORP</strong>
+      <span>Chào mừng trở lại</span>
+    </div>
 
-          <div style="margin: 12px 0;">
-            <div class="g-recaptcha" data-sitekey="{RECAPTCHA_SITE_KEY}"></div>
+    <div class="buffcorp-login-card">
+      <div class="buffcorp-card-brand">
+        <img src="images/logo-xanh.png" alt="Buff logo" class="buffcorp-logo">
+      </div>
+
+      <header class="buffcorp-card-header">
+        <h1>Chào mừng trở lại</h1>
+        <p>Đăng nhập để truy cập hệ thống quản lý BUFFCORP.</p>
+      </header>
+
+      <form method="POST" action="login.php" onsubmit="return verifyLogin(this)" name="LoginForm" class="buffcorp-login-form" novalidate>
+        <p class="message buffcorp-login-message" id="login-message" role="alert" aria-live="polite">{MESSAGE}</p>
+
+        <div class="buffcorp-field">
+          <label for="username">Tên đăng nhập</label>
+          <div class="buffcorp-input-wrap">
+            <span class="buffcorp-input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </span>
+            <input id="username" class="lf--input" placeholder="Nhập tên đăng nhập" type="text" name="loginname" size="34" notnull="1" alt="Tên đăng nhập" autocomplete="username" aria-describedby="login-message username-error">
           </div>
+          <p class="buffcorp-field-error" id="username-error" aria-live="polite"></p>
+        </div>
 
-       <button class='lf--submit' type='submit' >LOGIN</button>
-       
-</form>
-</div>
-<img src="images/buffseo-white.png.png" alt="Logo-Buffseo" class="logobuff">
-</div>
-</div>
+        <div class="buffcorp-field">
+          <label for="password">Mật khẩu</label>
+          <div class="buffcorp-input-wrap">
+            <span class="buffcorp-input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+            </span>
+            <input id="password" name="password" class="lf--input" placeholder="Nhập mật khẩu" type="password" notnull="1" alt="Mật khẩu" autocomplete="current-password" aria-describedby="login-message password-error">
+            <button class="buffcorp-password-toggle" type="button" aria-label="Hiện mật khẩu" aria-controls="password">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+          <p class="buffcorp-field-error" id="password-error" aria-live="polite"></p>
+        </div>
 
-</body>
+        <div class="buffcorp-captcha" aria-label="Xác nhận bảo mật reCAPTCHA">
+          <div class="g-recaptcha" data-sitekey="{RECAPTCHA_SITE_KEY}"></div>
+        </div>
+        <p class="buffcorp-field-error buffcorp-captcha-error" id="captcha-error" aria-live="polite"></p>
 
-</html>
+        <button class="lf--submit buffcorp-submit" type="submit">
+          <span class="buffcorp-submit-spinner" aria-hidden="true"></span>
+          <span class="buffcorp-submit-text">Đăng nhập</span>
+          <span class="buffcorp-submit-icon" aria-hidden="true">→</span>
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
 
-<Script Language="JavaScript">
+<script>
+  function init()
+  {
+    if (document.LoginForm && document.LoginForm.loginname) {
+      document.LoginForm.loginname.focus();
+    }
 
-	function init()
-	{	LoginForm.loginname.focus()
-	}
+    syncServerMessageState();
+
+    var toggle = document.querySelector('.buffcorp-password-toggle');
+    var passwordInput = document.getElementById('password');
+    if (toggle && passwordInput) {
+      toggle.onclick = function () {
+        var showPassword = passwordInput.type === 'password';
+        passwordInput.type = showPassword ? 'text' : 'password';
+        toggle.setAttribute('aria-label', showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
+      };
+    }
+
+  }
+
+  function setFieldError(inputId, message)
+  {
+    var input = document.getElementById(inputId);
+    var error = document.getElementById(inputId + '-error');
+    if (input) input.setAttribute('aria-invalid', message ? 'true' : 'false');
+    if (error) error.innerHTML = message || '';
+  }
+
+  function syncServerMessageState()
+  {
+    var message = document.getElementById('login-message');
+    if (!message) return;
+    if (message.textContent.replace(/\s/g, '').length > 0) {
+      message.className += ' is-visible';
+    }
+  }
 
   function verifyLogin(f){
-    if (typeof verify === 'function') {
-      if (!verify(f)) return false;
+    setFieldError('username', '');
+    setFieldError('password', '');
+    var captchaError = document.getElementById('captcha-error');
+    if (captchaError) captchaError.innerHTML = '';
+
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+
+    if (username && username.value.replace(/\s/g, '').length === 0) {
+      setFieldError('username', 'Vui lòng nhập tên đăng nhập.');
+      username.focus();
+      return false;
+    }
+
+    if (password && password.value.length === 0) {
+      setFieldError('password', 'Vui lòng nhập mật khẩu.');
+      password.focus();
+      return false;
     }
 
     if (typeof grecaptcha !== 'undefined') {
       var r = grecaptcha.getResponse();
       if (!r || r.length === 0) {
-        alert('Vui lòng xác nhận reCAPTCHA.');
+        if (captchaError) captchaError.innerHTML = 'Vui lòng xác nhận reCAPTCHA.';
         return false;
       }
     }
+
+    var submitButton = f.querySelector('.buffcorp-submit');
+    if (submitButton) {
+      if (submitButton.className.indexOf('is-loading') >= 0) return false;
+      submitButton.className += ' is-loading';
+      submitButton.setAttribute('aria-busy', 'true');
+      submitButton.disabled = true;
+      var submitText = submitButton.querySelector('.buffcorp-submit-text');
+      if (submitText) submitText.innerHTML = 'Đang đăng nhập';
+    }
     return true;
   }
+</script>
+</body>
 
-</Script>
+</html>
