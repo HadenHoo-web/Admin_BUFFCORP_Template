@@ -847,7 +847,7 @@ function mosFunctionMenu($fun_id = 0, $fun_name = "Root")
 		$member_id = isset($_SESSION["login_id"]) ? (int)$_SESSION["login_id"] : 0;
 		$loginname = isset($_SESSION["loginname"]) ? $_SESSION["loginname"] : "";
 		if ($loginname != 'administrator')
-			$sql = "select a.* from tbl_function_menu a, tbl_permission b
+			$sql = "select distinct a.* from tbl_function_menu a, tbl_permission b
 			        where a.code = b.code and b.member_id = $member_id and parent_id = 0
 			        order by priority";
 		else
@@ -869,7 +869,7 @@ function mosFunctionMenu($fun_id = 0, $fun_name = "Root")
 			$image = ($row['image'] == '') ? '' : '<img border="0" src="' . $imageDir . $row['image'] . '" align="absmiddle" >';
 
 			$returnValue .= "<tr><td valign='top' id='$defaultRow' class='$classname' OnClick='changeClass(this)'><div class='header'>";
-			$returnValue .= $image . $row['fun_name'];
+			$returnValue .= $image . htmlspecialchars($row['fun_name'], ENT_QUOTES, 'UTF-8');
 			$returnValue .= mosFunctionDetail($fid);
 		}
 	}
@@ -885,7 +885,7 @@ function mosFunctionDetail($fun_id)
 	$loginname = isset($_SESSION["loginname"]) ? $_SESSION["loginname"] : "";
 
 	if ($loginname != 'administrator')
-		$sql = "select a.* from tbl_function_menu a, tbl_permission b
+		$sql = "select distinct a.* from tbl_function_menu a, tbl_permission b
 		        where a.code = b.code and b.member_id = $member_id and parent_id = $parent_id
 		        order by priority";
 	else

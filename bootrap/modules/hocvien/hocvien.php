@@ -62,7 +62,7 @@ function mosList()
 				'className'	  =>  ($order % 2 == 1) ? 'alt' : 'inv',
 				'order'		  =>  $order,
 				'hocvien_id'	=>	$row['hocvien_id'],
-				'hocvien_type'  =>	$hocvien_type,
+				'hocvien_type'  =>	$row['hocvien_type_id'],
 				'hocvien_name'  =>	$row['hocvien_name'],
 				'address'		=>	getFirstNCharacters($row['address'],80),
 				'tel'			=>	$row['tel'],

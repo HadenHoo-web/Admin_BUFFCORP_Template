@@ -264,7 +264,7 @@ function getpassRenderTable($data)
 
     if (empty($rows)) {
         $colspan = count($dates) + 2;
-        $html .= '<tr class="alt"><td colspan="' . $colspan . '" style="padding:15px">Khong co du lieu.</td></tr>';
+        $html .= '<tr class="alt"><td colspan="' . $colspan . '" style="padding:15px">Không có dữ liệu.</td></tr>';
     }
 
     $order = 0;
@@ -300,7 +300,7 @@ function getpassRenderTable($data)
 
 function getpassRenderWebsiteOptions($rows, $selectedWebsite)
 {
-    $options = '<option value="">Chon website</option>';
+    $options = '<option value="">Chọn website</option>';
     $seen = array();
 
     if (!is_array($rows)) {
@@ -326,7 +326,7 @@ function getpassRenderMemberOptions($selectedMemberId)
 {
     global $db;
 
-    $options = '<option value="0">Chon ID nguoi nhan</option>';
+    $options = '<option value="0">Chọn người nhận</option>';
     $sql = "SELECT member_id, fullname, loginname FROM tbl_member WHERE active = 1 ORDER BY member_id";
 
     if ($result = $db->sql_query($sql)) {
@@ -360,7 +360,7 @@ function getpassRenderShareList()
             $html .= '<input type="hidden" name="mode" value="unshare">';
             $html .= '<input type="hidden" name="id" value="' . (int) $row['share_id'] . '">';
             $html .= getpassHtml($row['website']) . ' -> ID ' . (int) $row['member_id'] . ' ' . getpassHtml($row['fullname']);
-            $html .= ' <button type="submit">Xoa</button>';
+            $html .= ' <button type="submit">Xóa</button>';
             $html .= '</form>';
         }
     }
@@ -459,10 +459,10 @@ function mosGetpassDashboard()
 
     $template->assign_vars(array(
         'STATUS_CLASS' => $ok ? 'ok' : 'error',
-        'STATUS_TEXT' => $ok ? 'Da ket noi API Getpass' : getpassHtml($message),
+        'STATUS_TEXT' => $ok ? 'Đã kết nối API Getpass' : getpassHtml($message),
         'MESSAGE' => $notice,
         'MESSAGE_CLASS' => ($notice == '') ? 'hide' : '',
-        'PAGE_TITLE' => 'Quan li dung Traffic',
+        'PAGE_TITLE' => 'Quản lý dùng Traffic',
         'FROM_DATE' => getpassHtml($fromDate),
         'TO_DATE' => getpassHtml($toDate),
         'TODAY' => getpassHtml($today),

@@ -1,12 +1,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <div class="toolbar"> <a href="#" onClick="doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Save"><span>Save</span></a></div>
 <div class="tabtitle"><span class="header">Cấu hình hệ thống :</span></div>
-<form method="POST" action="main.php" name="mainForm" OnSubmit="return checkform()">
+<form method="POST" action="main.php" name="mainForm" class="config-form" OnSubmit="return checkform()">
     <input type="hidden" name="option" value="{funname}">
 	<input type="hidden" name="languageid" value="{LANGUAGEID}">
     <input type="hidden" name="mode" value="save">
     <input type="hidden" name="config_id" value="{config_id}">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="config-grid-table">
   <tr>
     <td valign="top"><table  width="100%" id="config" style="display:" >
     <tr>

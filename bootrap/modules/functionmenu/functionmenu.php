@@ -32,8 +32,9 @@
 		global $db, $root_path, $skin, $languageid, $template, $theme;
 		if ($sup_id==0)
 		{
-			$sup_id 	 = mosGetParam( $_REQUEST, 'sup_id', '0' );
+			$sup_id 	 = (int)mosGetParam( $_REQUEST, 'sup_id', '0' );
 		}
+		$sup_id = (int)$sup_id;
 		
 		if ($sup_id==0)
 		{
@@ -58,35 +59,37 @@
 			$template->assign_vars(array(
 					'sup_id'		=> 	$row1['fun_id'],
 					'sup_fun_name'	=> 	$row1['fun_name'],
-					'link_sub'		=>	"#",
-				));
-		}
-		else
-		{
-			$template->assign_vars(array(
-					'link_sub'	=>	"?option=functionmenu/functionmenu&mode=list&sup_id",
 				));
 		}
 		$template->assign_vars(array(
+					'sup_id'	=> 	$sup_id,
 					'back_id'	=> 	$back_id,
+					'back_style' => ($sup_id == 0) ? 'display:none' : '',
 					'allow'	=> 'hidden',
 				));
-	
-		$sql = "select * from tbl_function_menu where parent_id=$sup_id order by priority";
+
+		$sql = "select menu.*, (
+					select count(*) from tbl_function_menu child where child.parent_id = menu.fun_id
+				) as child_count
+				from tbl_function_menu menu
+				where menu.parent_id=$sup_id
+				order by menu.priority";
 		
 		if ( !($result = $db->sql_query($sql)) ) message_die( DATABASE_BUSY );
 		$order = 0;
 		$num_row = $db->sql_numrows($result);
 		while( $row = $db->sql_fetchrow($result) )
 		{	$order = $order + 1;
+			$childCount = (int)$row['child_count'];
 			$template->assign_block_vars('list', array(
 				'className'		=>  ($order % 2 == 1) ? 'alt' : 'inv',
 				'order'			=>  $order,
-				'sup_id'		=> 	$row1['fun_id'],
 				'fun_id'	=>	$row['fun_id'],
 				'code'		=>	$row['code'],
 				'fun_name' 	=>	$row['fun_name'],
-				'description' 	=>	$row['description'],
+				'node_link'	=>	'?option=functionmenu/functionmenu&mode=list&sup_id='.$row['fun_id'].'&l='.$languageid,
+				'node_class'	=>	($childCount > 0) ? 'has-children' : 'is-leaf',
+				'child_count'	=>	$childCount,
 				'up'			=>	($order == 1) ? ' display: none;' : '',
 				'down'			=>	($order == $num_row) ? ' display: none;' : '',
 			));	

@@ -33,14 +33,13 @@
 function mosList($id)
 	{	
 		global $db, $root_path, $skin, $languageid, $template;
-		$groupkey_id 		 = mosGetParam( $_REQUEST, 'groupkey_id1', '0' );
-		$isbl				= mosGetParam( $_REQUEST, 'isbl', '0' );
-		$isindex			 = mosGetParam( $_REQUEST, 'isindex1', '2' );
-		$ishu				= mosGetParam( $_REQUEST, 'ishu1', '0' );
-		$bookmark_id 		 = mosGetParam( $_REQUEST, 'bookmark_id1', '0' );
-		$limit			   = mosGetParam( $_REQUEST, 'limit', '100');
-		$from			    = mosGetParam( $_REQUEST, 'from_date', '0');
-		$to			      = mosGetParam( $_REQUEST, 'to_date', '5000');
+		$groupkey_id 		 = (int)mosGetParam( $_REQUEST, 'groupkey_id1', 0 );
+		$isbl				= (int)mosGetParam( $_REQUEST, 'isbl', 0 );
+		$isindex			 = (int)mosGetParam( $_REQUEST, 'isindex1', 2 );
+		$ishu				= (int)mosGetParam( $_REQUEST, 'ishu1', 0 );
+		$bookmark_id 		 = (int)mosGetParam( $_REQUEST, 'bookmark_id1', 0 );
+		$from			    = max(0, (int)mosGetParam( $_REQUEST, 'from_date', 0 ));
+		$to			      = max(1, min(500, (int)mosGetParam( $_REQUEST, 'to_date', 100 )));
 		
 		selectList(0);
 		
@@ -50,18 +49,17 @@ function mosList($id)
 		$cond .= ($isindex != 2)?' and tbl_di_forums.isindex = '.$isindex:'';
 		$cond .= ($ishu != 0)?' and tbl_di_forums.ishu = '.$ishu:'';
 		
-		$sql = "SELECT tbl_di_forums.*, SUBSTRING(tbl_di_forums.ngay, 7, 4) as y, SUBSTRING(tbl_di_forums.ngay, 4, 2) as m , SUBSTRING(tbl_di_forums.ngay, 1, 2) as d, tbl_forums.forum_name, tbl_forums.follow, tbl_forums.da_point, tbl_forums.tf_point, tbl_forums.isno, tbl_groupkeys.groupkey_name, tbl_groupkeys.url, tbl_bookmarks.bookmark_name, tbl_bookmarks.link FROM ((tbl_di_forums inner join tbl_groupkeys on tbl_di_forums.groupkey_id = tbl_groupkeys.groupkey_id) left join tbl_forums on tbl_di_forums.forum_id = tbl_forums.forum_id) left join tbl_bookmarks on tbl_di_forums.bookmark_id = tbl_bookmarks.bookmark_id where 1 $cond order by y DESC, m DESC, d DESC, di_forum_name, di_forum_id DESC limit $from,$to" ; //tam thoi list noindex con bi sai
+		$sql = "SELECT tbl_di_forums.*, SUBSTRING(tbl_di_forums.ngay, 7, 4) as y, SUBSTRING(tbl_di_forums.ngay, 4, 2) as m , SUBSTRING(tbl_di_forums.ngay, 1, 2) as d, tbl_forums.forum_name, tbl_forums.follow, tbl_forums.da_point, tbl_forums.tf_point, tbl_forums.isno, tbl_groupkeys.groupkey_name, tbl_groupkeys.url, tbl_bookmarks.bookmark_name, tbl_bookmarks.link, COALESCE(child_counts.child_count, 0) AS child_count FROM (((tbl_di_forums inner join tbl_groupkeys on tbl_di_forums.groupkey_id = tbl_groupkeys.groupkey_id) left join tbl_forums on tbl_di_forums.forum_id = tbl_forums.forum_id) left join tbl_bookmarks on tbl_di_forums.bookmark_id = tbl_bookmarks.bookmark_id) left join (SELECT link2_id, COUNT(*) AS child_count FROM tbl_di_forums WHERE link2_id IS NOT NULL AND link2_id <> 0 GROUP BY link2_id) child_counts on child_counts.link2_id = tbl_di_forums.di_forum_id where 1 $cond order by y DESC, m DESC, d DESC, di_forum_name, di_forum_id DESC limit $from,$to" ; //tam thoi list noindex con bi sai
 		if ( !($result = $db->sql_query($sql)))	message_die(SERVER_BUSY);
 		$num_row = $db->sql_numrows($result);
 		$order = 0;
 		$index = 0;
 		$bihu  = 0;
 		$tam = "";
+		$old_di_forum_name = "";
 		while( $row = $db->sql_fetchrow($result) )
-		{	
-			$sql1 = "select count(*) as dem from tbl_di_forums where link2_id = ".$row['di_forum_id'];
-			if ( !($result1 = $db->sql_query($sql1)))	message_die(SERVER_BUSY);
-			if ( $row1 = $db->sql_fetchrow($result1) ) $count = ($row1['dem'])?$row1['dem']:'';
+		{
+			$count = (int)$row['child_count'];
 			$tam = ($tam == $row['di_forum_name']) ? '' : (($tam != $row['di_forum_name']) ? $row['di_forum_name'] : '');
 			
 			
@@ -130,7 +128,7 @@ function mosList($id)
 			'num_row'		=>	$order,
 			'index'		  =>	$index,
 			'bihu'		   =>	$bihu,
-			'form_date'	  =>	$from,
+			'from_date'	  =>	$from,
 			'to_date'		=>	$to,
 		));
 		
@@ -207,7 +205,7 @@ function mosListLink()
 			'num_row'		=>	$order,
 			'index'		  =>	$index,
 			'bihu'		   =>	$bihu,
-			'form_date'	  =>	$from,
+			'from_date'	  =>	$from,
 			'to_date'		=>	$to,
 		));
 		

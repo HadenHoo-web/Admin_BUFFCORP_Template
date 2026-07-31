@@ -16,7 +16,7 @@ Ngày kiểm tra: 31/07/2026
 - `congno/congno` dùng chung ba màn hình: danh sách công nợ, Dashboard KPI Kinh Doanh và Dashboard KPI KT SEO.
 - `common_lists/giaoviec` dùng chung màn hình danh sách và Dashboard KPI Content.
 - `common_lists/thongtinhethong` dùng chung source cho Chính sách, Quy trình, Quy định và Biểu mẫu; phân biệt bằng `category`.
-- Menu dữ liệu cũ có nhãn sai hoặc khó hiểu ở `customer/customer_type` và `common_lists/group`; giao diện chỉ đổi nhãn hiển thị, không đổi route hay dữ liệu.
+- Tên, thứ tự và liên kết sidebar lấy nguyên từ `tbl_function_menu`; muốn đổi nhãn thân thiện cần chỉnh trong màn **Quản lý menu** để back-end và giao diện luôn đồng bộ.
 - Chat hiện mới là giao diện phía trình duyệt, chưa có API lưu hội thoại hoặc gửi tin nhắn giữa tài khoản.
 - Việc chuyển danh sách, bảng và form sang style demo được thực hiện ở layout chung; tên `input`, URL submit và quyền thao tác back-end được giữ nguyên.
 
@@ -58,8 +58,45 @@ Ngày kiểm tra: 31/07/2026
 
 ## Sidebar và bảng hiện đại
 
-- Sidebar mở rộng tăng từ 236px lên 268px; màn hình vừa dùng 248px, trạng thái thu gọn 72px.
-- Chữ menu cha/con tăng từ 12/11px lên 13/12px, vùng bấm menu cũng cao hơn.
+- Sidebar dùng đúng kích thước file HTML: mở 236px, thu gọn 68px; khi thu gọn chỉ còn logo và icon danh mục cha.
+- Chữ menu cha/con dùng đúng tỷ lệ 12/11px; bấm danh mục cha khi đang thu gọn sẽ mở lại sidebar và hiển thị danh mục con.
 - Bảng legacy được ép nền trắng, header xanh nhạt, chữ dữ liệu 12px và card bo 12px như file demo; màu nền inline cũ không còn ghi đè giao diện.
 - Các cột icon rời đã gộp thành một cột **Thao tác**; đã kiểm tra bảng có 2, 3, 4 và 5 nút trên mỗi dòng.
 - Trạng thái phổ biến được hiển thị dạng badge xanh, vàng, đỏ hoặc xám; mọi nút icon có `title` và `aria-label`.
+
+## Đồng bộ giao diện HTML vào source
+
+- Topbar đã bổ sung nút sáng/tối, tìm kiếm chức năng, modal bảng lương và drawer thông báo theo bố cục file HTML.
+- Mobile menu, lớp phủ và thao tác đóng menu đã được thêm ở breakpoint 820px; desktop vẫn giữ chức năng thu gọn sidebar.
+- Dashboard Admin, KPI Content, KPI Kinh doanh, KPI tổng hợp và sơ đồ công ty được ép về cùng font Manrope, nền xanh-trắng, card, bảng và bộ lọc của file HTML.
+- Dashboard tổng thể vẫn dùng dữ liệu thật: 13 card, 3 cột ở màn hình desktop hiện tại, không thay các truy vấn hoặc đường dẫn back-end.
+- Icon danh mục con được ánh xạ theo chức năng; kiểm tra trực tiếp có 78 icon và không còn icon vòng tròn mặc định trên sidebar hiện tại.
+- Form Website giữ 34 trường, submit về `main.php`, đúng route `common_lists/website`, chữ đen và không có thanh cuộn dọc nội bộ.
+- Đã kiểm tra trực tiếp chế độ tối, drawer thông báo, modal bảng lương, tìm kiếm chức năng, thu gọn/mở lại sidebar, Dashboard KPI Content và bảng Website 417 bản ghi; không có lỗi console.
+
+## Phần chủ động giữ khác dữ liệu demo
+
+- Số liệu, thông báo, lương, quyền menu và nhãn người dùng lấy từ database/API thật nên không dùng các con số minh họa cố định trong file HTML.
+- Chat hỗ trợ giữ đúng hành vi demo phía trình duyệt; chưa có API lưu hội thoại hoặc nhắn tin giữa tài khoản.
+- `config.local.php`, database backup và log runtime chỉ dùng local, không đưa lên GitHub.
+
+## Cây menu và phân quyền
+
+- Màn **Quản lý menu** giữ cấu trúc cha–con từ `tbl_function_menu`, hiển thị số mục con và sửa liên kết mở cấp con để không còn URL dạng `#=id`.
+- Màn **Phân quyền người dùng** giữ nguyên field `dung{member_id}`, bộ lọc phòng ban và route `permission_save`; chỉ sửa bố cục form hợp lệ và đồng bộ giao diện BUFFCORP.
+
+## Hoàn tất đồng bộ toàn hệ thống
+
+- Đã kiểm tra trực tiếp đủ 65/65 route trong file demo: tất cả dùng shell BUFFCORP, đúng layout riêng hoặc card danh sách/form và không còn trang in mã nguồn PHP.
+- Tiêu đề và trạng thái menu nay đối chiếu cả `option`, `mode`, `category`, `cid`; các route dùng chung module không còn chọn nhầm màn hình.
+- Đã đổi PHP short tag sang `<?php` tại 14 module để chạy ổn định khi `short_open_tag` tắt; đây là thay đổi tương thích back-end, không đổi dữ liệu hay route.
+- Form gửi mail, đổi mật khẩu, cấu hình và thư viện ảnh đã giữ nguyên tên field/submit back-end nhưng được trình bày theo giao diện mới, không có thanh cuộn dọc nội bộ.
+- Trang **Đi Forum** mặc định tải 100 dòng, giới hạn 500 dòng và gom truy vấn đếm liên kết con để tránh treo giao diện; dữ liệu vẫn lấy từ database thật.
+- Getpass hiện báo token ngoài hệ thống không hợp lệ và Cuttpw trả HTTP 401; không thay token hoặc thông tin xác thực trong lần cập nhật giao diện này.
+
+## Đồng bộ cây menu database
+
+- Đã bỏ danh sách 8 nhóm viết cứng trong JavaScript trước đây vì lớp này xóa và đổi tên cây menu do back-end sinh ra.
+- Sidebar hiện hiển thị đúng 7 danh mục cha và 65 danh mục con từ `tbl_function_menu`, giữ nguyên tên, `priority`, `link` và quyền trong `tbl_permission`.
+- Route trùng nhau ở nhiều nhánh được phân biệt bằng tham số `menu`; chỉ đúng một mục và một danh mục cha được mở/đánh dấu.
+- **Tổng quan / Dashboard tổng thể** và **Quản lý Tin tức** vẫn được giữ riêng vì đây là hai chức năng đã bổ sung trước đó, không phải bản ghi trong `tbl_function_menu`.

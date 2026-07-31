@@ -30,20 +30,19 @@ var imgList=[
 ]
 </script>
 
-<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="folder">
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="folder" class="image-library-folders">
 </table>
-<br>
-<div  style="overflow:auto;height:65% ">
-<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="imgtb">  
+<div class="image-library-content">
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="imgtb" class="image-library-items">
 </table>
 </div>
-<form method="POST" action="main.php" name=mainForma enctype="multipart/form-data">
+<form method="POST" action="main.php" name=mainForma enctype="multipart/form-data" class="image-upload-form">
   <input type="hidden" name="option" value="{funname}">
   <input type="hidden" name="mode" value="image_upload">
   <input type="hidden" name="language_id" value="{LANGUAGEID}">
   <input type="hidden" name="cid" value="{cat_id}">
 <p>&nbsp;Tên ảnh: <input type="file" name="filename" size="20"   notnull=1 alt="Tên ảnh"     >
-<input type="button" value="Upload ảnh" name="Upload" onClick="if (verify(mainForma)) mainForma.submit() "></p>
+<input type="button" value="Tải ảnh lên" name="Upload" onClick="if (verify(mainForma)) mainForma.submit() "></p>
 </form>
 
   

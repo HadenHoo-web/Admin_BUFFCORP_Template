@@ -53,7 +53,7 @@ function mosList()
             'className'	  =>  ($order % 2 == 1) ? 'alt' : 'inv',
             'order'		  =>  $order,
             'hocvien_id'	=>	$row['hocvien_id'],
-            'hocvien_type'  =>	$hocvien_type,
+            'hocvien_type'  =>	$row['hocvien_type_id'],
             'hocvien_name'  =>	$row['hocvien_name'],
             'address'		=>	getFirstNCharacters($row['address'],80),
             'tel'			=>	$row['tel'],
@@ -85,7 +85,7 @@ function mosList()
         'tel'		=>		$tel,
         'hocvien_type_id'	=>	$hocvien_type_id,
         'member_id'		=>	$member_id,
-        'actived'		=>	round(($actived/$num_row)*100,2),
+        'actived'		=>	$num_row > 0 ? round(($actived/$num_row)*100,2) : 0,
     ));
 
     $template->set_filenames_new(array(

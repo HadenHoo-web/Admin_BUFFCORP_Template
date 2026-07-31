@@ -998,6 +998,22 @@
         .buffcorp-page .selector tr:not(.header) > td:first-child { color: #234f7d !important; font-weight: 700; }
         .buffcorp-page .selector .buffcorp-actions-head,
         .buffcorp-page .selector .buffcorp-actions-cell { width: 1%; min-width: 132px; text-align: right !important; }
+        .menu-tree-link { display: inline-flex; align-items: center; gap: 9px; color: #173f67; font-weight: 700; text-decoration: none; }
+        .menu-tree-link:hover { color: var(--buff-brand); }
+        .menu-tree-icon {
+            display: inline-block;
+            width: 16px;
+            height: 13px;
+            border: 1.5px solid currentColor;
+            border-radius: 3px;
+            color: #397bc5;
+            box-sizing: border-box;
+        }
+        .menu-tree-icon:before { display: block; width: 7px; height: 3px; margin: -4px 0 0 1px; border: 1.5px solid currentColor; border-bottom: 0; border-radius: 2px 2px 0 0; content: ""; }
+        .menu-tree-link.has-children .menu-tree-icon { background: #eaf3fc; }
+        .menu-code { padding: 4px 7px; border-radius: 5px; background: #f2f6fa; color: #344054; font: 10px/16px Manrope, "Segoe UI", Arial, sans-serif; }
+        .menu-child-count { display: inline-grid; min-width: 24px; height: 24px; padding: 0 6px; place-items: center; border-radius: 12px; background: #eaf3fc; color: var(--buff-brand); font-size: 10px; font-weight: 800; box-sizing: border-box; }
+        .permission-selector input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--buff-brand); cursor: pointer; }
         .buffcorp-row-actions { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
         .buffcorp-page .buffcorp-row-action {
             display: inline-grid;
@@ -1374,6 +1390,7 @@
     var listEl = document.getElementById('notify-list');
     var panel = document.getElementById('notify-panel');
     var readAllBtn = document.getElementById('notify-read-all');
+    var closeBtn = document.getElementById('notify-close');
     if (!wrap || !bell || !countEl || !listEl) return;
 
     function htmlEscape(text) {
@@ -1486,6 +1503,10 @@
 
     if (bell.addEventListener) bell.addEventListener('click', openNotify, false);
     else bell.attachEvent && bell.attachEvent('onclick', openNotify);
+    if (closeBtn) closeBtn.onclick = function (e) {
+        if (e && e.stopPropagation) e.stopPropagation();
+        closeNotify();
+    };
 
     if (readAllBtn) {
         if (readAllBtn.addEventListener) readAllBtn.addEventListener('click', function (e) {
@@ -1841,10 +1862,18 @@
     <div class="left-menu">
         {LEFT_MENU}
     </div>
+    <button type="button" class="buffcorp-mobile-overlay" id="buffcorp-mobile-overlay" aria-label="Đóng menu"></button>
 
     <div class="{MAIN_CONTENT_CLASS}" id="main-content">
         <header class="buffcorp-topbar">
-            <div class="buffcorp-page-title" id="buffcorp-page-title">Tổng quan</div>
+            <div class="buffcorp-page-title-wrap">
+                <button type="button" class="buffcorp-mobile-menu" id="buffcorp-mobile-menu" aria-label="Mở menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+                        <path d="M4 7h16M4 12h16M4 17h16"></path>
+                    </svg>
+                </button>
+                <div class="buffcorp-page-title" id="buffcorp-page-title">Tổng quan</div>
+            </div>
             <div class="buffcorp-top-actions">
                 <label class="buffcorp-global-search">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1854,14 +1883,13 @@
                     <input type="search" id="buffcorp-global-search" placeholder="Tìm chức năng..." autocomplete="off" aria-label="Tìm chức năng">
                     <span class="buffcorp-search-results" id="buffcorp-search-results"></span>
                 </label>
-        <div class="admin-home-wrap" id="admin-home-wrap">
-            <a class="admin-home-button" href="main.php?option=common_lists/admin_dashboard&mode=dashboard&l={LANGUAGEID}" title="Về Dashboard Admin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 11.5 12 4l9 7.5"></path>
-                    <path d="M5.5 10.5V20h13v-9.5"></path>
-                    <path d="M9.5 20v-6h5v6"></path>
+        <div class="buffcorp-theme-wrap">
+            <button type="button" class="buffcorp-theme-button" id="buffcorp-theme-button" title="Chế độ sáng/tối" aria-label="Chế độ sáng/tối">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
                 </svg>
-            </a>
+            </button>
         </div>
         <div class="payroll-wrap" id="payroll-wrap">
             <button type="button" class="payroll-button" id="payroll-button" title="Bảng lương real time">
@@ -1923,12 +1951,13 @@
             </button>
             <div class="notify-panel" id="notify-panel">
                 <div class="notify-head">
-                    <span>Thông báo</span>
-                    <button type="button" class="notify-read-all" id="notify-read-all">Đọc hết</button>
+                    <div><small>TRUNG TÂM CẬP NHẬT</small><span>Thông báo</span></div>
+                    <button type="button" class="notify-close" id="notify-close" aria-label="Đóng">×</button>
                 </div>
                 <div class="notify-list" id="notify-list">
                     <div class="notify-empty">Đang tải...</div>
                 </div>
+                <button type="button" class="notify-read-all" id="notify-read-all">Đánh dấu tất cả đã đọc</button>
             </div>
         </div>
                 <div class="buffcorp-user">
@@ -1940,6 +1969,496 @@
         <main class="buffcorp-page" id="buffcorp-page">
         {MAIN_CONTENT}
         </main>
+        <style id="buffcorp-demo-parity">
+        .buffcorp-page-title-wrap { display: flex; min-width: 0; align-items: center; gap: 10px; }
+        .buffcorp-mobile-menu,
+        .buffcorp-mobile-overlay { display: none; }
+        .buffcorp-mobile-menu {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            place-items: center;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            cursor: pointer;
+        }
+        .buffcorp-mobile-menu svg { width: 18px; height: 18px; }
+        .buffcorp-theme-wrap {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+        }
+        .buffcorp-theme-button {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            place-items: center;
+            border: 0;
+            background: transparent;
+            color: var(--buff-text);
+            cursor: pointer;
+        }
+        .buffcorp-theme-button svg { width: 18px; height: 18px; }
+
+        .notify-panel {
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0;
+            left: auto !important;
+            display: flex;
+            width: 390px;
+            max-width: 100%;
+            max-height: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 0;
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            box-shadow: -18px 0 45px rgba(16,24,40,.16);
+            opacity: 1;
+            transform: translateX(110%);
+            transform-origin: right center;
+            z-index: 10030;
+        }
+        .notify-wrap.open .notify-panel { transform: translateX(0); }
+        .notify-head {
+            min-height: 76px;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--buff-line);
+            color: var(--buff-text);
+        }
+        .notify-head small,
+        .notify-head span { display: block; }
+        .notify-head small { margin-bottom: 4px; color: var(--buff-muted); font-size: 9px; letter-spacing: .8px; }
+        .notify-head span { font-size: 18px; }
+        .notify-close {
+            display: grid;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            place-items: center;
+            border: 0;
+            background: transparent;
+            color: var(--buff-muted);
+            font-size: 27px;
+            cursor: pointer;
+        }
+        .notify-list { min-height: 0; max-height: none; flex: 1; overflow: auto; padding: 0 20px; }
+        .notify-item { padding: 15px 3px; border-bottom: 1px solid var(--buff-line); color: var(--buff-text); }
+        .notify-item:hover { background: var(--buff-bg); }
+        .notify-item.unread { background: transparent; }
+        .notify-title { color: var(--buff-text); font-size: 12px; }
+        .notify-message { color: var(--buff-muted); font-size: 11px; line-height: 16px; }
+        .notify-read-all,
+        .notify-read-all.show {
+            display: block;
+            width: auto;
+            height: 38px;
+            margin: 16px 20px;
+            border: 1px solid var(--buff-line);
+            border-radius: 7px;
+            background: var(--buff-bg);
+            color: var(--buff-brand);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .payroll-panel {
+            top: 50% !important;
+            right: auto !important;
+            left: 50% !important;
+            width: 520px;
+            max-width: calc(100vw - 24px);
+            max-height: calc(100vh - 32px);
+            border: 0;
+            border-radius: 12px;
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            box-shadow: 0 0 0 100vmax rgba(16,24,40,.55), 0 24px 50px rgba(16,24,40,.25);
+            transform: translate(-50%,-46%) scale(.97);
+            transform-origin: center;
+            z-index: 10040;
+        }
+        .payroll-wrap.open .payroll-panel { transform: translate(-50%,-50%) scale(1); }
+        .payroll-head {
+            min-height: 68px;
+            padding: 22px 52px 18px 22px;
+            border-bottom: 1px solid var(--buff-line);
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            font-size: 17px;
+            text-align: left;
+        }
+        .payroll-close { top: 16px; right: 16px; color: var(--buff-muted); }
+        .payroll-body { padding: 18px 22px 22px; color: var(--buff-text); }
+        .payroll-filter { color: var(--buff-muted); }
+        .payroll-filter select { border-color: var(--buff-line); border-radius: 6px; background: var(--buff-surface); color: var(--buff-text); }
+
+        .buffcorp-page .admin-dashboard,
+        .sales-page,
+        .kpi-page,
+        .kpi-report,
+        .org-page {
+            min-height: 100%;
+            padding: 0;
+            background: transparent;
+            color: var(--buff-text);
+            font-family: Manrope, "Segoe UI", Arial, sans-serif;
+            font-size: 12px;
+        }
+        .admin-dashboard-header,
+        .sales-toolbar,
+        .kpi-toolbar,
+        .kpi-head,
+        .org-head {
+            margin-bottom: 18px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+        .admin-section-kicker {
+            display: block;
+            margin-bottom: 7px;
+            color: var(--buff-brand);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.45px;
+        }
+        .admin-dashboard-title h1,
+        .sales-toolbar h2,
+        .kpi-toolbar h2,
+        .kpi-head h2,
+        .org-title {
+            color: #123f70;
+            font-family: inherit;
+            font-size: 24px;
+            line-height: 1.25;
+        }
+        .admin-dashboard-title h1 { margin-bottom: 0; font-size: 29px; letter-spacing: -.45px; }
+        .admin-dashboard-actions { gap: 8px; }
+        .admin-date-range,
+        .admin-export-btn,
+        .admin-select,
+        .admin-outline-btn,
+        .sales-filter,
+        .kpi-filter,
+        .org-actions a {
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            box-shadow: none;
+        }
+        .sales-filter,
+        .kpi-filter { gap: 7px; padding: 8px 10px; }
+        .sales-filter span,
+        .kpi-filter span { color: var(--buff-muted); }
+        .sales-filter select,
+        .kpi-filter select,
+        .sales-filter input,
+        .kpi-filter input {
+            min-height: 34px;
+            border: 1px solid var(--buff-line);
+            border-radius: 6px;
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            font: 11px Manrope, "Segoe UI", Arial, sans-serif;
+        }
+        .sales-filter input,
+        .kpi-filter input { border-color: var(--buff-brand); background: var(--buff-brand); color: #fff; }
+
+        .admin-card,
+        .sales-card,
+        .sales-panel,
+        .kpi-page .kpi-card,
+        .kpi-page .kpi-panel,
+        .kpi-report .kpi-card,
+        .kpi-report .kpi-panel,
+        .kpi-report .kpi-top-panel,
+        .org-card {
+            overflow: hidden;
+            border: 1px solid var(--buff-line);
+            border-radius: 12px;
+            background: var(--buff-surface);
+            box-shadow: var(--buff-shadow);
+        }
+        .admin-kpi-grid,
+        .sales-cards,
+        .kpi-cards,
+        .kpi-summary { gap: 14px; margin-bottom: 16px; }
+        .sales-card,
+        .kpi-page .kpi-card,
+        .kpi-report .kpi-card { min-height: 112px; padding: 16px; }
+        .sales-card .label,
+        .kpi-page .kpi-card .label,
+        .kpi-report .kpi-card .label {
+            padding: 0;
+            background: transparent;
+            color: var(--buff-muted);
+            font-size: 12px;
+            text-align: left;
+        }
+        .sales-card .value,
+        .kpi-page .kpi-card .value,
+        .kpi-report .kpi-card .value {
+            padding: 9px 0 4px;
+            color: var(--buff-brand-dark);
+            font-size: 25px;
+            line-height: 31px;
+            text-align: left;
+        }
+        .sales-card .note,
+        .kpi-page .kpi-card .note,
+        .kpi-report .kpi-card .note { padding: 0; color: var(--buff-muted); text-align: left; }
+        .kpi-report .kpi-card.good .value { color: #137a58; }
+        .kpi-report .kpi-card.slow .value { color: #b35f00; }
+        .kpi-report .kpi-card.bad .value { color: #bb3434; }
+
+        .admin-card-head,
+        .sales-panel h3,
+        .kpi-page .kpi-panel h3,
+        .kpi-report .kpi-panel h3,
+        .kpi-report .kpi-top-panel h3,
+        .org-card-title {
+            margin: 0;
+            padding: 15px 18px;
+            border-bottom: 1px solid var(--buff-line);
+            background: linear-gradient(180deg,var(--buff-surface),var(--buff-bg));
+            color: #173f67;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: left;
+        }
+        .admin-card-title { color: #173f67; font-size: 14px; }
+        .admin-kpi-card { min-height: 128px; padding: 17px; }
+        .admin-kpi-name { color: var(--buff-muted); font-size: 12px; }
+        .admin-kpi-value { color: var(--buff-brand-dark); font-size: 25px; }
+        .admin-card,
+        .admin-date-range,
+        .admin-export-btn,
+        .admin-select,
+        .admin-outline-btn { border-color: var(--buff-line); background: var(--buff-surface); box-shadow: var(--buff-shadow); }
+
+        .sales-table,
+        .kpi-table,
+        .admin-table { border-collapse: collapse; background: var(--buff-surface); color: var(--buff-text); }
+        .sales-table th,
+        .kpi-table th,
+        .admin-table th {
+            padding: 11px 14px;
+            border: 0;
+            border-bottom: 1px solid var(--buff-line);
+            background: #f1f6fb;
+            color: #526a82;
+            font-size: 11px;
+        }
+        .sales-table td,
+        .kpi-table td,
+        .admin-table td {
+            padding: 12px 14px;
+            border: 0;
+            border-bottom: 1px solid var(--buff-line);
+            color: var(--buff-text);
+            font-size: 12px;
+        }
+        .sales-table tr:hover td,
+        .kpi-table tr:hover td,
+        .admin-table tr:hover td { background: var(--buff-bg); }
+        .sales-progress,
+        .kpi-progress { height: 8px; overflow: hidden; border: 0; border-radius: 5px; background: #e5edf5; }
+        .sales-progress span,
+        .kpi-progress span { height: 100%; border-radius: 5px; background: var(--buff-brand); }
+        .org-chart-wrap { border-top: 1px solid var(--buff-line); background: var(--buff-surface); }
+        .org-detail { background: var(--buff-surface); color: var(--buff-text); }
+
+        .buffcorp-page .buffcorp-form-table.mail-form-table > tbody { grid-template-columns: repeat(3,minmax(0,1fr)); }
+        .buffcorp-page .mail-form-table .mail-content-row { grid-column: 1 / -1; }
+        .buffcorp-page .mail-form-table .mail-content-row > td:last-child { min-height: 260px; }
+
+        .buffcorp-page .config-form .config-grid-table.buffcorp-form-table > tbody { display: block; }
+        .buffcorp-page .config-form .config-grid-table.buffcorp-form-table > tbody > tr {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: 14px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+        }
+        .buffcorp-page .config-form .config-grid-table.buffcorp-form-table > tbody > tr > td { display: block; width: auto !important; padding: 0; }
+        .buffcorp-page .config-form fieldset {
+            width: auto !important;
+            margin: 0 0 12px !important;
+            padding: 14px !important;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-bg);
+        }
+        .buffcorp-page .config-form legend { padding: 0 6px; color: #173f67; font-size: 12px; font-weight: 800; }
+        .buffcorp-page .config-form fieldset table { width: 100%; }
+        .buffcorp-page .config-form fieldset td { padding: 5px 6px !important; color: var(--buff-text); }
+        .buffcorp-page .config-form fieldset input,
+        .buffcorp-page .config-form fieldset textarea { width: 100%; }
+
+        .image-library-content { min-height: 160px; padding: 16px; border-top: 1px solid var(--buff-line); box-sizing: border-box; }
+        .image-library-folders td,
+        .image-library-items td { padding: 10px; color: var(--buff-text); font-size: 11px; }
+        .image-upload-form { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--buff-line); }
+        .image-upload-form p { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--buff-text); }
+
+        .getpass-source-wrap {
+            height: auto;
+            padding: 18px;
+            border: 1px solid var(--buff-line);
+            border-radius: 12px;
+            background: var(--buff-surface);
+            color: var(--buff-text);
+            font-family: Manrope, "Segoe UI", Arial, sans-serif;
+            box-shadow: var(--buff-shadow);
+        }
+        .getpass-source-head { margin-bottom: 14px; }
+        .getpass-source-wrap h2 { color: #173f67; font-family: inherit; font-size: 19px; }
+        .getpass-source-total { margin: 0 0 16px; color: var(--buff-brand); font-size: 14px; }
+        .getpass-source-search { margin: 0 0 14px; }
+        .getpass-source-search input { width: 145px; height: 36px; color: #111; font-size: 11px; }
+        .getpass-source-search button,
+        .getpass-share-panel button { height: 36px; border-color: var(--buff-brand); background: var(--buff-brand); font-size: 11px; }
+        .getpass-share-panel { margin: 0 0 14px; border-color: var(--buff-line); border-radius: 8px; background: var(--buff-bg); }
+        .getpass-share-panel b { color: var(--buff-text); }
+        .getpass-share-list { margin: 0 0 14px; }
+        .getpass-table-scroll { height: auto; min-height: 0; overflow-x: auto; overflow-y: visible; border-top-color: var(--buff-line); }
+
+        .cuttpw-wrap { padding: 0; color: var(--buff-text); font-family: Manrope, "Segoe UI", Arial, sans-serif; }
+        .cuttpw-head,
+        .cuttpw-card { border-color: var(--buff-line); border-radius: 12px; background: var(--buff-surface); box-shadow: var(--buff-shadow); }
+        .cuttpw-head { padding: 16px; margin-bottom: 14px; }
+        .cuttpw-title { color: #173f67; font-size: 19px; }
+        .cuttpw-grid { gap: 14px; }
+        .cuttpw-card { min-height: 104px; padding: 16px; }
+        .cuttpw-label,
+        .cuttpw-note { color: var(--buff-muted); }
+        .cuttpw-num { color: var(--buff-brand); }
+
+        body.buffcorp-dark {
+            --buff-bg: #0d1117;
+            --buff-surface: #161b22;
+            --buff-text: #f2f4f7;
+            --buff-muted: #98a2b3;
+            --buff-line: #30363d;
+            --buff-brand: #4c8fd8;
+            --buff-brand-dark: #7fb0e6;
+            --buff-shadow: none;
+        }
+        body.buffcorp-dark,
+        body.buffcorp-dark .main-content,
+        body.buffcorp-dark .buffcorp-page { background: var(--buff-bg); color: var(--buff-text); }
+        body.buffcorp-dark .buffcorp-topbar,
+        body.buffcorp-dark .buffcorp-module-card,
+        body.buffcorp-dark .buffcorp-form-card,
+        body.buffcorp-dark .buffcorp-list-head,
+        body.buffcorp-dark .buffcorp-module-toolbar,
+        body.buffcorp-dark .buffcorp-theme-wrap,
+        body.buffcorp-dark .left-menu,
+        body.buffcorp-dark .buffcorp-sidebar,
+        body.buffcorp-dark .buffcorp-brand { background: var(--buff-surface) !important; color: var(--buff-text); }
+        body.buffcorp-dark .buffcorp-menu .header,
+        body.buffcorp-dark .buffcorp-menu .children > a,
+        body.buffcorp-dark .sidebar-support-item,
+        body.buffcorp-dark .buffcorp-brand-copy strong { color: #c8dbed !important; }
+        body.buffcorp-dark .buffcorp-menu .header:hover,
+        body.buffcorp-dark .buffcorp-menu .mainrow > .header,
+        body.buffcorp-dark .buffcorp-menu .children > a:hover,
+        body.buffcorp-dark .buffcorp-menu .children > a.active,
+        body.buffcorp-dark .sidebar-support-item:hover { background: #173f64 !important; color: #fff !important; }
+        body.buffcorp-dark .buffcorp-page input,
+        body.buffcorp-dark .buffcorp-page select,
+        body.buffcorp-dark .buffcorp-page textarea,
+        body.buffcorp-dark .buffcorp-global-search,
+        body.buffcorp-dark .buffcorp-global-search input { border-color: var(--buff-line); background: var(--buff-surface); color: var(--buff-text); }
+        body.buffcorp-dark .buffcorp-page .selector td { border-color: var(--buff-line); background: var(--buff-surface) !important; color: var(--buff-text) !important; }
+        body.buffcorp-dark .buffcorp-page .selector .header td,
+        body.buffcorp-dark .sales-table th,
+        body.buffcorp-dark .kpi-table th,
+        body.buffcorp-dark .admin-table th { background: #1c222b !important; color: #b8c9da !important; }
+        body.buffcorp-dark .admin-dashboard-title h1,
+        body.buffcorp-dark .sales-toolbar h2,
+        body.buffcorp-dark .kpi-toolbar h2,
+        body.buffcorp-dark .kpi-head h2,
+        body.buffcorp-dark .org-title,
+        body.buffcorp-dark .admin-card-title,
+        body.buffcorp-dark .sales-panel h3,
+        body.buffcorp-dark .kpi-panel h3,
+        body.buffcorp-dark .org-card-title { color: #d8eaff; }
+
+        @media (max-width: 1280px) {
+            .admin-kpi-grid,
+            .admin-finance-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+        }
+        @media (max-width: 1050px) {
+            .admin-kpi-grid,
+            .admin-finance-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+        }
+        @media (max-width: 820px) {
+            .left-menu {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 236px !important;
+                flex-basis: 236px !important;
+                transform: translateX(-110%);
+                transition: transform .22s ease;
+                z-index: 10020;
+            }
+            .layout.menu-open .left-menu { transform: translateX(0); }
+            .layout.menu-open .buffcorp-mobile-overlay {
+                position: fixed;
+                display: block;
+                inset: 0;
+                padding: 0;
+                border: 0;
+                background: rgba(16,24,40,.5);
+                z-index: 10010;
+            }
+            .buffcorp-mobile-menu { display: grid; }
+            .layout.sidebar-collapsed .left-menu { width: 236px !important; flex-basis: 236px !important; }
+            .layout.sidebar-collapsed .buffcorp-brand-copy,
+            .layout.sidebar-collapsed .buffcorp-section-label,
+            .layout.sidebar-collapsed .app-parent-label,
+            .layout.sidebar-collapsed .sidebar-support-text { display: block !important; }
+            .layout.sidebar-collapsed .app-parent-chevron,
+            .layout.sidebar-collapsed .app-nav-badge { display: grid !important; }
+            .layout.sidebar-collapsed .buffcorp-collapse { display: grid !important; }
+            .layout.sidebar-collapsed .buffcorp-menu .header,
+            .layout.sidebar-collapsed .sidebar-support-item { justify-content: space-between; }
+            .buffcorp-page-title { font-size: 15px; }
+        }
+        @media (max-width: 620px) {
+            .buffcorp-topbar { gap: 8px; }
+            .buffcorp-top-actions { gap: 5px; }
+            .buffcorp-theme-wrap,
+            .buffcorp-top-actions .payroll-wrap,
+            .buffcorp-top-actions .notify-wrap { width: 37px; height: 37px; flex-basis: 37px; }
+            .admin-dashboard-header,
+            .sales-toolbar,
+            .kpi-toolbar,
+            .kpi-head { align-items: stretch; flex-direction: column; }
+            .admin-kpi-grid,
+            .admin-finance-grid { grid-template-columns: 1fr; }
+            .buffcorp-page .buffcorp-form-table.mail-form-table > tbody,
+            .buffcorp-page .config-form .config-grid-table.buffcorp-form-table > tbody > tr { grid-template-columns: 1fr; }
+        }
+        </style>
         <script type="text/javascript">
         (function () {
             function initializeMainShell() {
@@ -1958,20 +2477,44 @@
 
             var pageTitle = document.getElementById('buffcorp-page-title');
             var currentOption = '{CURRENT_OPTION}';
-            try { currentOption = new URL(window.location.href).searchParams.get('option') || currentOption; } catch (e) { /* keep back-end route */ }
+            var currentMode = '{CURRENT_MODE}';
+            var currentUrl = null;
+            try {
+                currentUrl = new URL(window.location.href);
+                currentOption = currentUrl.searchParams.get('option') || currentOption;
+                currentMode = currentUrl.searchParams.get('mode') || currentMode;
+            } catch (e) { /* keep back-end route */ }
             var links = document.querySelectorAll('#buffcorp-menu .children a[href]');
-            var currentLink = null;
+            var currentLink = document.querySelector('#buffcorp-menu .children a.active[href]');
+            var currentLinkScore = currentLink ? 100 : -1;
             for (var i = 0; i < links.length; i++) {
                 try {
-                    if ((new URL(links[i].href, window.location.href).searchParams.get('option') || '') === currentOption) {
+                    var targetUrl = new URL(links[i].href, window.location.href);
+                    if ((targetUrl.searchParams.get('option') || '') !== currentOption) continue;
+                    var targetMode = targetUrl.searchParams.get('mode');
+                    if (targetMode && targetMode !== currentMode) continue;
+                    var score = targetMode ? 3 : 1;
+                    var routeKeys = ['menu', 'category', 'cid'];
+                    var routeMatches = true;
+                    for (var routeIndex = 0; routeIndex < routeKeys.length; routeIndex++) {
+                        var targetValue = targetUrl.searchParams.get(routeKeys[routeIndex]);
+                        if (!targetValue) continue;
+                        if (!currentUrl || currentUrl.searchParams.get(routeKeys[routeIndex]) !== targetValue) {
+                            routeMatches = false;
+                            break;
+                        }
+                        score++;
+                    }
+                    if (routeMatches && score > currentLinkScore) {
                         currentLink = links[i];
-                        break;
+                        currentLinkScore = score;
                     }
                 } catch (e) { /* ignore invalid legacy link */ }
             }
             var heading = document.querySelector('#buffcorp-page h1, #buffcorp-page .tabtitle');
+            var currentLabel = currentLink && currentLink.querySelector('span:not(.app-child-icon)');
             if (pageTitle) pageTitle.textContent = currentLink
-                ? (currentLink.textContent || '').replace(/^\s+|\s+$/g, '')
+                ? ((currentLabel ? currentLabel.textContent : currentLink.textContent) || '').replace(/^\s+|\s+$/g, '')
                 : (heading ? (heading.textContent || '').replace(/^\s+|\s+$/g, '') : 'Tổng quan');
 
             function actionIcon(type) {
@@ -2001,7 +2544,7 @@
                 var selector = contentRoot.querySelector('table.selector');
                 var toolbar = contentRoot.querySelector('.toolbar');
                 var tabtitle = contentRoot.querySelector('.tabtitle');
-                var filterForm = tabtitle && tabtitle.querySelector('form');
+                var filterForm = contentRoot.querySelector('form[name="filterForm"]') || (tabtitle && tabtitle.querySelector('form'));
                 var mainForm = contentRoot.querySelector('form[name="mainForm"]') || (!selector ? contentRoot.querySelector('form') : null);
                 if (!selector && !mainForm && !toolbar) return;
 
@@ -2050,14 +2593,25 @@
                 if (toolbar) {
                     var actionLinks = toolbar.querySelectorAll('a');
                     for (var a = 0; a < actionLinks.length; a++) {
+                        if (window.getComputedStyle(actionLinks[a]).display === 'none' || actionLinks[a].offsetParent === null) continue;
                         var actionLabel = String(actionLinks[a].textContent || '').replace(/^\s+|\s+$/g, '');
                         var normalizedLabel = actionLabel.toLowerCase();
+                        var translatedActions = {
+                            'create new': 'Thêm mới',
+                            'add new': 'Thêm mới',
+                            'save': 'Lưu',
+                            'send': 'Gửi',
+                            'back': 'Trở về',
+                            'list': 'Trở về',
+                            'return': 'Trở về'
+                        };
+                        var displayActionLabel = translatedActions[normalizedLabel] || actionLabel;
                         var actionType = normalizedLabel.indexOf('lưu') >= 0 || normalizedLabel.indexOf('save') >= 0
                             ? 'save'
-                            : (normalizedLabel.indexOf('về') >= 0 || normalizedLabel.indexOf('back') >= 0 || normalizedLabel.indexOf('return') >= 0 ? 'back' : 'add');
+                            : (normalizedLabel.indexOf('về') >= 0 || normalizedLabel.indexOf('back') >= 0 || normalizedLabel.indexOf('return') >= 0 || normalizedLabel === 'list' ? 'back' : 'add');
                         actionLinks[a].innerHTML = actionIcon(actionType);
                         var actionText = document.createElement('span');
-                        actionText.textContent = actionLabel;
+                        actionText.textContent = displayActionLabel;
                         actionLinks[a].appendChild(actionText);
                         actionLinks[a].className += (actionLinks[a].className ? ' ' : '') + (a === 0 ? 'buffcorp-primary-action' : 'buffcorp-secondary-action');
                         actions.appendChild(actionLinks[a]);
@@ -2112,7 +2666,9 @@
                     for (var x = 0; x < imageLinks.length; x++) {
                         var link = imageLinks[x].parentNode;
                         if (imageLinks[x].style.display === 'none' || window.getComputedStyle(imageLinks[x]).display === 'none') {
-                            link.style.display = 'none';
+                            var hiddenCell = link.parentNode;
+                            if (hiddenCell && hiddenCell.tagName && hiddenCell.tagName.toLowerCase() === 'td') hiddenCell.parentNode.removeChild(hiddenCell);
+                            else link.style.display = 'none';
                             continue;
                         }
                         var src = String(imageLinks[x].getAttribute('src') || '').toLowerCase();
@@ -2297,6 +2853,65 @@
 
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeMainShell);
             else initializeMainShell();
+        })();
+        </script>
+        <script type="text/javascript">
+        (function () {
+            function initializeDemoParity() {
+                var body = document.body;
+                var layout = document.querySelector('.layout');
+                var themeButton = document.getElementById('buffcorp-theme-button');
+                var menuButton = document.getElementById('buffcorp-mobile-menu');
+                var overlay = document.getElementById('buffcorp-mobile-overlay');
+                if (!body || !layout) return;
+
+                function hasClass(node, name) {
+                    return (' ' + node.className + ' ').indexOf(' ' + name + ' ') >= 0;
+                }
+                function setClass(node, name, enabled) {
+                    if (enabled && !hasClass(node, name)) node.className += ' ' + name;
+                    if (!enabled) node.className = node.className.replace(new RegExp('(^|\\s)' + name + '(?=\\s|$)', 'g'), ' ').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+                }
+                function applyTheme(dark) {
+                    setClass(body, 'buffcorp-dark', dark);
+                    if (!themeButton) return;
+                    themeButton.setAttribute('aria-pressed', dark ? 'true' : 'false');
+                    themeButton.innerHTML = dark
+                        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path></svg>'
+                        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>';
+                }
+                function setMenuOpen(open) {
+                    setClass(layout, 'menu-open', open);
+                    if (menuButton) menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+                }
+                function syncViewport() {
+                    if (window.innerWidth <= 820) setClass(layout, 'sidebar-collapsed', false);
+                    else setMenuOpen(false);
+                }
+
+                var dark = false;
+                try { dark = localStorage.getItem('buffcorp-theme') === 'dark'; } catch (e) { /* storage unavailable */ }
+                applyTheme(dark);
+                if (themeButton) themeButton.onclick = function () {
+                    dark = !hasClass(body, 'buffcorp-dark');
+                    applyTheme(dark);
+                    try { localStorage.setItem('buffcorp-theme', dark ? 'dark' : 'light'); } catch (e) { /* storage unavailable */ }
+                };
+                if (menuButton) menuButton.onclick = function () { setMenuOpen(!hasClass(layout, 'menu-open')); };
+                if (overlay) overlay.onclick = function () { setMenuOpen(false); };
+
+                var menuLinks = document.querySelectorAll('.left-menu a');
+                for (var i = 0; i < menuLinks.length; i++) {
+                    menuLinks[i].addEventListener('click', function () {
+                        if (window.innerWidth <= 820) setMenuOpen(false);
+                    });
+                }
+                if (window.addEventListener) window.addEventListener('resize', syncViewport, false);
+                syncViewport();
+            }
+
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeDemoParity);
+            else initializeDemoParity();
         })();
         </script>
     </div>

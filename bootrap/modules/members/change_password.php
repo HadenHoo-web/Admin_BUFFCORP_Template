@@ -2,7 +2,8 @@
 	global $root_path,$languageid, $template;
 	$action      = mosGetParam( $_REQUEST, 'mode', '');			
 	
-	$template = new Template();
+	if (!isset($template))
+		$template = new Template();
 	$template->assign_vars(array(
 		'ROOT'		=> $root_path,		
 		'funname'	=> 'members/change_password',
@@ -22,13 +23,13 @@ function moslist()
 {	global $db, $root_path, $skin, $template,$languageid;
 	$member_ID 	 = mosGetParam( $_REQUEST, 'id', 0 );
 	$template->set_filenames_new(array(
-			'body' => 'members/changepassword.tpl')
-		);			
+			'change_password' => 'members/changepassword.tpl')
+		);
 	$template->assign_vars(array(
 		'member_id'	=> $member_ID,	
 		'skin'		=> $skin,	
 	));		
-	$template->pparse('body');
+	$template->pparse('change_password');
 }
 function mosSave()
 {	global $db, $root_path, $skin, $template;
