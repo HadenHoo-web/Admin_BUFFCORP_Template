@@ -1,0 +1,574 @@
+.buffcorp-login-body {
+	min-height: 100vh;
+	margin: 0;
+	overflow: hidden;
+	background: #F8FAFC;
+	color: #101828;
+	font-family: Inter, Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.buffcorp-login-body * {
+	box-sizing: border-box;
+}
+
+.buffcorp-login-page {
+	display: grid;
+	grid-template-columns: minmax(0, 55fr) minmax(420px, 45fr);
+	min-height: 100vh;
+	overflow: hidden;
+	background: #F8FAFC;
+}
+
+.buffcorp-login-visual {
+	position: relative;
+	min-height: 100vh;
+	overflow: hidden;
+	background: #0F2747;
+	color: #fff;
+	isolation: isolate;
+	animation: buffcorpFadeIn .5s ease both;
+}
+
+.buffcorp-visual-media,
+.buffcorp-visual-overlay {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.buffcorp-visual-media {
+	z-index: -2;
+	background-image: image-set(
+		url("../images/buffseo.webp") type("image/webp"),
+		url("../images/buffseo.png") type("image/png")
+	);
+	background-position: 58% 36%;
+	background-size: auto 128%;
+	transform: scale(1.08);
+	animation: buffcorpSlowZoom 24s ease-in-out infinite alternate;
+	will-change: transform;
+}
+
+.buffcorp-visual-overlay {
+	z-index: -1;
+	background:
+		repeating-linear-gradient(90deg, rgba(255, 255, 255, .055) 0 1px, transparent 1px 112px),
+		repeating-linear-gradient(0deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 112px),
+		linear-gradient(180deg, rgba(9, 25, 46, .08) 0%, rgba(9, 25, 46, .32) 58%, rgba(9, 25, 46, .92) 100%),
+		linear-gradient(115deg, rgba(8, 29, 55, .95) 0%, rgba(13, 48, 85, .86) 48%, rgba(26, 74, 105, .7) 100%);
+}
+
+.buffcorp-login-visual:after {
+	content: "";
+	position: absolute;
+	right: -1px;
+	top: 0;
+	bottom: 0;
+	width: 28%;
+	pointer-events: none;
+	background: linear-gradient(90deg, transparent, rgba(248, 250, 252, .12));
+	z-index: 0;
+}
+
+.buffcorp-visual-inner {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: min(100%, 980px);
+	min-height: 100vh;
+	padding: clamp(42px, 5vw, 72px);
+}
+
+.buffcorp-visual-inner h1 {
+	margin: 0;
+	font-size: clamp(52px, 6.4vw, 92px);
+	line-height: .98;
+	font-weight: 950;
+	letter-spacing: 0;
+	color: #fff;
+}
+
+.buffcorp-visual-inner h2 {
+	margin: 18px 0 0;
+	font-size: clamp(24px, 2.15vw, 34px);
+	line-height: 1.25;
+	font-weight: 800;
+	letter-spacing: 0;
+	color: #EAF3FF;
+	white-space: nowrap;
+}
+
+.buffcorp-visual-description {
+	width: min(100%, 560px);
+	margin: 16px 0 0;
+	font-size: clamp(15px, 1.2vw, 18px);
+	line-height: 1.75;
+	color: rgba(255, 255, 255, .78);
+}
+
+.buffcorp-copyright {
+	position: absolute;
+	left: clamp(42px, 5vw, 72px);
+	bottom: 34px;
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, .68);
+}
+
+.buffcorp-login-content {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	min-width: 0;
+	padding: clamp(20px, 3vw, 42px);
+	overflow: hidden;
+	background: linear-gradient(180deg, #fff 0%, #F8FAFC 100%);
+}
+
+.buffcorp-mobile-brand {
+	display: none;
+}
+
+.buffcorp-login-card {
+	width: min(100%, 430px);
+	animation: buffcorpFormIn .55s ease both;
+}
+
+.buffcorp-card-brand {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+	margin-bottom: 14px;
+	text-align: center;
+}
+
+.buffcorp-logo {
+	width: 74px;
+	height: 74px;
+	object-fit: contain;
+}
+
+.buffcorp-card-brand span {
+	font-size: 12px;
+	font-weight: 900;
+	letter-spacing: .2em;
+	color: #2E6CBF;
+}
+
+.buffcorp-card-header {
+	margin-bottom: 16px;
+	text-align: center;
+}
+
+.buffcorp-card-header h1 {
+	margin: 0 0 6px;
+	font-size: clamp(30px, 3vw, 36px);
+	line-height: 1.15;
+	font-weight: 850;
+	letter-spacing: 0;
+	color: #101828;
+}
+
+.buffcorp-card-header p {
+	width: min(100%, 390px);
+	margin: 0 auto;
+	font-family: inherit;
+	font-size: 15px;
+	line-height: 1.45;
+	color: #667085;
+}
+
+.buffcorp-login-form,
+.buffcorp-login-message,
+.buffcorp-field-error {
+	margin: 0;
+}
+
+.buffcorp-login-message {
+	display: none;
+	margin-bottom: 12px;
+	padding: 12px 14px;
+	border: 1px solid rgba(217, 45, 32, .24);
+	border-radius: 10px;
+	background: #FEF3F2;
+	color: #D92D20;
+	font-family: inherit;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.buffcorp-login-message.is-visible,
+.buffcorp-login-message:not(:empty) {
+	display: block;
+}
+
+.buffcorp-field {
+	margin-bottom: 6px;
+}
+
+.buffcorp-field label {
+	display: block;
+	margin-bottom: 5px;
+	font-size: 14px;
+	font-weight: 750;
+	color: #101828;
+}
+
+.buffcorp-input-wrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 46px;
+	border: 1px solid #D0D5DD;
+	border-radius: 10px;
+	background: #fff;
+	transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.buffcorp-input-wrap:hover {
+	border-color: #A8B4C5;
+}
+
+.buffcorp-input-wrap:focus-within {
+	border-color: #2E6CBF;
+	box-shadow: 0 0 0 4px rgba(46, 108, 191, .14);
+}
+
+.buffcorp-input-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 46px;
+	color: #667085;
+}
+
+.buffcorp-input-icon svg,
+.buffcorp-password-toggle svg {
+	width: 21px;
+	height: 21px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.buffcorp-login-body .lf--input {
+	width: 100%;
+	min-width: 0;
+	height: 44px;
+	padding: 0 14px 0 0;
+	border: 0;
+	border-radius: 10px;
+	background: transparent !important;
+	box-shadow: none;
+	color: #101828;
+	font-family: inherit;
+	font-size: 15px;
+	outline: 0;
+}
+
+.buffcorp-login-body .lf--input::placeholder {
+	color: #98A2B3;
+}
+
+.buffcorp-login-body input:-webkit-autofill {
+	-webkit-text-fill-color: #101828;
+	-webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+	transition: background-color 9999s ease-in-out 0s;
+}
+
+.buffcorp-password-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 44px;
+	width: 44px;
+	height: 44px;
+	margin-right: 2px;
+	border: 0;
+	border-radius: 9px;
+	background: transparent;
+	color: #667085;
+	cursor: pointer;
+	transition: background .18s ease, color .18s ease;
+}
+
+.buffcorp-password-toggle:hover {
+	background: #EEF4FF;
+	color: #2E6CBF;
+}
+
+.buffcorp-password-toggle:focus-visible,
+.buffcorp-submit:focus-visible {
+	outline: 3px solid rgba(46, 108, 191, .3);
+	outline-offset: 3px;
+}
+
+.buffcorp-field-error {
+	min-height: 12px;
+	margin-top: 2px;
+	color: #D92D20;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.buffcorp-captcha {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding-bottom: 0;
+}
+
+.buffcorp-captcha-error {
+	margin-bottom: 6px;
+	text-align: center;
+}
+
+.buffcorp-submit {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	width: 100%;
+	height: 48px;
+	margin: 0;
+	border: 0;
+	border-radius: 10px;
+	background: #2E6CBF;
+	color: #fff;
+	box-shadow: 0 12px 24px rgba(46, 108, 191, .2);
+	font-family: inherit;
+	font-size: 15px;
+	font-weight: 850;
+	letter-spacing: 0;
+	cursor: pointer;
+	transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.buffcorp-submit:hover {
+	background: #245AA1;
+	box-shadow: 0 16px 28px rgba(46, 108, 191, .24);
+	transform: translateY(-1px);
+}
+
+.buffcorp-submit:active {
+	transform: translateY(0);
+	box-shadow: 0 8px 18px rgba(46, 108, 191, .18);
+}
+
+.buffcorp-submit:disabled,
+.buffcorp-submit.is-loading {
+	cursor: wait;
+	background: #245AA1;
+}
+
+.buffcorp-submit-spinner {
+	display: none;
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgba(255, 255, 255, .45);
+	border-top-color: #fff;
+	border-radius: 50%;
+	animation: buffcorpSpin .8s linear infinite;
+}
+
+.buffcorp-submit.is-loading .buffcorp-submit-spinner {
+	display: inline-block;
+}
+
+.buffcorp-submit-icon {
+	font-size: 20px;
+	line-height: 1;
+}
+
+@keyframes buffcorpSlowZoom {
+	from { transform: scale(1.08); }
+	to { transform: scale(1.14); }
+}
+
+@keyframes buffcorpFadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes buffcorpFormIn {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes buffcorpSpin {
+	to { transform: rotate(360deg); }
+}
+
+@media (max-width: 1023px) {
+	.buffcorp-login-page {
+		grid-template-columns: minmax(0, 45fr) minmax(380px, 55fr);
+	}
+
+	.buffcorp-visual-inner {
+		padding: 42px 34px;
+	}
+
+	.buffcorp-visual-inner h1 {
+		font-size: clamp(42px, 6vw, 60px);
+	}
+
+	.buffcorp-visual-inner h2 {
+		font-size: clamp(20px, 2.4vw, 23px);
+		white-space: normal;
+	}
+
+	.buffcorp-visual-description {
+		font-size: 14px;
+		line-height: 1.65;
+	}
+
+	.buffcorp-login-content {
+		padding: 32px 24px;
+	}
+}
+
+@media (max-width: 767px) {
+	.buffcorp-login-body {
+		min-height: 100svh;
+		overflow-y: auto;
+	}
+
+	.buffcorp-login-page {
+		display: block;
+		min-height: 100svh;
+		overflow: visible;
+	}
+
+	.buffcorp-login-visual {
+		display: none;
+	}
+
+	.buffcorp-login-content {
+		display: block;
+		min-height: 100svh;
+		padding: max(24px, env(safe-area-inset-top)) 20px max(28px, env(safe-area-inset-bottom));
+		overflow: visible;
+		background: #F8FAFC;
+	}
+
+	.buffcorp-mobile-brand {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		margin: 4px auto 18px;
+		text-align: center;
+	}
+
+	.buffcorp-mobile-brand strong,
+	.buffcorp-mobile-brand span {
+		display: none;
+	}
+
+	.buffcorp-mobile-brand img {
+		width: 64px;
+		height: 64px;
+		object-fit: contain;
+	}
+
+	.buffcorp-mobile-brand strong {
+		font-size: clamp(32px, 10vw, 42px);
+		line-height: 1;
+		font-weight: 950;
+		letter-spacing: 0;
+		color: #0F2747;
+	}
+
+	.buffcorp-mobile-brand span {
+		font-size: 15px;
+		line-height: 1.4;
+		font-weight: 750;
+		color: #667085;
+	}
+
+	.buffcorp-login-card {
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	.buffcorp-card-brand {
+		display: none;
+	}
+
+	.buffcorp-card-header {
+		margin-bottom: 24px;
+		text-align: center;
+	}
+
+	.buffcorp-card-header h1 {
+		font-size: 28px;
+	}
+
+	.buffcorp-captcha {
+		justify-content: flex-start;
+	}
+
+	.buffcorp-captcha .g-recaptcha {
+		transform: scale(.94);
+		transform-origin: left top;
+	}
+}
+
+@media (max-width: 390px) {
+	.buffcorp-login-content {
+		padding-right: 16px;
+		padding-left: 16px;
+	}
+
+	.buffcorp-mobile-brand strong,
+	.buffcorp-card-header h1 {
+		font-size: 26px;
+	}
+
+	.buffcorp-captcha .g-recaptcha {
+		transform: scale(.86);
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.buffcorp-login-body {
+		overflow-y: auto;
+	}
+
+	.buffcorp-login-page,
+	.buffcorp-login-content {
+		min-height: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.buffcorp-login-body *,
+	.buffcorp-login-body *:before,
+	.buffcorp-login-body *:after {
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: .001ms !important;
+	}
+
+	.buffcorp-visual-media {
+		transform: none !important;
+	}
+}
