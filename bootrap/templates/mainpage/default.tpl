@@ -4,10 +4,14 @@
     <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
     <meta name="ProgId" content="FrontPage.Editor.Document">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>HK - Control Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BUFFCORP - Operations Hub</title>
 
     <link rel="stylesheet" type="text/css" href="templates/{skin}/css/{theme}">
     <link rel="stylesheet" type="text/css" href="css/admintool.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
     <script src="js/commoncheck.js"></script>
     <script src="js/admintool.js"></script>
@@ -699,6 +703,581 @@
             from { opacity: .2; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        :root {
+            --buff-bg: #f4f8fc;
+            --buff-surface: #fff;
+            --buff-text: #17324d;
+            --buff-muted: #687b91;
+            --buff-line: #d9e6f3;
+            --buff-brand: #2e6cbf;
+            --buff-brand-dark: #1f559c;
+            --buff-shadow: 0 8px 24px rgba(46,108,191,.08), 0 2px 6px rgba(23,50,77,.04);
+        }
+
+        body {
+            color: var(--buff-text);
+            background: var(--buff-bg);
+            font-family: Manrope, "Segoe UI", Arial, sans-serif;
+        }
+
+        .main-content,
+        .main-content.admin-dashboard-shell {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 0;
+            background: var(--buff-bg);
+        }
+
+        .buffcorp-topbar {
+            position: relative;
+            z-index: 100;
+            display: flex;
+            min-height: 72px;
+            flex: 0 0 72px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 0 28px;
+            border-bottom: 1px solid var(--buff-line);
+            background: var(--buff-surface);
+            box-sizing: border-box;
+        }
+
+        .buffcorp-page-title {
+            min-width: 0;
+            color: var(--buff-text);
+            color: #123f70;
+            font-size: 18px;
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .buffcorp-top-actions,
+        .buffcorp-user {
+            display: flex;
+            align-items: center;
+        }
+
+        .buffcorp-top-actions { gap: 9px; }
+        .buffcorp-user { gap: 9px; margin-left: 3px; }
+        .buffcorp-avatar {
+            display: grid;
+            width: 36px;
+            height: 36px;
+            place-items: center;
+            border-radius: 50%;
+            background: #dceafa;
+            color: var(--buff-brand-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .buffcorp-user strong,
+        .buffcorp-user small { display: block; }
+        .buffcorp-user strong { color: var(--buff-text); font-size: 12px; }
+        .buffcorp-user small { margin-top: 2px; color: var(--buff-muted); font-size: 10px; }
+
+        .buffcorp-global-search {
+            position: relative;
+            display: flex;
+            width: 310px;
+            height: 40px;
+            align-items: center;
+            gap: 8px;
+            padding: 0 11px;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+            box-sizing: border-box;
+        }
+
+        .buffcorp-global-search:focus-within {
+            border-color: #8db7df;
+            box-shadow: 0 0 0 3px rgba(46,108,191,.12);
+        }
+
+        .buffcorp-global-search svg {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+            color: var(--buff-muted);
+        }
+
+        .buffcorp-global-search input {
+            min-width: 0;
+            width: 100%;
+            height: 36px;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #111;
+            font: 12px/36px Manrope, "Segoe UI", Arial, sans-serif;
+        }
+
+        .buffcorp-search-results {
+            position: absolute;
+            top: 46px;
+            right: 0;
+            left: 0;
+            display: none;
+            max-height: 320px;
+            overflow: auto;
+            padding: 6px;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+            box-shadow: 0 15px 35px rgba(16,24,40,.16);
+        }
+
+        .buffcorp-search-results.open { display: block; }
+        .buffcorp-search-results a,
+        .buffcorp-search-empty {
+            display: block;
+            padding: 9px;
+            border-radius: 6px;
+            color: var(--buff-text);
+            font: 12px/18px Manrope, "Segoe UI", Arial, sans-serif;
+            text-decoration: none;
+        }
+        .buffcorp-search-results a:hover { background: #f4f8fc; color: var(--buff-brand); }
+        .buffcorp-search-empty { color: var(--buff-muted); text-align: center; }
+
+        .buffcorp-top-actions .admin-home-wrap,
+        .buffcorp-top-actions .payroll-wrap,
+        .buffcorp-top-actions .notify-wrap,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .admin-home-wrap,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .payroll-wrap,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+            box-shadow: none;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+        }
+
+        .buffcorp-top-actions .admin-home-button,
+        .buffcorp-top-actions .payroll-button,
+        .buffcorp-top-actions .notify-bell,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .admin-home-button,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .payroll-button,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell {
+            width: 38px;
+            height: 38px;
+            color: var(--buff-text);
+        }
+
+        .buffcorp-top-actions .notify-count,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-count {
+            top: -5px;
+            right: -5px;
+            border-color: #fff;
+        }
+
+        .buffcorp-page {
+            min-width: 0;
+            min-height: 0;
+            flex: 1;
+            overflow: auto;
+            padding: 24px 28px 40px;
+            background: var(--buff-bg);
+            box-sizing: border-box;
+        }
+
+        .buffcorp-page div[style*="overflow:auto"][style*="height:80%"] {
+            height: auto !important;
+            overflow: visible !important;
+        }
+
+        .buffcorp-page .toolbar {
+            display: flex;
+            width: auto;
+            height: auto;
+            min-height: 42px;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            padding: 8px 10px;
+            overflow: visible;
+            border: 1px solid var(--buff-line);
+            border-radius: 9px 9px 0 0;
+            background: var(--buff-surface);
+            box-sizing: border-box;
+        }
+
+        .buffcorp-page .toolbar a {
+            display: inline-flex;
+            min-height: 34px;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+            padding: 0 10px;
+            border: 1px solid var(--buff-line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--buff-text);
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .buffcorp-page .toolbar a:first-child {
+            border-color: var(--buff-brand);
+            background: var(--buff-brand);
+            color: #fff;
+        }
+        .buffcorp-page .toolbar a:hover { padding: 0 10px; border-color: #8db7df; background: #eaf3fc; color: var(--buff-brand); }
+        .buffcorp-page .toolbar a:first-child:hover { background: var(--buff-brand-dark); color: #fff; }
+        .buffcorp-page .toolbar a img { width: 16px; height: 16px; object-fit: contain; }
+        .buffcorp-page .toolbar a span,
+        .buffcorp-page .toolbar a:link span,
+        .buffcorp-page .toolbar a:visited span,
+        .buffcorp-page .toolbar a:hover span { padding: 0; color: inherit; }
+
+        .buffcorp-page .tabtitle {
+            width: auto;
+            min-height: 38px;
+            padding: 9px 12px;
+            border: 1px solid var(--buff-line);
+            border-top: 0;
+            background: #f8fbfe;
+            color: var(--buff-text);
+            font-size: 12px;
+            line-height: 20px;
+            box-sizing: border-box;
+        }
+
+        .buffcorp-page input:not([type="checkbox"]):not([type="radio"]):not([type="image"]),
+        .buffcorp-page select,
+        .buffcorp-page textarea {
+            max-width: 100%;
+            min-height: 34px;
+            padding: 7px 9px;
+            border: 1px solid #cfddea;
+            border-radius: 6px;
+            background: #fff;
+            color: #111;
+            font: 11px/18px Manrope, "Segoe UI", Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .buffcorp-page textarea { min-height: 90px; resize: vertical; }
+        .buffcorp-page input:focus,
+        .buffcorp-page select:focus,
+        .buffcorp-page textarea:focus { border-color: #6fa7dc; outline: 0; box-shadow: 0 0 0 3px rgba(46,108,191,.1); }
+
+        .buffcorp-page .selector {
+            width: 100%;
+            min-width: 100%;
+            table-layout: auto !important;
+            border: 1px solid var(--buff-line);
+            border-collapse: collapse !important;
+            border-spacing: 0;
+            border-radius: 0;
+            background: #fff;
+            box-shadow: none;
+            overflow: hidden;
+        }
+        .buffcorp-page .selector td { height: auto; padding: 12px 14px; border: 0; border-top: 1px solid var(--buff-line); background: #fff !important; color: var(--buff-text) !important; font-size: 12px !important; vertical-align: middle; white-space: nowrap; }
+        .buffcorp-page .selector .header td { height: auto; padding: 11px 14px; border: 0; border-top: 0; border-bottom: 1px solid var(--buff-line); background: #f1f6fb !important; color: #526a82 !important; font-size: 11px !important; font-weight: 700; letter-spacing: .2px; }
+        .buffcorp-page .selector tr:last-child td { border-bottom: 0; }
+        .buffcorp-page .selector tr:not(.header):hover td { background: #f8fbfe !important; }
+        .buffcorp-page .selector tr:not(.header) > td:first-child { color: #234f7d !important; font-weight: 700; }
+        .buffcorp-page .selector .buffcorp-actions-head,
+        .buffcorp-page .selector .buffcorp-actions-cell { width: 1%; min-width: 132px; text-align: right !important; }
+        .buffcorp-row-actions { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+        .buffcorp-page .buffcorp-row-action {
+            display: inline-grid;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            place-items: center;
+            border: 1px solid var(--buff-line);
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .buffcorp-page .buffcorp-row-action svg { width: 15px; height: 15px; }
+        .buffcorp-page .buffcorp-action-view { border-color: #c9ddf2; background: #edf5fd; color: #2e6cbf; }
+        .buffcorp-page .buffcorp-action-edit { border-color: #f2d7a8; background: #fff5e6; color: #b35f00; }
+        .buffcorp-page .buffcorp-action-delete { border-color: #f1c5c5; background: #fdecec; color: #c43f3f; }
+        .buffcorp-page .buffcorp-action-move-up,
+        .buffcorp-page .buffcorp-action-move-down { border-color: #c9ddf2; background: #edf5fd; color: #2e6cbf; }
+        .buffcorp-page .buffcorp-action-permission { border-color: #d9cef7; background: #f4f0ff; color: #6941c6; }
+        .buffcorp-page .buffcorp-action-password { border-color: #bde3d1; background: #ecfdf3; color: #027a48; }
+        .buffcorp-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 7px;
+            border-radius: 12px;
+            background: #ecfdf3;
+            color: #027a48;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .buffcorp-status:before { width: 5px; height: 5px; border-radius: 50%; background: currentColor; content: ""; }
+        .buffcorp-status.warning { background: #fffaeb; color: #b54708; }
+        .buffcorp-status.danger { background: #fef3f2; color: #b42318; }
+        .buffcorp-status.neutral { background: #f2f4f7; color: #475467; }
+
+        .buffcorp-page form > table:not(.selector) {
+            border: 1px solid var(--buff-line);
+            border-collapse: separate;
+            border-spacing: 0 5px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: var(--buff-shadow);
+        }
+        .buffcorp-page form > table:not(.selector) td { padding: 6px 10px; color: #111; }
+
+        .buffcorp-module-card {
+            overflow: hidden;
+            border: 1px solid var(--buff-line);
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(46,108,191,.07);
+        }
+        .buffcorp-server-source { display: contents; }
+
+        .buffcorp-module-toolbar {
+            display: flex;
+            min-height: 64px;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--buff-line);
+            background: linear-gradient(180deg,#fff,#fbfdff);
+            box-sizing: border-box;
+        }
+
+        .buffcorp-client-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .buffcorp-client-controls input {
+            width: 260px;
+            min-width: 220px;
+        }
+        .buffcorp-client-controls select { min-width: 105px; }
+
+        .buffcorp-module-filter {
+            display: flex;
+            min-width: 0;
+            flex: 1 1 auto;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            color: var(--buff-text);
+            font-size: 11px;
+        }
+
+        .buffcorp-module-filter select { min-width: 145px; }
+        .buffcorp-module-filter input[type="submit"] {
+            min-height: 36px;
+            padding: 0 13px;
+            border: 1px solid var(--buff-line);
+            background: #fff;
+            color: var(--buff-text);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .buffcorp-module-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .buffcorp-module-actions .buffcorp-primary-action {
+            display: inline-flex;
+            min-height: 38px;
+            align-items: center;
+            gap: 7px;
+            padding: 0 13px;
+            border: 1px solid var(--buff-brand);
+            border-radius: 7px;
+            background: var(--buff-brand);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .buffcorp-module-actions .buffcorp-secondary-action {
+            display: inline-flex;
+            min-height: 38px;
+            align-items: center;
+            gap: 7px;
+            padding: 0 13px;
+            border: 1px solid var(--buff-line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--buff-text);
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .buffcorp-module-actions .buffcorp-primary-action img,
+        .buffcorp-module-actions .buffcorp-secondary-action img { width: 16px; height: 16px; }
+        .buffcorp-module-actions .buffcorp-primary-action svg,
+        .buffcorp-module-actions .buffcorp-secondary-action svg { width: 16px; height: 16px; }
+        .buffcorp-refresh {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            place-items: center;
+            border: 1px solid var(--buff-line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--buff-text);
+            cursor: pointer;
+        }
+        .buffcorp-refresh:hover { border-color: #9fc0e3; background: #f5f9fe; color: var(--buff-brand); }
+        .buffcorp-refresh svg { width: 17px; height: 17px; }
+
+        .buffcorp-list-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 15px 18px;
+            border-bottom: 1px solid var(--buff-line);
+            background: #fff;
+        }
+        .buffcorp-list-head strong { color: #173f67; font-size: 14px; }
+        .buffcorp-list-head-copy small {
+            display: block;
+            margin-top: 4px;
+            color: var(--buff-muted);
+            font-size: 10px;
+        }
+        .buffcorp-record-count {
+            display: inline-flex;
+            min-height: 28px;
+            align-items: center;
+            padding: 5px 10px;
+            border: 1px solid #cfe0f2;
+            border-radius: 999px;
+            background: #edf5fd;
+            color: var(--buff-brand-dark);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .buffcorp-table-wrap { width: 100%; overflow-x: auto; }
+        .buffcorp-module-card .selector { border: 0; border-radius: 0; box-shadow: none; }
+        .buffcorp-pagination {
+            display: flex;
+            min-height: 52px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 16px;
+            border-top: 1px solid var(--buff-line);
+            color: var(--buff-muted);
+            font-size: 10px;
+        }
+        .buffcorp-pagination div { display: flex; gap: 5px; }
+        .buffcorp-pagination button {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border: 1px solid var(--buff-line);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--buff-text);
+            cursor: pointer;
+        }
+        .buffcorp-pagination button.active { border-color: var(--buff-brand); background: var(--buff-brand); color: #fff; }
+        .buffcorp-pagination button:disabled { cursor: default; opacity: .4; }
+
+        .buffcorp-form-card {
+            padding: 14px;
+            border: 0;
+            background: #fff;
+        }
+        .buffcorp-page .buffcorp-form-table {
+            width: 100%;
+            border: 0;
+            box-shadow: none;
+        }
+        .buffcorp-page .buffcorp-form-table > tbody {
+            display: grid;
+            grid-template-columns: repeat(4,minmax(0,1fr));
+            gap: 10px;
+        }
+        .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody { grid-template-columns: repeat(6,minmax(0,1fr)); }
+        .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { grid-template-columns: repeat(8,minmax(0,1fr)); }
+        .buffcorp-page .buffcorp-form-table > tbody > tr {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            gap: 4px;
+            padding: 9px;
+            border: 1px solid #e3edf6;
+            border-radius: 8px;
+            background: #fbfdff;
+        }
+        .buffcorp-page .buffcorp-form-table > tbody > tr > td {
+            display: block;
+            width: auto !important;
+            height: auto !important;
+            padding: 0;
+            color: #111;
+        }
+        .buffcorp-page .buffcorp-form-table > tbody > tr > td:first-child {
+            color: #344054;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .buffcorp-page .buffcorp-form-table textarea { height: 64px; min-height: 64px; resize: none; }
+
+        .buffcorp-page .admin-dashboard { padding: 20px; background: var(--buff-bg); font-family: "Segoe UI", Arial, sans-serif; }
+        .buffcorp-page .admin-dashboard-header { padding-right: 0; }
+        .buffcorp-page .admin-card,
+        .buffcorp-page .admin-date-range,
+        .buffcorp-page .admin-export-btn,
+        .buffcorp-page .admin-select,
+        .buffcorp-page .admin-outline-btn { border-color: var(--buff-line); background: #fff; box-shadow: var(--buff-shadow); }
+
+        @media (max-width: 980px) {
+            .buffcorp-global-search { width: 230px; }
+            .buffcorp-user div { display: none; }
+            .buffcorp-page .buffcorp-form-table > tbody,
+            .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody,
+            .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { grid-template-columns: repeat(3,minmax(0,1fr)); }
+        }
+
+        @media (max-width: 720px) {
+            .buffcorp-topbar { min-height: 60px; flex-basis: 60px; padding: 0 12px; }
+            .buffcorp-global-search { display: none; }
+            .buffcorp-page { padding: 14px 12px 26px; }
+            .buffcorp-user { display: none; }
+            .buffcorp-module-toolbar { align-items: stretch; flex-direction: column; }
+            .buffcorp-module-actions { margin-left: 0; }
+            .buffcorp-client-controls { align-items: stretch; flex-direction: column; }
+            .buffcorp-client-controls input { width: 100%; min-width: 0; }
+            .buffcorp-page .buffcorp-form-table > tbody,
+            .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody,
+            .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { grid-template-columns: repeat(2,minmax(0,1fr)); }
+        }
     </style>
 </head>
 
@@ -1264,6 +1843,17 @@
     </div>
 
     <div class="{MAIN_CONTENT_CLASS}" id="main-content">
+        <header class="buffcorp-topbar">
+            <div class="buffcorp-page-title" id="buffcorp-page-title">Tổng quan</div>
+            <div class="buffcorp-top-actions">
+                <label class="buffcorp-global-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m20 20-4-4"></path>
+                    </svg>
+                    <input type="search" id="buffcorp-global-search" placeholder="Tìm chức năng..." autocomplete="off" aria-label="Tìm chức năng">
+                    <span class="buffcorp-search-results" id="buffcorp-search-results"></span>
+                </label>
         <div class="admin-home-wrap" id="admin-home-wrap">
             <a class="admin-home-button" href="main.php?option=common_lists/admin_dashboard&mode=dashboard&l={LANGUAGEID}" title="Về Dashboard Admin">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -1341,9 +1931,18 @@
                 </div>
             </div>
         </div>
+                <div class="buffcorp-user">
+                    <span class="buffcorp-avatar">{USER_INITIAL}</span>
+                    <div><strong>{USER_DISPLAY_NAME}</strong><small>{USER_ROLE}</small></div>
+                </div>
+            </div>
+        </header>
+        <main class="buffcorp-page" id="buffcorp-page">
         {MAIN_CONTENT}
+        </main>
         <script type="text/javascript">
         (function () {
+            function initializeMainShell() {
             var main = document.getElementById('main-content');
             if (!main) return;
             if (main.getElementsByClassName && (
@@ -1356,6 +1955,348 @@
             if (main.getElementsByClassName && main.getElementsByClassName('admin-dashboard').length && main.className.indexOf('admin-dashboard-shell') < 0) {
                 main.className += ' admin-dashboard-shell';
             }
+
+            var pageTitle = document.getElementById('buffcorp-page-title');
+            var currentOption = '{CURRENT_OPTION}';
+            try { currentOption = new URL(window.location.href).searchParams.get('option') || currentOption; } catch (e) { /* keep back-end route */ }
+            var links = document.querySelectorAll('#buffcorp-menu .children a[href]');
+            var currentLink = null;
+            for (var i = 0; i < links.length; i++) {
+                try {
+                    if ((new URL(links[i].href, window.location.href).searchParams.get('option') || '') === currentOption) {
+                        currentLink = links[i];
+                        break;
+                    }
+                } catch (e) { /* ignore invalid legacy link */ }
+            }
+            var heading = document.querySelector('#buffcorp-page h1, #buffcorp-page .tabtitle');
+            if (pageTitle) pageTitle.textContent = currentLink
+                ? (currentLink.textContent || '').replace(/^\s+|\s+$/g, '')
+                : (heading ? (heading.textContent || '').replace(/^\s+|\s+$/g, '') : 'Tổng quan');
+
+            function actionIcon(type) {
+                var path = '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path><circle cx="12" cy="12" r="2.5"></circle>';
+                if (type === 'edit') path = '<path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"></path>';
+                if (type === 'delete') path = '<path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"></path>';
+                if (type === 'add') path = '<path d="M12 5v14M5 12h14"></path>';
+                if (type === 'save') path = '<path d="M5 3h12l2 2v16H5z"></path><path d="M8 3v6h8V3M8 21v-8h8v8"></path>';
+                if (type === 'back') path = '<path d="M19 12H5M11 18l-6-6 6-6"></path>';
+                if (type === 'move-up') path = '<path d="M12 19V5M6 11l6-6 6 6"></path>';
+                if (type === 'move-down') path = '<path d="M12 5v14M6 13l6 6 6-6"></path>';
+                if (type === 'permission') path = '<path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path>';
+                if (type === 'password') path = '<circle cx="8" cy="15" r="4"></circle><path d="M11 12l8-8M15 8l2 2M17 6l2 2"></path>';
+                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
+            }
+
+            function topLevelChild(node, root) {
+                while (node && node.parentNode !== root) node = node.parentNode;
+                return node;
+            }
+
+            function enhanceLegacyModule(label) {
+                var page = document.getElementById('buffcorp-page');
+                if (!page || page.querySelector('.admin-dashboard,.sales-page,.kpi-page,.kpi-report,.org-chart')) return;
+                var card = page.querySelector('.buffcorp-server-module');
+                var contentRoot = card ? (card.querySelector('.buffcorp-server-source') || card) : page;
+                var selector = contentRoot.querySelector('table.selector');
+                var toolbar = contentRoot.querySelector('.toolbar');
+                var tabtitle = contentRoot.querySelector('.tabtitle');
+                var filterForm = tabtitle && tabtitle.querySelector('form');
+                var mainForm = contentRoot.querySelector('form[name="mainForm"]') || (!selector ? contentRoot.querySelector('form') : null);
+                if (!selector && !mainForm && !toolbar) return;
+
+                if (!card) {
+                    var first = toolbar || tabtitle || topLevelChild(selector || mainForm, page);
+                    card = document.createElement('section');
+                    card.className = 'buffcorp-module-card';
+                    first.parentNode.insertBefore(card, first);
+                }
+                var cardAnchor = contentRoot !== page && contentRoot.parentNode === card ? contentRoot : null;
+                var appendToCard = function (node) {
+                    if (cardAnchor) card.insertBefore(node, cardAnchor);
+                    else card.appendChild(node);
+                };
+
+                var moduleToolbar = document.createElement('div');
+                moduleToolbar.className = 'buffcorp-module-toolbar';
+                var listSearch = null;
+                var sizeSelect = null;
+                if (selector) {
+                    var clientControls = document.createElement('div');
+                    clientControls.className = 'buffcorp-client-controls';
+                    listSearch = document.createElement('input');
+                    listSearch.type = 'search';
+                    listSearch.placeholder = 'Tìm trong ' + String(label || 'dữ liệu').toLowerCase() + '...';
+                    listSearch.setAttribute('aria-label', 'Tìm trong bảng');
+                    sizeSelect = document.createElement('select');
+                    sizeSelect.setAttribute('aria-label', 'Số dòng');
+                    var sizes = [5, 10, 20];
+                    for (var s = 0; s < sizes.length; s++) {
+                        var sizeOption = document.createElement('option');
+                        sizeOption.value = sizes[s];
+                        sizeOption.textContent = sizes[s] + ' dòng';
+                        sizeSelect.appendChild(sizeOption);
+                    }
+                    clientControls.appendChild(listSearch);
+                    clientControls.appendChild(sizeSelect);
+                    moduleToolbar.appendChild(clientControls);
+                }
+                if (filterForm) {
+                    filterForm.className += (filterForm.className ? ' ' : '') + 'buffcorp-module-filter';
+                    moduleToolbar.appendChild(filterForm);
+                }
+                var actions = document.createElement('div');
+                actions.className = 'buffcorp-module-actions';
+                if (toolbar) {
+                    var actionLinks = toolbar.querySelectorAll('a');
+                    for (var a = 0; a < actionLinks.length; a++) {
+                        var actionLabel = String(actionLinks[a].textContent || '').replace(/^\s+|\s+$/g, '');
+                        var normalizedLabel = actionLabel.toLowerCase();
+                        var actionType = normalizedLabel.indexOf('lưu') >= 0 || normalizedLabel.indexOf('save') >= 0
+                            ? 'save'
+                            : (normalizedLabel.indexOf('về') >= 0 || normalizedLabel.indexOf('back') >= 0 || normalizedLabel.indexOf('return') >= 0 ? 'back' : 'add');
+                        actionLinks[a].innerHTML = actionIcon(actionType);
+                        var actionText = document.createElement('span');
+                        actionText.textContent = actionLabel;
+                        actionLinks[a].appendChild(actionText);
+                        actionLinks[a].className += (actionLinks[a].className ? ' ' : '') + (a === 0 ? 'buffcorp-primary-action' : 'buffcorp-secondary-action');
+                        actions.appendChild(actionLinks[a]);
+                    }
+                    toolbar.parentNode.removeChild(toolbar);
+                }
+                if (selector) {
+                    var refresh = document.createElement('button');
+                    refresh.type = 'button';
+                    refresh.className = 'buffcorp-refresh';
+                    refresh.title = 'Làm mới';
+                    refresh.setAttribute('aria-label', 'Làm mới');
+                    refresh.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6v5h-5M4 18v-5h5"></path><path d="M18 9a7 7 0 0 0-12-3L4 8M6 15a7 7 0 0 0 12 3l2-2"></path></svg>';
+                    refresh.onclick = function () { window.location.reload(); };
+                    actions.appendChild(refresh);
+                }
+                if (actions.children.length) moduleToolbar.appendChild(actions);
+                if (moduleToolbar.children.length) appendToCard(moduleToolbar);
+                if (tabtitle && tabtitle.parentNode) tabtitle.parentNode.removeChild(tabtitle);
+
+                if (selector) {
+                    var rows = [];
+                    var allRows = selector.getElementsByTagName('tr');
+                    for (var r = 0; r < allRows.length; r++) {
+                        if ((' ' + allRows[r].className + ' ').indexOf(' header ') < 0) rows.push(allRows[r]);
+                    }
+                    var listHead = document.createElement('div');
+                    listHead.className = 'buffcorp-list-head';
+                    var listCopy = document.createElement('div');
+                    listCopy.className = 'buffcorp-list-head-copy';
+                    var listTitle = document.createElement('strong');
+                    listTitle.textContent = 'Danh sách ' + String(label || 'dữ liệu').toLowerCase();
+                    var listMeta = document.createElement('small');
+                    listMeta.textContent = rows.length + ' bản ghi phù hợp';
+                    var count = document.createElement('span');
+                    count.className = 'buffcorp-record-count';
+                    count.textContent = rows.length + ' mục';
+                    listCopy.appendChild(listTitle);
+                    listCopy.appendChild(listMeta);
+                    listHead.appendChild(listCopy);
+                    listHead.appendChild(count);
+                    appendToCard(listHead);
+
+                    var tableWrap = topLevelChild(selector, contentRoot);
+                    tableWrap.className += (tableWrap.className ? ' ' : '') + 'buffcorp-table-wrap';
+                    tableWrap.style.height = 'auto';
+                    tableWrap.style.overflowX = 'auto';
+                    tableWrap.style.overflowY = 'hidden';
+                    appendToCard(tableWrap);
+
+                    var imageLinks = selector.querySelectorAll('a img');
+                    for (var x = 0; x < imageLinks.length; x++) {
+                        var link = imageLinks[x].parentNode;
+                        if (imageLinks[x].style.display === 'none' || window.getComputedStyle(imageLinks[x]).display === 'none') {
+                            link.style.display = 'none';
+                            continue;
+                        }
+                        var src = String(imageLinks[x].getAttribute('src') || '').toLowerCase();
+                        var alt = String(imageLinks[x].getAttribute('alt') || '').toLowerCase();
+                        var type = src.indexOf('delete') >= 0 ? 'delete'
+                            : (src.indexOf('edit') >= 0 ? 'edit'
+                                : (src.indexOf('down') >= 0 ? 'move-down'
+                                    : (src.indexOf('up.') >= 0 ? 'move-up'
+                                        : (src.indexOf('db_user') >= 0 || src.indexOf('perms') >= 0 || alt.indexOf('permission') >= 0 ? 'permission'
+                                            : (src.indexOf('securityroles') >= 0 || alt.indexOf('password') >= 0 ? 'password' : 'view')))));
+                        link.className += (link.className ? ' ' : '') + 'buffcorp-row-action buffcorp-action-' + type;
+                        var actionLabel = type === 'delete' ? 'Xóa'
+                            : (type === 'edit' ? 'Sửa'
+                                : (type === 'move-up' ? 'Đưa lên'
+                                    : (type === 'move-down' ? 'Đưa xuống'
+                                        : (type === 'permission' ? 'Phân quyền'
+                                            : (type === 'password' ? 'Đổi mật khẩu' : 'Xem')))));
+                        link.title = actionLabel;
+                        link.setAttribute('aria-label', actionLabel);
+                        link.innerHTML = actionIcon(type);
+                    }
+
+                    var maxActionCount = 0;
+                    for (var modernRowIndex = 0; modernRowIndex < rows.length; modernRowIndex++) {
+                        var actionCells = [];
+                        var cells = rows[modernRowIndex].getElementsByTagName('td');
+                        for (var cellIndex = 0; cellIndex < cells.length; cellIndex++) {
+                            if (cells[cellIndex].querySelector('.buffcorp-row-action')) actionCells.push(cells[cellIndex]);
+                        }
+                        if (actionCells.length) {
+                            maxActionCount = Math.max(maxActionCount, actionCells.length);
+                            var actionHost = actionCells[0];
+                            var rowActions = document.createElement('div');
+                            rowActions.className = 'buffcorp-row-actions';
+                            for (var actionCellIndex = 0; actionCellIndex < actionCells.length; actionCellIndex++) {
+                                var cellActions = actionCells[actionCellIndex].querySelectorAll('.buffcorp-row-action');
+                                for (var actionIndex = 0; actionIndex < cellActions.length; actionIndex++) rowActions.appendChild(cellActions[actionIndex]);
+                            }
+                            actionHost.innerHTML = '';
+                            actionHost.className += (actionHost.className ? ' ' : '') + 'buffcorp-actions-cell';
+                            actionHost.removeAttribute('width');
+                            actionHost.removeAttribute('align');
+                            actionHost.appendChild(rowActions);
+                            for (var removeIndex = 1; removeIndex < actionCells.length; removeIndex++) actionCells[removeIndex].parentNode.removeChild(actionCells[removeIndex]);
+                        }
+
+                        var statusCells = rows[modernRowIndex].getElementsByTagName('td');
+                        for (var statusIndex = 0; statusIndex < statusCells.length; statusIndex++) {
+                            if (statusCells[statusIndex].querySelector('a,button,input,select,img')) continue;
+                            var statusText = String(statusCells[statusIndex].textContent || '').replace(/^\s+|\s+$/g, '');
+                            var statusKey = statusText.toLowerCase().replace(/đ/g, 'd');
+                            try { statusKey = statusKey.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) { /* keep original status */ }
+                            var statusType = '';
+                            if (/^(inactive|disabled|khong hoat dong|chua dat|qua han|huy|no)$/.test(statusKey)) statusType = 'danger';
+                            else if (/^(pending|cho|cho duyet|dang xu ly|dang thuc hien|can theo doi)$/.test(statusKey)) statusType = 'warning';
+                            else if (/^(draft|nhap|moi)$/.test(statusKey)) statusType = 'neutral';
+                            else if (/^(active|actived|hoat dong|da hoan thanh|hoan thanh|da duyet|dat kpi|yes|co)$/.test(statusKey)) statusType = 'success';
+                            if (!statusType) continue;
+                            var status = document.createElement('span');
+                            status.className = 'buffcorp-status' + (statusType === 'success' ? '' : ' ' + statusType);
+                            status.textContent = statusText;
+                            statusCells[statusIndex].innerHTML = '';
+                            statusCells[statusIndex].appendChild(status);
+                        }
+                    }
+                    var headerRow = selector.querySelector('tr.header');
+                    var headerCells = headerRow ? headerRow.querySelectorAll('td,th') : [];
+                    var possibleActionHead = headerCells.length ? headerCells[headerCells.length - 1] : null;
+                    var declaredActionColumns = possibleActionHead
+                        && !String(possibleActionHead.textContent || '').replace(/\s+/g, '')
+                        && parseInt(possibleActionHead.getAttribute('colspan') || '1', 10) > 1;
+                    if ((maxActionCount || declaredActionColumns) && possibleActionHead) {
+                            var actionHead = possibleActionHead;
+                            actionHead.textContent = 'Thao tác';
+                            actionHead.className += (actionHead.className ? ' ' : '') + 'buffcorp-actions-head';
+                            actionHead.removeAttribute('colspan');
+                            actionHead.removeAttribute('width');
+                    }
+
+                    var pageSize = 5;
+                    var footer = document.createElement('footer');
+                    footer.className = 'buffcorp-pagination';
+                    var status = document.createElement('span');
+                    var buttons = document.createElement('div');
+                    footer.appendChild(status);
+                    footer.appendChild(buttons);
+                    appendToCard(footer);
+                    var showPage;
+                    var addPageButton = function (pageNumber, text, disabled, activePage) {
+                        var pageButton = document.createElement('button');
+                        pageButton.type = 'button';
+                        pageButton.textContent = text;
+                        pageButton.disabled = disabled;
+                        pageButton.setAttribute('data-page', pageNumber);
+                        pageButton.className = pageNumber === activePage ? 'active' : '';
+                        pageButton.onclick = function () { showPage(pageNumber); };
+                        buttons.appendChild(pageButton);
+                    };
+                    showPage = function (activePage) {
+                        var query = String(listSearch.value || '').toLowerCase().replace(/^\s+|\s+$/g, '');
+                        var filteredRows = [];
+                        for (var y = 0; y < rows.length; y++) {
+                            rows[y].style.display = 'none';
+                            if (!query || String(rows[y].textContent || '').toLowerCase().indexOf(query) >= 0) filteredRows.push(rows[y]);
+                        }
+                        var pages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+                        activePage = Math.max(1, Math.min(activePage, pages));
+                        var firstRow = (activePage - 1) * pageSize;
+                        for (var visible = firstRow; visible < Math.min(firstRow + pageSize, filteredRows.length); visible++) filteredRows[visible].style.display = '';
+                        listMeta.textContent = filteredRows.length + ' bản ghi phù hợp';
+                        count.textContent = filteredRows.length + ' mục';
+                        status.textContent = 'Trang ' + activePage + ' / ' + pages;
+                        buttons.innerHTML = '';
+                        addPageButton(Math.max(1, activePage - 1), '‹', activePage === 1, activePage);
+                        var startPage = Math.max(1, Math.min(activePage - 2, pages - 4));
+                        var endPage = Math.min(pages, startPage + 4);
+                        for (var p = startPage; p <= endPage; p++) addPageButton(p, p, false, activePage);
+                        addPageButton(Math.min(pages, activePage + 1), '›', activePage === pages, activePage);
+                    };
+                    listSearch.oninput = function () { showPage(1); };
+                    sizeSelect.onchange = function () {
+                        pageSize = parseInt(sizeSelect.value, 10) || 5;
+                        showPage(1);
+                    };
+                    showPage(1);
+                } else if (mainForm) {
+                    var formWrap = topLevelChild(mainForm, contentRoot);
+                    formWrap.className += (formWrap.className ? ' ' : '') + 'buffcorp-form-card';
+                    formWrap.style.height = 'auto';
+                    formWrap.style.overflow = 'visible';
+                    appendToCard(formWrap);
+                    var formTable = mainForm.querySelector('table');
+                    if (formTable) {
+                        var formRowsList = formTable.getElementsByTagName('tr');
+                        var formRows = 0;
+                        for (var z = 0; z < formRowsList.length; z++) {
+                            var hasContent = String(formRowsList[z].textContent || '').replace(/\s+/g, '') !== '' || formRowsList[z].querySelector('input,select,textarea,button');
+                            if (!hasContent || formRowsList[z].style.visibility === 'hidden') formRowsList[z].style.display = 'none';
+                            else formRows++;
+                        }
+                        formTable.className += (formTable.className ? ' ' : '') + 'buffcorp-form-table' + (formRows > 40 ? ' buffcorp-form-ultra' : (formRows > 24 ? ' buffcorp-form-dense' : ''));
+                    }
+                }
+                card.className += (card.className ? ' ' : '') + 'buffcorp-module-ready';
+            }
+
+            enhanceLegacyModule(pageTitle ? pageTitle.textContent : '');
+
+            var search = document.getElementById('buffcorp-global-search');
+            var results = document.getElementById('buffcorp-search-results');
+            function closeSearch() {
+                if (results) results.className = 'buffcorp-search-results';
+            }
+            if (search && results) {
+                search.oninput = function () {
+                    var query = String(search.value || '').toLowerCase().replace(/^\s+|\s+$/g, '');
+                    results.innerHTML = '';
+                    if (!query) return closeSearch();
+                    var found = 0;
+                    for (var n = 0; n < links.length && found < 8; n++) {
+                        var label = (links[n].textContent || '').replace(/^\s+|\s+$/g, '');
+                        if (label.toLowerCase().indexOf(query) < 0) continue;
+                        var item = document.createElement('a');
+                        item.href = links[n].href;
+                        item.textContent = label;
+                        results.appendChild(item);
+                        found++;
+                    }
+                    if (!found) {
+                        var empty = document.createElement('span');
+                        empty.className = 'buffcorp-search-empty';
+                        empty.textContent = 'Không tìm thấy chức năng';
+                        results.appendChild(empty);
+                    }
+                    results.className = 'buffcorp-search-results open';
+                };
+                document.addEventListener('click', function (event) {
+                    if (!results.contains(event.target) && event.target !== search) closeSearch();
+                });
+            }
+            }
+
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeMainShell);
+            else initializeMainShell();
         })();
         </script>
     </div>

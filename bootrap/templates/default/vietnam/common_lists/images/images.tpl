@@ -8,7 +8,7 @@
       chủ đề</span></a>
   <a href="?option=banners/banners&mode=list"><img border="0" src="templates/{skin}/images/32.png" width="20" height="20" alt="Cập nhật banner"><span>Cập nhật banner</span></a>
   <span style="display:none"><a href="?option=logo/upload_logo&mode=list"><img border="0" src="templates/{skin}/images/peace.png" alt="Logo" ><span>Logo</span></a>
-  <a href="?option=collections/collections&mode=collections_list&l={LANGUAGEID}"><img border="0" src="templates/{skin}/images/photo.png" alt="Bộ sưu tập ảnh" ><span>Bộ sưu tập ảnh</span></a> </span>      
+  <a href="?option=collections/collections&mode=collections_list&l={LANGUAGEID}"><img border="0" src="templates/{skin}/images/button-article-list.gif" alt="Bộ sưu tập ảnh" ><span>Bộ sưu tập ảnh</span></a> </span>
  </div>
 <div class="tabtitle"><a href="?option={funname}&mode=image_list&cid=0" target="_self"><img border="0" src="templates/{skin}/images/con_address.png" width="16" height="16" style="{list.up}" align="middle"></a>
 <!-- BEGIN catChain -->

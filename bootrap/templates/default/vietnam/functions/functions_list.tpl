@@ -23,7 +23,7 @@ List admin tools</div>
     <td width="38%">{list.func_name}</td>
     <td width="28%">{list.description}</td>
     <td width="4%"><a href="?option={funname}&mode=permission_list&id={list.code}"><img border="0" src="templates/{skin}/images/DB_user.png" alt="Permission" width="20" height="20"></a></td>
-    <td width="4%"><a href="?option={funname}&mode=info&code={list.code}&id={list.code}"><img border="0" src="templates/{skin}/images/file_edit.png" alt="Update" width="20" height="20"></a></td>
+    <td width="4%"><a href="?option={funname}&mode=info&code={list.code}&id={list.code}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
     <td width="4%"><a href="#"  onClick="if(confirm ('Do you want to delete ?.'))
 	{	document.location = '?option={funname}&mode=delete&code={list.code}' 
 	}" ><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a> </td>
