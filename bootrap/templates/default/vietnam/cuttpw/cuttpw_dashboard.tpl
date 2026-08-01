@@ -69,23 +69,23 @@
 
     <div class="cuttpw-grid">
         <div class="cuttpw-card">
-            <div class="cuttpw-label">Tổng user</div>
+            <div class="cuttpw-label">Tổng người dùng</div>
             <div class="cuttpw-num">{TOTAL_USERS}</div>
         </div>
         <div class="cuttpw-card">
-            <div class="cuttpw-label">User active</div>
+            <div class="cuttpw-label">Người dùng hoạt động</div>
             <div class="cuttpw-num">{ACTIVE_USERS}</div>
         </div>
         <div class="cuttpw-card">
-            <div class="cuttpw-label">User deactive</div>
+            <div class="cuttpw-label">Người dùng ngừng hoạt động</div>
             <div class="cuttpw-num">{DEACTIVE_USERS}</div>
         </div>
         <div class="cuttpw-card">
-            <div class="cuttpw-label">Tổng shortlink</div>
+            <div class="cuttpw-label">Tổng liên kết rút gọn</div>
             <div class="cuttpw-num">{TOTAL_LINKS}</div>
         </div>
         <div class="cuttpw-card">
-            <div class="cuttpw-label">Tổng click</div>
+            <div class="cuttpw-label">Tổng lượt nhấp</div>
             <div class="cuttpw-num">{TOTAL_CLICKS}</div>
         </div>
     </div>

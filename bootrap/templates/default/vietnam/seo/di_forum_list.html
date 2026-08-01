@@ -29,21 +29,21 @@ function doReShow()
 	mainForm.submit();
 }
 </Script>
-<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create Link to Groupkey</span></a> <a href="JavaScript:doCreateLink()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Link to Link"><span>Create Link to Link</span></a> <a href="?option={funname}&mode=listlink&l={LANGUAGEID}"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Link to Link"><span>List Link2</span></a> <a href1="?option={funname}&mode=update&l={LANGUAGEID}"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Link to Link"><span>Update</span></a> 
- Sum: {num_row}, Index: {index}, Hư: {bihu}</div>
+<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Thêm mới"><span>Thêm liên kết theo nhóm</span></a> <a href="JavaScript:doCreateLink()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Thêm mới"><span>Thêm liên kết con</span></a> <a href="?option={funname}&mode=listlink&l={LANGUAGEID}"><img border="0" src="templates/{skin}/images/button-article-list.gif" alt="Danh sách"><span>Liên kết con</span></a>
+ Tổng: {num_row}, đã index: {index}, bị hư: {bihu}</div>
 
 <div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
 	<input type="hidden" name="option" id="option" value="{funname}">
 	<input type="hidden" name="mode" id="mode" value="list">
-Danh sách đi forum : Groupkeys <select size="1" name="groupkey_id1" id="groupkey_id" value="0" onchange="doReShow()">
-      <option value="0" selected> Chọn Groupkeys</option>
+Nhóm từ khóa <select size="1" name="groupkey_id1" id="groupkey_id" value="0" onchange="doReShow()">
+      <option value="0" selected>Chọn nhóm từ khóa</option>
       <!-- BEGIN select_list -->
       <option value="{select_list.groupkey_id}" >{select_list.groupkey_name}</option>
       <!-- END select_list -->
-    </select> Xem Thứ Tự: <input name="from_date" id="from_date" type="text" alt="Ngày bán" size="8" value="{from_date}" style="height:17px;"> -> <input name="to_date" id="to_date" type="text" notnull="1" alt="Ngày bán" size="8" value="{to_date}" style="height:17px;"> 
-	  &nbsp; <input type="checkbox" name="isbl" value="1" {isbl} /> Chưa Backlink &nbsp; <select name="isindex1" size="1" onchange="doReShow()"><option value="2">All</option><option value="1">Index</option><option value="0">No index</option></select> <input type="checkbox" name="ishu1" value="1" {ishu1} /> Bị hư &nbsp;<input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" /></form></div>
+    </select> Từ dòng <input name="from_date" id="from_date" type="number" min="0" size="8" value="{from_date}"> Số dòng <input name="to_date" id="to_date" type="number" min="1" max="500" notnull="1" size="8" value="{to_date}">
+	  &nbsp; <input type="checkbox" name="isbl" value="1" {isbl} /> Chưa có backlink &nbsp; <select name="isindex1" size="1" onchange="doReShow()"><option value="2">Tất cả</option><option value="1">Đã index</option><option value="0">Chưa index</option></select> <input type="checkbox" name="ishu1" value="1" {ishu1} /> Bị hư &nbsp;<input type="submit" value="Lọc" /></form></div>
 <script>mainForm.groupkey_id1.value = '{groupkey_id1}';mainForm.isindex1.value = '{isindex1}';</script>
-<div style="overflow:auto; height:80%">
+<div>
   <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
     <tr class="header">
       <td width="17" align="center" >#</td>

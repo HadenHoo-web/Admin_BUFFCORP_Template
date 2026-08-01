@@ -1,7 +1,7 @@
 <style>
 .left-menu {
-    width: 268px !important;
-    flex: 0 0 268px;
+    width: 236px !important;
+    flex: 0 0 236px;
     overflow: hidden !important;
     border-right: 1px solid #d9e6f3 !important;
     background: #fff !important;
@@ -16,8 +16,8 @@
 .buffcorp-logo-button img { display: block; width: 40px; height: 40px; border-radius: 50%; object-fit: contain; }
 .buffcorp-brand-copy { min-width: 0; flex: 1; overflow: hidden; white-space: nowrap; transition: max-width .24s ease, opacity .16s ease; }
 .buffcorp-brand-copy strong,.buffcorp-brand-copy small { display: block; }
-.buffcorp-brand-copy strong { color: #102a43; font-size: 15px; line-height: 19px; }
-.buffcorp-brand-copy small { color: #687b91; font-size: 10px; line-height: 15px; }
+.buffcorp-brand-copy strong { color: #102a43; font-size: 17px; line-height: 21px; }
+.buffcorp-brand-copy small { color: #687b91; font-size: 12px; line-height: 16px; }
 .buffcorp-collapse { display: grid; width: 31px; height: 31px; flex: 0 0 31px; padding: 0; place-items: center; border: 1px solid #d9e6f3; border-radius: 8px; background: #fff; color: #2e6cbf; cursor: pointer; }
 .buffcorp-collapse svg { width: 16px; height: 16px; }
 .buffcorp-nav-scroll { min-height: 0; flex: 1; overflow-x: hidden; overflow-y: auto; padding: 8px 10px 14px; scrollbar-width: none; -ms-overflow-style: none; }
@@ -29,7 +29,7 @@
 .buffcorp-menu td { margin-bottom: 3px; }
 .buffcorp-menu .header {
     display: flex !important;
-    min-height: 42px !important;
+    min-height: 40px !important;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
@@ -40,7 +40,7 @@
     color: #111827 !important;
     cursor: pointer;
     font-family: Manrope, "Segoe UI", Arial, sans-serif !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
     font-weight: 700;
     line-height: 18px;
     white-space: nowrap;
@@ -74,7 +74,7 @@
     border-radius: 8px;
     color: #111827 !important;
     font-family: Manrope, "Segoe UI", Arial, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     line-height: 17px;
     text-decoration: none !important;
@@ -152,7 +152,7 @@
 .sidebar-chat-form input:focus { border-color: #2e6cbf; box-shadow: 0 0 0 3px rgba(46,108,191,.12); }
 .sidebar-chat-send { display: grid; width: 40px; height: 40px; padding: 0; place-items: center; border: 0; border-radius: 8px; background: #2e6cbf; color: #fff; cursor: pointer; }
 .sidebar-chat-send svg { width: 17px; height: 17px; }
-.layout.sidebar-collapsed .left-menu { width: 72px !important; flex-basis: 72px; }
+.layout.sidebar-collapsed .left-menu { width: 68px !important; flex-basis: 68px; }
 .layout.sidebar-collapsed .buffcorp-brand { justify-content: center; gap: 0; padding-right: 10px; padding-left: 10px; }
 .layout.sidebar-collapsed .buffcorp-brand-copy,.layout.sidebar-collapsed .buffcorp-collapse,.layout.sidebar-collapsed .buffcorp-section-label,.layout.sidebar-collapsed .app-parent-label,.layout.sidebar-collapsed .app-parent-chevron,.layout.sidebar-collapsed .app-nav-badge,.layout.sidebar-collapsed .sidebar-support-text { display: none !important; }
 .layout.sidebar-collapsed .buffcorp-logo-button { cursor: pointer; }
@@ -163,10 +163,10 @@
 .layout.sidebar-collapsed .buffcorp-menu td > .children { display: none !important; max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; opacity: 0 !important; }
 .layout.sidebar-collapsed .buffcorp-menu td.has-notifications .app-parent-icon:after { position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; border: 2px solid #fff; border-radius: 50%; background: #d64545; content: ""; }
 @media (max-width: 1200px) and (min-width: 621px) {
-    .left-menu { width: 248px !important; flex-basis: 248px; }
+    .left-menu { width: 236px !important; flex-basis: 236px; }
 }
 @media (max-width: 620px) {
-    .left-menu { width: 220px !important; flex-basis: 220px; }
+    .left-menu { width: 236px !important; flex-basis: 236px; }
     .sidebar-chat-drawer { width: 100%; }
 }
 </style>
@@ -198,6 +198,15 @@ var arrNavigation =
         <div class="buffcorp-section-label">MENU</div>
         <table class="leftnav buffcorp-menu" id="buffcorp-menu" cellpadding="0" cellspacing="0">
             <tbody>
+                <tr style="display:{allow_menu}">
+                    <td class="normalrow">
+                        <div class="header">Tổng quan</div>
+                        <div class="children">
+                            <a href="main.php?option=common_lists/admin_dashboard&amp;mode=dashboard&amp;l={LANGUAGEID}">Dashboard tổng thể</a>
+                        </div>
+                    </td>
+                </tr>
+                <!-- CODE echo mosFunctionMenu(0, "Root"); -->
                 <tr>
                     <td class="normalrow legacy-news-group">
                         <div class="header">Quản lý Tin tức</div>
@@ -210,14 +219,6 @@ var arrNavigation =
                         </div>
                     </td>
                 </tr>
-                <tr style="display:none">
-                    <td>
-                        <div class="children">
-                            <a href="main.php?option=common_lists/admin_dashboard&amp;mode=dashboard&amp;l={LANGUAGEID}" data-demo-enabled="{allow_menu}">Dashboard tổng thể</a>
-                        </div>
-                    </td>
-                </tr>
-                <!-- CODE echo mosFunctionMenu(0, "Root"); -->
             </tbody>
         </table>
 
@@ -282,6 +283,20 @@ var arrNavigation =
             globe: '<circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>',
             clipboard: '<rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4V2h6v2M9 12l2 2 4-4"></path>',
             user: '<circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path>',
+            chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20V7"></path>',
+            check: '<circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path>',
+            calendar: '<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M8 3v4M16 3v4M3 10h18"></path>',
+            money: '<circle cx="12" cy="12" r="9"></circle><path d="M16 8.5c-.8-.8-1.9-1.2-3.3-1.2-1.7 0-3 .8-3 2.2 0 1.5 1.2 2 3.1 2.4 1.9.4 3 .9 3 2.4 0 1.4-1.3 2.4-3.2 2.4-1.5 0-2.8-.5-3.7-1.4M12 5v14"></path>',
+            building: '<path d="M4 21V5l8-3v19M12 8h8v13M7 7h2M7 11h2M7 15h2M15 11h2M15 15h2M3 21h18"></path>',
+            box: '<path d="m4 7 8-4 8 4-8 4zM4 7v10l8 4 8-4V7M12 11v10"></path>',
+            server: '<rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01"></path>',
+            mail: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
+            image: '<rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8" cy="9" r="2"></circle><path d="m4 18 5-5 4 4 3-3 4 4"></path>',
+            link: '<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.1 1.1M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.1-1.1"></path>',
+            key: '<circle cx="8" cy="15" r="4"></circle><path d="m11 12 8-8M15 8l2 2M17 6l2 2"></path>',
+            shield: '<path d="M12 3 4 6v5c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"></path><path d="m9 12 2 2 4-5"></path>',
+            map: '<path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"></path>',
+            tag: '<path d="M20 13 13 20 4 11V4h7z"></path><circle cx="8.5" cy="8.5" r="1.5"></circle>',
             circle: '<circle cx="12" cy="12" r="4"></circle>'
         };
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || paths.circle) + '</svg>';
@@ -296,10 +311,14 @@ var arrNavigation =
     function parentIcon(label) {
         label = normalized(label);
         if (label.indexOf('tong quan') >= 0) return 'grid';
+        if (label.indexOf('kinh doanh') >= 0) return 'briefcase';
         if (label.indexOf('nhan su') >= 0) return 'users';
         if (label.indexOf('khach hang') >= 0) return 'briefcase';
         if (label.indexOf('tai chinh') >= 0 || label.indexOf('kho') >= 0) return 'wallet';
         if (label.indexOf('tai nguyen') >= 0) return 'database';
+        if (label.indexOf('ky thuat web') >= 0) return 'server';
+        if (label.indexOf('so do cong ty') >= 0) return 'building';
+        if (label === 'chung') return 'grid';
         if (label.indexOf('noi dung') >= 0 || label.indexOf('tin tuc') >= 0) return 'file';
         if (label.indexOf('seo') >= 0) return 'search';
         if (label.indexOf('he thong') >= 0) return 'settings';
@@ -308,9 +327,26 @@ var arrNavigation =
 
     function childIcon(anchor) {
         var value = normalized((anchor.getAttribute('href') || '') + ' ' + (anchor.textContent || ''));
+        if (value.indexOf('dashboard') >= 0 || value.indexOf('kpi') >= 0 || value.indexOf('thong ke') >= 0) return 'chart';
+        if (value.indexOf('xacnhan') >= 0 || value.indexOf('xac nhan') >= 0) return 'check';
         if (value.indexOf('giaoviec') >= 0 || value.indexOf('nhiemvu') >= 0) return 'clipboard';
+        if (value.indexOf('chamcong') >= 0 || value.indexOf('nghiphep') >= 0 || value.indexOf('nghi phep') >= 0) return 'calendar';
+        if (value.indexOf('bangluong') >= 0 || value.indexOf('congno') >= 0 || value.indexOf('hoa don') >= 0 || value.indexOf('thu chi') >= 0) return 'money';
+        if (value.indexOf('sodocongty') >= 0 || value.indexOf('department') >= 0 || value.indexOf('phong ban') >= 0) return 'building';
+        if (value.indexOf('customer') >= 0 || value.indexOf('khach hang') >= 0 || value.indexOf('group') >= 0 || value.indexOf('nhom') >= 0) return 'users';
         if (value.indexOf('member') >= 0 || value.indexOf('nhan vien') >= 0) return 'user';
-        if (value.indexOf('website') >= 0 || value.indexOf('host') >= 0 || value.indexOf('server') >= 0) return 'globe';
+        if (value.indexOf('server') >= 0 || value.indexOf('may chu') >= 0 || value.indexOf('hosting') >= 0) return 'server';
+        if (value.indexOf('goidichvu') >= 0 || value.indexOf('goi dich vu') >= 0 || value.indexOf('kho') >= 0) return 'box';
+        if (value.indexOf('website') >= 0 || value.indexOf('domain') >= 0 || value.indexOf('ten mien') >= 0) return 'globe';
+        if (value.indexOf('mail') >= 0 || value.indexOf('email') >= 0) return 'mail';
+        if (value.indexOf('image') >= 0 || value.indexOf('banner') >= 0 || value.indexOf('hinh anh') >= 0) return 'image';
+        if (value.indexOf('backlink') >= 0 || value.indexOf('link') >= 0) return 'link';
+        if (value.indexOf('password') >= 0 || value.indexOf('cuttpw') >= 0 || value.indexOf('mat khau') >= 0) return 'key';
+        if (value.indexOf('role') >= 0 || value.indexOf('permission') >= 0 || value.indexOf('phan quyen') >= 0) return 'shield';
+        if (value.indexOf('map') >= 0 || value.indexOf('dia diem') >= 0) return 'map';
+        if (value.indexOf('type') >= 0 || value.indexOf('category') >= 0 || value.indexOf('loai') >= 0) return 'tag';
+        if (value.indexOf('page') >= 0 || value.indexOf('news') >= 0 || value.indexOf('bai viet') >= 0 || value.indexOf('noi dung') >= 0) return 'file';
+        if (value.indexOf('function') >= 0 || value.indexOf('menu') >= 0 || value.indexOf('cau hinh') >= 0) return 'settings';
         return 'circle';
     }
 
@@ -334,142 +370,6 @@ var arrNavigation =
         var groups = document.querySelectorAll('#buffcorp-menu td.mainrow, #buffcorp-menu td.normalrow');
         for (var i = 0; i < groups.length; i++) {
             if (groups[i] !== except) setGroupOpen(groups[i], false);
-        }
-    }
-
-    function menuLinkKey(anchor) {
-        try {
-            var url = new URL(anchor.href, window.location.href);
-            var key = (url.searchParams.get('option') || '') + '|' + (url.searchParams.get('mode') || 'list');
-            var category = url.searchParams.get('category');
-            return category ? key + '|' + category : key;
-        } catch (e) {
-            return '';
-        }
-    }
-
-    function regroupNavigation() {
-        var catalog = [
-            ['Tổng quan', [
-                ['common_lists/admin_dashboard|dashboard', 'Dashboard tổng thể'],
-                ['common_lists/giaoviec|dashboard', 'Dashboard KPI Content'],
-                ['congno/congno|dashboard', 'Dashboard KPI Kinh Doanh'],
-                ['congno/congno|dashboard_seo', 'Dashboard KPI KT SEO'],
-                ['common_lists/giaoviec|list', 'Giao việc'],
-                ['common_lists/nhiemvu|list', 'Nhiệm vụ'],
-                ['common_lists/xacnhan|list', 'Xác nhận công việc'],
-                ['common_lists/kpi_tonghop|dashboard', 'KPI tổng hợp']
-            ]],
-            ['Nhân sự', [
-                ['common_lists/chamcong|list', 'Chấm công'],
-                ['common_lists/bangluong|list', 'Bảng lương'],
-                ['common_lists/nghiphep|list', 'Nghỉ phép'],
-                ['common_lists/thongkephep|list', 'Thống kê phép'],
-                ['members/members|list', 'Nhân viên'],
-                ['common_lists/group|list', 'Nhóm / phòng ban'],
-                ['common_lists/dinhmuc|list', 'Định mức'],
-                ['common_lists/sodocongty|view', 'Sơ đồ công ty']
-            ]],
-            ['Khách hàng & dịch vụ', [
-                ['customer/customer|list', 'Khách hàng'],
-                ['customer/customer_type|list', 'Loại khách hàng'],
-                ['common_lists/autocheck_customer|list', 'Khách hàng autocheck'],
-                ['common_lists/website|list', 'Website'],
-                ['common_lists/website_type|list', 'Loại website'],
-                ['common_lists/package|list', 'Gói dịch vụ'],
-                ['common_lists/host|list', 'Hosting'],
-                ['common_lists/server|list', 'Máy chủ']
-            ]],
-            ['Tài chính & kho', [
-                ['congno/congno|list', 'Công nợ'],
-                ['congno/congno-kt|list', 'Công nợ kỹ thuật'],
-                ['tiendo/tiendo|list', 'Thu / chi'],
-                ['kho/loaikho|list', 'Loại kho']
-            ]],
-            ['Tài nguyên số', [
-                ['common_lists/tk|list', 'Kho tài khoản'],
-                ['common_lists/tk_type|list', 'Loại tài khoản'],
-                ['common_lists/email|list', 'Email'],
-                ['common_lists/tel|list', 'Số điện thoại'],
-                ['common_lists/face|list', 'Facebook'],
-                ['common_lists/fan|list', 'Fanpage'],
-                ['common_lists/linkedin|list', 'LinkedIn'],
-                ['common_lists/map|list', 'Map / địa điểm'],
-                ['common_lists/keyads|list', 'Tài khoản quảng cáo'],
-                ['common_lists/keytraffic|list', 'Keyword traffic'],
-                ['ads/traffic_type|list', 'Loại traffic'],
-                ['ads/camp_traffic|list', 'Campaign traffic'],
-                ['ads/id_ads|list', 'ID quảng cáo']
-            ]],
-            ['Nội dung', [
-                ['common_lists/quanlycontent|list', 'Quản lý Content'],
-                ['common_lists/images|image_list', 'Thư viện ảnh'],
-                ['mail/mail|info', 'Gửi mail'],
-                ['hocvien/hocvien|list', 'Học viên']
-            ]],
-            ['SEO', [
-                ['seo/forum|list', 'Forum SEO'],
-                ['seo/link|list', 'Link SEO'],
-                ['seo/profile|list', 'Profile SEO'],
-                ['seo/di_profile|list', 'Đi Profile'],
-                ['seo/di_forum|list', 'Đi Forum'],
-                ['seo/groupkey|list', 'Nhóm từ khóa'],
-                ['seo/submit|list', 'Submit website'],
-                ['seo/bookmark|list', 'Bookmark']
-            ]],
-            ['Hệ thống', [
-                ['common_lists/tainguyencongty|list', 'Tài nguyên công ty'],
-                ['common_lists/thongtinhethong|list|1', 'Chính sách'],
-                ['common_lists/thongtinhethong|list|2', 'Quy trình'],
-                ['common_lists/thongtinhethong|list|3', 'Quy định'],
-                ['common_lists/thongtinhethong|list|4', 'Biểu mẫu'],
-                ['config/config|list', 'Cấu hình chung'],
-                ['getpass/getpass|list', 'Dùng Traffic'],
-                ['members/change_password|list', 'Đổi mật khẩu'],
-                ['getpass_exact/getpass_exact|list', 'Nguồn website'],
-                ['cuttpw/cuttpw|dashboard', 'Cuttpw'],
-                ['hethong/traffic|list', 'Traffic hệ thống'],
-                ['error/error|list', 'Nhật ký lỗi']
-            ]]
-        ];
-        var table = document.getElementById('buffcorp-menu');
-        if (!table) return;
-        var tbody = table.getElementsByTagName('tbody')[0];
-        var legacy = table.querySelector('.legacy-news-group .children');
-        var anchors = table.querySelectorAll('td:not(.legacy-news-group) .children > a[href]');
-        var byKey = new Object();
-        for (var i = 0; i < anchors.length; i++) {
-            if (anchors[i].getAttribute('data-demo-enabled') === 'none') continue;
-            var key = menuLinkKey(anchors[i]);
-            if (!key) continue;
-            if (!byKey[key]) byKey[key] = [];
-            byKey[key].push(anchors[i]);
-        }
-        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
-        for (var g = 0; g < catalog.length; g++) {
-            var children = document.createElement('div');
-            children.className = 'children';
-            for (var j = 0; j < catalog[g][1].length; j++) {
-                var entry = catalog[g][1][j];
-                var source = byKey[entry[0]] && byKey[entry[0]].shift();
-                if (!source) continue;
-                source.textContent = entry[1];
-                children.appendChild(source);
-            }
-            if (catalog[g][0] === 'Nội dung' && legacy) {
-                while (legacy.firstChild) children.appendChild(legacy.firstChild);
-            }
-            if (!children.children.length) continue;
-            var row = document.createElement('tr');
-            var cell = document.createElement('td');
-            cell.className = 'normalrow';
-            var header = document.createElement('div');
-            header.className = 'header';
-            header.textContent = catalog[g][0];
-            cell.appendChild(header);
-            cell.appendChild(children);
-            row.appendChild(cell);
-            tbody.appendChild(row);
         }
     }
 
@@ -533,18 +433,31 @@ var arrNavigation =
         try { current = new URL(window.location.href); } catch (e) { return; }
         var currentOption = current.searchParams.get('option') || '{CURRENT_OPTION}';
         var currentMode = current.searchParams.get('mode') || '{CURRENT_MODE}';
+        var currentMenu = current.searchParams.get('menu');
         var links = document.querySelectorAll('#buffcorp-menu a[href]');
+        var activeLink = null;
         for (var i = 0; i < links.length; i++) {
             try {
                 var target = new URL(links[i].href, window.location.href);
                 var sameOption = target.searchParams.get('option') === currentOption;
                 var targetMode = target.searchParams.get('mode');
                 var sameMode = !targetMode || targetMode === currentMode;
-                if (sameOption && sameMode) {
-                    links[i].className += (links[i].className ? ' ' : '') + 'active';
-                    setGroupOpen(nearestGroup(links[i]), true);
+                var sameMenu = !currentMenu || target.searchParams.get('menu') === currentMenu;
+                var targetCategory = target.searchParams.get('category');
+                var sameCategory = !targetCategory || targetCategory === current.searchParams.get('category');
+                var targetCid = target.searchParams.get('cid');
+                var sameCid = !targetCid || targetCid === current.searchParams.get('cid');
+                if (sameOption && sameMode && sameMenu && sameCategory && sameCid) {
+                    activeLink = links[i];
+                    break;
                 }
             } catch (e) { /* ignore invalid legacy link */ }
+        }
+        if (activeLink) {
+            var activeGroup = nearestGroup(activeLink);
+            closeAllGroups(activeGroup);
+            activeLink.className += (activeLink.className ? ' ' : '') + 'active';
+            setGroupOpen(activeGroup, true);
         }
     }
 
@@ -678,7 +591,6 @@ var arrNavigation =
         var tree = document.getElementById('page-tree');
         var treeRoot = buildPageNode(arrNavigation);
         if (tree && treeRoot) tree.appendChild(treeRoot);
-        regroupNavigation();
         enhanceGroups();
         markActiveLinks();
         addTaskBadge();

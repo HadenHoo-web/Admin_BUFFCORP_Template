@@ -264,7 +264,7 @@ function getpassExactRenderTable($data)
 
     if (empty($rows)) {
         $colspan = count($dates) + 2;
-        $html .= '<tr class="alt"><td colspan="' . $colspan . '" style="padding:15px">Khong co du lieu.</td></tr>';
+        $html .= '<tr class="alt"><td colspan="' . $colspan . '" style="padding:15px">Không có dữ liệu.</td></tr>';
     }
 
     $order = 0;
@@ -300,7 +300,7 @@ function getpassExactRenderTable($data)
 
 function getpassExactRenderWebsiteOptions($rows, $selectedWebsite)
 {
-    $options = '<option value="">Chon website</option>';
+    $options = '<option value="">Chọn website</option>';
     $seen = array();
 
     if (!is_array($rows)) {
@@ -326,7 +326,7 @@ function getpassExactRenderMemberOptions($selectedMemberId)
 {
     global $db;
 
-    $options = '<option value="0">Chon ID nguoi nhan</option>';
+    $options = '<option value="0">Chọn người nhận</option>';
     $sql = "SELECT member_id, fullname, loginname FROM tbl_member WHERE active = 1 ORDER BY member_id";
 
     if ($result = $db->sql_query($sql)) {
@@ -360,7 +360,7 @@ function getpassExactRenderShareList()
             $html .= '<input type="hidden" name="mode" value="unshare">';
             $html .= '<input type="hidden" name="id" value="' . (int) $row['share_id'] . '">';
             $html .= getpassExactHtml($row['website']) . ' -> ID ' . (int) $row['member_id'] . ' ' . getpassExactHtml($row['fullname']);
-            $html .= ' <button type="submit">Xoa</button>';
+            $html .= ' <button type="submit">Xóa</button>';
             $html .= '</form>';
         }
     }
@@ -459,10 +459,10 @@ function mosGetpassExactDashboard()
 
     $template->assign_vars(array(
         'STATUS_CLASS' => $ok ? 'ok' : 'error',
-        'STATUS_TEXT' => $ok ? 'Da ket noi API Getpass Exact' : getpassExactHtml($message),
+        'STATUS_TEXT' => $ok ? 'Đã kết nối API Getpass Exact' : getpassExactHtml($message),
         'MESSAGE' => $notice,
         'MESSAGE_CLASS' => ($notice == '') ? 'hide' : '',
-        'PAGE_TITLE' => 'Quan li nguon WEBSITE',
+        'PAGE_TITLE' => 'Quản lý nguồn website',
         'FROM_DATE' => getpassExactHtml($fromDate),
         'TO_DATE' => getpassExactHtml($toDate),
         'TODAY' => getpassExactHtml($today),

@@ -24,4 +24,14 @@ foreach ($checks as $check) {
     }
 }
 
-echo "Real DB smoke OK: customers, websites and members loaded.\n";
+$result = mysqli_query($db, "SELECT COUNT(*) total, SUM(parent_id = 0) roots,
+    SUM(parent_id <> 0 AND NOT EXISTS (
+        SELECT 1 FROM tbl_function_menu parent WHERE parent.fun_id = tbl_function_menu.parent_id
+    )) orphans
+    FROM tbl_function_menu");
+$menu = $result ? mysqli_fetch_assoc($result) : null;
+if (!$menu || (int)$menu['total'] < 1 || (int)$menu['roots'] < 1 || (int)$menu['orphans'] !== 0) {
+    throw new RuntimeException('Function-menu tree is missing or invalid.');
+}
+
+echo "Real DB smoke OK: customers, websites, members and function-menu tree loaded.\n";

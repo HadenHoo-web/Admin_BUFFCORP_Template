@@ -1,4 +1,4 @@
-<?	
+<?php
 	global $languageid, $template;
 	$action      = mosGetParam( $_REQUEST, 'mode', '');
 
@@ -26,7 +26,7 @@
 	}
 ?>
 
-<?
+<?php
 function mosList()
 	{	
 		global $db, $root_path, $color, $languageid, $template;
