@@ -20,13 +20,6 @@ $currentUser = chatCurrentUser($loginId);
     <link rel="stylesheet" href="css/chat/chat.css?v=20260803a">
 
     <aside class="bc-chat-sidebar">
-        <div class="bc-chat-sidebar-head">
-            <div>
-                <h1>Chats</h1>
-                <p>Trao đổi nội bộ realtime</p>
-            </div>
-        </div>
-
         <label class="bc-chat-search">
             <span>⌕</span>
             <input type="search" id="bc-chat-user-search" placeholder="Tìm user, bộ phận...">

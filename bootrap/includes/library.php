@@ -831,16 +831,122 @@ function mosGetName($tbl,$id_name,$id,$name)
 
 	return $row[$name];
 }
+
+function buffcorpMenuSvg($name)
+{
+	$paths = array(
+		'grid' => '<rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect>',
+		'users' => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>',
+		'briefcase' => '<rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"></path>',
+		'wallet' => '<path d="M20 7V5a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h16v10a2 2 0 0 1-2 2H5a3 3 0 0 1-3-3V6"></path><path d="M16 13h2"></path>',
+		'database' => '<ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"></path>',
+		'file' => '<path d="M6 2h9l5 5v15H6z"></path><path d="M14 2v6h6M9 13h6M9 17h6"></path>',
+		'search' => '<circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4M8 11l2 2 4-4"></path>',
+		'settings' => '<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.09A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.09A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.09A1.7 1.7 0 0 0 15.4 4a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 8c.14.37.35.71.6 1 .29.28.68.43 1.09.4H21v4h-.09A1.7 1.7 0 0 0 19.4 15z"></path>',
+		'folder' => '<path d="M3 6h6l2 2h10v11H3z"></path>',
+		'chevron' => '<path d="m7 10 5 5 5-5"></path>',
+		'globe' => '<circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>',
+		'clipboard' => '<rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4V2h6v2M9 12l2 2 4-4"></path>',
+		'user' => '<circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path>',
+		'chart' => '<path d="M4 20V10M10 20V4M16 20v-7M22 20V7"></path>',
+		'check' => '<circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path>',
+		'calendar' => '<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M8 3v4M16 3v4M3 10h18"></path>',
+		'money' => '<circle cx="12" cy="12" r="9"></circle><path d="M16 8.5c-.8-.8-1.9-1.2-3.3-1.2-1.7 0-3 .8-3 2.2 0 1.5 1.2 2 3.1 2.4 1.9.4 3 .9 3 2.4 0 1.4-1.3 2.4-3.2 2.4-1.5 0-2.8-.5-3.7-1.4M12 5v14"></path>',
+		'building' => '<path d="M4 21V5l8-3v19M12 8h8v13M7 7h2M7 11h2M7 15h2M15 11h2M15 15h2M3 21h18"></path>',
+		'box' => '<path d="m4 7 8-4 8 4-8 4zM4 7v10l8 4 8-4V7M12 11v10"></path>',
+		'server' => '<rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01"></path>',
+		'mail' => '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>',
+		'image' => '<rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8" cy="9" r="2"></circle><path d="m4 18 5-5 4 4 3-3 4 4"></path>',
+		'link' => '<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.1 1.1M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.1-1.1"></path>',
+		'key' => '<circle cx="8" cy="15" r="4"></circle><path d="m11 12 8-8M15 8l2 2M17 6l2 2"></path>',
+		'shield' => '<path d="M12 3 4 6v5c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"></path><path d="m9 12 2 2 4-5"></path>',
+		'map' => '<path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"></path>',
+		'tag' => '<path d="M20 13 13 20 4 11V4h7z"></path><circle cx="8.5" cy="8.5" r="1.5"></circle>',
+		'layers' => '<path d="m12 2 9 5-9 5-9-5z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 17 9 5 9-5"></path>',
+		'monitor' => '<rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path>',
+		'sitemap' => '<rect x="9" y="3" width="6" height="4" rx="1"></rect><rect x="3" y="17" width="6" height="4" rx="1"></rect><rect x="15" y="17" width="6" height="4" rx="1"></rect><path d="M12 7v5M6 17v-3h12v3"></path>',
+		'archive' => '<rect x="3" y="3" width="18" height="4" rx="1"></rect><path d="M5 7v14h14V7M10 11h4"></path>',
+		'circle' => '<circle cx="12" cy="12" r="4"></circle>'
+	);
+	$path = isset($paths[$name]) ? $paths[$name] : $paths['circle'];
+	return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $path . '</svg>';
+}
+
+function buffcorpMenuTextKey($text)
+{
+	$text = strtolower((string)$text);
+	$text = str_replace(array('đ', 'Đ'), 'd', $text);
+	return $text;
+}
+
+function buffcorpParentIconName($label, $code = '')
+{
+	$key = buffcorpMenuTextKey($label . ' ' . $code);
+	if (strpos($key, 'tong quan') !== false) return 'grid';
+	if (strpos($key, 'kinh doanh') !== false) return 'briefcase';
+	if (strpos($key, 'seo') !== false) return 'search';
+	if (strpos($key, 'web') !== false) return 'monitor';
+	if (strpos($key, 'cong ty') !== false || strpos($key, 'company') !== false || strpos($key, 'org') !== false) return 'sitemap';
+	if (strpos($key, 'he thong') !== false || strpos($key, 'system') !== false) return 'settings';
+	if (strpos($key, 'tin') !== false || strpos($key, 'content') !== false) return 'archive';
+	if (strpos($key, 'chung') !== false || strpos($key, 'common') !== false) return 'grid';
+	if (strpos($key, 'khach') !== false || strpos($key, 'customer') !== false) return 'users';
+	if (strpos($key, 'kho') !== false || strpos($key, 'thu') !== false || strpos($key, 'chi') !== false) return 'wallet';
+	return 'layers';
+}
+
+function buffcorpChildIconName($label, $link = '')
+{
+	$key = buffcorpMenuTextKey($label . ' ' . $link);
+	if (strpos($key, 'dashboard') !== false || strpos($key, 'kpi') !== false || strpos($key, 'thong ke') !== false) return 'chart';
+	if (strpos($key, 'xacnhan') !== false || strpos($key, 'xac nhan') !== false) return 'check';
+	if (strpos($key, 'giaoviec') !== false || strpos($key, 'nhiemvu') !== false) return 'clipboard';
+	if (strpos($key, 'nghiphep') !== false || strpos($key, 'calendar') !== false) return 'calendar';
+	if (strpos($key, 'congno') !== false || strpos($key, 'thu') !== false || strpos($key, 'chi') !== false) return 'money';
+	if (strpos($key, 'sodocongty') !== false || strpos($key, 'department') !== false) return 'building';
+	if (strpos($key, 'customer') !== false || strpos($key, 'khach') !== false || strpos($key, 'group') !== false) return 'users';
+	if (strpos($key, 'member') !== false || strpos($key, 'nhan vien') !== false) return 'user';
+	if (strpos($key, 'server') !== false || strpos($key, 'hosting') !== false) return 'server';
+	if (strpos($key, 'website') !== false || strpos($key, 'domain') !== false) return 'globe';
+	if (strpos($key, 'mail') !== false || strpos($key, 'email') !== false) return 'mail';
+	if (strpos($key, 'banner') !== false || strpos($key, 'image') !== false) return 'image';
+	if (strpos($key, 'link') !== false) return 'link';
+	if (strpos($key, 'password') !== false || strpos($key, 'cuttpw') !== false) return 'key';
+	if (strpos($key, 'permission') !== false || strpos($key, 'role') !== false) return 'shield';
+	if (strpos($key, 'map') !== false) return 'map';
+	if (strpos($key, 'type') !== false || strpos($key, 'category') !== false || strpos($key, 'loai') !== false) return 'tag';
+	if (strpos($key, 'news') !== false || strpos($key, 'page') !== false) return 'file';
+	if (strpos($key, 'menu') !== false || strpos($key, 'function') !== false) return 'settings';
+	return 'circle';
+}
+
 function mosFunctionMenu($fun_id = 0, $fun_name = "Root")
 {
 	global $db;
 	$returnValue = "";
 
-	// active menu: ưu tiên từ URL, rồi tới session
-	if (isset($_REQUEST['menu']) && (int)$_REQUEST['menu'] > 0) {
-		$_SESSION['active_fun_id'] = (int)$_REQUEST['menu'];
-	}
-	$active = isset($_SESSION['active_fun_id']) ? (int)$_SESSION['active_fun_id'] : 0;
+		// Active menu follows the current route first. Old menu= values in DB/URL
+		// can point to a child item and make the sidebar flash the wrong branch.
+		$active = isset($_SESSION['active_fun_id']) ? (int)$_SESSION['active_fun_id'] : 0;
+		$currentRouteOption = isset($GLOBALS['buffcorp_current_option']) && $GLOBALS['buffcorp_current_option'] !== ''
+			? $GLOBALS['buffcorp_current_option']
+			: (isset($_REQUEST['option']) ? $_REQUEST['option'] : '');
+		if ($currentRouteOption !== '') {
+			$currentOption = addslashes((string)$currentRouteOption);
+			$activeSql = "select parent_id from tbl_function_menu
+			              where parent_id > 0 and link like '%option=$currentOption%'
+			              order by priority limit 1";
+		if ($activeResult = $db->sql_query($activeSql)) {
+			$activeRow = $db->sql_fetchrow($activeResult);
+			if ($activeRow && (int)$activeRow['parent_id'] > 0) {
+				$active = (int)$activeRow['parent_id'];
+					$_SESSION['active_fun_id'] = $active;
+				}
+			}
+		} elseif (isset($_REQUEST['menu']) && (int)$_REQUEST['menu'] > 0) {
+			$_SESSION['active_fun_id'] = (int)$_REQUEST['menu'];
+			$active = (int)$_REQUEST['menu'];
+		}
 
 	if ($fun_id == 0)
 	{
@@ -865,11 +971,13 @@ function mosFunctionMenu($fun_id = 0, $fun_name = "Root")
 			$classname  = $isActive ? "mainrow" : "normalrow";
 			$defaultRow = $isActive ? "staticpages" : "";
 
-			$imageDir = "templates/" . $GLOBALS['skin'] . "/images/menu/";
-			$image = ($row['image'] == '') ? '' : '<img border="0" src="' . $imageDir . $row['image'] . '" align="absmiddle" >';
-
-			$returnValue .= "<tr><td valign='top' id='$defaultRow' class='$classname' OnClick='changeClass(this)'><div class='header'>";
-			$returnValue .= $image . htmlspecialchars($row['fun_name'], ENT_QUOTES, 'UTF-8');
+			$idAttr = $defaultRow !== '' ? " id='$defaultRow'" : "";
+			$label = isset($row['fun_name']) ? $row['fun_name'] : '';
+			$iconName = buffcorpParentIconName($label, isset($row['code']) ? $row['code'] : '');
+			$returnValue .= "<tr><td valign='top'$idAttr class='$classname' data-menu-id='$fid'><div class='header'>";
+			$returnValue .= "<span class='app-parent-main'><span class='app-parent-icon'>" . buffcorpMenuSvg($iconName) . "</span><span class='app-parent-label'>";
+			$returnValue .= htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
+			$returnValue .= "</span></span><span class='app-parent-meta'><span class='app-parent-chevron'>" . buffcorpMenuSvg('chevron') . "</span></span>";
 			$returnValue .= mosFunctionDetail($fid);
 		}
 	}
@@ -899,23 +1007,20 @@ function mosFunctionDetail($fun_id)
 	{
 		$link = trim((string)$row['link']);
 
-		// thêm menu=parent_id để nhớ menu đang mở
-		if (strpos($link, 'menu=') === false) {
+			// Always rewrite menu/l from server so stale DB links cannot open old branches.
+			$link = preg_replace('/([?&])(menu|l)=[^&]*/i', '$1', $link);
+			$link = preg_replace('/[?&]+$/', '', $link);
+			$link = preg_replace('/\?&/', '?', $link);
+			$link = preg_replace('/&&+/', '&', $link);
 			$link .= (strpos($link, '?') === false ? '?' : '&') . 'menu=' . $parent_id;
-		}
-
-		// add language
-		$link .= (strpos($link, '?') === false ? '?' : '&') . 'l=' . (int)$languageid;
+			$link .= '&l=' . (int)$languageid;
 
 		$fun_name = isset($row['fun_name']) ? $row['fun_name'] : "";
-		$image = isset($row['image']) ? $row['image'] : "";
+		$childIconName = buffcorpChildIconName($fun_name, $link);
 
-		$returnValue .= '<a target="main" href="' . htmlspecialchars($link) . '">';
-		if ($image != '') {
-			$returnValue .= '<img src="templates/' . $skin . '/images/menu/' . htmlspecialchars($image) . '" border="0" align="absmiddle" /> <span>';
-		} else {
-			$returnValue .= '<span>';
-		}
+		$returnValue .= '<a href="' . htmlspecialchars($link) . '"><span class="app-child-icon">';
+		$returnValue .= buffcorpMenuSvg($childIconName);
+		$returnValue .= '</span><span>';
 		$returnValue .= htmlspecialchars($fun_name) . '</span></a>';
 	}
 

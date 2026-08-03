@@ -1,24 +1,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
-.org-edit{font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:12px;background:#f5f5f5;padding:10px;box-sizing:border-box}
-.org-toolbar{background:#f4f4f4;border:1px solid #888;padding:6px 8px;margin-bottom:8px}
-.org-toolbar a,.org-toolbar button{color:#000;text-decoration:none;font-weight:bold;margin-right:14px;border:0;background:transparent;cursor:pointer;font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:12px}
-.org-title{background:#808080;color:#fff;font-weight:bold;padding:6px 8px;margin-bottom:8px}
-.org-table{width:100%;border-collapse:collapse;background:#fff}
-.org-table th{background:#d8d4cb;text-align:left;padding:7px;border:1px solid #c8c8c8}
-.org-table td{padding:6px;border:1px solid #ddd;vertical-align:top}
-.org-table input,.org-table textarea{width:100%;box-sizing:border-box}
-.org-table textarea{height:72px}
-.org-key{background:#f1f5ff;color:#0b3770;font-weight:bold}
-.org-delete{color:#b00000;font-weight:bold;border:1px solid #d5a0a0;background:#fff5f5;padding:4px 8px;cursor:pointer}
-.org-help{color:#666;margin:7px 0 10px}
+.org-edit{font-family:Manrope,"Segoe UI",Arial,sans-serif;background:#fff;border:1px solid #d9e6f3;border-radius:8px;box-shadow:0 12px 28px rgba(25,72,120,.08);overflow:hidden}
+.org-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:18px 20px;border-bottom:1px solid #d9e6f3;background:#fff}
+.org-toolbar a,.org-toolbar button{display:inline-flex;min-height:46px;align-items:center;justify-content:center;gap:9px;padding:0 18px;border:1px solid #d9e6f3;border-radius:8px;background:#fff;color:#17324d;text-decoration:none;font-weight:900;cursor:pointer;font-family:inherit;font-size:15px}
+.org-toolbar a:first-child{border-color:#2e6cbf;background:#2e6cbf;color:#fff}
+.org-toolbar svg{width:18px;height:18px;flex:0 0 auto}
+.org-title{padding:20px 24px 4px;background:#fff;color:#163e6d;font-size:24px;font-weight:900;line-height:32px}
+.org-help{margin:0;padding:0 24px 18px;color:#71839a;font-size:14px;line-height:22px;border-bottom:1px solid #e6eef7}
+#orgRows.org-list{display:grid!important;grid-template-columns:1fr!important;gap:16px!important;padding:22px 24px 24px!important;background:#fff!important}
+#orgRows .org-person-card{display:block!important;width:100%!important;box-sizing:border-box!important;border:1px solid #d9e6f3!important;border-radius:8px!important;background:#fff!important;box-shadow:0 10px 22px rgba(25,72,120,.06)!important;padding:16px!important}
+#orgRows .org-person-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;margin-bottom:14px!important;padding-bottom:12px!important;border-bottom:1px solid #edf2f7!important}
+.org-person-name{margin:0;color:#163e6d;font-size:18px;line-height:26px;font-weight:900}
+.org-person-sub{display:block;margin-top:2px;color:#71839a;font-size:13px;line-height:18px;font-weight:700}
+#orgRows .org-grid{display:grid!important;grid-template-columns:minmax(160px,.8fr) minmax(160px,.8fr) minmax(200px,1fr) minmax(220px,1fr) minmax(200px,1fr) minmax(100px,.45fr)!important;gap:14px!important;align-items:start!important}
+#orgRows .org-field{display:flex!important;flex-direction:column!important;gap:7px!important;margin:0!important;color:#17324d!important;font-size:14px!important;line-height:20px!important;font-weight:900!important}
+#orgRows .org-field span{display:block!important;width:auto!important;margin:0!important;padding:0!important}
+.org-field input,.org-field textarea{width:100%;box-sizing:border-box;border:1px solid #d9e6f3;border-radius:8px;background:#fff;color:#17324d;font:700 15px/22px Manrope,"Segoe UI",Arial,sans-serif;outline:0;transition:border-color .15s ease,box-shadow .15s ease}
+.org-field input{height:46px;padding:0 13px}
+.org-field textarea{min-height:108px;padding:12px 13px;resize:vertical}
+.org-field input:focus,.org-field textarea:focus{border-color:#2e6cbf;box-shadow:0 0 0 4px rgba(46,108,191,.12)}
+#orgRows .org-field--mission{grid-column:1 / -1!important}
+.org-key{background:#f1f7ff!important;color:#0b4a86!important;font-weight:900}
+.org-delete{display:inline-flex;min-height:38px;align-items:center;justify-content:center;gap:7px;color:#dc2626;font-weight:900;border:1px solid #fecaca;background:#fff5f5;border-radius:8px;padding:0 13px;cursor:pointer;font-family:inherit;font-size:14px;white-space:nowrap}
+.org-message{padding:0 24px 22px;margin:0;text-align:center;color:#dc2626;font-weight:900}
+@media (max-width:1280px){#orgRows .org-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}#orgRows .org-field--mission{grid-column:1 / -1!important}}
+@media (max-width:860px){.org-toolbar{flex-wrap:wrap;justify-content:flex-start}#orgRows .org-grid{grid-template-columns:1fr!important}#orgRows .org-person-head{align-items:flex-start!important;flex-direction:column!important}.org-delete{width:100%}}
 </style>
 
 <div class="org-edit">
   <div class="org-toolbar">
-    <a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" align="absmiddle"> Lưu</a>
-    <button type="button" onclick="addPersonRow()"><img border="0" src="templates/{skin}/images/button-article-create.gif" width="20" height="20" align="absmiddle"> Thêm nhân sự</button>
-    <a href="{BACK_URL}"><img border="0" src="templates/{skin}/images/back.gif" width="20" height="20" align="absmiddle"> Trở về</a>
+    <a href="JavaScript:doSave()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg> Lưu</a>
+    <button type="button" onclick="addPersonRow()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Thêm nhân sự</button>
+    <a href="{BACK_URL}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg> Trở về</a>
   </div>
   <div class="org-title">Sửa sơ đồ công ty</div>
   <div class="org-help">Muốn xoá nhân sự khỏi sơ đồ thì bấm Xoá rồi Lưu. Key không dấu, viết liền bằng dấu gạch dưới, ví dụ: <b>nguyen_van_a</b>.</div>
@@ -26,34 +39,30 @@
     <input type="hidden" name="l" value="{LANGUAGEID}">
     <input type="hidden" name="option" value="{funname}">
     <input type="hidden" name="mode" value="{SAVE_MODE}">
-    <table class="org-table">
-      <tr>
-        <th width="120">Key</th>
-        <th width="120">Key cấp trên</th>
-        <th width="150">Tên</th>
-        <th width="180">Vai trò</th>
-        <th width="180">Phòng ban</th>
-        <th>Nhiệm vụ</th>
-        <th width="60">Thứ tự</th>
-        <th width="60">Xoá</th>
-      </tr>
-      <tbody id="orgRows">
-      <!-- BEGIN person -->
-      <tr>
-        <td><input class="org-key" type="text" name="person_key[]" value="{person.person_key}" readonly></td>
-        <td><input type="text" name="parent_key[]" value="{person.parent_key}"></td>
-        <td><input type="text" name="display_name[]" value="{person.display_name}"></td>
-        <td><input type="text" name="role_title[]" value="{person.role_title}"></td>
-        <td><input type="text" name="department[]" value="{person.department}"></td>
-        <td><textarea name="mission[]">{person.mission}</textarea></td>
-        <td><input type="text" name="sort_order[]" value="{person.sort_order}"></td>
-        <td align="center"><button type="button" class="org-delete" onclick="deletePersonRow(this)">Xoá</button></td>
-      </tr>
-      <!-- END person -->
-      </tbody>
-    </table>
+    <div class="org-list" id="orgRows">
+        <!-- BEGIN person -->
+        <section class="org-person-card">
+          <div class="org-person-head">
+            <div>
+              <p class="org-person-name">{person.display_name}</p>
+              <span class="org-person-sub">{person.role_title}</span>
+            </div>
+            <button type="button" class="org-delete" onclick="deletePersonRow(this)">Xoá nhân sự</button>
+          </div>
+          <div class="org-grid">
+            <div class="org-field"><span>Key</span><input class="org-key" type="text" name="person_key[]" value="{person.person_key}" readonly></div>
+            <div class="org-field"><span>Key cấp trên</span><input type="text" name="parent_key[]" value="{person.parent_key}"></div>
+            <div class="org-field"><span>Tên</span><input type="text" name="display_name[]" value="{person.display_name}"></div>
+            <div class="org-field"><span>Vai trò</span><input type="text" name="role_title[]" value="{person.role_title}"></div>
+            <div class="org-field"><span>Phòng ban</span><input type="text" name="department[]" value="{person.department}"></div>
+            <div class="org-field"><span>Thứ tự</span><input type="text" name="sort_order[]" value="{person.sort_order}"></div>
+            <div class="org-field org-field--mission"><span>Nhiệm vụ</span><textarea name="mission[]">{person.mission}</textarea></div>
+          </div>
+        </section>
+        <!-- END person -->
+    </div>
   </form>
-  <p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
+  <p class="org-message">{MESSAGE}</p>
 </div>
 <script type="text/javascript">
 function doSave(){
@@ -61,23 +70,29 @@ function doSave(){
 }
 function deletePersonRow(btn){
   if (!confirm('Xoá nhân sự này khỏi sơ đồ?')) return;
-  var row = btn;
-  while (row && row.tagName != 'TR') row = row.parentNode;
-  if (row) row.parentNode.removeChild(row);
+  var card = btn;
+  while (card && (!card.className || card.className.indexOf('org-person-card') === -1)) card = card.parentNode;
+  if (card) card.parentNode.removeChild(card);
 }
 function addPersonRow(){
-  var tbody = document.getElementById('orgRows');
-  var row = document.createElement('tr');
+  var list = document.getElementById('orgRows');
+  var card = document.createElement('section');
   var key = 'nhan_su_' + (new Date()).getTime();
-  row.innerHTML =
-    '<td><input class="org-key" type="text" name="person_key[]" value="'+key+'"></td>' +
-    '<td><input type="text" name="parent_key[]" value=""></td>' +
-    '<td><input type="text" name="display_name[]" value=""></td>' +
-    '<td><input type="text" name="role_title[]" value=""></td>' +
-    '<td><input type="text" name="department[]" value=""></td>' +
-    '<td><textarea name="mission[]"></textarea></td>' +
-    '<td><input type="text" name="sort_order[]" value="1"></td>' +
-    '<td align="center"><button type="button" class="org-delete" onclick="deletePersonRow(this)">Xoá</button></td>';
-  tbody.appendChild(row);
+  card.className = 'org-person-card';
+  card.innerHTML =
+    '<div class="org-person-head">' +
+      '<div><p class="org-person-name">Nhân sự mới</p><span class="org-person-sub">Chưa nhập vai trò</span></div>' +
+      '<button type="button" class="org-delete" onclick="deletePersonRow(this)">Xoá nhân sự</button>' +
+    '</div>' +
+    '<div class="org-grid">' +
+      '<div class="org-field"><span>Key</span><input class="org-key" type="text" name="person_key[]" value="'+key+'"></div>' +
+      '<div class="org-field"><span>Key cấp trên</span><input type="text" name="parent_key[]" value=""></div>' +
+      '<div class="org-field"><span>Tên</span><input type="text" name="display_name[]" value=""></div>' +
+      '<div class="org-field"><span>Vai trò</span><input type="text" name="role_title[]" value=""></div>' +
+      '<div class="org-field"><span>Phòng ban</span><input type="text" name="department[]" value=""></div>' +
+      '<div class="org-field"><span>Thứ tự</span><input type="text" name="sort_order[]" value="1"></div>' +
+      '<div class="org-field org-field--mission"><span>Nhiệm vụ</span><textarea name="mission[]"></textarea></div>' +
+    '</div>';
+  list.appendChild(card);
 }
 </script>

@@ -34,6 +34,9 @@ function buffcorpResolvePageTitle($option)
     return 'Tổng quan';
 }
 $pageTitle = buffcorpResolvePageTitle($resolvedOption);
+if ($resolvedOption === 'common_lists/giaoviec' && $resolvedMode === 'dashboard') {
+    $pageTitle = 'Dashboard KPI Content';
+}
 $loginId = isset($_SESSION["login_id"]) ? (int)$_SESSION["login_id"] : 0;
 $notificationUnread = notificationUnreadCount($loginId);
 $isPayrollPreviewUser = (

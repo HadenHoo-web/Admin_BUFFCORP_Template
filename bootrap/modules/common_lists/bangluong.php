@@ -126,6 +126,70 @@ function h($text) {
     return htmlspecialchars((string)$text, ENT_QUOTES, 'UTF-8');
 }
 
+function bangluongNoteClass($text) {
+    $lower = function_exists('mb_strtolower') ? mb_strtolower((string)$text, 'UTF-8') : strtolower((string)$text);
+    $class = 'note-item';
+
+    if (strpos($lower, 'trễ') !== false || strpos($lower, 'tre') !== false || strpos($lower, 'về sớm') !== false || strpos($lower, 've som') !== false) {
+        $class .= ' note-late';
+    }
+    if (strpos($lower, 'phép') !== false || strpos($lower, 'phep') !== false || strpos($lower, 'nghỉ') !== false || strpos($lower, 'nghi') !== false) {
+        $class .= ' note-leave';
+    }
+    if (strpos($lower, 'hết phép') !== false || strpos($lower, 'het phep') !== false || strpos($lower, 'tổng cộng') !== false || strpos($lower, 'tong cong') !== false) {
+        $class .= ' note-danger';
+    }
+
+    return $class;
+}
+
+function bangluongSplitNoteItems($text) {
+    $text = trim((string)$text);
+    if ($text === '') return array();
+
+    $text = str_replace(array("\r\n", "\r"), "\n", $text);
+    $text = preg_replace('/<br\s*\/?>/i', "\n", $text);
+    $parts = preg_split('/\s*\|\|\s*|\n+/u', $text);
+    $items = array();
+
+    foreach ($parts as $part) {
+        $part = trim($part);
+        if ($part !== '') $items[] = $part;
+    }
+
+    return $items;
+}
+
+function bangluongFormatNoteHtml($text, $emptyText = 'Không có ghi chú') {
+    $items = bangluongSplitNoteItems($text);
+    if (count($items) === 0) {
+        return '<div class="note-empty">'.h($emptyText).'</div>';
+    }
+
+    $html = '';
+    foreach ($items as $item) {
+        $date = '';
+        $content = $item;
+        if (preg_match('/^(\d{2}[-\/]\d{2})\s*:\s*(.*)$/u', $item, $match)) {
+            $date = $match[1];
+            $content = trim($match[2]);
+        }
+
+        $html .= '<div class="'.bangluongNoteClass($item).'">';
+        if ($date !== '') {
+            $html .= '<span class="note-date">'.h($date).'</span>';
+        }
+        $html .= '<span class="note-content">'.h($content).'</span>';
+        $html .= '</div>';
+    }
+
+    return $html;
+}
+
+function bangluongFormatDeductHtml($text) {
+    return bangluongFormatNoteHtml($text, 'Không có giờ trừ');
+}
+
 function appendText($base, $extra, $separator = ' | ') {
     $base  = trim((string)$base);
     $extra = trim((string)$extra);
@@ -1459,8 +1523,8 @@ function mosListBangLuong() {
             'leave_default'    => formatLeaveDays($row['leave_default']),
             'leave_used'       => formatLeaveDays($row['leave_used']),
             'leave_remain'     => formatLeaveDays($row['leave_remain']),
-            'count_text'       => h($row['count_text']),
-            'late_deduct_text' => h($row['late_deduct_text']),
+            'count_text'       => bangluongFormatNoteHtml($row['count_text']),
+            'late_deduct_text' => bangluongFormatDeductHtml($row['late_deduct_text']),
         ));
     }
 

@@ -79,10 +79,85 @@ Năm:
 </table>
 </div>
 <style>
+.selector td:nth-child(8),
+.data-table td:nth-child(8) {
+    min-width: 260px;
+    white-space: normal !important;
+}
+
+.attendance-note-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 92px;
+    overflow-y: auto;
+    padding: 2px 4px 2px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #b9c9dc #f2f6fb;
+}
+
+.attendance-note-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.attendance-note-list::-webkit-scrollbar-track {
+    background: #f2f6fb;
+    border-radius: 10px;
+}
+
+.attendance-note-list::-webkit-scrollbar-thumb {
+    background: #b9c9dc;
+    border-radius: 10px;
+}
+
+.attendance-note-chip,
+.attendance-note-empty {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    border: 1px solid #d8e7f5;
+    border-left: 4px solid #7f92aa;
+    border-radius: 8px;
+    background: #f8fbff;
+    color: #17324d;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.35;
+    padding: 6px 9px;
+}
+
+.attendance-note-empty {
+    border-style: dashed;
+    color: #7a8da3;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.attendance-note-warning {
+    border-color: #fde3b7;
+    border-left-color: #f59e0b;
+    background: #fff8ed;
+    color: #9a4d00;
+}
+
+.attendance-note-danger {
+    border-color: #ffd5d5;
+    border-left-color: #dc2626;
+    background: #fff3f3;
+    color: #b91c1c;
+}
+
+.attendance-note-leave {
+    border-color: #d6e6fb;
+    border-left-color: #2e6cbf;
+    background: #f2f7ff;
+    color: #174f91;
+}
+
 .selector td.note-late,
 .selector tr.alt td.note-late,
 .selector tr.inv td.note-late{
-    color: red !important;
+    color: #17324d !important;
     font-weight: bold !important;
 }
 
@@ -93,3 +168,70 @@ Năm:
     font-weight: bold !important;
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    formatChamcongNotes();
+    window.addEventListener('load', function () {
+        setTimeout(formatChamcongNotes, 80);
+    });
+
+    function formatChamcongNotes() {
+        document.querySelectorAll('.selector tr, .data-table tr').forEach(function (row) {
+            if (row.classList.contains('header') || row.querySelector('th')) return;
+            var cells = row.querySelectorAll('td');
+            if (cells.length < 8) return;
+            var noteCell = cells[7];
+            if (noteCell.querySelector('.attendance-note-list, .attendance-note-empty')) return;
+
+            var raw = (noteCell.getAttribute('data-raw-note') || noteCell.textContent || '').trim();
+            noteCell.setAttribute('data-raw-note', raw);
+            noteCell.innerHTML = renderAttendanceNote(raw);
+        });
+    }
+
+    function renderAttendanceNote(raw) {
+        if (!raw) {
+            return '<span class="attendance-note-empty">Không có ghi chú</span>';
+        }
+
+        var items = raw.replace(/\r\n?/g, '\n').split(/\s*\|\|\s*|\n+/).map(function (item) {
+            return item.trim();
+        }).filter(function (item) {
+            return item !== '';
+        });
+
+        if (!items.length) {
+            return '<span class="attendance-note-empty">Không có ghi chú</span>';
+        }
+
+        return '<div class="attendance-note-list">' + items.map(function (item) {
+            return '<span class="' + noteClass(item) + '">' + escapeHtml(item) + '</span>';
+        }).join('') + '</div>';
+    }
+
+    function noteClass(item) {
+        var lower = item.toLowerCase();
+        var cls = 'attendance-note-chip';
+        if (lower.indexOf('trễ') !== -1 || lower.indexOf('tre') !== -1 || lower.indexOf('về sớm') !== -1 || lower.indexOf('ve som') !== -1) {
+            cls += ' attendance-note-warning';
+        }
+        if (lower.indexOf('lỗi') !== -1 || lower.indexOf('loi') !== -1 || lower.indexOf('thiếu') !== -1 || lower.indexOf('thieu') !== -1) {
+            cls += ' attendance-note-danger';
+        }
+        if (lower.indexOf('phép') !== -1 || lower.indexOf('phep') !== -1 || lower.indexOf('nghỉ') !== -1 || lower.indexOf('nghi') !== -1) {
+            cls += ' attendance-note-leave';
+        }
+        return cls;
+    }
+
+    function escapeHtml(str) {
+        return (str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+});
+</script>

@@ -212,7 +212,7 @@ function mosOrgChartPersonButton($item, $className, $groupName)
         .' data-department="'.mosOrgChartHtml($item['department']).'"'
         .' data-group="'.mosOrgChartHtml($groupName).'"'
         .' data-mission="'.mosOrgChartHtml($item['mission']).'"'
-        .' onmouseover="orgShowPerson(this)" onfocus="orgShowPerson(this)" onclick="orgShowPerson(this);return false;">'
+        .' onmouseover="orgShowPerson(this,event)" onfocus="orgShowPerson(this,event)" onclick="orgShowPerson(this,event);return false;">'
         .'<span class="org-role-line">'.mosOrgChartHtml($item['role_title']).'</span>'
         .'<strong>'.mosOrgChartHtml($item['display_name']).'</strong>'
         .'<em>'.mosOrgChartHtml($item['department']).'</em>'
