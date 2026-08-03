@@ -29,6 +29,39 @@
 			exit;
 		}
 
+	function gvTaskEscape($value)
+	{
+		return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+	}
+
+	function gvTaskIsoDate($value)
+	{
+		$value = trim((string)$value);
+		if (preg_match('/^(\d{2})-(\d{2})-(\d{4})/', $value, $parts)) return $parts[3].'-'.$parts[2].'-'.$parts[1];
+		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})/', $value, $parts)) return $parts[1].'-'.$parts[2].'-'.$parts[3];
+		return '';
+	}
+
+	function gvTaskStorageDate($value)
+	{
+		$iso = gvTaskIsoDate($value);
+		return $iso ? substr($iso, 8, 2).'-'.substr($iso, 5, 2).'-'.substr($iso, 0, 4) : trim((string)$value);
+	}
+
+	function gvTaskInitials($name)
+	{
+		$words = preg_split('/\s+/', trim((string)$name));
+		$first = isset($words[0]) ? substr($words[0], 0, 1) : '';
+		$last = count($words) > 1 ? substr($words[count($words) - 1], 0, 1) : '';
+		return strtoupper($first.$last);
+	}
+
+	function gvTaskDepartment($primary, $extra)
+	{
+		$names = array_filter(array(trim((string)$primary), trim((string)$extra)));
+		return count($names) ? implode(' / ', $names) : 'Chưa phân phòng';
+	}
+
 	function gvZaloLog($message)
 	{
 		$logDir = dirname(__FILE__).'/../../zalo/logs';
@@ -44,6 +77,7 @@
 
 	function mosList($id){	
   	global $db, $root_path, $skin, $languageid, $template;
+		return mosListNew($id);
   	$month   		= mosGetParam( $_REQUEST, 'month', date('m') );
   	$year			= mosGetParam( $_REQUEST, 'year', date('Y') );
   	$parent_id      = mosGetParam( $_REQUEST, 'parent_id', 0 );
@@ -194,6 +228,135 @@
 	$template->pparse('giaoviec');
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function mosListNew($id)
+{
+	global $db, $languageid, $template;
+	$month = mosGetParam($_REQUEST, 'month', '');
+	$year = mosGetParam($_REQUEST, 'year', '');
+	$view = mosGetParam($_REQUEST, 'view', 'day');
+	$member_id = (int)mosGetParam($_REQUEST, 'member_id1', 0);
+	$website_id = (int)mosGetParam($_REQUEST, 'website_id1', 0);
+	$active = mosGetParam($_REQUEST, 'active1', '0');
+	if (!in_array($view, array('day', 'month', 'year'))) $view = 'day';
+
+	$latestDate = '';
+	if (!preg_match('/^\d{2}$/', $month) || !preg_match('/^\d{4}$/', $year)) {
+		$sql = "select ngay from tbl_giaoviec where active = 1 and ngay <> '' order by STR_TO_DATE(LEFT(ngay, 10), '%d-%m-%Y') desc limit 1";
+		if (($result = $db->sql_query($sql)) && ($row = $db->sql_fetchrow($result))) $latestDate = gvTaskIsoDate($row['ngay']);
+		$month = $latestDate ? substr($latestDate, 5, 2) : date('m');
+		$year = $latestDate ? substr($latestDate, 0, 4) : date('Y');
+	}
+	$selectedDate = gvTaskIsoDate(mosGetParam($_REQUEST, 'day', ''));
+	if (!$selectedDate || substr($selectedDate, 0, 7) != $year.'-'.$month) $selectedDate = $latestDate && substr($latestDate, 0, 7) == $year.'-'.$month ? $latestDate : $year.'-'.$month.'-01';
+
+	switch ($_SESSION['login_id']) {
+		case '1': $accessCond = ''; break;
+		case '63':
+		case '50':
+		case '34': $accessCond = " and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id not in ('1'))"; break;
+		default: $accessCond = " and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id = '".$_SESSION['login_id']."')";
+	}
+	$periodCond = " and SUBSTRING(tbl_giaoviec.ngay, 7, 4) = '".$year."'";
+	if ($view != 'year') $periodCond .= " and SUBSTRING(tbl_giaoviec.ngay, 4, 2) = '".$month."'";
+	$visibleCond = ($active == 0) ? ' and tbl_giaoviec.active = 1' : '';
+	$websiteCond = $website_id ? ' and tbl_giaoviec.website_id = '.$website_id : '';
+
+	$stats = array();
+	$sql = "select tbl_giaoviec.member_id, count(*) as total, sum(tbl_giaoviec.soluong = 1) as progress, sum(tbl_giaoviec.soluong = 2) as done from tbl_giaoviec where 1 $periodCond $accessCond $visibleCond $websiteCond group by tbl_giaoviec.member_id";
+	if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
+	while ($row = $db->sql_fetchrow($result)) $stats[(int)$row['member_id']] = $row;
+
+	$selectedName = '';
+	$selectedRole = '';
+	$selectedDepartment = '';
+	$sql = "select m.*, primary_dept.customer_type_name as primary_department, extra_dept.customer_type_name as extra_department from tbl_member m left join tbl_customer_type primary_dept on m.member_type_id = primary_dept.customer_type_id left join tbl_customer_type extra_dept on m.extra_member_type_id = extra_dept.customer_type_id where m.active = 1 and m.loginname <> 'administrator' order by m.fullname";
+	if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
+	while ($row = $db->sql_fetchrow($result)) {
+		$currentMemberId = (int)$row['member_id'];
+		$department = gvTaskDepartment($row['primary_department'], $row['extra_department']);
+		$role = trim((string)$row['trach_nhiem']) ? $row['trach_nhiem'] : 'Nhân viên';
+		$memberStats = isset($stats[$currentMemberId]) ? $stats[$currentMemberId] : array('total' => 0, 'progress' => 0, 'done' => 0);
+		$template->assign_block_vars('member_list', array(
+			'member_id' => $currentMemberId,
+			'member_name' => gvTaskEscape($row['fullname']),
+			'initials' => gvTaskEscape(gvTaskInitials($row['fullname'])),
+			'role' => gvTaskEscape($role),
+			'department' => gvTaskEscape($department),
+			'total' => (int)$memberStats['total'],
+			'progress' => (int)$memberStats['progress'],
+			'done' => (int)$memberStats['done'],
+		));
+		if ($currentMemberId == $member_id) {
+			$selectedName = $row['fullname'];
+			$selectedRole = $role;
+			$selectedDepartment = $department;
+		}
+	}
+
+	if ($member_id > 0 && !$selectedName) {
+		$sql = "select fullname, trach_nhiem from tbl_member where member_id = ".$member_id." limit 1";
+		if (($result = $db->sql_query($sql)) && ($row = $db->sql_fetchrow($result))) {
+			$selectedName = $row['fullname'];
+			$selectedRole = trim((string)$row['trach_nhiem']) ? $row['trach_nhiem'] : 'Nhân viên';
+			$selectedDepartment = 'Chưa phân phòng';
+		}
+	}
+
+	if ($member_id > 0) {
+		$sql = "select tbl_giaoviec.*, tbl_member.fullname, tbl_website.website_name from tbl_giaoviec left join tbl_member on tbl_giaoviec.member_id = tbl_member.member_id left join tbl_website on tbl_giaoviec.website_id = tbl_website.website_id where 1 $periodCond $accessCond $visibleCond $websiteCond and tbl_giaoviec.member_id = $member_id order by STR_TO_DATE(LEFT(tbl_giaoviec.ngay, 10), '%d-%m-%Y') asc, tbl_giaoviec.soluong asc, tbl_giaoviec.giaoviec_id asc";
+		if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
+		while ($row = $db->sql_fetchrow($result)) {
+			$status = (int)$row['soluong'];
+			$statusKey = $status == 1 ? 'progress' : ($status == 2 ? 'done' : 'todo');
+			$deadlineIso = gvTaskIsoDate($row['ngay']);
+			$deadlineText = $deadlineIso ? substr($deadlineIso, 8, 2).'/'.substr($deadlineIso, 5, 2).'/'.substr($deadlineIso, 0, 4).(strlen($row['ngay']) >= 16 ? ' '.substr($row['ngay'], 11, 5) : '') : $row['ngay'];
+			$startIso = gvTaskIsoDate($row['ngay_bat_dau']);
+			$template->assign_block_vars('list', array(
+				'giaoviec_id' => (int)$row['giaoviec_id'],
+				'giaoviec_name' => gvTaskEscape($row['giaoviec_name']),
+				'giaoviec_num' => gvTaskEscape($row['giaoviec_num']),
+				'quantity_hidden' => ((int)$row['giaoviec_num'] > 0) ? '' : 'hidden',
+				'link_demo' => gvTaskEscape($row['link_demo']),
+				'link_hidden' => trim((string)$row['link_demo']) ? '' : 'hidden',
+				'status_key' => $statusKey,
+				'status_value' => $status,
+				'date_iso' => $deadlineIso,
+				'deadline' => gvTaskEscape($deadlineText),
+				'overdue' => ($deadlineIso && $deadlineIso < date('Y-m-d') && $status != 2) ? ' gv-overdue' : '',
+				'website_name' => gvTaskEscape($row['website_name'] ? $row['website_name'] : 'Chưa chọn website'),
+				'member_name' => gvTaskEscape($row['fullname'] ? $row['fullname'] : 'Chưa phân công'),
+				'member_initials' => gvTaskEscape(gvTaskInitials($row['fullname'])),
+				'can_delete' => strtolower($_SESSION['membername']) == 'administrator' ? '' : 'hidden',
+				'parent_id' => (int)$row['parent_id'],
+				'kpi_type' => gvTaskEscape($row['kpi_type']),
+				'ngay' => gvTaskEscape($deadlineIso),
+				'gio_deadline' => gvTaskEscape(strlen($row['ngay']) >= 16 ? substr($row['ngay'], 11, 5) : '23:59'),
+				'ngay_bat_dau' => gvTaskEscape($startIso),
+				'gio_bat_dau' => gvTaskEscape(strlen($row['ngay_bat_dau']) >= 16 ? substr($row['ngay_bat_dau'], 11, 5) : date('H:i')),
+				'chitiet' => gvTaskEscape($row['chitiet']),
+				'active' => (int)$row['active'],
+				'member_id' => (int)$row['member_id'],
+				'website_id' => (int)$row['website_id'],
+			));
+		}
+	}
+
+	$template->assign_vars(array(
+		'member_id' => $member_id,
+		'month' => $month,
+		'year' => $year,
+		'view' => $view,
+		'selected_date' => $selectedDate,
+		'directory_hidden' => $member_id > 0 ? 'hidden' : '',
+		'task_view_hidden' => $member_id > 0 ? '' : 'hidden',
+		'selected_member_name' => gvTaskEscape($selectedName),
+		'selected_member_initials' => gvTaskEscape(gvTaskInitials($selectedName)),
+		'selected_member_meta' => gvTaskEscape(trim($selectedRole.' · '.$selectedDepartment, ' ·')),
+	));
+	$template->set_filenames_new(array('giaoviec' => 'common_lists/giaoviec/giaoviec_list.html'));
+	$template->pparse('giaoviec');
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function mosInfo(){	
 	global $db, $root_path, $skin, $languageid, $template;
 
@@ -201,6 +364,10 @@ function mosInfo(){
 	$parent_id	 	= mosGetParam($_REQUEST, 'parent_id', 0);
 	$month   		= mosGetParam($_REQUEST, 'month', date('m'));
 	$year			= mosGetParam($_REQUEST, 'year', date('Y'));
+	$day			= gvTaskIsoDate(mosGetParam($_REQUEST, 'day', ''));
+	$view			= mosGetParam($_REQUEST, 'view', 'day');
+	$context_member_id = (int)mosGetParam($_REQUEST, 'member_id1', mosGetParam($_REQUEST, 'member_id', 0));
+	if (!in_array($view, array('day', 'month', 'year'))) $view = 'day';
 	$isAdmin = (isset($_SESSION["loginname"]) && $_SESSION["loginname"] == 'administrator');
 	$showContentKpiType = gvKpiIsContentMember((int)$_SESSION["login_id"]) || $isAdmin;
 	$showSalesKpiType = gvKpiIsSalesMember((int)$_SESSION["login_id"]) || $isAdmin;
@@ -213,7 +380,8 @@ function mosInfo(){
 	while ($row = $db->sql_fetchrow($result)){
 		$template->assign_block_vars('member_list', array(
 			'member_id'	 => $row['member_id'],
-			'member_name'=> $row['fullname'],
+			'member_name'=> gvTaskEscape($row['fullname']),
+			'selected'   => ((int)$row['member_id'] === $context_member_id) ? 'selected' : '',
 		));
 	}
 
@@ -224,7 +392,7 @@ function mosInfo(){
 	while ($row = $db->sql_fetchrow($result)){
 		$template->assign_block_vars('website_list', array(
 			'website_id'	  => $row['website_id'],
-			'website_name' => $row['website_name'],
+			'website_name' => gvTaskEscape($row['website_name']),
 		));
 	}
 
@@ -234,7 +402,7 @@ function mosInfo(){
 	if ($row = $db->sql_fetchrow($result)){
 		$template->assign_vars(array(
 			'parent_id'	 => $row['giaoviec_id'],
-			'parent_name'=> $row['giaoviec_name'],
+			'parent_name'=> gvTaskEscape($row['giaoviec_name']),
 			'chitiet'	 => $row['chitiet'],
 			'soluong'	 => $row['soluong'],
 		));
@@ -269,9 +437,10 @@ function mosInfo(){
 			$dl_time = (strlen($dl_raw) >= 16) ? substr($dl_raw, 11, 5) : '23:59';
 
 			$template->assign_vars(array(
+				'form_title' => 'Cập nhật công việc',
 				'giaoviec_id'	=> $giaoviec_id,
-				'giaoviec_name'	=> $row['giaoviec_name'],
-				'link_demo'     => $row['link_demo'],
+				'giaoviec_name'	=> gvTaskEscape($row['giaoviec_name']),
+				'link_demo'     => gvTaskEscape($row['link_demo']),
 				'giaoviec_num'	=> $row['giaoviec_num'],
 				'kpi_type'	    => isset($row['kpi_type']) ? $row['kpi_type'] : '',
 				'kpi_type_display' => $showKpiType ? '' : 'none',
@@ -279,13 +448,13 @@ function mosInfo(){
 				'sales_kpi_option_display' => $showSalesKpiType ? '' : 'none',
 
 				// date + time split for UI
-				'ngay'		  	=> $dl_date,
+				'ngay'		  	=> gvTaskIsoDate($dl_date),
 				'gio_deadline'  => $dl_time,
 
-				'ngay_bat_dau'	=> $nbd_date,
+				'ngay_bat_dau'	=> gvTaskIsoDate($nbd_date),
 				'gio_bat_dau'   => $nbd_time,
 
-				'chitiet'		=> $row['chitiet'],
+				'chitiet'		=> gvTaskEscape($row['chitiet']),
 				'soluong'		=> $row['soluong'],
 				'parent_id' 	=> $row['parent_id'],
 				'active'		=> ($row['active'] == 1) ? 'checked' : '',
@@ -304,10 +473,13 @@ function mosInfo(){
 		} else message_die(ID_NOTFOUND);
 
 	} else {
+		$defaultTaskDate = $day ? $day : date("Y-m-d");
 		$template->assign_vars(array(
+			'form_title' => 'Thêm công việc',
+			'giaoviec_id' => 0,
 			'active'	   => 'checked',
 			'allow'        => 'hidden',
-			'member_id'    => 0,
+			'member_id'    => $context_member_id,
 			'website_id'   => 0,
 			'soluong'      => 0,
 			'parent_id'    => 0,
@@ -316,10 +488,10 @@ function mosInfo(){
 			'content_kpi_option_display' => $showContentKpiType ? '' : 'none',
 			'sales_kpi_option_display' => $showSalesKpiType ? '' : 'none',
 
-			'ngay'		   => date("d-m-Y"),
+			'ngay'		   => $defaultTaskDate,
 			'gio_deadline' => '23:59',
 
-			'ngay_bat_dau' => date("d-m-Y"),
+			'ngay_bat_dau' => $defaultTaskDate,
 			'gio_bat_dau'  => date("H:i"),
 		));
 	}
@@ -352,7 +524,7 @@ function mosInfo(){
 
 		$template->assign_block_vars('cha_list', array(
 			'giaoviec_id'	=> $row['giaoviec_id'],
-			'giaoviec_name'	=> $row['giaoviec_name'],
+			'giaoviec_name'	=> gvTaskEscape($row['giaoviec_name']),
 			//'giaoviec_num'	=> ($row['giaoviec_num']) ? "(<font color='blue'><b>".$row['giaoviec_num']."</b></font>)" : "",
 			'ngay'		    => $row['ngay'].$war,
 			'chitiet'		=> $row['chitiet'],
@@ -360,6 +532,13 @@ function mosInfo(){
 		));
 	}
 
+	$template->assign_vars(array(
+		'month' => $month,
+		'year' => $year,
+		'day' => $day,
+		'view' => $view,
+		'context_member_id' => $context_member_id,
+	));
 	$template->set_filenames_new(array(
 		'share' => 'common_lists/giaoviec/giaoviec_info.html'
 	));
@@ -391,6 +570,8 @@ function mosSave(){
 
 	$ngay          = mosGetParam($_REQUEST, 'ngay', '');             // dd-mm-YYYY
 	$ngay_bat_dau  = mosGetParam($_REQUEST, 'ngay_bat_dau', '');     // dd-mm-YYYY
+	$ngay          = gvTaskStorageDate($ngay);
+	$ngay_bat_dau  = gvTaskStorageDate($ngay_bat_dau);
 
 	$gio_deadline  = mosGetParam($_REQUEST, 'gio_deadline', '');     // HH:MM
 	$gio_bat_dau   = mosGetParam($_REQUEST, 'gio_bat_dau', '');      // HH:MM
@@ -399,6 +580,7 @@ function mosSave(){
 	$soluong       = mosGetParam($_REQUEST, 'soluong', 0);
 	$active        = mosGetParam($_REQUEST, 'active', 0);
 	$member_id     = mosGetParam($_REQUEST, 'member_id', 0);
+	if (!(int)$member_id) $member_id = mosGetParam($_REQUEST, 'member_id1', 0);
 	$website_id    = mosGetParam($_REQUEST, 'website_id', 0);
 	$isAdmin = (isset($_SESSION["loginname"]) && $_SESSION["loginname"] == 'administrator');
 	$isContentMember = gvKpiIsContentMember((int)$_SESSION["login_id"]) || $isAdmin;
@@ -713,6 +895,19 @@ function mosSave(){
 		}
 	}
 
+	if ($giaoviec_id == '0') {
+		$savedDate = gvTaskIsoDate($ngay);
+		if ($savedDate) {
+			$_REQUEST['day'] = $savedDate;
+			$_REQUEST['month'] = substr($savedDate, 5, 2);
+			$_REQUEST['year'] = substr($savedDate, 0, 4);
+		}
+		if ((int)$member_id > 0) $_REQUEST['member_id1'] = (int)$member_id;
+	}
+	if (mosGetParam($_REQUEST, 'ajax_status', 0)) {
+		echo 'GV_STATUS_SAVED';
+		exit;
+	}
 	$template->assign_vars(['MESSAGE' => SAVE_SUCCESS]);
 	mosList($parent_id);
 }

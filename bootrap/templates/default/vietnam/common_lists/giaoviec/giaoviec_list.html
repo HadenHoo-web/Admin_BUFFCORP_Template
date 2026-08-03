@@ -1,88 +1,249 @@
-<style type="text/css">
-  .content-kpi-missing-row td {
-    background: #fff4cf !important;
-  }
+<style>
+  .gv-task-ui { --gv-brand:#2563eb; --gv-ink:#102a43; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-canvas:#f4f7fb; --gv-surface:#fff; --gv-warning:#d97706; --gv-success:#059669; --gv-danger:#dc2626; box-sizing:border-box; color:var(--gv-ink); font:13px/1.45 Manrope,Inter,"Segoe UI",Arial,sans-serif; }
+  .gv-task-ui * { box-sizing:border-box; }
+  .gv-task-ui [hidden] { display:none !important; }
+  .gv-task-ui svg { width:18px; height:18px; }
+  .gv-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  .gv-directory,.gv-panel { overflow:visible; border:1px solid var(--gv-line); border-radius:14px; background:var(--gv-surface); box-shadow:0 10px 30px rgba(31,68,117,.09); }
+  .gv-directory-head,.gv-detail-head,.gv-list-head { display:flex; align-items:center; gap:12px; min-height:64px; padding:12px 16px; border-bottom:1px solid var(--gv-line); }
+  .gv-directory-head strong { font-size:15px; }
+  .gv-employee-count { padding:5px 9px; border:1px solid #e3ebf5; border-radius:8px; color:var(--gv-muted); background:#f8fbff; font-size:10px; font-weight:700; }
+  .gv-employee-count b { margin-left:5px; color:#26384d; font-size:12px; }
+  .gv-search { position:relative; width:min(300px,100%); margin-left:auto; }
+  .gv-task-ui .gv-search > svg { position:absolute; z-index:1; top:50%; left:12px; color:#8797aa; pointer-events:none; transform:translateY(-50%); }
+  .gv-task-ui .gv-search > input { width:100%; height:38px; padding:0 11px 0 42px !important; border:1px solid #d8e3f1; border-radius:9px; color:#111827; background:#fff; font:inherit; }
+  .gv-search input:focus,.gv-button:focus-visible,.gv-icon-button:focus-visible,.gv-card:focus-visible,.gv-calendar-day:focus-visible,.gv-calendar-mode:focus-visible,.gv-drag-handle:focus-visible { outline:3px solid rgba(37,99,235,.22); outline-offset:2px; }
+  .gv-employee-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:14px; }
+  .gv-card { min-width:0; padding:15px; border:1px solid var(--gv-line); border-radius:12px; color:#26384d; background:#fff; text-decoration:none; transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease; }
+  .gv-card:hover { border-color:#8db6ed; box-shadow:0 9px 22px rgba(31,86,150,.12); transform:translateY(-2px); }
+  .gv-card-top,.gv-person { display:flex; align-items:center; gap:10px; }
+  .gv-avatar { width:46px; height:46px; display:grid; flex:0 0 auto; place-items:center; border-radius:12px; color:#1f5fae; background:#e7f0fd; font-size:13px; font-weight:800; }
+  .gv-name { display:block; color:var(--gv-ink); font-size:13px; font-weight:800; }
+  .gv-role { display:block; margin-top:3px; color:var(--gv-muted); font-size:10px; }
+  .gv-department { display:flex; align-items:center; gap:5px; margin-top:10px; color:#426283; font-size:10px; font-weight:700; }
+  .gv-department svg { width:14px; height:14px; }
+  .gv-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:14px; padding-top:12px; border-top:1px solid #edf1f6; }
+  .gv-stats span { color:var(--gv-muted); font-size:9px; }
+  .gv-stats b { display:block; margin-top:2px; color:#26384d; font-size:13px; }
+  .gv-detail-head { border-radius:14px 14px 0 0; }
+  .gv-icon-button,.gv-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:38px; border:1px solid var(--gv-line); border-radius:9px; color:#23415f; background:#fff; font:inherit; font-size:11px; font-weight:800; text-decoration:none; cursor:pointer; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
+  .gv-icon-button { width:38px; padding:0; }
+  .gv-button { padding:0 13px; }
+  .gv-button:hover,.gv-icon-button:hover { border-color:#9bbce8; color:var(--gv-brand); background:#f7faff; }
+  .gv-button:active,.gv-icon-button:active { transform:translateY(1px); }
+  .gv-button-primary { border-color:var(--gv-brand); color:#fff; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
+  .gv-button-primary:hover { border-color:#184fae; color:#fff; background:#184fae; }
+  .gv-detail-copy { min-width:0; }
+  .gv-detail-copy strong,.gv-detail-copy small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .gv-detail-copy strong { font-size:14px; }
+  .gv-detail-copy small { margin-top:2px; color:var(--gv-muted); font-size:10px; }
+  .gv-detail-actions { display:flex; gap:8px; margin-left:auto; }
+  .gv-list-head { position:relative; min-height:62px; border-radius:0; }
+  .gv-date-filter { position:relative; z-index:4; }
+  .gv-date-button { min-width:178px; }
+  .gv-status-filter { display:flex; align-items:center; gap:5px; padding:4px; border:1px solid var(--gv-line); border-radius:9px; background:#f8fbff; }
+  .gv-status-filter button { min-height:30px; padding:0 9px; border:0; border-radius:6px; color:#61758d; background:transparent; font:inherit; font-size:10px; font-weight:800; cursor:pointer; }
+  .gv-status-filter button:hover,.gv-status-filter button.active { color:var(--gv-brand); background:#e7f0ff; }
+  .gv-status-filter button[data-status-filter="todo"].active { color:#b45309; background:#fff1d6; }
+  .gv-status-filter button[data-status-filter="progress"].active { color:#1d4ed8; background:#dbeafe; }
+  .gv-status-filter button[data-status-filter="done"].active { color:#15803d; background:#dcfce7; }
+  .gv-date-button .gv-chevron { margin-left:auto; transition:transform .18s ease; }
+  .gv-date-filter.open .gv-chevron { transform:rotate(180deg); }
+  .gv-calendar { position:absolute; top:calc(100% + 8px); left:0; width:288px; padding:12px; border:1px solid #d8e3f1; border-radius:12px; color:#26384d; background:#fff; box-shadow:0 15px 32px rgba(31,64,105,.16); opacity:0; pointer-events:none; transform:translateY(-4px); visibility:hidden; transition:opacity .18s ease,transform .18s ease; }
+  .gv-date-filter.open .gv-calendar { opacity:1; pointer-events:auto; transform:translateY(0); visibility:visible; }
+  .gv-calendar-modes { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-bottom:10px; padding:4px; border-radius:9px; background:#eef4fb; }
+  .gv-calendar-mode { min-height:30px; border:0; border-radius:6px; color:#60758c; background:transparent; font:inherit; font-size:10px; font-weight:800; cursor:pointer; }
+  .gv-calendar-mode:hover,.gv-calendar-mode.active { color:var(--gv-brand); background:#fff; box-shadow:0 1px 4px rgba(31,64,105,.12); }
+  .gv-calendar-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+  .gv-calendar-top strong { font-size:12px; }
+  .gv-calendar-nav { width:32px; height:32px; display:grid; place-items:center; padding:0; border:1px solid #d8e3f1; border-radius:7px; color:#426283; background:#fff; cursor:pointer; }
+  .gv-calendar-nav:hover { border-color:#8db6ed; color:var(--gv-brand); background:#f5f9ff; }
+  .gv-calendar-nav.next svg { transform:rotate(180deg); }
+  .gv-weekdays,.gv-calendar-days { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; }
+  .gv-weekdays { margin-bottom:4px; color:#8090a3; font-size:9px; font-weight:800; text-align:center; }
+  .gv-calendar-day { height:34px; display:grid; place-items:center; padding:0; border:0; border-radius:7px; color:#334b65; background:transparent; font:inherit; font-size:11px; cursor:pointer; }
+  .gv-calendar-day:hover { color:var(--gv-brand); background:#eaf3ff; }
+  .gv-calendar-day.today { box-shadow:inset 0 0 0 1px #9dbce2; }
+  .gv-calendar-day.selected { color:#fff; background:var(--gv-brand); }
+  .gv-calendar-days.month,.gv-calendar-days.year { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .gv-calendar-days.month .gv-calendar-day,.gv-calendar-days.year .gv-calendar-day { height:38px; }
+  .gv-board { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:14px; border-radius:0 0 14px 14px; background:#f6f9fd; }
+  .gv-board.gv-status-filtered { grid-template-columns:minmax(0,1fr); }
+  .gv-board.gv-status-filtered .gv-task-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-content:start; }
+  .gv-column { min-width:0; border:1px solid var(--gv-line); border-radius:12px; background:#edf3fa; }
+  .gv-column-head { display:flex; align-items:center; gap:8px; min-height:50px; padding:0 12px; border-bottom:1px solid var(--gv-line); }
+  .gv-column-head h2 { margin:0; color:#26384d; font-size:12px; }
+  .gv-dot { width:8px; height:8px; border-radius:50%; background:#94a3b8; }
+  .gv-column[data-status="progress"] .gv-dot { background:var(--gv-warning); }
+  .gv-column[data-status="done"] .gv-dot { background:var(--gv-success); }
+  .gv-count { min-width:24px; height:24px; display:grid; place-items:center; margin-left:auto; border-radius:999px; color:#526277; background:#fff; font-size:10px; font-weight:800; }
+  .gv-task-list { min-height:280px; max-height:calc(100vh - 310px); display:flex; flex-direction:column; gap:10px; padding:10px; overflow-y:auto; scrollbar-width:none; -ms-overflow-style:none; scroll-behavior:smooth; transition:background .18s ease,box-shadow .18s ease; }
+  .gv-task-list::-webkit-scrollbar { width:0; height:0; display:none; }
+  .gv-task-list.drag-over { background:#e4efff; box-shadow:inset 0 0 0 2px var(--gv-brand); }
+  .gv-task-card { padding:12px; border:1px solid #dce6f2; border-radius:11px; background:#fff; box-shadow:0 3px 10px rgba(30,64,100,.05); cursor:grab; transition:border-color .18s ease,box-shadow .18s ease,opacity .18s ease; }
+  .gv-task-card:hover { border-color:#b9cce3; box-shadow:0 7px 18px rgba(30,64,100,.09); }
+  .gv-task-card.dragging { opacity:.42; }
+  .gv-task-card.saving { opacity:.62; pointer-events:none; }
+  .gv-drag-ghost { position:fixed; z-index:90; margin:0; pointer-events:none; opacity:.94; box-shadow:0 18px 40px rgba(15,23,42,.24); transform:translate3d(-9999px,-9999px,0); }
+  .gv-task-head { display:flex; align-items:flex-start; gap:6px; }
+  .gv-task-head > div { min-width:0; flex:1; }
+  .gv-drag-handle { width:30px; height:34px; display:grid; flex:0 0 auto; place-items:center; margin:-3px 0 0 -5px; padding:0; border:0; border-radius:7px; color:#8392a6; background:transparent; cursor:grab; touch-action:none; }
+  .gv-drag-handle:hover { color:var(--gv-brand); background:#eaf2ff; }
+  .gv-task-title { display:block; color:#102a43; font-size:12px; font-weight:800; line-height:1.42; text-decoration:none; }
+  .gv-task-title:hover { color:var(--gv-brand); }
+  .gv-task-meta { display:flex; flex-wrap:wrap; gap:7px; margin-top:5px; color:var(--gv-muted); font-size:10px; }
+  .gv-task-link { color:var(--gv-brand); font-weight:800; text-decoration:none; }
+  .gv-task-line { display:flex; align-items:center; gap:7px; margin-top:11px; color:#526277; font-size:10px; }
+  .gv-task-line.gv-overdue { color:#b42318; font-weight:800; }
+  .gv-task-foot { display:flex; align-items:center; gap:8px; margin-top:11px; padding-top:10px; border-top:1px solid #edf1f6; }
+  .gv-person-avatar { width:29px; height:29px; display:grid; flex:0 0 auto; place-items:center; border-radius:50%; color:#235da7; background:#e5effd; font-size:9px; font-weight:800; }
+  .gv-person strong,.gv-person small { display:block; }
+  .gv-person strong { color:#22364c; font-size:11px; }
+  .gv-person small { color:var(--gv-muted); font-size:9px; }
+  .gv-row-actions { display:flex; gap:5px; margin-left:auto; }
+  .gv-delete { color:#bd2c2c; background:#fff3f3; }
+  .gv-empty { display:none; margin:0 10px 10px; padding:22px 10px; border:1px dashed #bac9dc; border-radius:10px; color:var(--gv-muted); text-align:center; font-size:10px; }
+  .gv-column.empty .gv-empty { display:block; }
+  .gv-message { margin:12px 0 0; color:var(--gv-danger); font-size:11px; font-weight:800; }
+  @media (max-width:1080px) { .gv-employee-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:760px) { .gv-directory-head,.gv-detail-head,.gv-list-head { flex-wrap:wrap; } .gv-search { width:100%; margin-left:0; } .gv-detail-actions { margin-left:auto; } .gv-board { grid-template-columns:1fr; } .gv-task-list { min-height:150px; max-height:360px; } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:1fr; } }
+  @media (max-width:520px) { .gv-employee-grid { grid-template-columns:1fr; } .gv-detail-actions .gv-button span { display:none; } .gv-date-button { min-width:160px; } }
 </style>
 
-<div class="toolbar"> <a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Thêm mới</span></a>
+<div class="gv-task-ui buffcorp-server-rendered buffcorp-module-ready" id="gvTaskUi">
+  <svg class="gv-sr-only" aria-hidden="true">
+    <symbol id="gv-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="gv-building" viewBox="0 0 24 24"><path d="M4 21V5l8-3v19M12 8h8v13M7 7h2M7 11h2M15 11h2M3 21h18"/></symbol>
+    <symbol id="gv-arrow-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6M9 12h11"/></symbol>
+    <symbol id="gv-refresh" viewBox="0 0 24 24"><path d="M20 6v5h-5M4 18v-5h5"/><path d="M18 9a7 7 0 0 0-12-3L4 8M6 15a7 7 0 0 0 12 3l2-2"/></symbol>
+    <symbol id="gv-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="gv-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></symbol>
+    <symbol id="gv-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+    <symbol id="gv-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="gv-grip" viewBox="0 0 24 24"><circle cx="8" cy="6" r="1"/><circle cx="16" cy="6" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="16" cy="12" r="1"/><circle cx="8" cy="18" r="1"/><circle cx="16" cy="18" r="1"/></symbol>
+    <symbol id="gv-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"/></symbol>
+  </svg>
+
+  <section class="gv-directory" id="gvEmployeeView" {directory_hidden}>
+    <header class="gv-directory-head">
+      <strong>Nhân viên</strong>
+      <span class="gv-employee-count">Tổng nhân viên <b id="gvEmployeeCount">0</b></span>
+      <label class="gv-search"><span class="gv-sr-only">Tìm nhân viên</span><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-search"/></svg><input id="gvEmployeeSearch" type="search" placeholder="Tìm tên, chức vụ, phòng ban..."></label>
+    </header>
+    <div class="gv-employee-grid" id="gvEmployeeGrid">
+      <!-- BEGIN member_list -->
+      <a class="gv-card" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;member_id1={member_list.member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}" data-member-card>
+        <span class="gv-card-top"><span class="gv-avatar">{member_list.initials}</span><span><strong class="gv-name">{member_list.member_name}</strong><span class="gv-role">{member_list.role}</span></span></span>
+        <span class="gv-department"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-building"/></svg>{member_list.department}</span>
+        <span class="gv-stats"><span>Tổng việc<b>{member_list.total}</b></span><span>Đang làm<b>{member_list.progress}</b></span><span>Đã xong<b>{member_list.done}</b></span></span>
+      </a>
+      <!-- END member_list -->
+    </div>
+  </section>
+
+  <section class="gv-panel" id="gvTaskView" {task_view_hidden}>
+    <header class="gv-detail-head">
+      <a class="gv-icon-button" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}" aria-label="Quay lại danh sách nhân viên"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-arrow-left"/></svg></a>
+      <span class="gv-avatar">{selected_member_initials}</span>
+      <div class="gv-detail-copy"><strong>{selected_member_name}</strong><small>{selected_member_meta}</small></div>
+      <div class="gv-detail-actions">
+        <a class="gv-button" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;member_id1={member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}" aria-label="Làm mới"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-refresh"/></svg><span>Làm mới</span></a>
+        <a class="gv-button gv-button-primary" href="main.php?option={funname}&amp;mode=info&amp;l={LANGUAGEID}&amp;member_id={member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-plus"/></svg><span>Thêm công việc</span></a>
+      </div>
+    </header>
+    <div class="gv-list-head">
+      <div class="gv-date-filter" id="gvDateFilter" data-date="{selected_date}" data-month="{month}" data-year="{year}" data-view="{view}" data-member="{member_id}">
+        <button class="gv-icon-button gv-date-button" id="gvDateButton" type="button" aria-expanded="false" aria-controls="gvCalendar"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-calendar"/></svg><span id="gvDateLabel"></span><svg class="gv-chevron" fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-chevron"/></svg></button>
+        <div class="gv-calendar" id="gvCalendar" role="dialog" aria-label="Chọn thời gian xem công việc">
+          <div class="gv-calendar-modes"><button class="gv-calendar-mode" type="button" data-view="day">Ngày</button><button class="gv-calendar-mode" type="button" data-view="month">Tháng</button><button class="gv-calendar-mode" type="button" data-view="year">Năm</button></div>
+          <div class="gv-calendar-top"><button class="gv-calendar-nav" type="button" id="gvCalendarPrev" aria-label="Trước"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-arrow-left"/></svg></button><strong id="gvCalendarTitle"></strong><button class="gv-calendar-nav next" type="button" id="gvCalendarNext" aria-label="Sau"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-arrow-left"/></svg></button></div>
+          <div class="gv-weekdays" id="gvWeekdays" aria-hidden="true"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div>
+          <div class="gv-calendar-days" id="gvCalendarDays"></div>
+        </div>
+      </div>
+      <div class="gv-status-filter" role="group" aria-label="Lọc theo trạng thái công việc">
+        <button class="active" type="button" data-status-filter="all" aria-pressed="true">Tất cả</button>
+        <button type="button" data-status-filter="todo" aria-pressed="false">Chưa thực hiện</button>
+        <button type="button" data-status-filter="progress" aria-pressed="false">Đang thực hiện</button>
+        <button type="button" data-status-filter="done" aria-pressed="false">Đã xong</button>
+      </div>
+      <label class="gv-search"><span class="gv-sr-only">Tìm công việc</span><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-search"/></svg><input id="gvTaskSearch" type="search" placeholder="Tìm công việc, website..."></label>
+    </div>
+    <div class="gv-board" id="gvBoard" aria-label="Bảng tiến độ công việc">
+      <section class="gv-column" data-status="todo"><header class="gv-column-head"><span class="gv-dot"></span><h2>Chưa thực hiện</h2><span class="gv-count">0</span></header><div class="gv-task-list" data-status="todo" tabindex="0" aria-label="Công việc chưa thực hiện"></div><p class="gv-empty">Chưa có công việc</p></section>
+      <section class="gv-column" data-status="progress"><header class="gv-column-head"><span class="gv-dot"></span><h2>Đang thực hiện</h2><span class="gv-count">0</span></header><div class="gv-task-list" data-status="progress" tabindex="0" aria-label="Công việc đang thực hiện"></div><p class="gv-empty">Chưa có công việc</p></section>
+      <section class="gv-column" data-status="done"><header class="gv-column-head"><span class="gv-dot"></span><h2>Đã xong</h2><span class="gv-count">0</span></header><div class="gv-task-list" data-status="done" tabindex="0" aria-label="Công việc đã xong"></div><p class="gv-empty">Chưa có công việc</p></section>
+      <!-- BEGIN list -->
+      <article class="gv-task-card" data-task-card data-status="{list.status_key}" data-date="{list.date_iso}">
+        <div class="gv-task-head"><button class="gv-drag-handle" data-drag-handle type="button" aria-label="Kéo để đổi trạng thái"><svg fill="currentColor"><use href="#gv-grip"/></svg></button><div><a class="gv-task-title" href="main.php?option={funname}&amp;mode=info&amp;l={LANGUAGEID}&amp;id={list.giaoviec_id}&amp;member_id1={member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}">{list.giaoviec_name}</a><div class="gv-task-meta"><span {list.quantity_hidden}>SL: {list.giaoviec_num}</span><a class="gv-task-link" href="{list.link_demo}" target="_blank" rel="noopener" {list.link_hidden}>Mở kết quả</a></div></div></div>
+        <div class="gv-task-line{list.overdue}"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-clock"/></svg>{list.deadline} · {list.website_name}</div>
+        <div class="gv-task-foot"><span class="gv-person"><span class="gv-person-avatar">{list.member_initials}</span><span><strong>{list.member_name}</strong><small>Người thực hiện</small></span></span><span class="gv-row-actions"><a class="gv-icon-button gv-delete" href="main.php?option={funname}&amp;mode=delete&amp;l={LANGUAGEID}&amp;id={list.giaoviec_id}&amp;member_id1={member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}" aria-label="Xóa công việc" {list.can_delete} onclick="return confirm('Xóa công việc này?');"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-trash"/></svg></a></span></div>
+        <form class="gv-status-form" action="main.php" method="post"><input type="hidden" name="l" value="{LANGUAGEID}"><input type="hidden" name="option" value="{funname}"><input type="hidden" name="mode" value="save"><input type="hidden" name="ajax_status" value="1"><input type="hidden" name="id" value="{list.giaoviec_id}"><input type="hidden" name="parent_id" value="{list.parent_id}"><input type="hidden" name="giaoviec_name" value="{list.giaoviec_name}"><input type="hidden" name="link_demo" value="{list.link_demo}"><input type="hidden" name="giaoviec_num" value="{list.giaoviec_num}"><input type="hidden" name="kpi_type" value="{list.kpi_type}"><input type="hidden" name="ngay" value="{list.ngay}"><input type="hidden" name="gio_deadline" value="{list.gio_deadline}"><input type="hidden" name="ngay_bat_dau" value="{list.ngay_bat_dau}"><input type="hidden" name="gio_bat_dau" value="{list.gio_bat_dau}"><input type="hidden" name="chitiet" value="{list.chitiet}"><input type="hidden" name="soluong" value="{list.status_value}" data-task-status><input type="hidden" name="active" value="{list.active}"><input type="hidden" name="member_id" value="{list.member_id}"><input type="hidden" name="website_id" value="{list.website_id}"><input type="hidden" name="member_id1" value="{member_id}"><input type="hidden" name="month" value="{month}"><input type="hidden" name="year" value="{year}"><input type="hidden" name="day" value="{selected_date}"><input type="hidden" name="view" value="{view}"></form>
+      </article>
+      <!-- END list -->
+    </div>
+    <p class="gv-message" aria-live="polite">{MESSAGE}</p>
+  </section>
 </div>
 
-<div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
-	<input type="hidden" name="option" id="option" value="{funname}">
-	<input type="hidden" name="mode" id="mode" value="list">
-  Danh sách : Tháng <select name="month" size="1" onchange="doReShow()"><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> Năm <select name="year" size="1" onchange="doReShow()"><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option></select>
-  NV Thực hiện
-  <!-- DO ComboFromTable("member_id1", "tbl_member", "member_id", "fullname", "member_id", 0, " All " , "0" , "active=1 order by member_id" , "doReShow()", 1) -->
-  NV Tạo
-  <!-- DO ComboFromTable("created_by_id1", "tbl_member", "member_id", "fullname", "member_id", 0, " All " , "0" , "active=1 order by member_id" , "doReShow()", 1) -->
-  Website <select size="1" name="website_id1" alt="Website">
-        <option value=0>Chọn Website</option>
-        <!-- BEGIN website_list -->
-        <option value="{website_list.website_id}">{website_list.website_name}</option>
-        <!-- END website_list -->
-      </select>
-   Show Ẩn <input type="checkbox" name="active1" value="1" {active} onChange="doReShow()" /> <input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" /></form>
-</div><script>mainForm.website_id1.value = '{website_id}';mainForm.member_id1.value = '{member_id}';mainForm.created_by_id1.value = '{created_by_id}';mainForm.month.value = '{month}';mainForm.year.value = '{year}';</script>
-<div style="overflow:auto; height:80%">
-  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
-    <tr class="header">
-      <td width="20" align="center" >#</td>
-      <td width="60" align="left" >Ngày tháng</td>
-      <td width="70" align="left" >Nhân Viên</td>
-      <td width="400" align="left" >Công việc</td>
-      <td width="120" align="left" >Website</td>  
-      <td width="90" align="left" >Trang Thái</td>
-      <td width="80" align="left" >Deadline</td>
-      <td width="100" align="left" >Người tạo</td>
-      <td width="100" align="left" >Người sửa</td>
-      <td width="105" align="left" >Lúc sửa</td>
-      <td  colspan="3" ></td>
-    </tr>
-    <!-- BEGIN list -->
-    <tr class="{list.className}{list.status}">
-      <td align="center" style="vertical-align:middle">{list.order}</td>
-      <td style="vertical-align:middle"><b><font color=red>{list.created_date}</font></b></td>
-      <td style="vertical-align:middle"><b>{list.member_name}</b></td>
-      <td style="vertical-align:middle;"><a href="JavaScript:updateItem({list.giaoviec_id})" {list.color}>{list.giaoviec_name}</a> {list.kpi_warning} {list.link_demo} {list.giaoviec_num}</td>
-      <td style="vertical-align:middle">{list.website_name}</td>
-      <td style="vertical-align:middle">{list.soluong}</td>
-      <td style="vertical-align:middle">{list.ngay}</td>
-      <td style="vertical-align:middle">{list.created_by}</td>
-      <td style="vertical-align:middle">{list.modified_by}</td>
-      <td style="vertical-align:middle">{list.last_modified}</td>
-      <td align="center"> {list.active} </td>
-      <td width="23" align="center"><a href="JavaScript:updateItem({list.giaoviec_id})"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
-      <td width="35" align="center"><a href="JavaScript:deleteItem({list.giaoviec_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
-    </tr>
-    <!-- END list -->
-  </table>
-  </center>
-</div>
-<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
-<Script Language="JavaScript">
-function doReShow()
-{	
-	mainForm.submit();
-}
-function doCreate()
-{	
-	document.location='?option={funname}&parent_id={parent_id}&mode=info&l={LANGUAGEID}'
-}
-function updateItem(id)
-{	document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
-}
+<script>
+(function () {
+  var root = document.getElementById('gvTaskUi');
+  if (!root) return;
+  var employeeView = document.getElementById('gvEmployeeView');
+  var board = document.getElementById('gvBoard');
+  var filter = document.getElementById('gvDateFilter');
+  if (employeeView && !employeeView.hidden) {
+    var employeeSearch = document.getElementById('gvEmployeeSearch');
+    var employeeCount = document.getElementById('gvEmployeeCount');
+    function updateEmployeeCount() { if (employeeCount) employeeCount.textContent = document.querySelectorAll('[data-member-card]:not([hidden])').length; }
+    if (employeeSearch) employeeSearch.addEventListener('input', function () { Array.prototype.forEach.call(document.querySelectorAll('[data-member-card]'), function (card) { card.hidden = card.textContent.toLowerCase().indexOf(employeeSearch.value.toLowerCase()) === -1; }); updateEmployeeCount(); });
+    updateEmployeeCount();
+    return;
+  }
+  if (!board || !filter) return;
+  var selectedDate = filter.dataset.date;
+  var view = filter.dataset.view || 'day';
+  var cursor = dateFromIso(selectedDate);
+  var search = document.getElementById('gvTaskSearch');
+  var statusFilter = 'all';
+  var statusButtons = document.querySelectorAll('[data-status-filter]');
+  var dateButton = document.getElementById('gvDateButton');
+  var dragging = null;
+  var dragCandidate = null;
+  var dragGhost = null;
 
-function subItem(id)
-{	document.location = '?option={funname}&mode=list&l={LANGUAGEID}&parent_id=' + id
-}
-
-function deleteItem(id)
-{	if (confirm ("Are you sure you want to delete ?."))
-		document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
-}	
-function doThongKe()
-{ alert();
-	document.location='?option={funname}&mode=thongke'
-}
-</Script>
-
+  function dateFromIso(value) { var p = (value || '1970-01-01').split('-'); return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2])); }
+  function isoDate(date) { return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0'); }
+  function rows() { return Array.prototype.slice.call(board.querySelectorAll('[data-task-card]')); }
+  function setOpen(open) { filter.classList.toggle('open', open); dateButton.setAttribute('aria-expanded', String(open)); }
+  function statusValue(status) { return status === 'todo' ? 0 : status === 'progress' ? 1 : 2; }
+  function setTaskMessage(message) { var target = root.querySelector('.gv-message'); if (target) target.textContent = message || ''; }
+  function updateColumns() { Array.prototype.forEach.call(board.querySelectorAll('.gv-column'), function (column) { var count = column.querySelectorAll('[data-task-card]:not([hidden])').length; column.querySelector('.gv-count').textContent = count; column.classList.toggle('empty', count === 0); }); }
+  function applyFilters() { var query = search.value.trim().toLowerCase(); var length = view === 'year' ? 4 : view === 'month' ? 7 : 10; board.classList.toggle('gv-status-filtered', statusFilter !== 'all'); Array.prototype.forEach.call(board.querySelectorAll('.gv-column'), function (column) { column.hidden = statusFilter !== 'all' && column.dataset.status !== statusFilter; }); rows().forEach(function (card) { card.hidden = (!!query && card.textContent.toLowerCase().indexOf(query) === -1) || card.dataset.date.slice(0, length) !== selectedDate.slice(0, length) || (statusFilter !== 'all' && card.dataset.status !== statusFilter); }); updateColumns(); }
+  function updateLabel() { var d = dateFromIso(selectedDate); document.getElementById('gvDateLabel').textContent = view === 'year' ? 'Năm ' + d.getFullYear() : view === 'month' ? 'Tháng ' + new Intl.DateTimeFormat('vi-VN', {month:'numeric',year:'numeric'}).format(d) : d.toLocaleDateString('vi-VN'); Array.prototype.forEach.call(document.querySelectorAll('.gv-calendar-mode'), function (button) { button.classList.toggle('active', button.dataset.view === view); }); }
+  function go(value, nextView) { var d = dateFromIso(value); window.location.href = 'main.php?option={funname}&mode=list&l={LANGUAGEID}&member_id1=' + encodeURIComponent(filter.dataset.member) + '&month=' + String(d.getMonth() + 1).padStart(2, '0') + '&year=' + d.getFullYear() + '&day=' + encodeURIComponent(value) + '&view=' + nextView; }
+  function choose(value) { if (view === 'year') { go(value, 'year'); return; } if (view === 'month') { go(value, 'month'); return; } if (value.slice(0, 7) !== selectedDate.slice(0, 7)) { go(value, 'day'); return; } selectedDate = value; cursor = dateFromIso(value); updateLabel(); renderCalendar(); applyFilters(); setOpen(false); dateButton.focus(); }
+  function calendarButton(text, value, label, selected, today) { var b = document.createElement('button'); b.type = 'button'; b.className = 'gv-calendar-day' + (selected ? ' selected' : '') + (today ? ' today' : ''); b.textContent = text; b.setAttribute('aria-label', label); b.addEventListener('click', function () { choose(value); }); return b; }
+  function renderCalendar() { var days = document.getElementById('gvCalendarDays'); var weekdays = document.getElementById('gvWeekdays'); var title = document.getElementById('gvCalendarTitle'); var year = cursor.getFullYear(); var month = cursor.getMonth(); var today = isoDate(new Date()); days.innerHTML = ''; days.className = 'gv-calendar-days'; weekdays.hidden = view !== 'day'; if (view === 'year') { days.classList.add('year'); title.textContent = 'Chọn năm'; for (var y = year - 5; y < year + 7; y++) days.appendChild(calendarButton(String(y), y + '-01-01', 'Năm ' + y, y === Number(selectedDate.slice(0, 4)), false)); return; } if (view === 'month') { days.classList.add('month'); title.textContent = 'Năm ' + year; for (var m = 0; m < 12; m++) { var mv = isoDate(new Date(year, m, 1)); days.appendChild(calendarButton('T' + (m + 1), mv, 'Tháng ' + (m + 1) + ' năm ' + year, mv.slice(0, 7) === selectedDate.slice(0, 7), false)); } return; } var first = new Date(year, month, 1); title.textContent = new Intl.DateTimeFormat('vi-VN', {month:'long',year:'numeric'}).format(first); for (var blank = 0; blank < (first.getDay() + 6) % 7; blank++) days.appendChild(document.createElement('span')); for (var day = 1, max = new Date(year, month + 1, 0).getDate(); day <= max; day++) { var value = isoDate(new Date(year, month, day)); days.appendChild(calendarButton(day, value, value, value === selectedDate, value === today)); } }
+  Array.prototype.forEach.call(rows(), function (card) { var list = board.querySelector('.gv-task-list[data-status="' + card.dataset.status + '"]'); if (list) list.appendChild(card); });
+  dateButton.addEventListener('click', function () { setOpen(!filter.classList.contains('open')); });
+  document.addEventListener('click', function (event) { if (!filter.contains(event.target)) setOpen(false); });
+  Array.prototype.forEach.call(document.querySelectorAll('.gv-calendar-mode'), function (button) { button.addEventListener('click', function () { var nextView = button.dataset.view; if (nextView !== view) { if (nextView === 'year' || view === 'year') { go(selectedDate, nextView); return; } view = nextView; updateLabel(); renderCalendar(); applyFilters(); } }); });
+  function shiftCalendar(amount) { if (view === 'day') cursor.setMonth(cursor.getMonth() + amount); else cursor.setFullYear(cursor.getFullYear() + amount * (view === 'year' ? 12 : 1)); renderCalendar(); }
+  document.getElementById('gvCalendarPrev').addEventListener('click', function () { shiftCalendar(-1); });
+  document.getElementById('gvCalendarNext').addEventListener('click', function () { shiftCalendar(1); });
+  search.addEventListener('input', applyFilters);
+  Array.prototype.forEach.call(statusButtons, function (button) { button.addEventListener('click', function () { statusFilter = button.dataset.statusFilter; Array.prototype.forEach.call(statusButtons, function (item) { var active = item === button; item.classList.toggle('active', active); item.setAttribute('aria-pressed', String(active)); }); applyFilters(); }); });
+  function clearDrag() { if (dragGhost) dragGhost.remove(); dragGhost = null; Array.prototype.forEach.call(board.querySelectorAll('.gv-task-list'), function (list) { list.classList.remove('drag-over'); }); }
+  function responseMessage(html) { var match = /<p class="gv-message"[^>]*>([\s\S]*?)<\/p>/.exec(html); if (!match) return ''; var holder = document.createElement('div'); holder.innerHTML = match[1]; return holder.textContent.trim(); }
+  function saveTaskStatus(card, oldList, oldStatus) { var form = card.querySelector('.gv-status-form'); if (!form) return; if (!window.fetch) { form.submit(); return; } card.classList.add('saving'); setTaskMessage(''); window.fetch(form.action, {method:'POST', body:new FormData(form), credentials:'same-origin'}).then(function (response) { if (!response.ok) throw new Error('Không thể cập nhật trạng thái. Vui lòng thử lại.'); return response.text(); }).then(function (html) { if (html.indexOf('GV_STATUS_SAVED') === -1) throw new Error(responseMessage(html) || 'Không thể cập nhật trạng thái. Vui lòng thử lại.'); card.classList.remove('saving'); }).catch(function (error) { card.classList.remove('saving'); card.dataset.status = oldStatus; oldList.appendChild(card); form.querySelector('[data-task-status]').value = statusValue(oldStatus); updateColumns(); setTaskMessage(error.message || 'Không thể cập nhật trạng thái. Vui lòng thử lại.'); }); }
+  function startDrag(card, event) { var box = card.getBoundingClientRect(); dragging = card; dragging.classList.add('dragging'); dragGhost = card.cloneNode(true); var form = dragGhost.querySelector('.gv-status-form'); if (form) form.remove(); dragGhost.classList.add('gv-drag-ghost'); dragGhost.setAttribute('aria-hidden', 'true'); dragGhost.style.width = box.width + 'px'; document.body.appendChild(dragGhost); moveGhost(event); }
+  function moveGhost(event) { if (dragGhost) dragGhost.style.transform = 'translate3d(' + (event.clientX + 12) + 'px,' + (event.clientY + 12) + 'px,0)'; }
+  Array.prototype.forEach.call(rows(), function (card) { card.addEventListener('pointerdown', function (event) { if (event.button && event.button !== 0) return; if (event.target.closest('.gv-task-title,.gv-task-link,.gv-row-actions a,input,select,textarea,label')) return; dragCandidate = { card:card, x:event.clientX, y:event.clientY }; }); });
+  window.addEventListener('pointermove', function (event) { if (!dragging && dragCandidate && Math.hypot(event.clientX - dragCandidate.x, event.clientY - dragCandidate.y) > 6) { startDrag(dragCandidate.card, event); dragCandidate = null; if (window.getSelection) window.getSelection().removeAllRanges(); } if (!dragging) return; moveGhost(event); Array.prototype.forEach.call(board.querySelectorAll('.gv-task-list'), function (list) { list.classList.remove('drag-over'); }); var target = document.elementFromPoint(event.clientX, event.clientY); var list = target && target.closest('.gv-task-list'); if (list) list.classList.add('drag-over'); });
+  window.addEventListener('pointerup', function (event) { dragCandidate = null; if (!dragging) return; var card = dragging; dragging = null; card.classList.remove('dragging'); var target = document.elementFromPoint(event.clientX, event.clientY); var list = target && target.closest('.gv-task-list'); clearDrag(); if (!list || list.dataset.status === card.dataset.status) return; var oldList = card.parentNode; var oldStatus = card.dataset.status; card.dataset.status = list.dataset.status; list.appendChild(card); card.querySelector('[data-task-status]').value = statusValue(list.dataset.status); updateColumns(); saveTaskStatus(card, oldList, oldStatus); });
+  window.addEventListener('pointercancel', function () { dragCandidate = null; if (!dragging) return; dragging.classList.remove('dragging'); dragging = null; clearDrag(); });
+  updateLabel(); renderCalendar(); applyFilters();
+}());
+</script>
