@@ -1,7 +1,7 @@
 <style>
 .left-menu {
-    width: 236px !important;
-    flex: 0 0 236px;
+    width: 296px !important;
+    flex: 0 0 296px;
     overflow: hidden !important;
     border-right: 1px solid #d9e6f3 !important;
     background: #fff !important;
@@ -11,7 +11,7 @@
 }
 .layout > .main-content { min-width: 0; }
 .buffcorp-sidebar { display: flex; height: 100%; flex-direction: column; background: #fff; }
-.buffcorp-brand { display: flex; min-height: 72px; align-items: center; gap: 10px; padding: 14px 12px; border-bottom: 1px solid #edf2f7; }
+.buffcorp-brand { display: flex; min-height: 72px; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid #edf2f7; }
 .buffcorp-logo-button { display: grid; width: 40px; height: 40px; flex: 0 0 40px; padding: 0; place-items: center; border: 0; border-radius: 50%; background: transparent; cursor: default; }
 .buffcorp-logo-button img { display: block; width: 40px; height: 40px; border-radius: 50%; object-fit: contain; }
 .buffcorp-brand-copy { min-width: 0; flex: 1; overflow: hidden; white-space: nowrap; transition: max-width .24s ease, opacity .16s ease; }
@@ -20,7 +20,7 @@
 .buffcorp-brand-copy small { color: #687b91; font-size: 12px; line-height: 16px; }
 .buffcorp-collapse { display: grid; width: 31px; height: 31px; flex: 0 0 31px; padding: 0; place-items: center; border: 1px solid #d9e6f3; border-radius: 8px; background: #fff; color: #2e6cbf; cursor: pointer; }
 .buffcorp-collapse svg { width: 16px; height: 16px; }
-.buffcorp-nav-scroll { min-height: 0; flex: 1; overflow-x: hidden; overflow-y: auto; padding: 8px 10px 14px; scrollbar-width: none; -ms-overflow-style: none; }
+.buffcorp-nav-scroll { min-height: 0; flex: 1; overflow-x: hidden; overflow-y: auto; padding: 8px 12px 14px; scrollbar-width: none; -ms-overflow-style: none; }
 .buffcorp-nav-scroll::-webkit-scrollbar { width: 0; height: 0; }
 .buffcorp-section-label { margin: 9px 10px 8px; color: #94a3b8; font-size: 10px; font-weight: 700; letter-spacing: .7px; }
 .buffcorp-section-label.support { margin-top: 18px; }
@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 9px 10px !important;
+    padding: 9px 14px 9px 12px !important;
     border: 0 !important;
     border-radius: 9px;
     background: transparent !important;
@@ -47,10 +47,10 @@
 }
 .buffcorp-menu .header:hover,.buffcorp-menu .mainrow > .header { background: #eaf3fc !important; color: #2e6cbf !important; }
 .app-parent-main { display: flex; min-width: 0; align-items: center; gap: 10px; }
-.app-parent-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-parent-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
 .app-parent-icon { position: relative; display: grid; width: 19px; height: 19px; flex: 0 0 19px; place-items: center; }
 .app-parent-icon svg { width: 18px; height: 18px; }
-.app-parent-meta { display: flex; align-items: center; gap: 5px; }
+.app-parent-meta { display: flex; align-items: center; gap: 5px; margin-right: 4px; }
 .app-parent-chevron { display: grid; width: 16px; height: 16px; place-items: center; transition: transform .18s ease; }
 .app-parent-chevron svg { width: 15px; height: 15px; }
 .buffcorp-menu .mainrow .app-parent-chevron { transform: rotate(180deg); }
@@ -59,22 +59,25 @@
     display: block !important;
     max-height: 0;
     overflow: hidden;
+    overflow-anchor: none;
     padding: 0 0 0 13px;
     opacity: 0;
+    transform: translateY(-4px);
     visibility: visible !important;
-    transition: max-height .28s ease, padding .28s ease, opacity .18s ease;
+    transition: max-height .24s cubic-bezier(.2,.8,.2,1), padding .24s cubic-bezier(.2,.8,.2,1), opacity .16s ease, transform .24s cubic-bezier(.2,.8,.2,1);
+    will-change: max-height, opacity, transform;
 }
-.buffcorp-menu .mainrow > .children { max-height: 1500px; padding: 5px 0 7px 13px; opacity: 1; }
+.buffcorp-menu .mainrow > .children { max-height: var(--sidebar-children-height, 1200px); padding: 5px 0 7px 13px; opacity: 1; transform: translateY(0); }
 .buffcorp-menu .children > a,.page-tree a {
     display: flex;
     min-height: 38px;
     align-items: center;
     gap: 9px;
-    padding: 8px 9px;
+    padding: 8px 12px 8px 9px;
     border-radius: 8px;
     color: #111827 !important;
     font-family: Manrope, "Segoe UI", Arial, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
     line-height: 17px;
     text-decoration: none !important;
@@ -100,58 +103,32 @@
 .page-tree .subdir { margin-left: 16px !important; }
 .buffcorp-support { display: grid; gap: 3px; }
 .sidebar-support-item {
-    display: flex;
+    display: flex !important;
     width: 100%;
-    min-height: 39px;
+    min-height: 40px !important;
     align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    border: 0;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 9px 14px 9px 12px !important;
+    border: 0 !important;
     border-radius: 9px;
-    background: transparent;
-    color: #111827;
+    background: transparent !important;
+    color: #111827 !important;
     cursor: pointer;
-    font: 600 12px/18px Manrope, "Segoe UI", Arial, sans-serif;
+    box-sizing: border-box;
+    font-family: Manrope, "Segoe UI", Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700;
+    line-height: 18px;
     text-align: left;
-    text-decoration: none;
+    text-decoration: none !important;
+    white-space: nowrap;
 }
 .sidebar-support-item:hover,.sidebar-support-item.active { background: #eaf3fc; color: #2e6cbf; text-decoration: none; }
-.sidebar-support-icon { display: grid; width: 18px; height: 18px; flex: 0 0 18px; place-items: center; }
-.sidebar-support-icon svg { width: 17px; height: 17px; }
-.sidebar-support-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sidebar-support-icon { display: grid; width: 19px; height: 19px; flex: 0 0 19px; place-items: center; }
+.sidebar-support-icon svg { width: 18px; height: 18px; }
+.sidebar-support-text { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sidebar-language select { max-width: 112px; height: 27px; border: 1px solid #d9e6f3; border-radius: 6px; background: #fff; color: #111827; font-size: 10px; }
-.sidebar-chat-drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    width: 380px;
-    max-width: 100%;
-    flex-direction: column;
-    background: #fff;
-    box-shadow: -18px 0 45px rgba(16,24,40,.16);
-    color: #17324d;
-    transform: translateX(110%);
-    transition: transform .22s ease;
-    z-index: 10050;
-}
-.sidebar-chat-drawer.open { transform: translateX(0); }
-.sidebar-chat-head { display: flex; min-height: 68px; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #d9e6f3; }
-.sidebar-chat-head strong { font-size: 16px; }
-.sidebar-chat-close { display: grid; width: 32px; height: 32px; padding: 0; place-items: center; border: 0; background: transparent; color: #687b91; cursor: pointer; }
-.sidebar-chat-close svg { width: 19px; height: 19px; }
-.sidebar-chat-messages { display: flex; min-height: 0; flex: 1; flex-direction: column; gap: 12px; overflow: auto; padding: 20px; }
-.sidebar-chat-message { display: flex; align-items: flex-end; gap: 8px; }
-.sidebar-chat-message > span { display: grid; width: 28px; height: 28px; flex: 0 0 28px; place-items: center; border-radius: 50%; background: #eaf3fc; color: #2e6cbf; font-size: 10px; font-weight: 800; }
-.sidebar-chat-message p { max-width: 78%; margin: 0; padding: 10px 12px; border-radius: 12px 12px 12px 3px; background: #f4f8fc; color: #17324d; font-size: 11px; line-height: 17px; }
-.sidebar-chat-message.user { justify-content: flex-end; }
-.sidebar-chat-message.user p { border-radius: 12px 12px 3px 12px; background: #2e6cbf; color: #fff; }
-.sidebar-chat-form { display: flex; gap: 8px; padding: 14px 16px; border-top: 1px solid #d9e6f3; }
-.sidebar-chat-form input { min-width: 0; height: 40px; flex: 1; padding: 0 12px; border: 1px solid #d9e6f3; border-radius: 8px; color: #111827; font-size: 11px; outline: 0; }
-.sidebar-chat-form input:focus { border-color: #2e6cbf; box-shadow: 0 0 0 3px rgba(46,108,191,.12); }
-.sidebar-chat-send { display: grid; width: 40px; height: 40px; padding: 0; place-items: center; border: 0; border-radius: 8px; background: #2e6cbf; color: #fff; cursor: pointer; }
-.sidebar-chat-send svg { width: 17px; height: 17px; }
 .layout.sidebar-collapsed .left-menu { width: 68px !important; flex-basis: 68px; }
 .layout.sidebar-collapsed .buffcorp-brand { justify-content: center; gap: 0; padding-right: 10px; padding-left: 10px; }
 .layout.sidebar-collapsed .buffcorp-brand-copy,.layout.sidebar-collapsed .buffcorp-collapse,.layout.sidebar-collapsed .buffcorp-section-label,.layout.sidebar-collapsed .app-parent-label,.layout.sidebar-collapsed .app-parent-chevron,.layout.sidebar-collapsed .app-nav-badge,.layout.sidebar-collapsed .sidebar-support-text { display: none !important; }
@@ -159,15 +136,40 @@
 .layout.sidebar-collapsed .buffcorp-nav-scroll { padding-right: 9px; padding-left: 9px; }
 .layout.sidebar-collapsed .buffcorp-menu { width: 100% !important; table-layout: fixed !important; }
 .layout.sidebar-collapsed .buffcorp-menu td { overflow: hidden; }
-.layout.sidebar-collapsed .buffcorp-menu .header,.layout.sidebar-collapsed .sidebar-support-item { justify-content: center; padding-right: 8px !important; padding-left: 8px !important; }
+.layout.sidebar-collapsed .buffcorp-menu .header,
+.layout.sidebar-collapsed .sidebar-support-item,
+.layout.sidebar-collapsed .sidebar-language {
+    width: 50px;
+    height: 40px;
+    min-height: 40px;
+    max-width: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    box-sizing: border-box;
+}
+.layout.sidebar-collapsed .buffcorp-support { justify-items: center; }
+.layout.sidebar-collapsed .sidebar-support-icon { width: 22px; height: 22px; flex-basis: 22px; }
+.layout.sidebar-collapsed .sidebar-support-icon svg { width: 20px; height: 20px; }
 .layout.sidebar-collapsed .buffcorp-menu td > .children { display: none !important; max-height: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; opacity: 0 !important; }
 .layout.sidebar-collapsed .buffcorp-menu td.has-notifications .app-parent-icon:after { position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; border: 2px solid #fff; border-radius: 50%; background: #d64545; content: ""; }
+.layout.sidebar-initializing .left-menu,
+.layout.sidebar-initializing .buffcorp-menu td > .children,
+.layout.sidebar-initializing .buffcorp-brand-copy,
+.layout.sidebar-initializing .buffcorp-collapse,
+.layout.sidebar-initializing .app-parent-label,
+.layout.sidebar-initializing .app-parent-chevron,
+.layout.sidebar-initializing .sidebar-support-item {
+    transition: none !important;
+    animation: none !important;
+}
 @media (max-width: 1200px) and (min-width: 621px) {
-    .left-menu { width: 236px !important; flex-basis: 236px; }
+    .left-menu { width: 280px !important; flex-basis: 280px; }
 }
 @media (max-width: 620px) {
-    .left-menu { width: 236px !important; flex-basis: 236px; }
-    .sidebar-chat-drawer { width: 100%; }
+    .left-menu { width: 280px !important; flex-basis: 280px; }
 }
 </style>
 
@@ -184,7 +186,7 @@ var arrNavigation =
         </button>
         <div class="buffcorp-brand-copy">
             <strong>BUFFCORP</strong>
-            <small>Operations Hub</small>
+            <small>Version 1.0</small>
         </div>
         <button type="button" class="buffcorp-collapse" id="buffcorp-collapse" aria-label="Thu gọn sidebar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -199,21 +201,21 @@ var arrNavigation =
         <table class="leftnav buffcorp-menu" id="buffcorp-menu" cellpadding="0" cellspacing="0">
             <tbody>
                 <tr style="display:{allow_menu}">
-                    <td class="normalrow">
-                        <div class="header">Tổng quan</div>
-                        <div class="children">
-                            <a href="main.php?option=common_lists/admin_dashboard&amp;mode=dashboard&amp;l={LANGUAGEID}">Dashboard tổng thể</a>
-                        </div>
-                    </td>
+	                    <td class="normalrow">
+	                        <div class="header"><span class="app-parent-main"><span class="app-parent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></span><span class="app-parent-label">Tổng quan</span></span><span class="app-parent-meta"><span class="app-parent-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></span></span></div>
+	                        <div class="children">
+	                            <a href="main.php?option=common_lists/admin_dashboard&amp;mode=dashboard&amp;l={LANGUAGEID}"><span class="app-child-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"></path></svg></span><span>Dashboard tổng thể</span></a>
+	                        </div>
+	                    </td>
                 </tr>
                 <!-- CODE echo mosFunctionMenu(0, "Root"); -->
                 <tr>
-                    <td class="normalrow legacy-news-group">
-                        <div class="header">Quản lý Tin tức</div>
+	                    <td class="normalrow legacy-news-group">
+	                        <div class="header"><span class="app-parent-main"><span class="app-parent-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="4" rx="1"></rect><path d="M5 7v14h14V7M10 11h4"></path></svg></span><span class="app-parent-label">Quản lý Tin tức</span></span><span class="app-parent-meta"><span class="app-parent-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></span></span></div>
                         <div class="children">
-                            <form class="page-id-search" method="post" action="?option=product/product&amp;mode=info" name="search" target="main">
+                            <form class="page-id-search" method="post" action="?option=product/product&amp;mode=info" name="search">
                                 <input name="id" type="text" maxlength="6" placeholder="Nhập ID trang">
-                                <button type="button" id="page-tree-refresh" aria-label="Làm mới" title="Làm mới"></button>
+                                <button type="button" id="page-tree-refresh" aria-label="Làm mới" title="Làm mới"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6v5h-5M4 18v-5h5"></path><path d="M18 9a7 7 0 0 0-12-3L4 8M6 15a7 7 0 0 0 12 3l2-2"></path></svg></button>
                             </form>
                             <div class="page-tree" id="page-tree"></div>
                         </div>
@@ -224,10 +226,10 @@ var arrNavigation =
 
         <div class="buffcorp-section-label support">SUPPORT</div>
         <div class="buffcorp-support">
-            <button type="button" class="sidebar-support-item" id="sidebar-chat-button">
+            <a class="sidebar-support-item" id="sidebar-chat-button" href="?option=chat/chat">
                 <span class="sidebar-support-icon" data-sidebar-icon="chat"></span>
                 <span class="sidebar-support-text">Chat</span>
-            </button>
+            </a>
             <a class="sidebar-support-item" style="display:{allow_menu}" href="?option=functionmenu/functionmenu&amp;mode=list&amp;id=0">
                 <span class="sidebar-support-icon" data-sidebar-icon="settings"></span>
                 <span class="sidebar-support-text">Quản lý menu</span>
@@ -246,23 +248,12 @@ var arrNavigation =
     </div>
 </div>
 
-<aside class="sidebar-chat-drawer" id="sidebar-chat-drawer" aria-hidden="true" aria-labelledby="sidebar-chat-title">
-    <div class="sidebar-chat-head">
-        <strong id="sidebar-chat-title">Chat hỗ trợ</strong>
-        <button type="button" class="sidebar-chat-close" id="sidebar-chat-close" aria-label="Đóng" data-sidebar-icon="close"></button>
-    </div>
-    <div class="sidebar-chat-messages" id="sidebar-chat-messages" aria-live="polite">
-        <div class="sidebar-chat-message"><span>B</span><p>Xin chào! Bạn cần hỗ trợ gì?</p></div>
-    </div>
-    <form class="sidebar-chat-form" id="sidebar-chat-form">
-        <input id="sidebar-chat-input" type="text" autocomplete="off" placeholder="Nhập tin nhắn..." aria-label="Tin nhắn">
-        <button type="submit" class="sidebar-chat-send" aria-label="Gửi tin nhắn" data-sidebar-icon="send"></button>
-    </form>
-</aside>
-
 <script type="text/javascript">
 (function () {
     function iconSvg(name) {
+        if (name === 'chat') {
+            return '<svg viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"></path></svg>';
+        }
         var paths = {
             grid: '<rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect>',
             users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>',
@@ -297,6 +288,10 @@ var arrNavigation =
             shield: '<path d="M12 3 4 6v5c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"></path><path d="m9 12 2 2 4-5"></path>',
             map: '<path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"></path>',
             tag: '<path d="M20 13 13 20 4 11V4h7z"></path><circle cx="8.5" cy="8.5" r="1.5"></circle>',
+            layers: '<path d="m12 2 9 5-9 5-9-5z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 17 9 5 9-5"></path>',
+            monitor: '<rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path>',
+            sitemap: '<rect x="9" y="3" width="6" height="4" rx="1"></rect><rect x="3" y="17" width="6" height="4" rx="1"></rect><rect x="15" y="17" width="6" height="4" rx="1"></rect><path d="M12 7v5M6 17v-3h12v3"></path>',
+            archive: '<rect x="3" y="3" width="18" height="4" rx="1"></rect><path d="M5 7v14h14V7M10 11h4"></path>',
             circle: '<circle cx="12" cy="12" r="4"></circle>'
         };
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || paths.circle) + '</svg>';
@@ -316,13 +311,13 @@ var arrNavigation =
         if (label.indexOf('khach hang') >= 0) return 'briefcase';
         if (label.indexOf('tai chinh') >= 0 || label.indexOf('kho') >= 0) return 'wallet';
         if (label.indexOf('tai nguyen') >= 0) return 'database';
-        if (label.indexOf('ky thuat web') >= 0) return 'server';
-        if (label.indexOf('so do cong ty') >= 0) return 'building';
+        if (label.indexOf('ky thuat web') >= 0 || label.indexOf('thuáº­t web') >= 0 || label.indexOf('thuật web') >= 0) return 'monitor';
+        if (label.indexOf('so do cong ty') >= 0 || label.indexOf('sæ') >= 0 || label.indexOf('cã') >= 0 || label.indexOf('công ty') >= 0) return 'sitemap';
         if (label === 'chung') return 'grid';
-        if (label.indexOf('noi dung') >= 0 || label.indexOf('tin tuc') >= 0) return 'file';
+        if (label.indexOf('noi dung') >= 0 || label.indexOf('tin tuc') >= 0 || label.indexOf('há»‡ thá»‘ng') >= 0 || label.indexOf('hệ thống') >= 0) return 'archive';
         if (label.indexOf('seo') >= 0) return 'search';
         if (label.indexOf('he thong') >= 0) return 'settings';
-        return 'folder';
+        return 'layers';
     }
 
     function childIcon(anchor) {
@@ -358,10 +353,40 @@ var arrNavigation =
         return null;
     }
 
+    function directChildrenPanel(group) {
+        if (!group) return null;
+        for (var i = 0; i < group.children.length; i++) {
+            if (/(^| )children( |$)/.test(group.children[i].className || '')) return group.children[i];
+        }
+        return null;
+    }
+
+    function measureChildrenPanel(panel) {
+        if (!panel) return 0;
+        var oldMaxHeight = panel.style.maxHeight;
+        panel.style.maxHeight = 'none';
+        var height = panel.scrollHeight;
+        panel.style.maxHeight = oldMaxHeight;
+        return height;
+    }
+
+    function syncGroupHeight(group) {
+        var panel = directChildrenPanel(group);
+        if (!panel) return;
+        if (/(^| )mainrow( |$)/.test(group.className || '')) {
+            panel.style.setProperty('--sidebar-children-height', measureChildrenPanel(panel) + 'px');
+        } else {
+            panel.style.setProperty('--sidebar-children-height', '0px');
+        }
+    }
+
     function setGroupOpen(group, open) {
         if (!group) return;
+        var panel = directChildrenPanel(group);
+        if (panel && open) panel.style.setProperty('--sidebar-children-height', measureChildrenPanel(panel) + 'px');
         group.className = group.className.replace(/\b(mainrow|normalrow)\b/g, '').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
         group.className += (group.className ? ' ' : '') + (open ? 'mainrow' : 'normalrow');
+        if (panel && !open) panel.style.setProperty('--sidebar-children-height', '0px');
         var header = group.querySelector('.header');
         if (header) header.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
@@ -371,6 +396,11 @@ var arrNavigation =
         for (var i = 0; i < groups.length; i++) {
             if (groups[i] !== except) setGroupOpen(groups[i], false);
         }
+    }
+
+    function syncAllGroupHeights() {
+        var groups = document.querySelectorAll('#buffcorp-menu td.mainrow, #buffcorp-menu td.normalrow');
+        for (var i = 0; i < groups.length; i++) syncGroupHeight(groups[i]);
     }
 
     window.changeClass = function (group) {
@@ -414,6 +444,11 @@ var arrNavigation =
         label.textContent = obj[2] || '';
         link.appendChild(icon);
         link.appendChild(label);
+        link.onclick = function (event) {
+            if (event && event.stopPropagation) event.stopPropagation();
+            try { sessionStorage.setItem('buffcorp-pending-menu-href', this.href); } catch (e) { /* storage unavailable */ }
+            saveSidebarScroll();
+        };
         row.appendChild(link);
         node.appendChild(row);
         if (hasChildren) {
@@ -431,12 +466,23 @@ var arrNavigation =
     function markActiveLinks() {
         var current;
         try { current = new URL(window.location.href); } catch (e) { return; }
+        var pending;
+        try {
+            pending = sessionStorage.getItem('buffcorp-pending-menu-href');
+            if (pending) {
+                var pendingUrl = new URL(pending, window.location.href);
+                if (pendingUrl.searchParams.get('option') === current.searchParams.get('option')) current = pendingUrl;
+                sessionStorage.removeItem('buffcorp-pending-menu-href');
+            }
+        } catch (e) { /* storage unavailable */ }
         var currentOption = current.searchParams.get('option') || '{CURRENT_OPTION}';
         var currentMode = current.searchParams.get('mode') || '{CURRENT_MODE}';
         var currentMenu = current.searchParams.get('menu');
-        var links = document.querySelectorAll('#buffcorp-menu a[href]');
+        var links = document.querySelectorAll('#buffcorp-menu a[href], .buffcorp-support a[href]');
         var activeLink = null;
+        var activeScore = -1;
         for (var i = 0; i < links.length; i++) {
+            links[i].className = links[i].className.replace(/ ?active/g, '');
             try {
                 var target = new URL(links[i].href, window.location.href);
                 var sameOption = target.searchParams.get('option') === currentOption;
@@ -448,8 +494,16 @@ var arrNavigation =
                 var targetCid = target.searchParams.get('cid');
                 var sameCid = !targetCid || targetCid === current.searchParams.get('cid');
                 if (sameOption && sameMode && sameMenu && sameCategory && sameCid) {
-                    activeLink = links[i];
-                    break;
+                    var score = 1;
+                    if (targetMode) score += 2;
+                    if (target.searchParams.get('menu')) score += 2;
+                    if (targetCategory) score += 2;
+                    if (targetCid) score += 2;
+                    if (target.href === current.href) score += 4;
+                    if (score > activeScore) {
+                        activeScore = score;
+                        activeLink = links[i];
+                    }
                 }
             } catch (e) { /* ignore invalid legacy link */ }
         }
@@ -469,12 +523,15 @@ var arrNavigation =
             group.removeAttribute('onclick');
             var header = group.querySelector('.header');
             if (!header) continue;
-            var label = (header.textContent || '').replace(/^\s+|\s+$/g, '');
+            var existingLabel = header.querySelector('.app-parent-label');
+            var label = ((existingLabel ? existingLabel.textContent : header.textContent) || '').replace(/^\s+|\s+$/g, '');
             header.setAttribute('role', 'button');
             header.setAttribute('tabindex', '0');
             header.setAttribute('aria-expanded', group.className.indexOf('mainrow') >= 0 ? 'true' : 'false');
-            header.innerHTML = '<span class="app-parent-main"><span class="app-parent-icon">' + iconSvg(parentIcon(label)) + '</span><span class="app-parent-label"></span></span><span class="app-parent-meta"><span class="app-parent-chevron">' + iconSvg('chevron') + '</span></span>';
-            header.querySelector('.app-parent-label').textContent = label;
+            if (!header.querySelector('.app-parent-main')) {
+                header.innerHTML = '<span class="app-parent-main"><span class="app-parent-icon">' + iconSvg(parentIcon(label)) + '</span><span class="app-parent-label"></span></span><span class="app-parent-meta"><span class="app-parent-chevron">' + iconSvg('chevron') + '</span></span>';
+                header.querySelector('.app-parent-label').textContent = label;
+            }
             header.onclick = (function (currentGroup) {
                 return function (event) {
                     if (event && event.stopPropagation) event.stopPropagation();
@@ -493,12 +550,46 @@ var arrNavigation =
             for (var j = 0; j < links.length; j++) {
                 var oldImages = links[j].querySelectorAll('img');
                 for (var k = 0; k < oldImages.length; k++) oldImages[k].parentNode.removeChild(oldImages[k]);
-                var child = document.createElement('span');
-                child.className = 'app-child-icon';
-                child.innerHTML = iconSvg(childIcon(links[j]));
-                links[j].insertBefore(child, links[j].firstChild);
+                var child = links[j].querySelector('.app-child-icon');
+                if (!child) {
+                    child = document.createElement('span');
+                    child.className = 'app-child-icon';
+                    child.innerHTML = iconSvg(childIcon(links[j]));
+                    links[j].insertBefore(child, links[j].firstChild);
+                }
+                links[j].onclick = function (event) {
+                    if (event && event.stopPropagation) event.stopPropagation();
+                    try { sessionStorage.setItem('buffcorp-pending-menu-href', this.href); } catch (e) { /* storage unavailable */ }
+                    saveSidebarScroll();
+                };
             }
         }
+    }
+
+    function saveSidebarScroll() {
+        var scroller = document.querySelector('.buffcorp-nav-scroll');
+        if (!scroller) return;
+        try { sessionStorage.setItem('buffcorp-sidebar-scroll-top', String(scroller.scrollTop || 0)); } catch (e) { /* storage unavailable */ }
+    }
+
+    function restoreSidebarScroll() {
+        var scroller = document.querySelector('.buffcorp-nav-scroll');
+        if (!scroller) return;
+        var scrollTop = 0;
+        try { scrollTop = parseInt(sessionStorage.getItem('buffcorp-sidebar-scroll-top'), 10) || 0; } catch (e) { /* storage unavailable */ }
+        if (scrollTop <= 0) return;
+        scroller.scrollTop = scrollTop;
+        window.setTimeout(function () { scroller.scrollTop = scrollTop; }, 0);
+        window.setTimeout(function () { scroller.scrollTop = scrollTop; }, 80);
+    }
+
+    function rememberSidebarTarget(target) {
+        saveSidebarScroll();
+        try { sessionStorage.setItem('buffcorp-sidebar-collapsed', '0'); } catch (e) { /* storage unavailable */ }
+        if (sidebarLayout) sidebarLayout.className = sidebarLayout.className.replace(/ ?sidebar-collapsed/g, '');
+        var url = target && (target.href || target.action);
+        if (!url) return;
+        try { sessionStorage.setItem('buffcorp-pending-menu-href', url); } catch (e) { /* storage unavailable */ }
     }
 
     function addTaskBadge() {
@@ -524,7 +615,10 @@ var arrNavigation =
                 group.className += ' has-notifications';
             }
         }
-        taskLink.onclick = function () {
+        taskLink.onclick = function (event) {
+            if (event && event.stopPropagation) event.stopPropagation();
+            try { sessionStorage.setItem('buffcorp-pending-menu-href', this.href); } catch (e) { /* storage unavailable */ }
+            saveSidebarScroll();
             try { sessionStorage.setItem(storageKey, String(rawCount)); } catch (e) { /* storage unavailable */ }
             var badges = group ? group.querySelectorAll('.app-nav-badge') : [];
             for (var i = 0; i < badges.length; i++) badges[i].parentNode.removeChild(badges[i]);
@@ -549,85 +643,92 @@ var arrNavigation =
         try { sessionStorage.setItem('buffcorp-sidebar-collapsed', collapsed ? '1' : '0'); } catch (e) { /* storage unavailable */ }
     }
 
-    function appendChatMessage(message, own) {
-        var list = document.getElementById('sidebar-chat-messages');
-        var row = document.createElement('div');
-        row.className = 'sidebar-chat-message' + (own ? ' user' : '');
-        if (!own) {
-            var avatar = document.createElement('span');
-            avatar.textContent = 'B';
-            row.appendChild(avatar);
-        }
-        var bubble = document.createElement('p');
-        bubble.textContent = message;
-        row.appendChild(bubble);
-        list.appendChild(row);
-        list.scrollTop = list.scrollHeight;
-    }
-
-    function openChat() {
-        var drawer = document.getElementById('sidebar-chat-drawer');
-        var button = document.getElementById('sidebar-chat-button');
-        var notify = document.getElementById('notify-wrap');
-        var payroll = document.getElementById('payroll-wrap');
-        if (notify) notify.className = notify.className.replace(/ ?open/g, '');
-        if (payroll) payroll.className = payroll.className.replace(/ ?open/g, '');
-        drawer.className += drawer.className.indexOf('open') >= 0 ? '' : ' open';
-        drawer.setAttribute('aria-hidden', 'false');
-        button.className += button.className.indexOf('active') >= 0 ? '' : ' active';
-        window.setTimeout(function () { document.getElementById('sidebar-chat-input').focus(); }, 180);
-    }
-
-    function closeChat() {
-        var drawer = document.getElementById('sidebar-chat-drawer');
-        var button = document.getElementById('sidebar-chat-button');
-        drawer.className = drawer.className.replace(/ ?open/g, '');
-        drawer.setAttribute('aria-hidden', 'true');
-        button.className = button.className.replace(/ ?active/g, '');
+    function closeMobileMenu() {
+        if (!sidebarLayout) sidebarLayout = document.querySelector('.layout');
+        if (!sidebarLayout) return;
+        sidebarLayout.className = sidebarLayout.className
+            .replace(/ ?menu-open/g, '')
+            .replace(/ ?sidebar-collapsed/g, '');
+        var mobileButton = document.getElementById('buffcorp-mobile-menu');
+        if (mobileButton) mobileButton.setAttribute('aria-expanded', 'false');
+        try { sessionStorage.setItem('buffcorp-sidebar-collapsed', '0'); } catch (e) { /* storage unavailable */ }
     }
 
     function initializeSidebar() {
         sidebarLayout = document.querySelector('.layout');
+        if (sidebarLayout && sidebarLayout.className.indexOf('sidebar-initializing') < 0) sidebarLayout.className += ' sidebar-initializing';
         var tree = document.getElementById('page-tree');
         var treeRoot = buildPageNode(arrNavigation);
         if (tree && treeRoot) tree.appendChild(treeRoot);
         enhanceGroups();
         markActiveLinks();
+        syncAllGroupHeights();
         addTaskBadge();
 
         var staticIcons = document.querySelectorAll('[data-sidebar-icon]');
         for (var i = 0; i < staticIcons.length; i++) staticIcons[i].innerHTML = iconSvg(staticIcons[i].getAttribute('data-sidebar-icon'));
-        document.getElementById('page-tree-refresh').innerHTML = iconSvg('refresh');
+        var pageTreeRefresh = document.getElementById('page-tree-refresh');
+        if (pageTreeRefresh) pageTreeRefresh.innerHTML = iconSvg('refresh');
 
         var collapseButton = document.getElementById('buffcorp-collapse');
         var logoButton = document.getElementById('buffcorp-logo-button');
-        collapseButton.onclick = function () { setSidebarCollapsed(sidebarLayout.className.indexOf('sidebar-collapsed') < 0); };
+        collapseButton.onclick = function (event) {
+            if (event && event.stopPropagation) event.stopPropagation();
+            if (window.innerWidth <= 820) {
+                closeMobileMenu();
+                return;
+            }
+            setSidebarCollapsed(sidebarLayout.className.indexOf('sidebar-collapsed') < 0);
+        };
         logoButton.onclick = function () {
             if (sidebarLayout.className.indexOf('sidebar-collapsed') >= 0) setSidebarCollapsed(false);
         };
-        document.getElementById('page-tree-refresh').onclick = function () { window.location.reload(); };
-        document.getElementById('sidebar-chat-button').onclick = openChat;
-        document.getElementById('sidebar-chat-close').onclick = closeChat;
-        document.getElementById('sidebar-chat-form').onsubmit = function (event) {
-            event.preventDefault();
-            var input = document.getElementById('sidebar-chat-input');
-            var message = input.value.replace(/^\s+|\s+$/g, '');
-            if (!message) return;
-            appendChatMessage(message, true);
-            input.value = '';
-            window.setTimeout(function () { appendChatMessage('BUFFCORP đã nhận tin nhắn của bạn.', false); }, 350);
-        };
-        document.addEventListener('keydown', function (event) { if (event.key === 'Escape') closeChat(); });
-
+        if (pageTreeRefresh) pageTreeRefresh.onclick = function () { window.location.reload(); };
+        var sidebar = document.getElementById('buffcorp-sidebar');
+        if (sidebar && sidebar.addEventListener) {
+            sidebar.addEventListener('click', function (event) {
+                var node = event.target;
+                while (node && node !== sidebar) {
+                    if (node.tagName && node.tagName.toLowerCase() === 'a') {
+                        rememberSidebarTarget(node);
+                        break;
+                    }
+                    node = node.parentNode;
+                }
+            }, true);
+            sidebar.addEventListener('submit', function (event) {
+                rememberSidebarTarget(event.target);
+            }, true);
+        }
+        var scrollArea = document.querySelector('.buffcorp-nav-scroll');
+        if (scrollArea && window.addEventListener) {
+            scrollArea.addEventListener('scroll', saveSidebarScroll, false);
+            window.addEventListener('beforeunload', saveSidebarScroll, false);
+            window.addEventListener('resize', syncAllGroupHeights, false);
+        }
         var language = document.getElementsByName('language_id')[0];
         if (language) language.value = '{LANGUAGEID}';
         var collapsed = false;
         try { collapsed = sessionStorage.getItem('buffcorp-sidebar-collapsed') === '1'; } catch (e) { /* storage unavailable */ }
         setSidebarCollapsed(collapsed);
+        restoreSidebarScroll();
+        window.setTimeout(function () {
+            if (sidebarLayout) sidebarLayout.className = sidebarLayout.className.replace(/ ?sidebar-initializing/g, '');
+        }, 60);
     }
 
-    window.reShow = function (languageId) { window.location.href = 'main.php?l=' + encodeURIComponent(languageId); };
-    window.refresh = function () { window.location.reload(); };
+    window.reShow = function (languageId) {
+        if (window.buffcorpShowRouteLoader) window.buffcorpShowRouteLoader();
+        window.setTimeout(function () {
+            window.location.href = 'main.php?l=' + encodeURIComponent(languageId);
+        }, 1000);
+    };
+    window.refresh = function () {
+        if (window.buffcorpShowRouteLoader) window.buffcorpShowRouteLoader();
+        window.setTimeout(function () {
+            window.location.reload();
+        }, 1000);
+    };
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeSidebar);
     else initializeSidebar();

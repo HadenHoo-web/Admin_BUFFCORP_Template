@@ -7,6 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>BUFFCORP - Operations Hub</title>
 
+    <script type="text/javascript">
+        (function () {
+            var root = document.documentElement;
+            function addClass(name) {
+                if ((' ' + root.className + ' ').indexOf(' ' + name + ' ') < 0) {
+                    root.className += (root.className ? ' ' : '') + name;
+                }
+            }
+            try {
+                if (sessionStorage.getItem('buffcorp-sidebar-collapsed') === '1') addClass('buffcorp-preload-sidebar-collapsed');
+            } catch (e) { /* storage unavailable */ }
+            try {
+                if (sessionStorage.getItem('buffcorp-route-loading') === '1') addClass('buffcorp-preload-route-loading');
+            } catch (e) { /* storage unavailable */ }
+            try {
+                if (localStorage.getItem('buffcorp-theme') === 'dark') addClass('buffcorp-preload-dark');
+            } catch (e) { /* storage unavailable */ }
+        })();
+    </script>
+
     <link rel="stylesheet" type="text/css" href="templates/{skin}/css/{theme}">
     <link rel="stylesheet" type="text/css" href="css/admintool.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +40,12 @@
     <link rel="icon" href="../favico.png" type="image/x-icon">
 
     <style>
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             margin: 0;
             font-family: Tahoma, Arial;
@@ -28,20 +54,56 @@
         .layout {
             display: flex;
             height: 100vh;
+            overflow: hidden;
         }
 
         .left-menu {
-            width: 210px;
+            width: 296px;
+            flex: 0 0 296px;
             background: #ECE9D8;
             border-right: 1px solid #ccc;
-            overflow: auto;
+            overflow: hidden !important;
+        }
+
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .left-menu {
+            width: 68px !important;
+            flex: 0 0 68px !important;
+        }
+
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .buffcorp-brand-copy,
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .buffcorp-collapse,
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .buffcorp-section-label,
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .app-parent-label,
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .app-parent-chevron,
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .app-nav-badge,
+        html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .sidebar-support-text {
+            display: none !important;
+        }
+
+        html.buffcorp-preload-dark body {
+            background: #0d1117;
+            color: #f2f4f7;
+        }
+
+        html.buffcorp-preload-route-loading .layout.sidebar-initializing .left-menu,
+        html.buffcorp-preload-route-loading .layout.sidebar-initializing .main-content {
+            opacity: 0;
+        }
+
+        @media (max-width: 1200px) and (min-width: 621px) {
+            .left-menu { width: 280px !important; flex-basis: 280px !important; }
+        }
+
+        @media (max-width: 620px) {
+            .left-menu { width: 280px !important; flex-basis: 280px !important; }
         }
 
         .main-content {
             position: relative;
             flex: 1;
-            overflow: auto;
-            padding: 6px;
+            min-width: 0;
+            overflow: hidden;
+            padding: 0;
             background: #f5f5f5;
         }
 
@@ -897,67 +959,72 @@
             box-sizing: border-box;
         }
 
+        .main-content.chat-shell .buffcorp-page {
+            overflow: hidden;
+            padding: 14px 18px;
+        }
+
+        .buffcorp-route-loader {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: rgba(244,248,252,.82);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .16s ease, visibility .16s ease;
+            z-index: 20000;
+            backdrop-filter: blur(2px);
+        }
+
+        .buffcorp-route-loader.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        html.buffcorp-preload-route-loading .buffcorp-route-loader {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .buffcorp-route-loader-card {
+            display: grid;
+            min-width: 0;
+            min-height: 0;
+            place-items: center;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .buffcorp-route-loader-logo {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            animation: buffcorpRouteSpin .9s linear infinite;
+        }
+
+        @keyframes buffcorpRouteSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        body.buffcorp-dark .buffcorp-route-loader {
+            background: rgba(13,17,23,.78);
+        }
+
+        body.buffcorp-dark .buffcorp-route-loader-card {
+            border-color: transparent;
+            background: transparent;
+            box-shadow: none;
+        }
+
         .buffcorp-page div[style*="overflow:auto"][style*="height:80%"] {
             height: auto !important;
             overflow: visible !important;
-        }
-
-        .buffcorp-page .toolbar {
-            display: flex;
-            width: auto;
-            height: auto;
-            min-height: 42px;
-            align-items: center;
-            gap: 8px;
-            margin: 0;
-            padding: 8px 10px;
-            overflow: visible;
-            border: 1px solid var(--buff-line);
-            border-radius: 9px 9px 0 0;
-            background: var(--buff-surface);
-            box-sizing: border-box;
-        }
-
-        .buffcorp-page .toolbar a {
-            display: inline-flex;
-            min-height: 34px;
-            align-items: center;
-            gap: 6px;
-            margin: 0;
-            padding: 0 10px;
-            border: 1px solid var(--buff-line);
-            border-radius: 7px;
-            background: #fff;
-            color: var(--buff-text);
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .buffcorp-page .toolbar a:first-child {
-            border-color: var(--buff-brand);
-            background: var(--buff-brand);
-            color: #fff;
-        }
-        .buffcorp-page .toolbar a:hover { padding: 0 10px; border-color: #8db7df; background: #eaf3fc; color: var(--buff-brand); }
-        .buffcorp-page .toolbar a:first-child:hover { background: var(--buff-brand-dark); color: #fff; }
-        .buffcorp-page .toolbar a img { width: 16px; height: 16px; object-fit: contain; }
-        .buffcorp-page .toolbar a span,
-        .buffcorp-page .toolbar a:link span,
-        .buffcorp-page .toolbar a:visited span,
-        .buffcorp-page .toolbar a:hover span { padding: 0; color: inherit; }
-
-        .buffcorp-page .tabtitle {
-            width: auto;
-            min-height: 38px;
-            padding: 9px 12px;
-            border: 1px solid var(--buff-line);
-            border-top: 0;
-            background: #f8fbfe;
-            color: var(--buff-text);
-            font-size: 12px;
-            line-height: 20px;
-            box-sizing: border-box;
         }
 
         .buffcorp-page input:not([type="checkbox"]):not([type="radio"]):not([type="image"]),
@@ -1033,6 +1100,9 @@
         .buffcorp-page .buffcorp-action-move-down { border-color: #c9ddf2; background: #edf5fd; color: #2e6cbf; }
         .buffcorp-page .buffcorp-action-permission { border-color: #d9cef7; background: #f4f0ff; color: #6941c6; }
         .buffcorp-page .buffcorp-action-password { border-color: #bde3d1; background: #ecfdf3; color: #027a48; }
+        .buffcorp-server-rendered[data-layout="list"]:not(.buffcorp-list-ready) table.selector tr:not(.header):nth-of-type(n+7) {
+            display: none;
+        }
         .buffcorp-status {
             display: inline-flex;
             align-items: center;
@@ -1066,17 +1136,51 @@
             background: #fff;
             box-shadow: 0 10px 30px rgba(46,108,191,.07);
         }
-        .buffcorp-server-source { display: contents; }
+        .buffcorp-legacy-list {
+            width: 100%;
+            max-width: 100%;
+            padding: 14px;
+            overflow-x: auto;
+            box-sizing: border-box;
+        }
 
-        .buffcorp-module-toolbar {
+        .buffcorp-list-header {
             display: flex;
-            min-height: 64px;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 12px 16px;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 18px 20px;
             border-bottom: 1px solid var(--buff-line);
             background: linear-gradient(180deg,#fff,#fbfdff);
+        }
+        .buffcorp-list-title { min-width: 0; }
+        .buffcorp-list-title strong {
+            display: block;
+            color: #173f67;
+            font-size: 18px;
+            line-height: 24px;
+        }
+        .buffcorp-list-title small {
+            display: block;
+            margin-top: 4px;
+            color: var(--buff-muted);
+            font-size: 12px;
+        }
+        .buffcorp-list-header-actions {
+            display: flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .buffcorp-module-toolbar {
+            display: grid;
+            grid-template-columns: minmax(270px,auto) minmax(0,1fr);
+            align-items: start;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--buff-line);
+            background: #fff;
             box-sizing: border-box;
         }
 
@@ -1086,23 +1190,46 @@
             gap: 8px;
         }
         .buffcorp-client-controls input {
-            width: 260px;
+            width: 300px;
             min-width: 220px;
         }
         .buffcorp-client-controls select { min-width: 105px; }
+        .buffcorp-filter-toggle {
+            display: none;
+            min-height: 38px;
+            padding: 0 13px;
+            border: 1px solid var(--buff-line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--buff-brand);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .buffcorp-filter-panel { min-width: 0; }
+        .buffcorp-filter-panel:empty { display: none; }
 
         .buffcorp-module-filter {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
             min-width: 0;
-            flex: 1 1 auto;
             align-items: center;
-            flex-wrap: wrap;
             gap: 8px;
             color: var(--buff-text);
             font-size: 11px;
         }
 
-        .buffcorp-module-filter select { min-width: 145px; }
+        .buffcorp-module-filter select,
+        .buffcorp-module-filter input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]) {
+            width: 100%;
+            min-width: 0;
+        }
+        .buffcorp-module-filter input[type="checkbox"],
+        .buffcorp-module-filter input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--buff-brand);
+        }
         .buffcorp-module-filter input[type="submit"] {
             min-height: 36px;
             padding: 0 13px;
@@ -1120,6 +1247,7 @@
             margin-left: auto;
         }
 
+        .buffcorp-list-header-actions .buffcorp-primary-action,
         .buffcorp-module-actions .buffcorp-primary-action {
             display: inline-flex;
             min-height: 38px;
@@ -1135,6 +1263,7 @@
             text-decoration: none;
         }
 
+        .buffcorp-list-header-actions .buffcorp-secondary-action,
         .buffcorp-module-actions .buffcorp-secondary-action {
             display: inline-flex;
             min-height: 38px;
@@ -1149,8 +1278,12 @@
             font-weight: 700;
             text-decoration: none;
         }
+        .buffcorp-list-header-actions .buffcorp-primary-action img,
+        .buffcorp-list-header-actions .buffcorp-secondary-action img,
         .buffcorp-module-actions .buffcorp-primary-action img,
         .buffcorp-module-actions .buffcorp-secondary-action img { width: 16px; height: 16px; }
+        .buffcorp-list-header-actions .buffcorp-primary-action svg,
+        .buffcorp-list-header-actions .buffcorp-secondary-action svg,
         .buffcorp-module-actions .buffcorp-primary-action svg,
         .buffcorp-module-actions .buffcorp-secondary-action svg { width: 16px; height: 16px; }
         .buffcorp-refresh {
@@ -1197,8 +1330,134 @@
             font-weight: 800;
         }
 
-        .buffcorp-table-wrap { width: 100%; overflow-x: auto; }
+        .buffcorp-list-summary-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .buffcorp-table-wrap { width: 100%; max-width: 100%; overflow-x: auto; }
         .buffcorp-module-card .selector { border: 0; border-radius: 0; box-shadow: none; }
+        .buffcorp-module-card .selector .header td {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        .buffcorp-module-card .selector td {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .buffcorp-action-menu {
+            position: relative;
+            display: inline-flex;
+            justify-content: flex-end;
+        }
+        .buffcorp-action-menu-button {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            place-items: center;
+            border: 1px solid var(--buff-line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--buff-text);
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+        }
+        .buffcorp-action-menu-panel {
+            position: absolute;
+            top: 38px;
+            right: 0;
+            display: none;
+            min-width: 168px;
+            padding: 6px;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 16px 36px rgba(16,24,40,.16);
+            z-index: 30;
+        }
+        .buffcorp-action-menu.open .buffcorp-action-menu-panel { display: grid; gap: 4px; }
+        .buffcorp-action-menu-panel .buffcorp-row-action {
+            display: flex;
+            width: 100%;
+            min-height: 36px;
+            justify-content: flex-start;
+            gap: 8px;
+            padding: 0 10px;
+            border: 0;
+            background: transparent;
+            text-decoration: none;
+        }
+        .buffcorp-action-menu-panel .buffcorp-row-action:hover { background: #f4f8fc; }
+        .buffcorp-action-menu-panel .buffcorp-row-action:after {
+            content: attr(title);
+            color: var(--buff-text);
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .buffcorp-mobile-cards { display: none; }
+        .buffcorp-list-card {
+            position: relative;
+            display: grid;
+            gap: 10px;
+            margin: 10px;
+            padding: 14px;
+            border: 1px solid var(--buff-line);
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(46,108,191,.07);
+        }
+        .buffcorp-list-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .buffcorp-list-card-title {
+            min-width: 0;
+            color: #173f67;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 19px;
+            overflow-wrap: anywhere;
+        }
+        .buffcorp-list-card-meta {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 7px;
+        }
+        .buffcorp-list-card-field {
+            display: grid;
+            grid-template-columns: 104px minmax(0,1fr);
+            gap: 8px;
+            color: var(--buff-text);
+            font-size: 12px;
+            line-height: 17px;
+        }
+        .buffcorp-list-card-field b {
+            color: var(--buff-muted);
+            font-size: 11px;
+        }
+        .buffcorp-empty-state {
+            display: none;
+            padding: 36px 18px;
+            text-align: center;
+            color: var(--buff-muted);
+        }
+        .buffcorp-empty-state strong {
+            display: block;
+            color: var(--buff-text);
+            font-size: 16px;
+        }
+        .buffcorp-empty-state small {
+            display: block;
+            margin-top: 6px;
+            font-size: 12px;
+        }
+        .buffcorp-server-rendered.buffcorp-list-empty .buffcorp-empty-state { display: block; }
         .buffcorp-pagination {
             display: flex;
             min-height: 52px;
@@ -1276,6 +1535,8 @@
         @media (max-width: 980px) {
             .buffcorp-global-search { width: 230px; }
             .buffcorp-user div { display: none; }
+            .buffcorp-module-toolbar { grid-template-columns: 1fr; }
+            .buffcorp-module-filter { grid-template-columns: repeat(2,minmax(0,1fr)); }
             .buffcorp-page .buffcorp-form-table > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { grid-template-columns: repeat(3,minmax(0,1fr)); }
@@ -1286,10 +1547,23 @@
             .buffcorp-global-search { display: none; }
             .buffcorp-page { padding: 14px 12px 26px; }
             .buffcorp-user { display: none; }
-            .buffcorp-module-toolbar { align-items: stretch; flex-direction: column; }
+            .buffcorp-list-header { align-items: stretch; flex-direction: column; padding: 15px; }
+            .buffcorp-list-header-actions { justify-content: flex-start; flex-wrap: wrap; }
+            .buffcorp-module-toolbar { padding: 12px; }
             .buffcorp-module-actions { margin-left: 0; }
             .buffcorp-client-controls { align-items: stretch; flex-direction: column; }
             .buffcorp-client-controls input { width: 100%; min-width: 0; }
+            .buffcorp-client-controls select { width: 100%; }
+            .buffcorp-filter-toggle { display: inline-flex; align-items: center; justify-content: center; }
+            .buffcorp-filter-panel { display: none; }
+            .buffcorp-filter-panel.open { display: block; }
+            .buffcorp-module-filter { grid-template-columns: 1fr; }
+            .buffcorp-list-head { align-items: flex-start; flex-direction: column; }
+            .buffcorp-table-wrap { display: none; }
+            .buffcorp-mobile-cards { display: block; padding: 2px 0 8px; }
+            .buffcorp-pagination { align-items: stretch; flex-direction: column; }
+            .buffcorp-pagination div { justify-content: center; flex-wrap: wrap; }
+            .buffcorp-pagination button { width: 38px; height: 38px; }
             .buffcorp-page .buffcorp-form-table > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { grid-template-columns: repeat(2,minmax(0,1fr)); }
@@ -1858,11 +2132,16 @@
 })();
 </script>
 
-<div class="layout">
+<div class="layout sidebar-initializing">
     <div class="left-menu">
         {LEFT_MENU}
     </div>
     <button type="button" class="buffcorp-mobile-overlay" id="buffcorp-mobile-overlay" aria-label="Đóng menu"></button>
+    <div class="buffcorp-route-loader" id="buffcorp-route-loader" aria-hidden="true">
+        <div class="buffcorp-route-loader-card">
+            <img class="buffcorp-route-loader-logo" src="templates/{skin}/images/menu/logo-xanh.png" alt="">
+        </div>
+    </div>
 
     <div class="{MAIN_CONTENT_CLASS}" id="main-content">
         <header class="buffcorp-topbar">
@@ -1872,7 +2151,7 @@
                         <path d="M4 7h16M4 12h16M4 17h16"></path>
                     </svg>
                 </button>
-                <div class="buffcorp-page-title" id="buffcorp-page-title">Tổng quan</div>
+                <div class="buffcorp-page-title" id="buffcorp-page-title">{PAGE_TITLE}</div>
             </div>
             <div class="buffcorp-top-actions">
                 <label class="buffcorp-global-search">
@@ -1972,7 +2251,7 @@
         <style id="buffcorp-demo-parity">
         .buffcorp-page-title-wrap { display: flex; min-width: 0; align-items: center; gap: 10px; }
         .buffcorp-mobile-menu,
-        .buffcorp-mobile-overlay { display: none; }
+        .buffcorp-mobile-overlay { display: none !important; }
         .buffcorp-mobile-menu {
             width: 40px;
             height: 40px;
@@ -1984,6 +2263,7 @@
             color: var(--buff-text);
             cursor: pointer;
         }
+        .buffcorp-mobile-menu { display: none !important; }
         .buffcorp-mobile-menu svg { width: 18px; height: 18px; }
         .buffcorp-theme-wrap {
             display: flex;
@@ -2414,8 +2694,8 @@
                 top: 0;
                 bottom: 0;
                 left: 0;
-                width: 236px !important;
-                flex-basis: 236px !important;
+                width: 280px !important;
+                flex-basis: 280px !important;
                 transform: translateX(-110%);
                 transition: transform .22s ease;
                 z-index: 10020;
@@ -2430,8 +2710,9 @@
                 background: rgba(16,24,40,.5);
                 z-index: 10010;
             }
-            .buffcorp-mobile-menu { display: grid; }
-            .layout.sidebar-collapsed .left-menu { width: 236px !important; flex-basis: 236px !important; }
+            .buffcorp-mobile-menu { display: grid !important; }
+            .layout.menu-open .buffcorp-mobile-overlay { display: block !important; }
+            .layout.sidebar-collapsed .left-menu { width: 280px !important; flex-basis: 280px !important; }
             .layout.sidebar-collapsed .buffcorp-brand-copy,
             .layout.sidebar-collapsed .buffcorp-section-label,
             .layout.sidebar-collapsed .app-parent-label,
@@ -2462,393 +2743,322 @@
         <script type="text/javascript">
         (function () {
             function initializeMainShell() {
-            var main = document.getElementById('main-content');
-            if (!main) return;
-            if (main.getElementsByClassName && (
-                main.getElementsByClassName('sales-page').length ||
-                main.getElementsByClassName('kpi-page').length ||
-                main.getElementsByClassName('kpi-report').length
-            )) {
-                main.className += ' dashboard-header-icons';
-            }
-            if (main.getElementsByClassName && main.getElementsByClassName('admin-dashboard').length && main.className.indexOf('admin-dashboard-shell') < 0) {
-                main.className += ' admin-dashboard-shell';
-            }
+                var main = document.getElementById('main-content');
+                if (!main) return;
+                if (main.getElementsByClassName && (
+                    main.getElementsByClassName('sales-page').length ||
+                    main.getElementsByClassName('kpi-page').length ||
+                    main.getElementsByClassName('kpi-report').length
+                )) {
+                    main.className += ' dashboard-header-icons';
+                }
+                if (main.getElementsByClassName && main.getElementsByClassName('admin-dashboard').length && main.className.indexOf('admin-dashboard-shell') < 0) {
+                    main.className += ' admin-dashboard-shell';
+                }
 
-            var pageTitle = document.getElementById('buffcorp-page-title');
-            var currentOption = '{CURRENT_OPTION}';
-            var currentMode = '{CURRENT_MODE}';
-            var currentUrl = null;
-            try {
-                currentUrl = new URL(window.location.href);
-                currentOption = currentUrl.searchParams.get('option') || currentOption;
-                currentMode = currentUrl.searchParams.get('mode') || currentMode;
-            } catch (e) { /* keep back-end route */ }
-            var links = document.querySelectorAll('#buffcorp-menu .children a[href]');
-            var currentLink = document.querySelector('#buffcorp-menu .children a.active[href]');
-            var currentLinkScore = currentLink ? 100 : -1;
-            for (var i = 0; i < links.length; i++) {
+                var currentOption = '{CURRENT_OPTION}';
+                var currentMode = '{CURRENT_MODE}';
+                var currentUrl = null;
                 try {
-                    var targetUrl = new URL(links[i].href, window.location.href);
-                    if ((targetUrl.searchParams.get('option') || '') !== currentOption) continue;
-                    var targetMode = targetUrl.searchParams.get('mode');
-                    if (targetMode && targetMode !== currentMode) continue;
-                    var score = targetMode ? 3 : 1;
-                    var routeKeys = ['menu', 'category', 'cid'];
-                    var routeMatches = true;
-                    for (var routeIndex = 0; routeIndex < routeKeys.length; routeIndex++) {
-                        var targetValue = targetUrl.searchParams.get(routeKeys[routeIndex]);
-                        if (!targetValue) continue;
-                        if (!currentUrl || currentUrl.searchParams.get(routeKeys[routeIndex]) !== targetValue) {
-                            routeMatches = false;
-                            break;
-                        }
-                        score++;
-                    }
-                    if (routeMatches && score > currentLinkScore) {
-                        currentLink = links[i];
-                        currentLinkScore = score;
-                    }
-                } catch (e) { /* ignore invalid legacy link */ }
-            }
-            var heading = document.querySelector('#buffcorp-page h1, #buffcorp-page .tabtitle');
-            var currentLabel = currentLink && currentLink.querySelector('span:not(.app-child-icon)');
-            if (pageTitle) pageTitle.textContent = currentLink
-                ? ((currentLabel ? currentLabel.textContent : currentLink.textContent) || '').replace(/^\s+|\s+$/g, '')
-                : (heading ? (heading.textContent || '').replace(/^\s+|\s+$/g, '') : 'Tổng quan');
+                    currentUrl = new URL(window.location.href);
+                    currentOption = currentUrl.searchParams.get('option') || currentOption;
+                    currentMode = currentUrl.searchParams.get('mode') || currentMode;
+                } catch (e) { /* keep back-end route */ }
 
-            function actionIcon(type) {
-                var path = '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path><circle cx="12" cy="12" r="2.5"></circle>';
-                if (type === 'edit') path = '<path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"></path>';
-                if (type === 'delete') path = '<path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"></path>';
-                if (type === 'add') path = '<path d="M12 5v14M5 12h14"></path>';
-                if (type === 'save') path = '<path d="M5 3h12l2 2v16H5z"></path><path d="M8 3v6h8V3M8 21v-8h8v8"></path>';
-                if (type === 'back') path = '<path d="M19 12H5M11 18l-6-6 6-6"></path>';
-                if (type === 'move-up') path = '<path d="M12 19V5M6 11l6-6 6 6"></path>';
-                if (type === 'move-down') path = '<path d="M12 5v14M6 13l6 6 6-6"></path>';
-                if (type === 'permission') path = '<path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path>';
-                if (type === 'password') path = '<circle cx="8" cy="15" r="4"></circle><path d="M11 12l8-8M15 8l2 2M17 6l2 2"></path>';
-                return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
-            }
-
-            function topLevelChild(node, root) {
-                while (node && node.parentNode !== root) node = node.parentNode;
-                return node;
-            }
-
-            function enhanceLegacyModule(label) {
-                var page = document.getElementById('buffcorp-page');
-                if (!page || page.querySelector('.admin-dashboard,.sales-page,.kpi-page,.kpi-report,.org-chart')) return;
-                var card = page.querySelector('.buffcorp-server-module');
-                var contentRoot = card ? (card.querySelector('.buffcorp-server-source') || card) : page;
-                var selector = contentRoot.querySelector('table.selector');
-                var toolbar = contentRoot.querySelector('.toolbar');
-                var tabtitle = contentRoot.querySelector('.tabtitle');
-                var filterForm = contentRoot.querySelector('form[name="filterForm"]') || (tabtitle && tabtitle.querySelector('form'));
-                var mainForm = contentRoot.querySelector('form[name="mainForm"]') || (!selector ? contentRoot.querySelector('form') : null);
-                if (!selector && !mainForm && !toolbar) return;
-
-                if (!card) {
-                    var first = toolbar || tabtitle || topLevelChild(selector || mainForm, page);
-                    card = document.createElement('section');
-                    card.className = 'buffcorp-module-card';
-                    first.parentNode.insertBefore(card, first);
-                }
-                var cardAnchor = contentRoot !== page && contentRoot.parentNode === card ? contentRoot : null;
-                var appendToCard = function (node) {
-                    if (cardAnchor) card.insertBefore(node, cardAnchor);
-                    else card.appendChild(node);
-                };
-
-                var moduleToolbar = document.createElement('div');
-                moduleToolbar.className = 'buffcorp-module-toolbar';
-                var listSearch = null;
-                var sizeSelect = null;
-                if (selector) {
-                    var clientControls = document.createElement('div');
-                    clientControls.className = 'buffcorp-client-controls';
-                    listSearch = document.createElement('input');
-                    listSearch.type = 'search';
-                    listSearch.placeholder = 'Tìm trong ' + String(label || 'dữ liệu').toLowerCase() + '...';
-                    listSearch.setAttribute('aria-label', 'Tìm trong bảng');
-                    sizeSelect = document.createElement('select');
-                    sizeSelect.setAttribute('aria-label', 'Số dòng');
-                    var sizes = [5, 10, 20];
-                    for (var s = 0; s < sizes.length; s++) {
-                        var sizeOption = document.createElement('option');
-                        sizeOption.value = sizes[s];
-                        sizeOption.textContent = sizes[s] + ' dòng';
-                        sizeSelect.appendChild(sizeOption);
-                    }
-                    clientControls.appendChild(listSearch);
-                    clientControls.appendChild(sizeSelect);
-                    moduleToolbar.appendChild(clientControls);
-                }
-                if (filterForm) {
-                    filterForm.className += (filterForm.className ? ' ' : '') + 'buffcorp-module-filter';
-                    moduleToolbar.appendChild(filterForm);
-                }
-                var actions = document.createElement('div');
-                actions.className = 'buffcorp-module-actions';
-                if (toolbar) {
-                    var actionLinks = toolbar.querySelectorAll('a');
-                    for (var a = 0; a < actionLinks.length; a++) {
-                        if (window.getComputedStyle(actionLinks[a]).display === 'none' || actionLinks[a].offsetParent === null) continue;
-                        var actionLabel = String(actionLinks[a].textContent || '').replace(/^\s+|\s+$/g, '');
-                        var normalizedLabel = actionLabel.toLowerCase();
-                        var translatedActions = {
-                            'create new': 'Thêm mới',
-                            'add new': 'Thêm mới',
-                            'save': 'Lưu',
-                            'send': 'Gửi',
-                            'back': 'Trở về',
-                            'list': 'Trở về',
-                            'return': 'Trở về'
-                        };
-                        var displayActionLabel = translatedActions[normalizedLabel] || actionLabel;
-                        var actionType = normalizedLabel.indexOf('lưu') >= 0 || normalizedLabel.indexOf('save') >= 0
-                            ? 'save'
-                            : (normalizedLabel.indexOf('về') >= 0 || normalizedLabel.indexOf('back') >= 0 || normalizedLabel.indexOf('return') >= 0 || normalizedLabel === 'list' ? 'back' : 'add');
-                        actionLinks[a].innerHTML = actionIcon(actionType);
-                        var actionText = document.createElement('span');
-                        actionText.textContent = displayActionLabel;
-                        actionLinks[a].appendChild(actionText);
-                        actionLinks[a].className += (actionLinks[a].className ? ' ' : '') + (a === 0 ? 'buffcorp-primary-action' : 'buffcorp-secondary-action');
-                        actions.appendChild(actionLinks[a]);
-                    }
-                    toolbar.parentNode.removeChild(toolbar);
-                }
-                if (selector) {
-                    var refresh = document.createElement('button');
-                    refresh.type = 'button';
-                    refresh.className = 'buffcorp-refresh';
-                    refresh.title = 'Làm mới';
-                    refresh.setAttribute('aria-label', 'Làm mới');
-                    refresh.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6v5h-5M4 18v-5h5"></path><path d="M18 9a7 7 0 0 0-12-3L4 8M6 15a7 7 0 0 0 12 3l2-2"></path></svg>';
-                    refresh.onclick = function () { window.location.reload(); };
-                    actions.appendChild(refresh);
-                }
-                if (actions.children.length) moduleToolbar.appendChild(actions);
-                if (moduleToolbar.children.length) appendToCard(moduleToolbar);
-                if (tabtitle && tabtitle.parentNode) tabtitle.parentNode.removeChild(tabtitle);
-
-                if (selector) {
-                    var rows = [];
-                    var allRows = selector.getElementsByTagName('tr');
-                    for (var r = 0; r < allRows.length; r++) {
-                        if ((' ' + allRows[r].className + ' ').indexOf(' header ') < 0) rows.push(allRows[r]);
-                    }
-                    var listHead = document.createElement('div');
-                    listHead.className = 'buffcorp-list-head';
-                    var listCopy = document.createElement('div');
-                    listCopy.className = 'buffcorp-list-head-copy';
-                    var listTitle = document.createElement('strong');
-                    listTitle.textContent = 'Danh sách ' + String(label || 'dữ liệu').toLowerCase();
-                    var listMeta = document.createElement('small');
-                    listMeta.textContent = rows.length + ' bản ghi phù hợp';
-                    var count = document.createElement('span');
-                    count.className = 'buffcorp-record-count';
-                    count.textContent = rows.length + ' mục';
-                    listCopy.appendChild(listTitle);
-                    listCopy.appendChild(listMeta);
-                    listHead.appendChild(listCopy);
-                    listHead.appendChild(count);
-                    appendToCard(listHead);
-
-                    var tableWrap = topLevelChild(selector, contentRoot);
-                    tableWrap.className += (tableWrap.className ? ' ' : '') + 'buffcorp-table-wrap';
-                    tableWrap.style.height = 'auto';
-                    tableWrap.style.overflowX = 'auto';
-                    tableWrap.style.overflowY = 'hidden';
-                    appendToCard(tableWrap);
-
-                    var imageLinks = selector.querySelectorAll('a img');
-                    for (var x = 0; x < imageLinks.length; x++) {
-                        var link = imageLinks[x].parentNode;
-                        if (imageLinks[x].style.display === 'none' || window.getComputedStyle(imageLinks[x]).display === 'none') {
-                            var hiddenCell = link.parentNode;
-                            if (hiddenCell && hiddenCell.tagName && hiddenCell.tagName.toLowerCase() === 'td') hiddenCell.parentNode.removeChild(hiddenCell);
-                            else link.style.display = 'none';
-                            continue;
-                        }
-                        var src = String(imageLinks[x].getAttribute('src') || '').toLowerCase();
-                        var alt = String(imageLinks[x].getAttribute('alt') || '').toLowerCase();
-                        var type = src.indexOf('delete') >= 0 ? 'delete'
-                            : (src.indexOf('edit') >= 0 ? 'edit'
-                                : (src.indexOf('down') >= 0 ? 'move-down'
-                                    : (src.indexOf('up.') >= 0 ? 'move-up'
-                                        : (src.indexOf('db_user') >= 0 || src.indexOf('perms') >= 0 || alt.indexOf('permission') >= 0 ? 'permission'
-                                            : (src.indexOf('securityroles') >= 0 || alt.indexOf('password') >= 0 ? 'password' : 'view')))));
-                        link.className += (link.className ? ' ' : '') + 'buffcorp-row-action buffcorp-action-' + type;
-                        var actionLabel = type === 'delete' ? 'Xóa'
-                            : (type === 'edit' ? 'Sửa'
-                                : (type === 'move-up' ? 'Đưa lên'
-                                    : (type === 'move-down' ? 'Đưa xuống'
-                                        : (type === 'permission' ? 'Phân quyền'
-                                            : (type === 'password' ? 'Đổi mật khẩu' : 'Xem')))));
-                        link.title = actionLabel;
-                        link.setAttribute('aria-label', actionLabel);
-                        link.innerHTML = actionIcon(type);
-                    }
-
-                    var maxActionCount = 0;
-                    for (var modernRowIndex = 0; modernRowIndex < rows.length; modernRowIndex++) {
-                        var actionCells = [];
-                        var cells = rows[modernRowIndex].getElementsByTagName('td');
-                        for (var cellIndex = 0; cellIndex < cells.length; cellIndex++) {
-                            if (cells[cellIndex].querySelector('.buffcorp-row-action')) actionCells.push(cells[cellIndex]);
-                        }
-                        if (actionCells.length) {
-                            maxActionCount = Math.max(maxActionCount, actionCells.length);
-                            var actionHost = actionCells[0];
-                            var rowActions = document.createElement('div');
-                            rowActions.className = 'buffcorp-row-actions';
-                            for (var actionCellIndex = 0; actionCellIndex < actionCells.length; actionCellIndex++) {
-                                var cellActions = actionCells[actionCellIndex].querySelectorAll('.buffcorp-row-action');
-                                for (var actionIndex = 0; actionIndex < cellActions.length; actionIndex++) rowActions.appendChild(cellActions[actionIndex]);
+                var links = document.querySelectorAll('#buffcorp-menu .children a[href]');
+                var currentLink = null;
+                var currentLinkScore = -1;
+                for (var i = 0; i < links.length; i++) {
+                    try {
+                        var targetUrl = new URL(links[i].href, window.location.href);
+                        if ((targetUrl.searchParams.get('option') || '') !== currentOption) continue;
+                        var targetMode = targetUrl.searchParams.get('mode');
+                        if (targetMode && targetMode !== currentMode) continue;
+                        var score = targetMode ? 3 : 1;
+                        var routeKeys = ['menu', 'category', 'cid'];
+                        var routeMatches = true;
+                        for (var routeIndex = 0; routeIndex < routeKeys.length; routeIndex++) {
+                            var targetValue = targetUrl.searchParams.get(routeKeys[routeIndex]);
+                            if (!targetValue) continue;
+                            if (!currentUrl || currentUrl.searchParams.get(routeKeys[routeIndex]) !== targetValue) {
+                                routeMatches = false;
+                                break;
                             }
-                            actionHost.innerHTML = '';
-                            actionHost.className += (actionHost.className ? ' ' : '') + 'buffcorp-actions-cell';
-                            actionHost.removeAttribute('width');
-                            actionHost.removeAttribute('align');
-                            actionHost.appendChild(rowActions);
-                            for (var removeIndex = 1; removeIndex < actionCells.length; removeIndex++) actionCells[removeIndex].parentNode.removeChild(actionCells[removeIndex]);
+                            score++;
                         }
+                        if (routeMatches && score > currentLinkScore) {
+                            currentLink = links[i];
+                            currentLinkScore = score;
+                        }
+                    } catch (e) { /* ignore invalid legacy link */ }
+                }
+                if (currentLink && currentLink.className.indexOf('active') < 0) currentLink.className += (currentLink.className ? ' ' : '') + 'active';
 
-                        var statusCells = rows[modernRowIndex].getElementsByTagName('td');
-                        for (var statusIndex = 0; statusIndex < statusCells.length; statusIndex++) {
-                            if (statusCells[statusIndex].querySelector('a,button,input,select,img')) continue;
-                            var statusText = String(statusCells[statusIndex].textContent || '').replace(/^\s+|\s+$/g, '');
-                            var statusKey = statusText.toLowerCase().replace(/đ/g, 'd');
-                            try { statusKey = statusKey.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); } catch (e) { /* keep original status */ }
-                            var statusType = '';
-                            if (/^(inactive|disabled|khong hoat dong|chua dat|qua han|huy|no)$/.test(statusKey)) statusType = 'danger';
-                            else if (/^(pending|cho|cho duyet|dang xu ly|dang thuc hien|can theo doi)$/.test(statusKey)) statusType = 'warning';
-                            else if (/^(draft|nhap|moi)$/.test(statusKey)) statusType = 'neutral';
-                            else if (/^(active|actived|hoat dong|da hoan thanh|hoan thanh|da duyet|dat kpi|yes|co)$/.test(statusKey)) statusType = 'success';
-                            if (!statusType) continue;
-                            var status = document.createElement('span');
-                            status.className = 'buffcorp-status' + (statusType === 'success' ? '' : ' ' + statusType);
-                            status.textContent = statusText;
-                            statusCells[statusIndex].innerHTML = '';
-                            statusCells[statusIndex].appendChild(status);
+                function initializeModernLists() {
+                    var modules = document.querySelectorAll('.buffcorp-server-rendered[data-layout="list"]');
+                    function textOf(node) {
+                        return String((node && (node.textContent || node.innerText)) || '').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+                    }
+                    function addClass(node, name) {
+                        if (node && (' ' + node.className + ' ').indexOf(' ' + name + ' ') < 0) node.className += (node.className ? ' ' : '') + name;
+                    }
+                    function removeClass(node, name) {
+                        if (node) node.className = node.className.replace(new RegExp('(^|\\s)' + name + '(?=\\s|$)', 'g'), ' ').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+                    }
+                    function makeNode(tag, className, text) {
+                        var node = document.createElement(tag);
+                        if (className) node.className = className;
+                        if (typeof text !== 'undefined') node.textContent = text;
+                        return node;
+                    }
+                    function closestMenu(node) {
+                        while (node && node !== document) {
+                            if ((' ' + (node.className || '') + ' ').indexOf(' buffcorp-action-menu ') >= 0) return node;
+                            node = node.parentNode;
                         }
+                        return null;
                     }
-                    var headerRow = selector.querySelector('tr.header');
-                    var headerCells = headerRow ? headerRow.querySelectorAll('td,th') : [];
-                    var possibleActionHead = headerCells.length ? headerCells[headerCells.length - 1] : null;
-                    var declaredActionColumns = possibleActionHead
-                        && !String(possibleActionHead.textContent || '').replace(/\s+/g, '')
-                        && parseInt(possibleActionHead.getAttribute('colspan') || '1', 10) > 1;
-                    if ((maxActionCount || declaredActionColumns) && possibleActionHead) {
-                            var actionHead = possibleActionHead;
-                            actionHead.textContent = 'Thao tác';
-                            actionHead.className += (actionHead.className ? ' ' : '') + 'buffcorp-actions-head';
-                            actionHead.removeAttribute('colspan');
-                            actionHead.removeAttribute('width');
-                    }
+                    document.addEventListener('click', function (event) {
+                        var menu = closestMenu(event.target);
+                        var menus = document.querySelectorAll('.buffcorp-action-menu.open');
+                        for (var i = 0; i < menus.length; i++) {
+                            if (menus[i] !== menu) removeClass(menus[i], 'open');
+                        }
+                    });
+                    for (var moduleIndex = 0; moduleIndex < modules.length; moduleIndex++) {
+                        (function (module) {
+                            var table = module.querySelector('table.selector');
+                            if (!table) return;
 
-                    var pageSize = 5;
-                    var footer = document.createElement('footer');
-                    footer.className = 'buffcorp-pagination';
-                    var status = document.createElement('span');
-                    var buttons = document.createElement('div');
-                    footer.appendChild(status);
-                    footer.appendChild(buttons);
-                    appendToCard(footer);
-                    var showPage;
-                    var addPageButton = function (pageNumber, text, disabled, activePage) {
-                        var pageButton = document.createElement('button');
-                        pageButton.type = 'button';
-                        pageButton.textContent = text;
-                        pageButton.disabled = disabled;
-                        pageButton.setAttribute('data-page', pageNumber);
-                        pageButton.className = pageNumber === activePage ? 'active' : '';
-                        pageButton.onclick = function () { showPage(pageNumber); };
-                        buttons.appendChild(pageButton);
-                    };
-                    showPage = function (activePage) {
-                        var query = String(listSearch.value || '').toLowerCase().replace(/^\s+|\s+$/g, '');
-                        var filteredRows = [];
-                        for (var y = 0; y < rows.length; y++) {
-                            rows[y].style.display = 'none';
-                            if (!query || String(rows[y].textContent || '').toLowerCase().indexOf(query) >= 0) filteredRows.push(rows[y]);
-                        }
-                        var pages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
-                        activePage = Math.max(1, Math.min(activePage, pages));
-                        var firstRow = (activePage - 1) * pageSize;
-                        for (var visible = firstRow; visible < Math.min(firstRow + pageSize, filteredRows.length); visible++) filteredRows[visible].style.display = '';
-                        listMeta.textContent = filteredRows.length + ' bản ghi phù hợp';
-                        count.textContent = filteredRows.length + ' mục';
-                        status.textContent = 'Trang ' + activePage + ' / ' + pages;
-                        buttons.innerHTML = '';
-                        addPageButton(Math.max(1, activePage - 1), '‹', activePage === 1, activePage);
-                        var startPage = Math.max(1, Math.min(activePage - 2, pages - 4));
-                        var endPage = Math.min(pages, startPage + 4);
-                        for (var p = startPage; p <= endPage; p++) addPageButton(p, p, false, activePage);
-                        addPageButton(Math.min(pages, activePage + 1), '›', activePage === pages, activePage);
-                    };
-                    listSearch.oninput = function () { showPage(1); };
-                    sizeSelect.onchange = function () {
-                        pageSize = parseInt(sizeSelect.value, 10) || 5;
-                        showPage(1);
-                    };
-                    showPage(1);
-                } else if (mainForm) {
-                    var formWrap = topLevelChild(mainForm, contentRoot);
-                    formWrap.className += (formWrap.className ? ' ' : '') + 'buffcorp-form-card';
-                    formWrap.style.height = 'auto';
-                    formWrap.style.overflow = 'visible';
-                    appendToCard(formWrap);
-                    var formTable = mainForm.querySelector('table');
-                    if (formTable) {
-                        var formRowsList = formTable.getElementsByTagName('tr');
-                        var formRows = 0;
-                        for (var z = 0; z < formRowsList.length; z++) {
-                            var hasContent = String(formRowsList[z].textContent || '').replace(/\s+/g, '') !== '' || formRowsList[z].querySelector('input,select,textarea,button');
-                            if (!hasContent || formRowsList[z].style.visibility === 'hidden') formRowsList[z].style.display = 'none';
-                            else formRows++;
-                        }
-                        formTable.className += (formTable.className ? ' ' : '') + 'buffcorp-form-table' + (formRows > 40 ? ' buffcorp-form-ultra' : (formRows > 24 ? ' buffcorp-form-dense' : ''));
+                            var headerRow = table.querySelector('tr.header');
+                            var headerCells = headerRow ? headerRow.querySelectorAll('td,th') : [];
+                            var headers = [];
+                            for (var h = 0; h < headerCells.length; h++) {
+                                headers.push(textOf(headerCells[h]) || (h === 0 ? '#' : 'Thông tin'));
+                            }
+
+                            var rows = [];
+                            var tableRows = table.getElementsByTagName('tr');
+                            for (var rowIndex = 0; rowIndex < tableRows.length; rowIndex++) {
+                                if ((' ' + tableRows[rowIndex].className + ' ').indexOf(' header ') >= 0) continue;
+                                rows.push(tableRows[rowIndex]);
+                            }
+
+                            for (var rowSetup = 0; rowSetup < rows.length; rowSetup++) {
+                                var cells = rows[rowSetup].getElementsByTagName('td');
+                                for (var cellIndex = 0; cellIndex < cells.length; cellIndex++) {
+                                    cells[cellIndex].setAttribute('data-label', headers[cellIndex] || 'Thông tin');
+                                    if (!cells[cellIndex].getAttribute('title')) cells[cellIndex].setAttribute('title', textOf(cells[cellIndex]));
+                                }
+                                var actionHost = rows[rowSetup].querySelector('.buffcorp-row-actions');
+                                if (actionHost && actionHost.parentNode && !actionHost.querySelector('.buffcorp-action-menu')) {
+                                    var menuWrap = makeNode('span', 'buffcorp-action-menu');
+                                    var menuButton = makeNode('button', 'buffcorp-action-menu-button', '⋯');
+                                    menuButton.type = 'button';
+                                    menuButton.setAttribute('aria-label', 'Mở thao tác');
+                                    var menuPanel = makeNode('span', 'buffcorp-action-menu-panel');
+                                    while (actionHost.firstChild) menuPanel.appendChild(actionHost.firstChild);
+                                    menuButton.onclick = function (event) {
+                                        if (event && event.stopPropagation) event.stopPropagation();
+                                        var parent = this.parentNode;
+                                        if ((' ' + parent.className + ' ').indexOf(' open ') >= 0) removeClass(parent, 'open');
+                                        else addClass(parent, 'open');
+                                    };
+                                    menuWrap.appendChild(menuButton);
+                                    menuWrap.appendChild(menuPanel);
+                                    actionHost.appendChild(menuWrap);
+                                }
+                            }
+
+                            var searchInput = module.querySelector('.buffcorp-client-controls input[type="search"]');
+                            var pageSizeSelect = module.querySelector('.buffcorp-client-controls select');
+                            var filterToggle = module.querySelector('.buffcorp-filter-toggle');
+                            var filterPanel = module.querySelector('.buffcorp-filter-panel');
+                            var meta = module.querySelector('.buffcorp-list-head-copy small');
+                            var count = module.querySelector('.buffcorp-record-count');
+                            var pagination = module.querySelector('.buffcorp-pagination');
+                            var status = pagination ? pagination.querySelector('span') : null;
+                            var buttonsWrap = pagination ? pagination.querySelector('div') : null;
+                            var cards = module.querySelector('.buffcorp-mobile-cards');
+                            var currentPage = 1;
+                            var sortIndex = -1;
+                            var sortDir = 1;
+
+                            if (filterToggle && filterPanel) {
+                                filterToggle.onclick = function () {
+                                    var isOpen = (' ' + filterPanel.className + ' ').indexOf(' open ') >= 0;
+                                    if (isOpen) removeClass(filterPanel, 'open');
+                                    else addClass(filterPanel, 'open');
+                                    filterToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+                                };
+                            }
+
+                            function getPageSize() {
+                                var size = pageSizeSelect ? parseInt(pageSizeSelect.value, 10) : 5;
+                                return size > 0 ? size : 5;
+                            }
+                            function rowText(row) {
+                                return textOf(row).toLowerCase();
+                            }
+                            function filteredRows() {
+                                var query = searchInput ? String(searchInput.value || '').toLowerCase().replace(/^\s+|\s+$/g, '') : '';
+                                var matched = [];
+                                for (var i = 0; i < rows.length; i++) {
+                                    if (!query || rowText(rows[i]).indexOf(query) >= 0) matched.push(rows[i]);
+                                }
+                                if (sortIndex >= 0) {
+                                    matched.sort(function (a, b) {
+                                        var aText = textOf(a.getElementsByTagName('td')[sortIndex]).toLowerCase();
+                                        var bText = textOf(b.getElementsByTagName('td')[sortIndex]).toLowerCase();
+                                        var aNum = parseFloat(aText.replace(/[^\d.-]/g, ''));
+                                        var bNum = parseFloat(bText.replace(/[^\d.-]/g, ''));
+                                        if (!isNaN(aNum) && !isNaN(bNum) && aText.match(/\d/) && bText.match(/\d/)) return (aNum - bNum) * sortDir;
+                                        return aText.localeCompare(bText) * sortDir;
+                                    });
+                                }
+                                return matched;
+                            }
+                            function makePageButton(label, page, disabled, active) {
+                                var button = document.createElement('button');
+                                button.type = 'button';
+                                button.textContent = label;
+                                if (active) button.className = 'active';
+                                button.disabled = !!disabled;
+                                button.onclick = function () { render(page); };
+                                return button;
+                            }
+                            function addCardField(cardMeta, label, valueNode) {
+                                if (!valueNode || !textOf(valueNode)) return;
+                                var field = makeNode('div', 'buffcorp-list-card-field');
+                                field.appendChild(makeNode('b', '', label));
+                                var value = makeNode('span', '');
+                                value.innerHTML = valueNode.innerHTML;
+                                field.appendChild(value);
+                                cardMeta.appendChild(field);
+                            }
+                            function buildCard(row) {
+                                var cells = row.getElementsByTagName('td');
+                                var card = makeNode('article', 'buffcorp-list-card');
+                                var head = makeNode('div', 'buffcorp-list-card-head');
+                                var titleIndex = cells.length > 2 ? 2 : (cells.length > 1 ? 1 : 0);
+                                var title = makeNode('div', 'buffcorp-list-card-title');
+                                title.innerHTML = cells[titleIndex] ? cells[titleIndex].innerHTML : textOf(row);
+                                head.appendChild(title);
+                                var actionMenu = row.querySelector('.buffcorp-action-menu');
+                                if (actionMenu) head.appendChild(actionMenu.cloneNode(true));
+                                card.appendChild(head);
+                                var metaWrap = makeNode('div', 'buffcorp-list-card-meta');
+                                var shown = 0;
+                                for (var i = 0; i < cells.length && shown < 5; i++) {
+                                    if (i === titleIndex) continue;
+                                    if ((' ' + cells[i].className + ' ').indexOf(' buffcorp-actions-cell ') >= 0) continue;
+                                    var label = headers[i] || 'Thông tin';
+                                    if (!label || label === '#') continue;
+                                    addCardField(metaWrap, label, cells[i]);
+                                    shown++;
+                                }
+                                card.appendChild(metaWrap);
+                                return card;
+                            }
+                            function renderCards(pageRows) {
+                                if (!cards) return;
+                                cards.innerHTML = '';
+                                for (var i = 0; i < pageRows.length; i++) cards.appendChild(buildCard(pageRows[i]));
+                                var menuButtons = cards.querySelectorAll('.buffcorp-action-menu-button');
+                                for (var j = 0; j < menuButtons.length; j++) {
+                                    menuButtons[j].onclick = function (event) {
+                                        if (event && event.stopPropagation) event.stopPropagation();
+                                        var parent = this.parentNode;
+                                        if ((' ' + parent.className + ' ').indexOf(' open ') >= 0) removeClass(parent, 'open');
+                                        else addClass(parent, 'open');
+                                    };
+                                }
+                            }
+                            function render(page) {
+                                var visibleRows = filteredRows();
+                                var pageSize = getPageSize();
+                                var totalPages = Math.max(1, Math.ceil(visibleRows.length / pageSize));
+                                currentPage = Math.min(Math.max(page || 1, 1), totalPages);
+                                var start = (currentPage - 1) * pageSize;
+                                var end = start + pageSize;
+                                var pageRows = visibleRows.slice(start, end);
+
+                                for (var i = 0; i < rows.length; i++) rows[i].style.display = 'none';
+                                for (var j = 0; j < pageRows.length; j++) pageRows[j].style.display = '';
+                                renderCards(pageRows);
+
+                                var first = visibleRows.length ? start + 1 : 0;
+                                var last = Math.min(end, visibleRows.length);
+                                if (meta) meta.textContent = visibleRows.length ? ('Hiển thị ' + first + '-' + last + ' trong ' + visibleRows.length + ' bản ghi') : 'Không có bản ghi phù hợp';
+                                if (count) count.textContent = visibleRows.length + ' mục';
+                                if (status) status.textContent = visibleRows.length ? ('Trang ' + currentPage + ' / ' + totalPages) : 'Không có dữ liệu';
+                                if (buttonsWrap) {
+                                    buttonsWrap.innerHTML = '';
+                                    buttonsWrap.appendChild(makePageButton('‹', currentPage - 1, currentPage <= 1, false));
+                                    var startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+                                    var endPage = Math.min(totalPages, startPage + 4);
+                                    for (var pageIndex = startPage; pageIndex <= endPage; pageIndex++) {
+                                        buttonsWrap.appendChild(makePageButton(String(pageIndex), pageIndex, false, pageIndex === currentPage));
+                                    }
+                                    buttonsWrap.appendChild(makePageButton('›', currentPage + 1, currentPage >= totalPages, false));
+                                }
+                                if (visibleRows.length) removeClass(module, 'buffcorp-list-empty');
+                                else addClass(module, 'buffcorp-list-empty');
+                                addClass(module, 'buffcorp-list-ready');
+                            }
+
+                            for (var headIndex = 0; headIndex < headerCells.length; headIndex++) {
+                                (function (index) {
+                                    if ((' ' + headerCells[index].className + ' ').indexOf(' buffcorp-actions-head ') >= 0) return;
+                                    headerCells[index].style.cursor = 'pointer';
+                                    headerCells[index].setAttribute('title', 'Sắp xếp theo ' + (headers[index] || 'cột này'));
+                                    headerCells[index].onclick = function () {
+                                        sortDir = sortIndex === index ? sortDir * -1 : 1;
+                                        sortIndex = index;
+                                        render(1);
+                                    };
+                                })(headIndex);
+                            }
+                            if (searchInput) searchInput.oninput = function () { render(1); };
+                            if (pageSizeSelect) pageSizeSelect.onchange = function () { render(1); };
+                            render(currentPage);
+                        })(modules[moduleIndex]);
                     }
                 }
-                card.className += (card.className ? ' ' : '') + 'buffcorp-module-ready';
-            }
+                initializeModernLists();
 
-            enhanceLegacyModule(pageTitle ? pageTitle.textContent : '');
-
-            var search = document.getElementById('buffcorp-global-search');
-            var results = document.getElementById('buffcorp-search-results');
-            function closeSearch() {
-                if (results) results.className = 'buffcorp-search-results';
-            }
-            if (search && results) {
-                search.oninput = function () {
-                    var query = String(search.value || '').toLowerCase().replace(/^\s+|\s+$/g, '');
-                    results.innerHTML = '';
-                    if (!query) return closeSearch();
-                    var found = 0;
-                    for (var n = 0; n < links.length && found < 8; n++) {
-                        var label = (links[n].textContent || '').replace(/^\s+|\s+$/g, '');
-                        if (label.toLowerCase().indexOf(query) < 0) continue;
-                        var item = document.createElement('a');
-                        item.href = links[n].href;
-                        item.textContent = label;
-                        results.appendChild(item);
-                        found++;
-                    }
-                    if (!found) {
-                        var empty = document.createElement('span');
-                        empty.className = 'buffcorp-search-empty';
-                        empty.textContent = 'Không tìm thấy chức năng';
-                        results.appendChild(empty);
-                    }
-                    results.className = 'buffcorp-search-results open';
-                };
-                document.addEventListener('click', function (event) {
-                    if (!results.contains(event.target) && event.target !== search) closeSearch();
-                });
-            }
+                var search = document.getElementById('buffcorp-global-search');
+                var results = document.getElementById('buffcorp-search-results');
+                function closeSearch() {
+                    if (results) results.className = 'buffcorp-search-results';
+                }
+                if (search && results) {
+                    search.oninput = function () {
+                        var query = String(search.value || '').toLowerCase().replace(/^\s+|\s+$/g, '');
+                        results.innerHTML = '';
+                        if (!query) return closeSearch();
+                        var found = 0;
+                        for (var n = 0; n < links.length && found < 8; n++) {
+                            var label = (links[n].textContent || '').replace(/^\s+|\s+$/g, '');
+                            if (label.toLowerCase().indexOf(query) < 0) continue;
+                            var item = document.createElement('a');
+                            item.href = links[n].href;
+                            item.textContent = label;
+                            results.appendChild(item);
+                            found++;
+                        }
+                        if (!found) {
+                            var empty = document.createElement('span');
+                            empty.className = 'buffcorp-search-empty';
+                            empty.textContent = 'Không tìm thấy chức năng';
+                            results.appendChild(empty);
+                        }
+                        results.className = 'buffcorp-search-results open';
+                    };
+                    document.addEventListener('click', function (event) {
+                        if (!results.contains(event.target) && event.target !== search) closeSearch();
+                    });
+                }
             }
 
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeMainShell);
@@ -2872,6 +3082,61 @@
                     if (enabled && !hasClass(node, name)) node.className += ' ' + name;
                     if (!enabled) node.className = node.className.replace(new RegExp('(^|\\s)' + name + '(?=\\s|$)', 'g'), ' ').replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
                 }
+                function initializeRouteLoader() {
+                    var loader = document.getElementById('buffcorp-route-loader');
+                    if (!loader) return;
+                    function showLoader() {
+                        try { sessionStorage.setItem('buffcorp-route-loading', '1'); } catch (e) { /* storage unavailable */ }
+                        loader.className = 'buffcorp-route-loader show';
+                        loader.setAttribute('aria-hidden', 'false');
+                        loader.offsetHeight;
+                    }
+                    function hideLoader() {
+                        try { sessionStorage.removeItem('buffcorp-route-loading'); } catch (e) { /* storage unavailable */ }
+                        setClass(document.documentElement, 'buffcorp-preload-route-loading', false);
+                        loader.className = 'buffcorp-route-loader';
+                        loader.setAttribute('aria-hidden', 'true');
+                    }
+                    function closestLink(node) {
+                        while (node && node !== document) {
+                            if (node.tagName && node.tagName.toLowerCase() === 'a') return node;
+                            node = node.parentNode;
+                        }
+                        return null;
+                    }
+                    function shouldShowForLink(link, event) {
+                        if (!link || (event && (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey))) return false;
+                        if (link.target && link.target !== '_self') return false;
+                        var href = link.getAttribute('href') || '';
+                        if (!href || href === '#' || href.indexOf('javascript:') === 0) return false;
+                        if (href.charAt(0) === '#' || href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0) return false;
+                        var routeHost = link.closest ? link.closest('.left-menu,.buffcorp-search-results') : null;
+                        if (!routeHost) return false;
+                        try {
+                            var targetUrl = new URL(link.href, window.location.href);
+                            var currentUrl = new URL(window.location.href);
+                            if (targetUrl.href === currentUrl.href) return false;
+                        } catch (e) { /* allow legacy relative urls */ }
+                        return true;
+                    }
+                    document.addEventListener('click', function (event) {
+                        var link = closestLink(event.target);
+                        if (!shouldShowForLink(link, event)) return;
+                        event.preventDefault();
+                        showLoader();
+                        window.setTimeout(function () {
+                            window.location.href = link.href;
+                        }, 1000);
+                    }, true);
+                    window.buffcorpShowRouteLoader = showLoader;
+                    window.buffcorpHideRouteLoader = hideLoader;
+                    if (window.addEventListener) {
+                        window.addEventListener('pageshow', hideLoader, false);
+                        window.addEventListener('beforeunload', function () {
+                            if (document.activeElement && closestLink(document.activeElement)) showLoader();
+                        }, false);
+                    }
+                }
                 function applyTheme(dark) {
                     setClass(body, 'buffcorp-dark', dark);
                     if (!themeButton) return;
@@ -2891,6 +3156,7 @@
 
                 var dark = false;
                 try { dark = localStorage.getItem('buffcorp-theme') === 'dark'; } catch (e) { /* storage unavailable */ }
+                initializeRouteLoader();
                 applyTheme(dark);
                 if (themeButton) themeButton.onclick = function () {
                     dark = !hasClass(body, 'buffcorp-dark');
@@ -2908,6 +3174,11 @@
                 }
                 if (window.addEventListener) window.addEventListener('resize', syncViewport, false);
                 syncViewport();
+                setClass(document.documentElement, 'buffcorp-preload-sidebar-collapsed', false);
+                setClass(document.documentElement, 'buffcorp-preload-dark', false);
+                window.setTimeout(function () {
+                    if (window.buffcorpHideRouteLoader) window.buffcorpHideRouteLoader();
+                }, 1000);
             }
 
             if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeDemoParity);
