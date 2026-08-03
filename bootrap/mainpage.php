@@ -17,6 +17,23 @@ if ($resolvedOption === '' && isset($mainTemplate)
 $resolvedMode = $requestedMode !== ''
     ? $requestedMode
     : ($resolvedOption === 'common_lists/admin_dashboard' ? 'dashboard' : 'list');
+function buffcorpResolvePageTitle($option)
+{
+    global $db;
+    $option = trim((string)$option);
+    if ($option === 'chat/chat') return 'Chat';
+    if ($option === '' || !isset($db)) return 'Tổng quan';
+    $safeOption = addslashes($option);
+    $sql = "select fun_name from tbl_function_menu
+            where parent_id > 0 and link like '%option=$safeOption%'
+            order by priority limit 1";
+    if ($result = $db->sql_query($sql)) {
+        $row = $db->sql_fetchrow($result);
+        if ($row && isset($row['fun_name']) && trim($row['fun_name']) !== '') return trim($row['fun_name']);
+    }
+    return 'Tổng quan';
+}
+$pageTitle = buffcorpResolvePageTitle($resolvedOption);
 $loginId = isset($_SESSION["login_id"]) ? (int)$_SESSION["login_id"] : 0;
 $notificationUnread = notificationUnreadCount($loginId);
 $isPayrollPreviewUser = (
@@ -50,6 +67,13 @@ $mainContentClass = 'main-content';
 if (isset($mainTemplate) && strpos($mainTemplate, 'admin_dashboard.php') !== false) {
     $mainContentClass .= ' admin-dashboard-shell';
 }
+if ($resolvedOption === 'chat/chat') {
+    $mainContentClass .= ' chat-shell';
+}
+$dashboardHeaderOptions = array('common_lists/giaoviec', 'common_lists/kpi_tonghop', 'congno/congno');
+if (in_array($resolvedOption, $dashboardHeaderOptions) && $resolvedMode === 'dashboard') {
+    $mainContentClass .= ' dashboard-header-icons';
+}
 $template->assign_vars([
     'theme'      => $theme,
     'skin'       => $skin,
@@ -68,12 +92,15 @@ $template->assign_vars([
     'USER_INITIAL' => htmlspecialchars($userInitial, ENT_QUOTES, 'UTF-8'),
     'USER_ROLE' => ($isPayrollAdminUser ? 'Quản trị hệ thống' : 'Nhân viên'),
     'CURRENT_MONTH' => date('m'),
-    'CURRENT_YEAR' => date('Y')
+    'CURRENT_YEAR' => date('Y'),
+    'PAGE_TITLE' => htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8')
 ]);
 ob_start();
+$GLOBALS['buffcorp_current_option'] = $resolvedOption;
 $_REQUEST['option'] = 'navigation/index';
 include 'modules/navigation/index.php';
 $LEFT_MENU = ob_get_clean();
+unset($GLOBALS['buffcorp_current_option']);
 if ($requestedOption !== '') $_REQUEST['option'] = $requestedOption;
 else unset($_REQUEST['option']);
 ob_start();
