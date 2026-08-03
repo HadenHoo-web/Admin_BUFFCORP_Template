@@ -3,6 +3,7 @@ $root = dirname(__DIR__);
 require_once $root . '/bootrap/includes/ui_layout.php';
 $demo = file_get_contents($root . '/buffseo-operations-hub-ui-demo.html');
 $main = file_get_contents($root . '/bootrap/templates/mainpage/default.tpl');
+$uiLayout = file_get_contents($root . '/bootrap/includes/ui_layout.php');
 $navigation = file_get_contents($root . '/bootrap/templates/default/vietnam/navigation/navigation.tpl');
 $customerList = file_get_contents($root . '/bootrap/templates/default/vietnam/customer/customer/customer_list.html');
 $adminDashboard = file_get_contents($root . '/bootrap/templates/default/vietnam/common_lists/admin_dashboard/admin_dashboard.html');
@@ -23,19 +24,19 @@ foreach ($matches as $match) {
     }
 }
 
-foreach (['enhanceLegacyModule', 'buffcorp-module-card', 'buffcorp-client-controls', 'buffcorp-row-actions', 'buffcorp-status', 'buffcorp-demo-parity', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'Số dòng', 'move-up', 'permission', 'password'] as $marker) {
-    if (strpos($main, $marker) === false) throw new RuntimeException('Missing main shell marker: ' . $marker);
+foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-client-controls', 'buffcorp-row-actions', 'buffcorp-status', 'buffcorp-demo-parity', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'Số dòng', 'move-up', 'permission', 'password'] as $marker) {
+    if (strpos($main . $uiLayout, $marker) === false) throw new RuntimeException('Missing main shell marker: ' . $marker);
 }
 foreach (["routeKeys = ['menu', 'category', 'cid']", 'translatedActions', 'mail-form-table', 'config-grid-table', 'getpass-source-wrap', 'cuttpw-wrap'] as $marker) {
-    if (strpos($main, $marker) === false) throw new RuntimeException('Missing full UI marker: ' . $marker);
+    if (strpos($main . $uiLayout, $marker) === false) throw new RuntimeException('Missing full UI marker: ' . $marker);
 }
-foreach (['mosFunctionMenu(0, "Root")', 'Tổng quan', 'Quản lý Tin tức', 'CURRENT_OPTION', 'CURRENT_MODE', '236px', '68px'] as $marker) {
+foreach (['mosFunctionMenu(0, "Root")', 'Tổng quan', 'Quản lý Tin tức', 'CURRENT_OPTION', 'CURRENT_MODE', '296px', '68px'] as $marker) {
     if (strpos($navigation, $marker) === false) throw new RuntimeException('Missing navigation marker: ' . $marker);
 }
 if (strpos($navigation, 'function regroupNavigation') !== false) {
     throw new RuntimeException('Sidebar must not replace the database menu tree.');
 }
-foreach (['select distinct a.* from tbl_function_menu', "htmlspecialchars(\$row['fun_name'], ENT_QUOTES, 'UTF-8')"] as $marker) {
+foreach (['select distinct a.* from tbl_function_menu', "htmlspecialchars(\$label, ENT_QUOTES, 'UTF-8')"] as $marker) {
     if (strpos($library, $marker) === false) throw new RuntimeException('Database menu rendering regressed: ' . $marker);
 }
 if (strpos($customerList, "getElementById('customer_type')") === false) {
@@ -96,8 +97,9 @@ foreach ($templates as $templateFile) {
     $source = file_get_contents($templateFile->getPathname());
     if (preg_match('/\b(admin-dashboard|sales-page|kpi-page|kpi-report|org-chart)\b/i', $source)) continue;
     $prepared = buffcorpPrepareModuleHtml($source, 'smoke/module', 'list');
-    if (preg_match('/<table\b[^>]*\bclass\s*=\s*(["\'])[^"\']*\bselector\b/i', $source)) {
-        if (strpos($prepared, 'data-layout="list"') === false) {
+    if (preg_match_all('/<table\b[^>]*\bclass\s*=\s*(["\'])[^"\']*\bselector\b/i', $source, $listTableMatches)) {
+        $expectedLayout = count($listTableMatches[0]) === 1 ? 'data-layout="list"' : 'data-layout="legacy-list"';
+        if (strpos($prepared, $expectedLayout) === false) {
             throw new RuntimeException('List layout failed: ' . $templateFile->getFilename());
         }
         $adaptedLists++;

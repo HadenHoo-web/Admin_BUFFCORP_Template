@@ -1,6 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
-*{box-sizing:border-box}
+.org-page,.org-page *{box-sizing:border-box}
 .org-page{font-family:Tahoma,Arial,Helvetica,sans-serif;background:#f2f4f8;color:#102033;padding:8px;min-height:100%}
 .org-head{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid #d7dde8;border-radius:8px;padding:9px 12px;margin-bottom:8px;box-shadow:0 3px 10px rgba(15,23,42,.06)}
 .org-title{font-size:19px;font-weight:bold;color:#123b73}
@@ -349,7 +349,8 @@ function orgRemoveActive(){
   var nodes=document.getElementsByClassName('org-person');
   for(var i=0;i<nodes.length;i++)nodes[i].className=nodes[i].className.replace(/\sactive/g,'');
 }
-function orgShowPerson(el){
+function orgShowPerson(el,event){
+  if(event&&event.stopPropagation)event.stopPropagation();
   if(!el)return;
   orgRemoveActive();
   if(el.className.indexOf('active')<0)el.className+=' active';

@@ -43,6 +43,54 @@ function chamcongCurrentUserCanViewAll(){
     return in_array($loginId, array(34, 71, 76));
 }
 
+function chamcongHtml($text){
+    return htmlspecialchars((string)$text, ENT_QUOTES, 'UTF-8');
+}
+
+function chamcongNoteClass($text){
+    $lower = function_exists('mb_strtolower') ? mb_strtolower((string)$text, 'UTF-8') : strtolower((string)$text);
+    $class = 'attendance-note-chip';
+
+    if (strpos($lower, 'trễ') !== false || strpos($lower, 'tre') !== false || strpos($lower, 'về sớm') !== false || strpos($lower, 've som') !== false) {
+        $class .= ' attendance-note-warning';
+    }
+    if (strpos($lower, 'lỗi') !== false || strpos($lower, 'loi') !== false || strpos($lower, 'thiếu') !== false || strpos($lower, 'thieu') !== false) {
+        $class .= ' attendance-note-danger';
+    }
+    if (strpos($lower, 'phép') !== false || strpos($lower, 'phep') !== false || strpos($lower, 'nghỉ') !== false || strpos($lower, 'nghi') !== false) {
+        $class .= ' attendance-note-leave';
+    }
+
+    return $class;
+}
+
+function chamcongFormatNoteHtml($note){
+    $note = trim((string)$note);
+    if ($note === '') {
+        return '<span class="attendance-note-empty">Không có ghi chú</span>';
+    }
+
+    $note = str_replace(array("\r\n", "\r"), "\n", $note);
+    $note = preg_replace('/<br\s*\/?>/i', "\n", $note);
+    $parts = preg_split('/\s*\|\|\s*|\n+/u', $note);
+    $items = array();
+    foreach ($parts as $part) {
+        $part = trim($part);
+        if ($part !== '') $items[] = $part;
+    }
+
+    if (count($items) === 0) {
+        return '<span class="attendance-note-empty">Không có ghi chú</span>';
+    }
+
+    $html = '<div class="attendance-note-list">';
+    foreach ($items as $item) {
+        $html .= '<span class="'.chamcongNoteClass($item).'">'.chamcongHtml($item).'</span>';
+    }
+    $html .= '</div>';
+    return $html;
+}
+
 function chamcongManagedDepartmentIds(){
     $loginId = intval(isset($_SESSION["login_id"]) ? $_SESSION["login_id"] : 0);
     if($loginId == 50){
@@ -160,7 +208,7 @@ function mosList(){
         'check_time_class' => $checkTimeClass,
         'work_time'        => $row['work_time'],
         'soluong'          => $row['status'],
-        'note'             => $note,
+        'note'             => chamcongFormatNoteHtml($note),
         'note_class'       => $noteClass
     ));
 }

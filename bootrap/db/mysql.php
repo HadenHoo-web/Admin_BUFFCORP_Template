@@ -41,6 +41,7 @@ class sql_db
 					$this->db_connect_id = $dbselect;
 				}
 			}
+			@mysqli_set_charset($this->db_connect_id, 'utf8mb4');
 			return $this->db_connect_id;
 		} else
 		{	return false;
