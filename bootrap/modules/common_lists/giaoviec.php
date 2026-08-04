@@ -62,6 +62,74 @@
 		return count($names) ? implode(' / ', $names) : 'Chưa phân phòng';
 	}
 
+	function gvTaskIsAdministrator()
+	{
+		return strtolower((string)(isset($_SESSION['loginname']) ? $_SESSION['loginname'] : '')) == 'administrator';
+	}
+
+	function gvTaskViewerId()
+	{
+		return (int)(isset($_SESSION['login_id']) ? $_SESSION['login_id'] : 0);
+	}
+
+	function gvTaskEnsureViewScopeTable()
+	{
+		global $db;
+		static $ready = null;
+		if ($ready !== null) return $ready;
+		$ready = (bool)$db->sql_query("CREATE TABLE IF NOT EXISTS tbl_giaoviec_member_access (
+			viewer_member_id int(10) unsigned NOT NULL,
+			member_id int(10) unsigned NOT NULL,
+			created_by_id int(10) unsigned NOT NULL DEFAULT 0,
+			created_date datetime NOT NULL,
+			PRIMARY KEY (viewer_member_id, member_id),
+			KEY idx_member_id (member_id)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8");
+		return $ready;
+	}
+
+	function gvTaskHasTeamPermission()
+	{
+		global $db;
+		static $allowed = null;
+		if ($allowed !== null) return $allowed;
+		if (gvTaskIsAdministrator()) return $allowed = true;
+		$viewerId = gvTaskViewerId();
+		if ($viewerId <= 0) return $allowed = false;
+		$sql = "select 1 from tbl_permission where member_id = ".$viewerId." and code = 'giaoviec' limit 1";
+		if (!($result = $db->sql_query($sql))) return $allowed = false;
+		return $allowed = (bool)$db->sql_fetchrow($result);
+	}
+
+	function gvTaskCanViewTeam()
+	{
+		global $db;
+		if (gvTaskIsAdministrator()) { gvTaskEnsureViewScopeTable(); return true; }
+		if (!gvTaskHasTeamPermission() || !gvTaskEnsureViewScopeTable()) return false;
+		$sql = "select 1 from tbl_giaoviec_member_access where viewer_member_id = ".gvTaskViewerId()." limit 1";
+		if (!($result = $db->sql_query($sql))) return false;
+		return (bool)$db->sql_fetchrow($result);
+	}
+
+	function gvTaskTeamScopeSql($tableAlias)
+	{
+		if (gvTaskIsAdministrator()) return '';
+		if (!gvTaskHasTeamPermission() || !gvTaskEnsureViewScopeTable()) return ' and 1 = 0';
+		return ' and '.$tableAlias.'.member_id in (select member_id from tbl_giaoviec_member_access where viewer_member_id = '.gvTaskViewerId().')';
+	}
+
+	function gvTaskCanViewMember($memberId)
+	{
+		global $db;
+		$memberId = (int)$memberId;
+		if ($memberId <= 0) return false;
+		if (gvTaskIsAdministrator() || $memberId == gvTaskViewerId()) return true;
+		if (!gvTaskHasTeamPermission() || !gvTaskEnsureViewScopeTable()) return false;
+		$sql = "select 1 from tbl_giaoviec_member_access where viewer_member_id = ".gvTaskViewerId()." and member_id = ".$memberId." limit 1";
+		if (!($result = $db->sql_query($sql))) return false;
+		return (bool)$db->sql_fetchrow($result);
+	}
+
 	function gvZaloLog($message)
 	{
 		$logDir = dirname(__FILE__).'/../../zalo/logs';
@@ -239,6 +307,10 @@ function mosListNew($id)
 	$selectedDate = gvTaskIsoDate(mosGetParam($_REQUEST, 'day', ''));
 	$period = mosGetParam($_REQUEST, 'period', '');
 	$member_id = (int)mosGetParam($_REQUEST, 'member_id1', 0);
+	$viewerId = gvTaskViewerId();
+	$canViewTeam = gvTaskCanViewTeam();
+	if ($member_id > 0 && !gvTaskCanViewMember($member_id)) $member_id = $viewerId;
+	if (!$canViewTeam && !$member_id) $member_id = $viewerId;
 	$website_id = (int)mosGetParam($_REQUEST, 'website_id1', 0);
 	$active = mosGetParam($_REQUEST, 'active1', '0');
 	if (!in_array($view, array('day', 'month', 'year'))) $view = 'day';
@@ -254,13 +326,7 @@ function mosListNew($id)
 	}
 	if (!$selectedDate || substr($selectedDate, 0, 7) != $year.'-'.$month) $selectedDate = $year.'-'.$month == date('Y-m') ? date('Y-m-d') : $year.'-'.$month.'-01';
 
-	switch ($_SESSION['login_id']) {
-		case '1': $accessCond = ''; break;
-		case '63':
-		case '50':
-		case '34': $accessCond = " and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id not in ('1'))"; break;
-		default: $accessCond = " and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id = '".$_SESSION['login_id']."')";
-	}
+	$accessCond = $member_id > 0 ? ' and tbl_giaoviec.member_id = '.$member_id : gvTaskTeamScopeSql('tbl_giaoviec');
 	$periodCond = " and SUBSTRING(tbl_giaoviec.ngay, 7, 4) = '".$year."'";
 	if ($view == 'day') $periodCond .= " and LEFT(tbl_giaoviec.ngay, 10) = '".substr($selectedDate, 8, 2).'-'.substr($selectedDate, 5, 2).'-'.substr($selectedDate, 0, 4)."'";
 	elseif ($view != 'year') $periodCond .= " and SUBSTRING(tbl_giaoviec.ngay, 4, 2) = '".$month."'";
@@ -275,7 +341,8 @@ function mosListNew($id)
 	$selectedName = '';
 	$selectedRole = '';
 	$selectedDepartment = '';
-	$sql = "select m.*, primary_dept.customer_type_name as primary_department, extra_dept.customer_type_name as extra_department from tbl_member m left join tbl_customer_type primary_dept on m.member_type_id = primary_dept.customer_type_id left join tbl_customer_type extra_dept on m.extra_member_type_id = extra_dept.customer_type_id where m.active = 1 and m.loginname <> 'administrator' order by m.fullname";
+	$memberScope = $member_id > 0 ? ' and m.member_id = '.$member_id : gvTaskTeamScopeSql('m');
+	$sql = "select m.*, primary_dept.customer_type_name as primary_department, extra_dept.customer_type_name as extra_department from tbl_member m left join tbl_customer_type primary_dept on m.member_type_id = primary_dept.customer_type_id left join tbl_customer_type extra_dept on m.extra_member_type_id = extra_dept.customer_type_id where m.active = 1 and m.loginname <> 'administrator' $memberScope order by m.fullname";
 	if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
 	while ($row = $db->sql_fetchrow($result)) {
 		$currentMemberId = (int)$row['member_id'];
@@ -355,13 +422,16 @@ function mosListNew($id)
 		'view' => $view,
 		'task_toast' => $taskToast,
 		'selected_date' => $selectedDate,
-		'directory_filter_view' => $view == 'month' ? 'month' : 'day',
-		'directory_day_active' => $view == 'month' ? '' : 'active',
+		'directory_filter_view' => $view,
+		'directory_day_active' => $view == 'day' ? 'active' : '',
 		'directory_month_active' => $view == 'month' ? 'active' : '',
-		'directory_day_pressed' => $view == 'month' ? 'false' : 'true',
+		'directory_year_active' => $view == 'year' ? 'active' : '',
+		'directory_day_pressed' => $view == 'day' ? 'true' : 'false',
 		'directory_month_pressed' => $view == 'month' ? 'true' : 'false',
-		'directory_day_hidden' => $view == 'month' ? 'hidden' : '',
+		'directory_year_pressed' => $view == 'year' ? 'true' : 'false',
+		'directory_day_hidden' => $view == 'day' ? '' : 'hidden',
 		'directory_month_hidden' => $view == 'month' ? '' : 'hidden',
+		'directory_year_hidden' => $view == 'year' ? '' : 'hidden',
 		'directory_hidden' => $member_id > 0 ? 'hidden' : '',
 		'task_view_hidden' => $member_id > 0 ? '' : 'hidden',
 		'selected_member_name' => gvTaskEscape($selectedName),
@@ -382,14 +452,18 @@ function mosInfo(){
 	$day			= gvTaskIsoDate(mosGetParam($_REQUEST, 'day', ''));
 	$view			= mosGetParam($_REQUEST, 'view', 'day');
 	$context_member_id = (int)mosGetParam($_REQUEST, 'member_id1', mosGetParam($_REQUEST, 'member_id', 0));
+	$viewerId = gvTaskViewerId();
+	$canViewTeam = gvTaskCanViewTeam();
+	if (!$canViewTeam) $context_member_id = $viewerId;
+	if ($context_member_id > 0 && !gvTaskCanViewMember($context_member_id)) $context_member_id = $viewerId;
 	if (!in_array($view, array('day', 'month', 'year'))) $view = 'day';
-	$isAdmin = (isset($_SESSION["loginname"]) && $_SESSION["loginname"] == 'administrator');
+	$isAdmin = gvTaskIsAdministrator();
 	$showContentKpiType = gvKpiIsContentMember((int)$_SESSION["login_id"]) || $isAdmin;
 	$showSalesKpiType = gvKpiIsSalesMember((int)$_SESSION["login_id"]) || $isAdmin;
 	$showKpiType = $showContentKpiType || $showSalesKpiType;
 
 	// ===== DS member =====
-	$cond = 'and active = 1';
+	$cond = 'and active = 1'.($canViewTeam ? gvTaskTeamScopeSql('tbl_member') : ' and member_id = '.$viewerId);
 	$sql = "select * from tbl_member where 1 $cond";
 	if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
 	while ($row = $db->sql_fetchrow($result)){
@@ -415,6 +489,10 @@ function mosInfo(){
 	$sql = "select * from tbl_giaoviec where giaoviec_id=$parent_id";
 	if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
 	if ($row = $db->sql_fetchrow($result)){
+		if (!gvTaskCanViewMember((int)$row['member_id'])) {
+			mosInvalidURL();
+			exit;
+		}
 		$template->assign_vars(array(
 			'parent_id'	 => $row['giaoviec_id'],
 			'parent_name'=> gvTaskEscape($row['giaoviec_name']),
@@ -428,6 +506,10 @@ function mosInfo(){
 		$sql = "select * from tbl_giaoviec where giaoviec_id = ".intval($giaoviec_id);
 		if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
 		if ($row = $db->sql_fetchrow($result)){
+			if (!gvTaskCanViewMember((int)$row['member_id'])) {
+				mosInvalidURL();
+				exit;
+			}
 
 			// --- created_date (datetime) -> dd-mm-YYYY
 			$created = $row['created_date']; // yyyy-mm-dd HH:ii:ss
@@ -512,13 +594,7 @@ function mosInfo(){
 	}
 
 	// ===== DS Viec Cha =====
-	switch ($_SESSION["login_id"]){
-		case '1':  $cond = ""; break;
-		case '52':
-		case '34': $cond = "and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id not in ('1'))"; break;
-		case '45': $cond = "and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id in ('45','42','47','50','29','63','48','51'))"; break;
-		default:   $cond = " and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id = '".$_SESSION["login_id"]."')";
-	}
+	$cond = $canViewTeam ? gvTaskTeamScopeSql('tbl_giaoviec') : ' and tbl_giaoviec.member_id = '.$viewerId;
 
 	$sql = "select tbl_giaoviec.*, SUBSTRING(tbl_giaoviec.ngay, 7, 4) as y, SUBSTRING(tbl_giaoviec.ngay, 4, 2) as m , SUBSTRING(tbl_giaoviec.ngay, 1, 2) as d
 			,tbl_member.fullname, tbl_website.website_name
@@ -562,11 +638,16 @@ function mosInfo(){
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function mosMove( $direction )
 	{	
-		global $languageid;
+		global $db, $languageid;
 		$giaoviec_id    = mosGetParam( $_REQUEST, 'id', '');
 	
 		if ($giaoviec_id == 0)
 		{	mosInvalidURL();
+			exit;
+		}
+		$sql = "select member_id from tbl_giaoviec where giaoviec_id = ".(int)$giaoviec_id." limit 1";
+		if (!($result = $db->sql_query($sql)) || !($row = $db->sql_fetchrow($result)) || !gvTaskCanViewMember((int)$row['member_id'])) {
+			mosInvalidURL();
 			exit;
 		}
 		mosChangePriority( $giaoviec_id, $direction, "tbl_giaoviec", "giaoviec_id", "priority");
@@ -596,8 +677,12 @@ function mosSave(){
 	$active        = mosGetParam($_REQUEST, 'active', 0);
 	$member_id     = mosGetParam($_REQUEST, 'member_id', 0);
 	if (!(int)$member_id) $member_id = mosGetParam($_REQUEST, 'member_id1', 0);
+	if (!gvTaskCanViewMember((int)$member_id)) {
+		mosInvalidURL();
+		exit;
+	}
 	$website_id    = mosGetParam($_REQUEST, 'website_id', 0);
-	$isAdmin = (isset($_SESSION["loginname"]) && $_SESSION["loginname"] == 'administrator');
+	$isAdmin = gvTaskIsAdministrator();
 	$isContentMember = gvKpiIsContentMember((int)$_SESSION["login_id"]) || $isAdmin;
 	$isSalesMember = gvKpiIsSalesMember((int)$_SESSION["login_id"]) || $isAdmin;
 	if (gvKpiIsContentTaskType($kpi_type) && !$isContentMember) $kpi_type = '';
@@ -743,6 +828,10 @@ function mosSave(){
 		if (!$resultOld = $db->sql_query($sqlOld)) message_die(SERVER_BUSY);
 		$rowOld = $db->sql_fetchrow($resultOld);
 		if (!$rowOld) message_die(ID_NOTFOUND);
+		if (!gvTaskCanViewMember((int)$rowOld['member_id'])) {
+			mosInvalidURL();
+			exit;
+		}
 		if (
 			(!$isContentMember && gvKpiIsContentTaskType($rowOld['kpi_type'])) ||
 			(!$isSalesMember && $rowOld['kpi_type'] == 'tim_khach_hang')
@@ -938,8 +1027,12 @@ function mosDelete()
 		}
 		$sql = "select * from tbl_giaoviec where giaoviec_id = '$giaoviec_id'";
 		if ( !($result = $db->sql_query($sql)) ) die ( SERVER_BUSY );
-		if ( $row = $db->sql_fetchrow($result))
-			$parent_id = $row['parent_id'];
+		if (!($row = $db->sql_fetchrow($result)) || !gvTaskCanViewMember((int)$row['member_id']))
+		{
+			mosInvalidURL();
+			exit;
+		}
+		$parent_id = $row['parent_id'];
 		$sql1 = "select count(*) as child_count from tbl_giaoviec where parent_id = '$giaoviec_id'";
 		if ( !($result1 = $db->sql_query($sql1)) ) message_die( SERVER_BUSY );
 		if ( $row1 = $db->sql_fetchrow($result1))		
@@ -999,6 +1092,11 @@ function mosDelete()
 	function mosThuchien( )
 	{	global $db, $root_path, $skin, $languageid, $template, $theme;		
 		$id   	= mosGetParam( $_REQUEST, 'id', '0');
+		$sql = "select member_id from tbl_giaoviec where giaoviec_id = ".(int)$id." limit 1";
+		if (!($result = $db->sql_query($sql)) || !($row = $db->sql_fetchrow($result)) || !gvTaskCanViewMember((int)$row['member_id'])) {
+			mosInvalidURL();
+			exit;
+		}
 		$sql = "insert into tbl_thuchien (member_id, giaoviec_id, ngay) values (".$_SESSION["login_id"].", '$id', CURDATE())";	
 		if ( !($result = $db->sql_query($sql)) ) die ( SERVER_BUSY );
 		mosList(0);	
