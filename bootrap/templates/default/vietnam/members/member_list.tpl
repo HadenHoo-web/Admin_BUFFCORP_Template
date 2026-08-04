@@ -15,7 +15,7 @@
     <td width="50" >Active</td>
     <td width="90">Thao tác</td>
   </tr>
-<!-- BEGIN list -->  
+<!-- BEGIN list -->
   <tr class="{list.className}">
     <td align="center" style="vertical-align:middle">{list.order}</td>
     <td style="vertical-align:middle">{list.loginname}</td>
@@ -26,7 +26,7 @@
     <td style="vertical-align:middle">{list.active}</td>
     <td style="vertical-align:middle"><a href="?option={funname}&mode=info&id={list.member_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a><a href="#" onClick="doDelete({list.member_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
   </tr>
-<!-- END list -->  
+<!-- END list -->
  </table>
 </div>
 <p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>

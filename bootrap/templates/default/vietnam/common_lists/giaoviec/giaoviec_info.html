@@ -1,239 +1,104 @@
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" media="all" href="js/jscalendar/calendar-system.css" title="system" />
-<script type="text/javascript" src="js/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="js/jscalendar/calendar-vn.js"></script>
-<script type="text/javascript" src="js/jscalendar/calendar-setup.js"></script>
+<style>
+  .gv-form-ui { --gv-brand:#2563eb; --gv-ink:#111827; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-danger:#dc2626; max-width:1120px; margin:0 auto; color:var(--gv-ink); font:13px/1.4 Manrope,"Segoe UI",Arial,sans-serif; }
+  .gv-form-ui * { box-sizing:border-box; }
+  .gv-form-shell { overflow:hidden; border:1px solid var(--gv-line); border-radius:14px; background:#fff; box-shadow:0 10px 30px rgba(31,68,117,.09); }
+  .gv-form-head,.gv-form-foot { display:flex; align-items:center; gap:10px; min-height:62px; padding:12px 16px; }
+  .gv-form-head { border-bottom:1px solid var(--gv-line); }
+  .gv-form-head h1 { margin:0; font-size:15px; }
+  .gv-form-head small { display:block; margin-top:2px; color:var(--gv-muted); font-size:10px; }
+  .gv-form-actions { display:flex; gap:8px; margin-left:auto; }
+  .gv-form-button { min-height:38px; display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:0 13px; border:1px solid var(--gv-line); border-radius:9px; color:#23415f; background:#fff; font:inherit; font-size:11px; font-weight:800; text-decoration:none; cursor:pointer; }
+  .gv-form-button:hover { border-color:#9bbce8; color:var(--gv-brand); background:#f7faff; }
+  .gv-form-button.primary { border-color:var(--gv-brand); color:#fff !important; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
+  .gv-form-body { padding:16px; }
+  .gv-form-grid { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:11px; }
+  .gv-field { grid-column:span 3; min-width:0; }
+  .gv-field.span-4 { grid-column:span 4; }
+  .gv-field.span-6 { grid-column:span 6; }
+  .gv-field.span-8 { grid-column:span 8; }
+  .gv-field.full { grid-column:1 / -1; }
+  .gv-field label { display:block; margin-bottom:4px; color:#111827; font-size:10px; font-weight:800; }
+  .gv-required { color:var(--gv-danger); }
+  .gv-control { width:100%; height:36px; padding:0 10px; border:1px solid #d8e3f1; border-radius:8px; color:#111827; background:#fff; font:inherit; font-size:11px; }
+  .gv-form-ui .gv-field label,.gv-form-ui .gv-form-button,.gv-form-ui .gv-control,.gv-form-ui .gv-control option,.gv-form-ui .gv-switch-row { font-family:Manrope,"Segoe UI",Arial,sans-serif !important; color:#111827; }
+  .gv-form-ui .gv-control::placeholder { color:#6b7280; opacity:1; }
+  textarea.gv-control { height:78px; padding-top:8px; resize:vertical; }
+  .gv-control:hover { border-color:#acc4e3; }
+  .gv-control:focus { border-color:var(--gv-brand); outline:3px solid rgba(37,99,235,.14); outline-offset:1px; }
+  .gv-datetime { display:grid; grid-template-columns:minmax(0,1fr) 88px; gap:6px; }
+  .gv-switch-row { display:flex; align-items:center; gap:8px; height:36px; color:#26384d; font-size:11px; }
+  .gv-switch-row input { width:17px; height:17px; accent-color:var(--gv-brand); }
+  .gv-form-foot { justify-content:flex-end; border-top:1px solid var(--gv-line); }
+  .gv-message { margin:10px 0 0; color:var(--gv-danger); font-size:11px; font-weight:800; }
+  body.buffcorp-dark .gv-form-ui { --gv-brand:#8abcf8; --gv-ink:#f2f4f7; --gv-muted:#a8b5c4; --gv-line:#30363d; --gv-danger:#ff9d9d; }
+  body.buffcorp-dark .gv-form-shell { border-color:var(--gv-line); background:#161b22; box-shadow:0 10px 28px rgba(0,0,0,.22); }
+  body.buffcorp-dark .gv-form-ui .gv-field label,body.buffcorp-dark .gv-form-ui .gv-form-button,body.buffcorp-dark .gv-form-ui .gv-control,body.buffcorp-dark .gv-form-ui .gv-control option,body.buffcorp-dark .gv-form-ui .gv-switch-row { color:var(--gv-ink) !important; }
+  body.buffcorp-dark .gv-form-button,body.buffcorp-dark .gv-control { border-color:var(--gv-line); background:#0d1117; }
+  body.buffcorp-dark .gv-form-button:hover { border-color:var(--gv-brand); color:var(--gv-brand) !important; background:#1c2734; }
+  body.buffcorp-dark .gv-form-ui .gv-control::placeholder { color:#a8b5c4; }
+  body.buffcorp-dark .gv-form-button.primary,body.buffcorp-dark .gv-form-button.primary:hover { border-color:var(--gv-brand); color:#07121e !important; background:var(--gv-brand); }
+  @media (max-width:760px) { .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:span 6; } }
+  @media (max-width:510px) { .gv-form-head { flex-wrap:wrap; } .gv-form-actions { margin-left:auto; } .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:1 / -1; } .gv-form-button { min-height:42px; } }
+</style>
 
-<script type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
-<script src="js/ckeditor/_samples/sample.js" type="text/javascript"></script>
-<link href="js/ckeditor/_samples/sample.css" rel="stylesheet" type="text/css" />
-
-<div class="toolbar">
-  <a href="JavaScript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Lưu"><span>Lưu</span></a>
-  <a href="JavaScript:returnToList()"><img border="0" src="templates/{skin}/images/back.gif" alt="Về danh sách" width="20" height="20"><span>Về danh sách</span></a>
+<div class="gv-form-ui buffcorp-server-rendered buffcorp-module-ready">
+  <form action="main.php" method="post" id="gvTaskForm">
+    <input type="hidden" name="l" value="{LANGUAGEID}">
+    <input type="hidden" name="option" value="{funname}">
+    <input type="hidden" name="id" value="{giaoviec_id}">
+    <input type="hidden" name="mode" value="save">
+    <input type="hidden" name="month" value="{month}">
+    <input type="hidden" name="year" value="{year}">
+    <input type="hidden" name="day" value="{day}">
+    <input type="hidden" name="view" value="{view}">
+    <input type="hidden" name="member_id1" value="{context_member_id}">
+    <section class="gv-form-shell">
+      <header class="gv-form-head">
+        <div><h1>{form_title}</h1><small>{parent_name}</small></div>
+        <div class="gv-form-actions"><a class="gv-form-button" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;member_id1={context_member_id}&amp;month={month}&amp;year={year}&amp;day={day}&amp;view={view}">Quay lại</a><button class="gv-form-button primary" type="submit">Lưu</button></div>
+      </header>
+      <div class="gv-form-body">
+        <div class="gv-form-grid">
+          <div class="gv-field span-8"><label for="giaoviec_name">Tên công việc <span class="gv-required">*</span></label><input class="gv-control" id="giaoviec_name" name="giaoviec_name" value="{giaoviec_name}" required {allow_edit}></div>
+          <div class="gv-field span-4"><label for="giaoviec_num">Số lượng</label><input class="gv-control" id="giaoviec_num" name="giaoviec_num" type="number" min="0" value="{giaoviec_num}"></div>
+          <div class="gv-field span-4"><label for="member_id">Người thực hiện <span class="gv-required">*</span></label><select class="gv-control" id="member_id" name="member_id" required {allow_edit}><option value="">Chọn nhân viên</option>
+            <!-- BEGIN member_list -->
+            <option value="{member_list.member_id}" {member_list.selected}>{member_list.member_name}</option>
+            <!-- END member_list -->
+          </select></div>
+          <div class="gv-field span-4"><label for="website_id">Website <span class="gv-required">*</span></label><select class="gv-control" id="website_id" name="website_id" required {allow_edit}><option value="">Chọn website</option>
+            <!-- BEGIN website_list -->
+            <option value="{website_list.website_id}">{website_list.website_name}</option>
+            <!-- END website_list -->
+          </select></div>
+          <div class="gv-field span-4"><label for="parent_id">Công việc cha</label><select class="gv-control" id="parent_id" name="parent_id" {allow_edit}><option value="0">Không có</option>
+            <!-- BEGIN cha_list -->
+            <option value="{cha_list.giaoviec_id}">{cha_list.giaoviec_name}</option>
+            <!-- END cha_list -->
+          </select></div>
+          <div class="gv-field span-6"><label>Ngày bắt đầu</label><div class="gv-datetime"><input class="gv-control" name="ngay_bat_dau" type="date" value="{ngay_bat_dau}" {allow_edit}><input class="gv-control" name="gio_bat_dau" type="time" value="{gio_bat_dau}" {allow_edit}></div></div>
+          <div class="gv-field span-6"><label>Hạn hoàn thành <span class="gv-required">*</span></label><div class="gv-datetime"><input class="gv-control" name="ngay" type="date" value="{ngay}" required {allow_edit}><input class="gv-control" name="gio_deadline" type="time" value="{gio_deadline}" {allow_edit}></div></div>
+          <div class="gv-field span-4" style="display:{kpi_type_display}"><label for="kpi_type">Loại KPI</label><select class="gv-control" id="kpi_type" name="kpi_type"><option value="">Không tính KPI</option><option value="viet_content" style="display:{content_kpi_option_display}">Viết content</option><option value="audit_content" style="display:{content_kpi_option_display}">Audit content</option><option value="nghien_cuu_tu_khoa" style="display:{content_kpi_option_display}">Nghiên cứu từ khóa</option><option value="tim_khach_hang" style="display:{sales_kpi_option_display}">Tìm khách hàng</option></select></div>
+          <div class="gv-field span-4"><label for="soluong">Trạng thái</label><select class="gv-control" id="soluong" name="soluong"><option value="0">Chưa thực hiện</option><option value="1">Đang thực hiện</option><option value="2">Đã xong</option></select></div>
+          <div class="gv-field span-4"><label>Hiển thị</label><label class="gv-switch-row"><input name="active" type="checkbox" value="1" {active}><span>Đang hiển thị</span></label></div>
+          <div class="gv-field full"><label for="link_demo">Link hoàn thành</label><input class="gv-control" id="link_demo" name="link_demo" type="url" value="{link_demo}" placeholder="https://" {allow_edit}></div>
+          <div class="gv-field full"><label for="chitiet">Chi tiết</label><textarea class="gv-control" id="chitiet" name="chitiet">{chitiet}</textarea></div>
+        </div>
+        <p class="gv-message">{MESSAGE}</p>
+      </div>
+      <footer class="gv-form-foot"><a class="gv-form-button" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;member_id1={context_member_id}&amp;month={month}&amp;year={year}&amp;day={day}&amp;view={view}">Hủy</a><button class="gv-form-button primary" type="submit">Lưu công việc</button></footer>
+    </section>
+  </form>
 </div>
 
-<div class="tabtitle">
-  Giao việc : &quot;{parent_name}
-</div>
-
-<div style="overflow:auto; height:80%">
-<form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" >
-  <input type="hidden" name="l" value="{LANGUAGEID}">
-  <input type="hidden" name="option" value="{funname}">
-  <input type="hidden" name="id" value="{giaoviec_id}">
-  <input type="hidden" name="mode" value="save">
-
-<table width="100%">
-  <tr>
-    <td width="10%" height="25">Tiêu đề:<font color="#FF0000">*</font></td>
-    <td width="90%">
-      <input name="giaoviec_name" notnull="1" type="text" size="91" alt="Tên định mức" value="{giaoviec_name}" {allow_edit} />
-      Số lượng <input name="giaoviec_num" type="text" size="5" value="{giaoviec_num}" />
-    </td>
-  </tr>
-
-  <tr style="display:{kpi_type_display}">
-    <td height="25">Loại KPI:</td>
-    <td>
-      <select size="1" name="kpi_type" alt="Loại KPI">
-        <option value="">Không tính KPI</option>
-        <option value="viet_content" style="display:{content_kpi_option_display}">Viết content</option>
-        <option value="audit_content" style="display:{content_kpi_option_display}">Audit content</option>
-        <option value="nghien_cuu_tu_khoa" style="display:{content_kpi_option_display}">Nghiên cứu từ khoá</option>
-        <option value="tim_khach_hang" style="display:{sales_kpi_option_display}">Tìm khách hàng</option>
-      </select>
-      <font color="#666666"> Chọn loại KPI thì khi tick Đã xong phải nhập đủ dữ liệu cần tính KPI.</font>
-    </td>
-  </tr>
-
-  <tr>
-    <td height="25">Người thực hiện:</td>
-    <td>
-      <select size="1" name="member_id" alt="Member" {allow_edit}>
-        <option value=0>Chọn Người thực hiện</option>
-        <!-- BEGIN member_list -->
-        <option value="{member_list.member_id}">{member_list.member_name}</option>
-        <!-- END member_list -->
-      </select>
-
-      &nbsp;&nbsp; Website
-      <select size="1" name="website_id" alt="Website" {allow_edit}>
-        <option value=0>Chọn Website</option>
-        <!-- BEGIN website_list -->
-        <option value="{website_list.website_id}">{website_list.website_name}</option>
-        <!-- END website_list -->
-      </select>
-
-      &nbsp;&nbsp; Ngày bắt đầu
-      <input name="ngay_bat_dau" id="ngay_bat_dau" type="text" notnull="1" alt="Ngày" size="10" readonly="1" value="{ngay_bat_dau}" {allow_edit}>
-      <input name="gio_bat_dau" id="gio_bat_dau" type="time" value="{gio_bat_dau}" {allow_edit} style="width:110px;">
-      <img id="{allow_edit}img_ngay_bat_dau" src="templates/{skin}/images/cal.png" width="20" height="20" align="absmiddle" style="border:0px; margin:0px;">
-
-      &nbsp;&nbsp; Deadline<font color="#FF0000">*</font>
-      <input name="ngay" id="ngay" type="text" notnull="1" alt="Ngày" size="10" readonly="1" value="{ngay}" {allow_edit}>
-      <input name="gio_deadline" id="gio_deadline" type="time" value="{gio_deadline}" {allow_edit} style="width:110px;">
-      <img id="{allow_edit}img_ngay" src="templates/{skin}/images/cal.png" width="20" height="20" align="absmiddle" style="border:0px; margin:0px;">
-    </td>
-  </tr>
-
-  <tr>
-    <td width="10%" height="25">Cấp Cha:<font color="#FF0000">*</font></td>
-    <td width="90%">
-      <select size="1" name="parent_id" alt="Cấp Cha" {allow_edit}>
-        <option value=0>Chọn Cấp Cha</option>
-        <!-- BEGIN cha_list -->
-        <option value="{cha_list.giaoviec_id}">{cha_list.giaoviec_name}</option>
-        <!-- END cha_list -->
-      </select>
-    </td>
-  </tr>
-
-  <tr>
-    <td width="10%" height="25">Link hoàn thànnh:</td>
-    <td width="90%">
-      <input name="link_demo" notnull="1" type="text" size="91" alt="Link hoàn thành" value="{link_demo}" {allow_edit} />
-    </td>
-  </tr>
-
-  <tr>
-    <td height="25">Chi tiết:</td>
-    <td>
-      <textarea cols="80" id="chitiet" name="chitiet" rows="8">{chitiet}</textarea>
-      <script type="text/javascript">CKEDITOR.replace('chitiet',{height:350});</script>
-    </td>
-  </tr>
-
-  <tr>
-    <td height="25">Trạng Thái:</td>
-    <td>
-      <select size="1" name="soluong" alt="Member">
-        <option value=0>Chưa thực hiện</option>
-        <option value=1>Đang thực hiện</option>
-        <option value=2>Đã xong</option>
-      </select>
-    </td>
-  </tr>
-
-  <tr>
-    <td></td>
-    <td>
-      <input type="checkbox" name="active" value="1" id="fp1" {active} />
-      <label for="fp1"> Show</label>
-    </td>
-  </tr>
-
-  <tr style="visibility:{allow}">
-    <td colspan="2">&nbsp;</td>
-  </tr>
-
-  <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
-    <td width="100%" style="padding-left: 10" colspan="2" height="23"><b>Administration</b><hr></td>
-  </tr>
-
-  <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
-    <td style="padding-left: 10" height="23">Create date:</td>
-    <td height="23"><input type="text" name="T1" size="33" class="is_label" readonly value="{created_date}"></td>
-  </tr>
-
-  <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
-    <td style="padding-left: 10" height="23">Create by:</td>
-    <td height="23"><input type="text" name="created_by" size="33" class="is_label" readonly value="{created_by}"></td>
-  </tr>
-
-  <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
-    <td style="padding-left: 10" height="23">Last_modified</td>
-    <td height="23">
-      <input type="text" name="last_modified" size="33" class="is_label" readonly value="{last_modified}">
-    </td>
-  </tr>
-
-  <tr style="display:expression(('{is_new}' == '1') ? 'none' : '')">
-    <td style="padding-left: 10" height="23">Modified by</td>
-    <td height="23"><input type="text" name="modified_by" size="33" class="is_label" readonly value="{modified_by}"></td>
-  </tr>
-</table>
-</form>
-
-<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
-</div>
-
-<Script Language="JavaScript">
-function doSave()
-{
-  if(mainForm.giaoviec_name.value == 0 || mainForm.giaoviec_name.value == ''){
-    alert('Nhập Tiêu Đề')
-    mainForm.giaoviec_name.focus()
-    return
-  }
-  if(mainForm.member_id.value == 0 || mainForm.member_id.value == ''){
-    alert('chọn Người Thực Hiện')
-    mainForm.member_id.focus()
-    return
-  }
-  if(mainForm.website_id.value == 0 || mainForm.website_id.value == ''){
-    alert('Chọn Website')
-    mainForm.website_id.focus()
-    return
-  }
-  if(mainForm.ngay.value == 0 || mainForm.ngay.value == ''){
-    alert('Chọn Deadline*')
-    mainForm.ngay.focus()
-    return
-  }
-  if(mainForm.kpi_type && mainForm.kpi_type.value != '' && mainForm.soluong.value == 2){
-    if(mainForm.giaoviec_name.value == 0 || mainForm.giaoviec_name.value == ''){
-      alert('Việc KPI cần nhập Tiêu đề trước khi chuyển Đã xong')
-      mainForm.giaoviec_name.focus()
-      return
-    }
-    if(mainForm.giaoviec_num.value == 0 || mainForm.giaoviec_num.value == ''){
-      alert('Việc KPI cần nhập Số lượng trước khi chuyển Đã xong')
-      mainForm.giaoviec_num.focus()
-      return
-    }
-    if(mainForm.kpi_type.value != 'tim_khach_hang' && (mainForm.link_demo.value == 0 || mainForm.link_demo.value == '')){
-      alert('Việc KPI Content cần nhập Link hoàn thành trước khi chuyển Đã xong')
-      mainForm.link_demo.focus()
-      return
-    }
-  }
-  // optional: bắt chọn giờ deadline
-  // if(!mainForm.gio_deadline.value){
-  //   alert('Chọn giờ Deadline')
-  //   mainForm.gio_deadline.focus()
-  //   return
-  // }
-
-  if (verify(mainForm))
-    mainForm.submit()
-}
-
-function returnToList()
-{
-  document.location='?option={funname}&mode=list&l={LANGUAGEID}'
-}
-
-Calendar.setup({
-  inputField  : "ngay",
-  ifFormat    : "%d-%m-%Y",
-  button      : "img_ngay",
-  align       : "Tl",
-  singleClick : true
-});
-
-Calendar.setup({
-  inputField  : "ngay_bat_dau",
-  ifFormat    : "%d-%m-%Y",
-  button      : "img_ngay_bat_dau",
-  align       : "Tl",
-  singleClick : true
-});
-
-mainForm.giaoviec_name.focus()
-mainForm.member_id.value   = {member_id}
-mainForm.website_id.value  = {website_id}
-mainForm.soluong.value     = {soluong}
-mainForm.parent_id.value   = {parent_id}
-if(mainForm.kpi_type) mainForm.kpi_type.value = '{kpi_type}'
-</Script>
+<script>
+(function () {
+  var form = document.getElementById('gvTaskForm');
+  if (!form) return;
+  form.member_id.value = '{member_id}';
+  form.website_id.value = '{website_id}';
+  form.parent_id.value = '{parent_id}';
+  form.soluong.value = '{soluong}';
+  if (form.kpi_type) form.kpi_type.value = '{kpi_type}';
+}());
+</script>
