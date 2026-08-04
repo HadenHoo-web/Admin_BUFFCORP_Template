@@ -149,6 +149,33 @@
   .gv-confirm-actions button:hover { border-color:#9bbce8; background:#f7faff; }
   .gv-confirm-actions .gv-confirm-delete { border-color:#dc2626; color:#fff; background:#dc2626; }
   .gv-confirm-actions .gv-confirm-delete:hover { border-color:#b91c1c; background:#b91c1c; }
+  body.buffcorp-dark .gv-task-ui { --gv-brand:#8abcf8; --gv-ink:#f2f4f7; --gv-muted:#a8b5c4; --gv-line:#30363d; --gv-canvas:#0d1117; --gv-surface:#161b22; --gv-warning:#f2b45a; --gv-success:#6dd7a3; --gv-danger:#ff9d9d; }
+  body.buffcorp-dark .gv-directory,body.buffcorp-dark .gv-panel,body.buffcorp-dark .gv-card,body.buffcorp-dark .gv-task-card,body.buffcorp-dark .gv-calendar,body.buffcorp-dark .gv-confirm-dialog,body.buffcorp-dark .gv-directory-filter-panel { border-color:var(--gv-line); color:var(--gv-ink); background:var(--gv-surface); box-shadow:0 10px 28px rgba(0,0,0,.22); }
+  body.buffcorp-dark .gv-directory-head,body.buffcorp-dark .gv-detail-head,body.buffcorp-dark .gv-list-head,body.buffcorp-dark .gv-stats,body.buffcorp-dark .gv-task-foot,body.buffcorp-dark .gv-confirm-actions { border-color:var(--gv-line); }
+  body.buffcorp-dark .gv-employee-count,body.buffcorp-dark .gv-directory-filter-mode,body.buffcorp-dark .gv-status-filter,body.buffcorp-dark .gv-calendar-modes,body.buffcorp-dark .gv-board { border-color:var(--gv-line); background:#0d1117; }
+  body.buffcorp-dark .gv-directory-time-button,body.buffcorp-dark .gv-directory-filter input,body.buffcorp-dark .gv-search > input,body.buffcorp-dark .gv-icon-button,body.buffcorp-dark .gv-button,body.buffcorp-dark .gv-calendar-nav,body.buffcorp-dark .gv-count,body.buffcorp-dark .gv-confirm-actions button { border-color:var(--gv-line); color:var(--gv-ink); background:#0d1117; }
+  body.buffcorp-dark .gv-directory-time-button:hover,body.buffcorp-dark .gv-icon-button:hover,body.buffcorp-dark .gv-button:hover,body.buffcorp-dark .gv-calendar-nav:hover,body.buffcorp-dark .gv-confirm-actions button:hover { border-color:var(--gv-brand); color:var(--gv-brand); background:#1c2734; }
+  body.buffcorp-dark .gv-directory-filter-mode button,body.buffcorp-dark .gv-status-filter button,body.buffcorp-dark .gv-calendar-mode,body.buffcorp-dark .gv-calendar-day { color:var(--gv-muted); }
+  body.buffcorp-dark .gv-directory-filter-mode button:hover,body.buffcorp-dark .gv-directory-filter-mode button.active,body.buffcorp-dark .gv-status-filter button:hover,body.buffcorp-dark .gv-status-filter button.active,body.buffcorp-dark .gv-calendar-mode:hover,body.buffcorp-dark .gv-calendar-mode.active,body.buffcorp-dark .gv-calendar-day:hover,body.buffcorp-dark .gv-drag-handle:hover { color:var(--gv-brand); background:#1c344d; }
+  body.buffcorp-dark .gv-column { border-color:var(--gv-line); background:#1c222b; }
+  body.buffcorp-dark .gv-column-head h2,body.buffcorp-dark .gv-employee-count b,body.buffcorp-dark .gv-stats b,body.buffcorp-dark .gv-task-title,body.buffcorp-dark .gv-person strong { color:var(--gv-ink); }
+  body.buffcorp-dark .gv-department,body.buffcorp-dark .gv-task-line,body.buffcorp-dark .gv-weekdays { color:var(--gv-muted); }
+  body.buffcorp-dark .gv-avatar { color:#b9d7ff; background:#1c344d; }
+  body.buffcorp-dark .gv-calendar-day.selected { color:#07121e; background:var(--gv-brand); }
+  body.buffcorp-dark .gv-task-list.drag-over { background:#1c344d; }
+  body.buffcorp-dark .gv-person-avatar { color:#b9d7ff; background:#1c344d; }
+  body.buffcorp-dark .gv-delete { color:#ff9d9d; background:#3a2025; }
+  body.buffcorp-dark .gv-empty { border-color:#506176; background:#161b22; }
+  body.buffcorp-dark .gv-confirm-copy p { color:var(--gv-muted); }
+  body.buffcorp-dark .gv-confirm-icon { color:#f2b45a; background:#3a2d1d; }
+  body.buffcorp-dark .gv-toast { border-color:#286745; color:#b7f3d0; background:#132a20; box-shadow:0 14px 30px rgba(0,0,0,.3); }
+  body.buffcorp-dark .gv-toast svg { color:#6dd7a3; }
+  body.buffcorp-dark .gv-toast-copy span,body.buffcorp-dark .gv-toast-close { color:#a8d9bb; }
+  body.buffcorp-dark .gv-toast-close:hover,body.buffcorp-dark .gv-toast-close:focus-visible { color:#d6ffe7; background:#1f4633; }
+  body.buffcorp-dark .gv-toast.error { border-color:#76363b; color:#ffc0c0; background:#351b20; }
+  body.buffcorp-dark .gv-toast.error svg { color:#ff9d9d; }
+  body.buffcorp-dark .gv-toast.error .gv-toast-copy span,body.buffcorp-dark .gv-toast.error .gv-toast-close { color:#f3b5b5; }
+  body.buffcorp-dark .gv-button-primary,body.buffcorp-dark .gv-button-primary:hover { border-color:var(--gv-brand); color:#07121e !important; background:var(--gv-brand); }
   @media (max-width:1080px) { .gv-employee-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
   @media (max-width:760px) { .gv-task-ui { overflow-x:clip; } .gv-directory,.gv-panel { border-radius:12px; } .gv-directory-head,.gv-detail-head,.gv-list-head { min-height:0; flex-wrap:wrap; gap:8px; padding:12px; } .gv-directory-compact-filter { margin-left:auto; } .gv-directory-time-button { min-height:44px; height:44px; } .gv-directory-filter-panel { right:0; width:min(280px,calc(100vw - 28px)); } .gv-directory-filter-mode button { min-height:38px; flex:1; } .gv-directory-filter input { height:42px; } .gv-search { flex-basis:100%; width:100%; margin-left:0; } .gv-task-ui .gv-search > input { height:44px; } .gv-detail-head { align-items:flex-start; } .gv-detail-actions { order:3; width:100%; margin-left:0; } .gv-detail-actions .gv-button { flex:1; min-height:44px; } .gv-icon-button { width:42px; min-height:42px; } .gv-list-head { align-items:stretch; } .gv-date-filter { width:100%; } .gv-date-button { width:100%; min-height:44px; } .gv-status-filter { width:100%; justify-content:space-between; gap:4px; overflow-x:auto; scrollbar-width:none; } .gv-status-filter::-webkit-scrollbar { display:none; } .gv-status-filter button { min-height:38px; flex:0 0 auto; } .gv-board { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-task-list { min-height:150px; max-height:360px; } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:1fr; } .gv-toast { right:16px; bottom:16px; width:min(360px,calc(100vw - 32px)); } .gv-confirm-actions button { min-height:44px; } }
   @media (max-width:520px) { .gv-directory-head,.gv-detail-head,.gv-list-head { padding:10px; } .gv-directory-head strong { font-size:14px; } .gv-employee-count { padding:5px 7px; } .gv-employee-grid { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-card { padding:13px; } .gv-avatar { width:42px; height:42px; } .gv-directory-filter-panel { width:min(280px,calc(100vw - 24px)); } .gv-date-button { min-width:0; } .gv-calendar { width:min(288px,calc(100vw - 40px)); } }

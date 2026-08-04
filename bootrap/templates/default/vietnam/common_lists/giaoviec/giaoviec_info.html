@@ -30,6 +30,13 @@
   .gv-switch-row input { width:17px; height:17px; accent-color:var(--gv-brand); }
   .gv-form-foot { justify-content:flex-end; border-top:1px solid var(--gv-line); }
   .gv-message { margin:10px 0 0; color:var(--gv-danger); font-size:11px; font-weight:800; }
+  body.buffcorp-dark .gv-form-ui { --gv-brand:#8abcf8; --gv-ink:#f2f4f7; --gv-muted:#a8b5c4; --gv-line:#30363d; --gv-danger:#ff9d9d; }
+  body.buffcorp-dark .gv-form-shell { border-color:var(--gv-line); background:#161b22; box-shadow:0 10px 28px rgba(0,0,0,.22); }
+  body.buffcorp-dark .gv-form-ui .gv-field label,body.buffcorp-dark .gv-form-ui .gv-form-button,body.buffcorp-dark .gv-form-ui .gv-control,body.buffcorp-dark .gv-form-ui .gv-control option,body.buffcorp-dark .gv-form-ui .gv-switch-row { color:var(--gv-ink) !important; }
+  body.buffcorp-dark .gv-form-button,body.buffcorp-dark .gv-control { border-color:var(--gv-line); background:#0d1117; }
+  body.buffcorp-dark .gv-form-button:hover { border-color:var(--gv-brand); color:var(--gv-brand) !important; background:#1c2734; }
+  body.buffcorp-dark .gv-form-ui .gv-control::placeholder { color:#a8b5c4; }
+  body.buffcorp-dark .gv-form-button.primary,body.buffcorp-dark .gv-form-button.primary:hover { border-color:var(--gv-brand); color:#07121e !important; background:var(--gv-brand); }
   @media (max-width:760px) { .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:span 6; } }
   @media (max-width:510px) { .gv-form-head { flex-wrap:wrap; } .gv-form-actions { margin-left:auto; } .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:1 / -1; } .gv-form-button { min-height:42px; } }
 </style>

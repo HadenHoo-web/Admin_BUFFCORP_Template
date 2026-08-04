@@ -17,5 +17,5 @@ if (!preg_match('/name="id" value="0"/', $html)) throw new RuntimeException('New
 if (!preg_match('/name="member_id1" value="34"/', $html)) throw new RuntimeException('New-task form must retain the selected employee.');
 if (!preg_match('/<option[^>]*value="34"[^>]*selected/', $html)) throw new RuntimeException('Selected employee must be rendered server-side.');
 if (!preg_match('/name="ngay"[^>]*value="2026-07-31"/', $html)) throw new RuntimeException('New-task form must default to the viewed date.');
-if (strpos($html, '.gv-form-ui .gv-field label,.gv-form-ui .gv-form-button,.gv-form-ui .gv-control') === false || strpos($html, '.gv-form-button.primary { border-color:var(--gv-brand); color:#fff !important;') === false) throw new RuntimeException('Task form controls and primary action need stable readable typography.');
+if (strpos($html, '.gv-form-ui .gv-field label,.gv-form-ui .gv-form-button,.gv-form-ui .gv-control') === false || strpos($html, '.gv-form-button.primary { border-color:var(--gv-brand); color:#fff !important;') === false || strpos($html, 'body.buffcorp-dark .gv-form-ui') === false) throw new RuntimeException('Task form controls and primary action need stable readable typography in both themes.');
 echo "Task create form smoke OK\n";
