@@ -7,7 +7,7 @@
   .gv-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   .gv-directory,.gv-panel { overflow:visible; border:1px solid var(--gv-line); border-radius:14px; background:var(--gv-surface); box-shadow:0 10px 30px rgba(31,68,117,.09); }
   .gv-directory-head,.gv-detail-head,.gv-list-head { display:flex; align-items:center; gap:12px; min-height:64px; padding:12px 16px; border-bottom:1px solid var(--gv-line); }
-  .gv-directory-head strong { font-size:15px; }
+  .gv-directory-head strong { font-size:17px; }
   .gv-employee-count { padding:5px 9px; border:1px solid #e3ebf5; border-radius:8px; color:var(--gv-muted); background:#f8fbff; font-size:10px; font-weight:700; }
   .gv-employee-count b { margin-left:5px; color:#26384d; font-size:12px; }
   .gv-directory-head > strong { order:1; }
@@ -32,17 +32,22 @@
   .gv-search input:focus,.gv-button:focus-visible,.gv-icon-button:focus-visible,.gv-card:focus-visible,.gv-calendar-day:focus-visible,.gv-calendar-mode:focus-visible,.gv-drag-handle:focus-visible,.gv-directory-time-button:focus-visible,.gv-directory-filter-mode button:focus-visible { outline:3px solid rgba(37,99,235,.22); outline-offset:2px; }
   .gv-employee-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:14px; }
   .gv-directory[aria-busy="true"] .gv-employee-grid { opacity:.58; pointer-events:none; transition:opacity .18s ease; }
-  .gv-card { min-width:0; padding:15px; border:1px solid var(--gv-line); border-radius:12px; color:#26384d; background:#fff; text-decoration:none; transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease; }
-  .gv-card:hover { border-color:#8db6ed; box-shadow:0 9px 22px rgba(31,86,150,.12); transform:translateY(-2px); }
+  .gv-card { --gv-dept-color:#2563eb; --gv-dept-soft:#e8f0ff; min-width:0; padding:15px; border:1px solid var(--gv-line); border-top:3px solid var(--gv-dept-color); border-radius:12px; color:#26384d; background:#fff; text-decoration:none; transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease; }
+  .gv-card.gv-dept-1 { --gv-dept-color:#047857; --gv-dept-soft:#e7f7ef; }
+  .gv-card.gv-dept-2 { --gv-dept-color:#7c3aed; --gv-dept-soft:#f1eafe; }
+  .gv-card.gv-dept-3 { --gv-dept-color:#c2410c; --gv-dept-soft:#fff0e7; }
+  .gv-card.gv-dept-4 { --gv-dept-color:#be123c; --gv-dept-soft:#fff0f4; }
+  .gv-card:hover { border-color:var(--gv-dept-color); box-shadow:0 9px 22px rgba(31,86,150,.12); transform:translateY(-2px); }
   .gv-card-top,.gv-person { display:flex; align-items:center; gap:10px; }
   .gv-avatar { width:46px; height:46px; display:grid; flex:0 0 auto; place-items:center; border-radius:12px; color:#1f5fae; background:#e7f0fd; font-size:13px; font-weight:800; }
-  .gv-name { display:block; color:var(--gv-ink); font-size:13px; font-weight:800; }
-  .gv-role { display:block; margin-top:3px; color:var(--gv-muted); font-size:10px; }
-  .gv-department { display:flex; align-items:center; gap:5px; margin-top:10px; color:#426283; font-size:10px; font-weight:700; }
+  .gv-card .gv-avatar { color:var(--gv-dept-color); background:var(--gv-dept-soft); font-size:14px; }
+  .gv-name { display:block; color:var(--gv-ink); font-size:15px; font-weight:800; }
+  .gv-role { display:block; margin-top:3px; color:var(--gv-muted); font-size:12px; }
+  .gv-department { width:max-content; max-width:100%; display:flex; align-items:center; gap:5px; margin-top:10px; padding:4px 7px; border-radius:7px; color:var(--gv-dept-color); background:var(--gv-dept-soft); font-size:11px; font-weight:800; }
   .gv-department svg { width:14px; height:14px; }
   .gv-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:14px; padding-top:12px; border-top:1px solid #edf1f6; }
-  .gv-stats span { color:var(--gv-muted); font-size:9px; }
-  .gv-stats b { display:block; margin-top:2px; color:#26384d; font-size:13px; }
+  .gv-stats span { color:var(--gv-muted); font-size:10px; }
+  .gv-stats b { display:block; margin-top:2px; color:#26384d; font-size:15px; }
   .gv-detail-head { border-radius:14px 14px 0 0; }
   .gv-icon-button,.gv-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:38px; border:1px solid var(--gv-line); border-radius:9px; color:#23415f; background:#fff; font:inherit; font-size:11px; font-weight:800; text-decoration:none; cursor:pointer; transition:border-color .18s ease,background .18s ease,transform .18s ease; }
   .gv-icon-button { width:38px; padding:0; }
@@ -163,6 +168,12 @@
   body.buffcorp-dark .gv-column-head h2,body.buffcorp-dark .gv-employee-count b,body.buffcorp-dark .gv-stats b,body.buffcorp-dark .gv-task-title,body.buffcorp-dark .gv-person strong { color:var(--gv-ink); }
   body.buffcorp-dark .gv-department,body.buffcorp-dark .gv-task-line,body.buffcorp-dark .gv-weekdays { color:var(--gv-muted); }
   body.buffcorp-dark .gv-avatar { color:#b9d7ff; background:#1c344d; }
+  body.buffcorp-dark .gv-card.gv-dept-0 { --gv-dept-color:#8abcf8; --gv-dept-soft:#18324d; }
+  body.buffcorp-dark .gv-card.gv-dept-1 { --gv-dept-color:#6dd7a3; --gv-dept-soft:#173d30; }
+  body.buffcorp-dark .gv-card.gv-dept-2 { --gv-dept-color:#c5a5ff; --gv-dept-soft:#33264d; }
+  body.buffcorp-dark .gv-card.gv-dept-3 { --gv-dept-color:#f2b45a; --gv-dept-soft:#49341d; }
+  body.buffcorp-dark .gv-card.gv-dept-4 { --gv-dept-color:#ff9db5; --gv-dept-soft:#4b2230; }
+  body.buffcorp-dark .gv-card .gv-avatar,body.buffcorp-dark .gv-card .gv-department { color:var(--gv-dept-color); background:var(--gv-dept-soft); }
   body.buffcorp-dark .gv-calendar-day.selected { color:#07121e; background:var(--gv-brand); }
   body.buffcorp-dark .gv-task-list.drag-over { background:#1c344d; }
   body.buffcorp-dark .gv-person-avatar { color:#b9d7ff; background:#1c344d; }
@@ -181,7 +192,7 @@
   @media (max-width:760px) { .buffcorp-page:has(.gv-task-ui) { padding:10px 10px 20px; } }
   @media (max-width:1080px) { .gv-employee-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
   @media (max-width:760px) { .gv-task-ui { overflow-x:clip; } .gv-directory,.gv-panel { border-radius:12px; } .gv-directory-head,.gv-detail-head,.gv-list-head { min-height:0; flex-wrap:wrap; gap:8px; padding:12px; } .gv-directory-compact-filter { margin-left:auto; } .gv-directory-time-button { min-height:44px; height:44px; } .gv-directory-filter-panel { right:0; width:min(280px,calc(100vw - 28px)); } .gv-directory-filter-mode button { min-height:38px; flex:1; } .gv-directory-filter input { height:42px; } .gv-search { flex-basis:100%; width:100%; margin-left:0; } .gv-task-ui .gv-search > input { height:44px; } .gv-detail-head { align-items:flex-start; } .gv-detail-actions { order:3; width:100%; margin-left:0; } .gv-detail-actions .gv-button { flex:1; min-height:44px; } .gv-icon-button { width:42px; min-height:42px; } .gv-list-head { align-items:stretch; } .gv-date-filter { width:100%; } .gv-date-button { width:100%; min-height:44px; } .gv-status-filter { width:100%; justify-content:space-between; gap:4px; overflow-x:auto; scrollbar-width:none; } .gv-status-filter::-webkit-scrollbar { display:none; } .gv-status-filter button { min-height:38px; flex:0 0 auto; } .gv-board { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-task-list { min-height:150px; max-height:360px; } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:1fr; } .gv-toast { right:16px; bottom:16px; width:min(360px,calc(100vw - 32px)); } .gv-confirm-actions button { min-height:44px; } }
-  @media (max-width:520px) { .gv-directory-head,.gv-detail-head,.gv-list-head { padding:10px; } .gv-directory-head strong { font-size:14px; } .gv-employee-count { padding:5px 7px; } .gv-employee-grid { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-card { padding:13px; } .gv-avatar { width:42px; height:42px; } .gv-directory-filter-panel { width:min(280px,calc(100vw - 24px)); } .gv-date-button { min-width:0; } .gv-calendar { width:min(288px,calc(100vw - 40px)); } }
+  @media (max-width:520px) { .gv-directory-head,.gv-detail-head,.gv-list-head { padding:10px; } .gv-directory-head strong { font-size:16px; } .gv-employee-count { padding:5px 7px; } .gv-employee-grid { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-card { padding:13px; } .gv-avatar { width:42px; height:42px; } .gv-directory-filter-panel { width:min(280px,calc(100vw - 24px)); } .gv-date-button { min-width:0; } .gv-calendar { width:min(288px,calc(100vw - 40px)); } }
 </style>
 
 <div class="gv-task-ui buffcorp-server-rendered buffcorp-module-ready" id="gvTaskUi">
@@ -223,7 +234,7 @@
     </header>
     <div class="gv-employee-grid" id="gvEmployeeGrid">
       <!-- BEGIN member_list -->
-      <a class="gv-card" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;member_id1={member_list.member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}" data-member-card>
+      <a class="gv-card {member_list.department_tone}" href="main.php?option={funname}&amp;mode=list&amp;l={LANGUAGEID}&amp;member_id1={member_list.member_id}&amp;month={month}&amp;year={year}&amp;day={selected_date}&amp;view={view}" data-member-card>
         <span class="gv-card-top"><span class="gv-avatar">{member_list.initials}</span><span><strong class="gv-name">{member_list.member_name}</strong><span class="gv-role">{member_list.role}</span></span></span>
         <span class="gv-department"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-building"/></svg>{member_list.department}</span>
         <span class="gv-stats"><span>Tổng việc<b>{member_list.total}</b></span><span>Đang làm<b>{member_list.progress}</b></span><span>Đã xong<b>{member_list.done}</b></span></span>

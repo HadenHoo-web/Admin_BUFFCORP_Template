@@ -308,10 +308,10 @@ var arrNavigation =
         if (label.indexOf('khach hang') >= 0) return 'briefcase';
         if (label.indexOf('tai chinh') >= 0 || label.indexOf('kho') >= 0) return 'wallet';
         if (label.indexOf('tai nguyen') >= 0) return 'database';
-        if (label.indexOf('ky thuat web') >= 0 || label.indexOf('thuáº­t web') >= 0 || label.indexOf('thuật web') >= 0) return 'monitor';
-        if (label.indexOf('so do cong ty') >= 0 || label.indexOf('sæ') >= 0 || label.indexOf('cã') >= 0 || label.indexOf('công ty') >= 0) return 'sitemap';
+        if (label.indexOf('ky thuat web') >= 0) return 'monitor';
+        if (label.indexOf('so do cong ty') >= 0) return 'sitemap';
         if (label === 'chung') return 'grid';
-        if (label.indexOf('noi dung') >= 0 || label.indexOf('tin tuc') >= 0 || label.indexOf('há»‡ thá»‘ng') >= 0 || label.indexOf('hệ thống') >= 0) return 'archive';
+        if (label.indexOf('noi dung') >= 0 || label.indexOf('tin tuc') >= 0) return 'archive';
         if (label.indexOf('seo') >= 0) return 'search';
         if (label.indexOf('he thong') >= 0) return 'settings';
         return 'layers';

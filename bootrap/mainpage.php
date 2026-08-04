@@ -78,6 +78,8 @@ foreach (array_unique([0, count($userWords) - 1]) as $wordIndex) {
         : substr($userWords[$wordIndex], 0, 1);
 }
 $userInitial = function_exists('mb_strtoupper') ? mb_strtoupper($userInitial, 'UTF-8') : strtoupper($userInitial);
+$userProfileUrl = 'main.php?option=members/members&mode=info&l=' . rawurlencode((string)$languageid) . '&id=' . rawurlencode((string)$loginId);
+$userAccountUrl = 'main.php?option=members/change_password&mode=list&l=' . rawurlencode((string)$languageid);
 $template = new Template();
 $template->set_filenames([
     'body' => "templates/mainpage/default.tpl"
@@ -109,6 +111,8 @@ $template->assign_vars([
     'PAYROLL_ADMIN_DISPLAY' => ($isPayrollAdminUser ? 'inline-block' : 'none'),
     'USER_DISPLAY_NAME' => htmlspecialchars($userDisplayName, ENT_QUOTES, 'UTF-8'),
     'USER_INITIAL' => htmlspecialchars($userInitial, ENT_QUOTES, 'UTF-8'),
+    'USER_PROFILE_URL' => htmlspecialchars($userProfileUrl, ENT_QUOTES, 'UTF-8'),
+    'USER_ACCOUNT_URL' => htmlspecialchars($userAccountUrl, ENT_QUOTES, 'UTF-8'),
     'USER_ROLE' => ($isPayrollAdminUser ? 'Quản trị hệ thống' : 'Nhân viên'),
     'CURRENT_MONTH' => date('m'),
     'CURRENT_YEAR' => date('Y'),

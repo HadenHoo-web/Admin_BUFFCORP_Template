@@ -14,7 +14,7 @@ if (strpos($module, "\$month = \$selectedDate ? substr(\$selectedDate, 5, 2) : d
     throw new RuntimeException('Task directory must default to the current date, not the newest task date.');
 }
 foreach (array('name="day" value="{selected_date}"', 'name="period" value="{period}"', 'name="year" min="2000" max="2100"', 'gv-directory-compact-filter', 'gv-directory-time-button', 'gv-directory-filter-panel', 'data-directory-compact-mode="day"', 'data-directory-compact-mode="month"', 'data-directory-compact-mode="year"', 'showDirectoryFilter', 'goDirectoryView', 'loadDirectoryView', 'window.fetch(url', 'grid.innerHTML = nextGrid.innerHTML', "mode === directoryFilter.dataset.view", 'updateDirectoryTimeLabel', '{directory_day_hidden}', '{directory_month_hidden}', '{directory_year_hidden}', "\$view == 'year'") as $marker) {
-    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee date or month filter marker: '.$marker);
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee date, month, or year filter marker: '.$marker);
 }
 foreach (array('.buffcorp-page:has(.gv-task-ui) { padding:14px 16px 24px; }', 'overflow-x:clip', 'min-height:44px', 'width:min(280px,calc(100vw - 28px))', '.gv-detail-actions { order:3; width:100%', 'scrollbar-width:none') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing mobile task UI marker: '.$marker);
@@ -24,6 +24,9 @@ foreach (array('function mosListNew', 'buffcorp-server-rendered', 'gv-status-for
 }
 foreach (array('gv-employee-count', 'gvEmployeeCount', 'updateEmployeeCount', 'employeeView && !employeeView.hidden') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee counter marker: '.$marker);
+}
+foreach (array('gvTaskDepartmentTone', 'department_tone', 'gv-dept-0', 'gv-card .gv-avatar', 'font-size:15px') as $marker) {
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee department color or typography marker: '.$marker);
 }
 foreach (array('function gvTaskIsAdministrator', 'function gvTaskHasTeamPermission', 'function gvTaskEnsureViewScopeTable', 'tbl_giaoviec_member_access', 'function gvTaskCanViewTeam', "code = 'giaoviec'", 'function gvTaskCanViewMember', 'function gvTaskTeamScopeSql', 'viewer_member_id', 'if ($member_id > 0 && !gvTaskCanViewMember($member_id))', '$accessCond = $member_id > 0 ?', 'if (!gvTaskCanViewMember((int)$row[\'member_id\']))') as $marker) {
     if (strpos($module, $marker) === false) throw new RuntimeException('Missing server-side employee-directory permission marker: '.$marker);

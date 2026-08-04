@@ -117,7 +117,7 @@
             position: absolute;
             top: 13px;
             right: 28px;
-            z-index: 9999;
+            z-index: auto;
             font-family: Tahoma, Arial;
         }
 
@@ -134,14 +134,6 @@
             z-index: 30000;
         }
 
-        .payroll-wrap.open ~ .notify-wrap {
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-        }
-
         .admin-home-wrap {
             display: {ADMIN_HOME_DISPLAY};
             position: absolute;
@@ -151,7 +143,6 @@
             font-family: Tahoma, Arial;
         }
 
-        .notify-bell,
         .admin-home-button,
         .payroll-button {
             position: relative;
@@ -170,41 +161,6 @@
         .payroll-button:hover {
             color: #111;
             animation: topIconPop .42s ease;
-        }
-
-        .notify-bell:hover {
-            color: #111;
-        }
-
-        .notify-wrap.has-unread .notify-bell {
-            animation: none;
-            transform-origin: 50% 4px;
-        }
-
-        .notify-wrap.notify-suppress-flash {
-            pointer-events: none;
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-            transition: none !important;
-            animation: none !important;
-        }
-
-        .notify-wrap.notify-suppress-flash .notify-bell,
-        .notify-wrap.notify-suppress-flash .notify-bell:hover,
-        .notify-wrap.notify-suppress-flash.has-unread .notify-bell {
-            color: #4b4b4b !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            animation: none !important;
-            transform: none !important;
-        }
-
-        .notify-bell svg {
-            width: 22px;
-            height: 22px;
-            margin-top: 1px;
-            filter: drop-shadow(0 1px 1px rgba(0,0,0,.25));
         }
 
         .payroll-button {
@@ -263,7 +219,6 @@
             right: 132px;
         }
 
-        .main-content.admin-dashboard-shell .notify-bell,
         .main-content.admin-dashboard-shell .admin-home-button,
         .main-content.admin-dashboard-shell .payroll-button {
             width: 40px;
@@ -271,7 +226,6 @@
             color: #253247;
         }
 
-        .main-content.admin-dashboard-shell .notify-bell svg,
         .main-content.admin-dashboard-shell .admin-home-button svg,
         .main-content.admin-dashboard-shell .payroll-button svg {
             width: 21px;
@@ -850,13 +804,28 @@
         }
 
         .buffcorp-top-actions,
-        .buffcorp-user {
+        .buffcorp-user-toggle {
             display: flex;
             align-items: center;
         }
 
         .buffcorp-top-actions { gap: 9px; }
-        .buffcorp-user { gap: 9px; margin-left: 3px; }
+        .buffcorp-user-menu { position: relative; margin-left: 3px; }
+        .buffcorp-user-toggle {
+            min-height: 44px;
+            gap: 9px;
+            padding: 4px;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            text-align: left;
+        }
+        .buffcorp-user-toggle:hover,
+        .buffcorp-user-menu.open .buffcorp-user-toggle { background: #f2f7fd; }
+        .buffcorp-user-toggle:focus-visible,
+        .buffcorp-user-dropdown a:focus-visible { outline: 2px solid var(--buff-brand); outline-offset: 2px; }
         .buffcorp-avatar {
             display: grid;
             width: 36px;
@@ -869,10 +838,53 @@
             font-weight: 800;
         }
 
-        .buffcorp-user strong,
-        .buffcorp-user small { display: block; }
-        .buffcorp-user strong { color: var(--buff-text); font-size: 12px; }
-        .buffcorp-user small { margin-top: 2px; color: var(--buff-muted); font-size: 10px; }
+        .buffcorp-user-copy strong,
+        .buffcorp-user-copy small { display: block; }
+        .buffcorp-user-copy strong { color: var(--buff-text); font-size: 12px; }
+        .buffcorp-user-copy small { margin-top: 2px; color: var(--buff-muted); font-size: 10px; }
+        .buffcorp-user-chevron { width: 16px; height: 16px; color: var(--buff-muted); transition: transform .18s ease; }
+        .buffcorp-user-menu.open .buffcorp-user-chevron { transform: rotate(180deg); }
+        .buffcorp-user-dropdown {
+            position: absolute;
+            z-index: 160;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 248px;
+            padding: 8px;
+            border: 1px solid var(--buff-line);
+            border-radius: 14px;
+            background: var(--buff-surface);
+            box-shadow: 0 14px 30px rgba(18, 63, 112, .16);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-5px);
+            transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+            box-sizing: border-box;
+        }
+        .buffcorp-user-menu.open .buffcorp-user-dropdown { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+        .buffcorp-user-summary { padding: 7px 9px 10px; }
+        .buffcorp-user-summary strong,
+        .buffcorp-user-summary small { display: block; }
+        .buffcorp-user-summary strong { color: var(--buff-text); font-size: 13px; }
+        .buffcorp-user-summary small { margin-top: 3px; color: var(--buff-muted); font-size: 11px; }
+        .buffcorp-user-dropdown a {
+            display: flex;
+            min-height: 40px;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            border-radius: 9px;
+            color: var(--buff-text);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .buffcorp-user-dropdown a:hover { background: #eef5ff; color: var(--buff-brand-dark); }
+        .buffcorp-user-dropdown a svg { width: 19px; height: 19px; color: #6d819a; flex: 0 0 auto; }
+        .buffcorp-user-dropdown .buffcorp-user-logout { color: #c93737; }
+        .buffcorp-user-dropdown .buffcorp-user-logout:hover { background: #fff2f2; color: #b42318; }
+        .buffcorp-user-divider { height: 1px; margin: 6px 2px; background: var(--buff-line); }
 
         .buffcorp-global-search {
             position: relative;
@@ -966,14 +978,6 @@
             z-index: 30000;
         }
 
-        .buffcorp-top-actions .payroll-wrap.open ~ .notify-wrap {
-            z-index: 9999;
-            pointer-events: none;
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-        }
-
         .main-content.dashboard-header-icons .buffcorp-top-actions .admin-home-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .payroll-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .notify-wrap {
@@ -1007,6 +1011,19 @@
             color: var(--buff-text);
         }
 
+        .buffcorp-top-actions .payroll-button,
+        .buffcorp-top-actions .notify-bell {
+            border-radius: 8px;
+            transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+        }
+        .buffcorp-top-actions .payroll-button:hover,
+        .buffcorp-top-actions .notify-bell:hover,
+        .buffcorp-top-actions .payroll-wrap.open .payroll-button,
+        .buffcorp-top-actions .notify-wrap.open .notify-bell {
+            background: #eef5ff;
+            color: var(--buff-brand-dark);
+        }
+
         .buffcorp-top-actions .admin-home-button svg,
         .buffcorp-top-actions .payroll-button svg,
         .buffcorp-top-actions .notify-bell svg,
@@ -1025,86 +1042,6 @@
             top: -5px;
             right: -5px;
             border-color: #fff;
-        }
-
-        .buffcorp-top-actions .notify-bell:focus,
-        .buffcorp-top-actions .notify-bell:focus-visible,
-        .buffcorp-top-actions .notify-bell:active,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell:focus,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell:focus-visible,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell:active {
-            outline: 0;
-            background: transparent !important;
-            box-shadow: none !important;
-        }
-
-        .buffcorp-top-actions .notify-bell svg,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell svg {
-            fill: none !important;
-        }
-
-        .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell,
-        .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell:hover,
-        .buffcorp-top-actions .notify-wrap.notify-suppress-flash.has-unread .notify-bell,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell:hover,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash.has-unread .notify-bell {
-            color: var(--buff-text) !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            animation: none !important;
-            transform: none !important;
-        }
-
-        .notify-wrap.notify-suppress-flash .notify-count {
-            transition: none !important;
-        }
-
-        .notify-wrap.notify-suppress-flash,
-        .notify-wrap.notify-suppress-flash .notify-count,
-        .buffcorp-top-actions .notify-wrap.notify-suppress-flash,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash {
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-            transition: none !important;
-            animation: none !important;
-        }
-
-        body.payroll-popup-settling .notify-wrap,
-        body.payroll-popup-settling .buffcorp-top-actions .notify-wrap {
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-            transition: none !important;
-            animation: none !important;
-            outline: 0 !important;
-            border-color: var(--buff-line) !important;
-            background: var(--buff-surface) !important;
-            box-shadow: none !important;
-        }
-
-        body.payroll-popup-settling .notify-bell,
-        body.payroll-popup-settling .notify-bell:hover,
-        body.payroll-popup-settling .notify-bell:focus,
-        body.payroll-popup-settling .notify-bell:active,
-        body.payroll-popup-settling .notify-count,
-        body.payroll-popup-settling .buffcorp-top-actions .notify-bell,
-        body.payroll-popup-settling .buffcorp-top-actions .notify-bell:hover,
-        body.payroll-popup-settling .buffcorp-top-actions .notify-bell:focus,
-        body.payroll-popup-settling .buffcorp-top-actions .notify-bell:active {
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-            transition: none !important;
-            animation: none !important;
-            outline: 0 !important;
-            background: transparent !important;
-            box-shadow: none !important;
-        }
-
-        body.payroll-popup-settling .notify-panel {
-            display: none !important;
         }
 
         .buffcorp-page {
@@ -2530,7 +2467,8 @@
 
         @media (max-width: 980px) {
             .buffcorp-global-search { width: 230px; }
-            .buffcorp-user div { display: none; }
+            .buffcorp-user-copy,
+            .buffcorp-user-chevron { display: none; }
             .buffcorp-page .buffcorp-form-table > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { display: block; }
@@ -2540,7 +2478,7 @@
             .buffcorp-topbar { min-height: 60px; flex-basis: 60px; padding: 0 12px; }
             .buffcorp-global-search { display: none; }
             .buffcorp-page { padding: 14px 12px 26px; }
-            .buffcorp-user { display: none; }
+            .buffcorp-user-menu { display: none; }
             .buffcorp-page .buffcorp-form-table > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-dense > tbody,
             .buffcorp-page .buffcorp-form-table.buffcorp-form-ultra > tbody { display: block; }
@@ -2796,6 +2734,14 @@
         panel.style.top = (rect.bottom + 10) + 'px';
     }
 
+    function setNotifyOpen(open) {
+        var isOpen = wrap.className.indexOf('open') >= 0;
+        if (open && !isOpen) wrap.className += ' open';
+        if (!open && isOpen) wrap.className = wrap.className.replace(/ ?open/g, '');
+        bell.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open && bell.blur) bell.blur();
+    }
+
     function openNotify(e) {
         if (e && e.stopPropagation) e.stopPropagation();
         if (window.buffNotifyDebug) window.buffNotifyDebug('notify click before guard');
@@ -2807,28 +2753,25 @@
         var payrollWrap = document.getElementById('payroll-wrap');
         if (payrollWrap) payrollWrap.className = payrollWrap.className.replace(/ ?open/g, '');
         var payrollButton = document.getElementById('payroll-button');
+        if (payrollButton) payrollButton.setAttribute('aria-expanded', 'false');
         if (payrollButton && payrollButton.blur) payrollButton.blur();
+        var userMenu = document.getElementById('buffcorp-user-menu');
+        var userButton = document.getElementById('buffcorp-user-toggle');
+        if (userMenu) userMenu.className = userMenu.className.replace(/ ?open/g, '');
+        if (userButton) userButton.setAttribute('aria-expanded', 'false');
         positionPanel();
         var wasOpen = wrap.className.indexOf('open') >= 0;
-        wrap.className = wasOpen ? wrap.className.replace(/ ?open/g, '') : wrap.className + ' open';
-        if (wrap.className.indexOf('open') >= 0) {
+        setNotifyOpen(!wasOpen);
+        if (!wasOpen) {
             load('list');
-        } else if (bell.blur) {
-            bell.blur();
         }
         if (window.buffNotifyDebug) window.buffNotifyDebug('notify click after toggle');
     }
 
     function closeNotify() {
         if (window.buffNotifyDebug) window.buffNotifyDebug('notify close before');
-        wrap.className = wrap.className.replace(/ ?open/g, '');
-        if (bell && bell.blur) bell.blur();
-        if (window.setTimeout && bell && bell.blur) {
-            setTimeout(function () {
-                bell.blur();
-                if (window.buffNotifyDebug) window.buffNotifyDebug('notify close after 0ms');
-            }, 0);
-        }
+        setNotifyOpen(false);
+        if (window.buffNotifyDebug) window.buffNotifyDebug('notify close after');
     }
 
     if (bell.addEventListener) bell.addEventListener('click', openNotify, false);
@@ -2852,6 +2795,12 @@
 
     if (document.addEventListener) document.addEventListener('click', closeNotify, false);
     else document.attachEvent && document.attachEvent('onclick', closeNotify);
+    if (document.addEventListener) document.addEventListener('keydown', function (e) {
+        if ((e.key === 'Escape' || e.keyCode === 27) && wrap.className.indexOf('open') >= 0) {
+            closeNotify();
+            bell.focus();
+        }
+    }, false);
 
     if (window.addEventListener) window.addEventListener('resize', positionPanel, false);
 
@@ -3153,55 +3102,6 @@
             }
         }
 
-        function suppressNotifyFlash() {
-            var notifyWrap = document.getElementById('notify-wrap');
-            var notifyBell = document.getElementById('notify-bell');
-            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify before');
-            if (document.body) {
-                if (document.body.className.indexOf('payroll-popup-settling') < 0) {
-                    document.body.className += ' payroll-popup-settling';
-                }
-            }
-            if (notifyWrap) {
-                notifyWrap.className = notifyWrap.className.replace(/ ?open/g, '');
-                if (notifyWrap.className.indexOf('notify-suppress-flash') < 0) {
-                    notifyWrap.className += ' notify-suppress-flash';
-                }
-            }
-            if (notifyBell && notifyBell.blur) notifyBell.blur();
-            clearTransientFocus();
-            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify applied');
-            if (window.setTimeout) {
-                setTimeout(function () {
-                    if (notifyBell && notifyBell.blur) notifyBell.blur();
-                    clearTransientFocus();
-                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify after 0ms');
-                }, 0);
-                setTimeout(function () {
-                    clearTransientFocus();
-                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify after 120ms');
-                }, 120);
-                setTimeout(function () {
-                    clearTransientFocus();
-                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify before release');
-                }, 500);
-                setTimeout(function () {
-                    clearTransientFocus();
-                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify after 900ms');
-                }, 900);
-                setTimeout(function () {
-                    if (notifyWrap) {
-                        notifyWrap.className = notifyWrap.className.replace(/ ?notify-suppress-flash/g, '');
-                    }
-                    if (document.body) {
-                        document.body.className = document.body.className.replace(/ ?payroll-popup-settling/g, '');
-                    }
-                    clearTransientFocus();
-                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify released');
-                }, 1600);
-            }
-        }
-
         function isPanelOpen() {
             return wrap.className.indexOf('open') >= 0;
         }
@@ -3210,10 +3110,10 @@
             if (!isPanelOpen()) return;
             if (window.buffNotifyDebug) window.buffNotifyDebug('payroll close before');
             wrap.className = wrap.className.replace(/ ?open/g, '');
+            button.setAttribute('aria-expanded', 'false');
             if (button && button.blur) button.blur();
             if (closeBtn && closeBtn.blur) closeBtn.blur();
             clearTransientFocus();
-            suppressNotifyFlash();
             if (window.buffNotifyDebug) window.buffNotifyDebug('payroll close after');
             if (window.setTimeout) {
                 setTimeout(function () {
@@ -3230,13 +3130,21 @@
             if (e && e.stopPropagation) e.stopPropagation();
             if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
             if (window.buffNotifyDebug) window.buffNotifyDebug('payroll toggle before');
-            suppressNotifyFlash();
+            var notifyWrap = document.getElementById('notify-wrap');
+            var notifyBell = document.getElementById('notify-bell');
+            if (notifyWrap) notifyWrap.className = notifyWrap.className.replace(/ ?open/g, '');
+            if (notifyBell) notifyBell.setAttribute('aria-expanded', 'false');
+            var userMenu = document.getElementById('buffcorp-user-menu');
+            var userButton = document.getElementById('buffcorp-user-toggle');
+            if (userMenu) userMenu.className = userMenu.className.replace(/ ?open/g, '');
+            if (userButton) userButton.setAttribute('aria-expanded', 'false');
             positionPanel();
             if (wrap.className.indexOf('open') >= 0) {
                 closePanel();
                 return;
             }
             wrap.className += ' open';
+            button.setAttribute('aria-expanded', 'true');
             if (window.buffNotifyDebug) window.buffNotifyDebug('payroll toggle opened');
             if (!loaded) {
                 loaded = true;
@@ -3315,7 +3223,7 @@
                     <span class="buffcorp-search-results" id="buffcorp-search-results"></span>
                 </label>
         <div class="payroll-wrap" id="payroll-wrap">
-            <button type="button" class="payroll-button" id="payroll-button" title="Bảng lương real time">
+            <button type="button" class="payroll-button" id="payroll-button" title="Bảng lương real time" aria-expanded="false" aria-controls="payroll-panel">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.8">
                     <circle cx="12" cy="12" r="9"></circle>
                     <path d="M12 6v12"></path>
@@ -3365,8 +3273,8 @@
             </div>
         </div>
         <div class="{NOTIFICATION_WRAP_CLASS}" id="notify-wrap">
-            <button type="button" class="notify-bell" id="notify-bell" title="Thông báo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <button type="button" class="notify-bell" id="notify-bell" title="Thông báo" aria-expanded="false" aria-controls="notify-panel">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
@@ -3383,9 +3291,19 @@
                 <button type="button" class="notify-read-all" id="notify-read-all">Đánh dấu tất cả đã đọc</button>
             </div>
         </div>
-                <div class="buffcorp-user">
-                    <span class="buffcorp-avatar">{USER_INITIAL}</span>
-                    <div><strong>{USER_DISPLAY_NAME}</strong><small>{USER_ROLE}</small></div>
+                <div class="buffcorp-user-menu" id="buffcorp-user-menu">
+                    <button class="buffcorp-user-toggle" id="buffcorp-user-toggle" type="button" aria-expanded="false" aria-controls="buffcorp-user-dropdown">
+                        <span class="buffcorp-avatar">{USER_INITIAL}</span>
+                        <span class="buffcorp-user-copy"><strong>{USER_DISPLAY_NAME}</strong><small>{USER_ROLE}</small></span>
+                        <svg class="buffcorp-user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg>
+                    </button>
+                    <div class="buffcorp-user-dropdown" id="buffcorp-user-dropdown" aria-label="T&#224;i kho&#7843;n">
+                        <div class="buffcorp-user-summary"><strong>{USER_DISPLAY_NAME}</strong><small>{USER_ROLE}</small></div>
+                        <a href="{USER_PROFILE_URL}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c.7-4 3.4-6 8-6s7.3 2 8 6"></path></svg>H&#7891; s&#417;</a>
+                        <a href="{USER_ACCOUNT_URL}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.1 2.1-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-3v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-2.1-2.1.1-.1A1.7 1.7 0 0 0 7 15a1.7 1.7 0 0 0-1.5-1H5.3v-3h.2A1.7 1.7 0 0 0 7 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 2.1-2.1.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5v-.2h3v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2.1 2.1-.1.1A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.5 1h.2v3h-.2a1.7 1.7 0 0 0-1.5 1Z"></path></svg>C&#224;i &#273;&#7863;t t&#224;i kho&#7843;n</a>
+                        <div class="buffcorp-user-divider" role="separator"></div>
+                        <a class="buffcorp-user-logout" href="logout.php"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5H5v14h5"></path><path d="m14 8 4 4-4 4M18 12H9"></path></svg>&#272;&#259;ng xu&#7845;t</a>
+                    </div>
                 </div>
             </div>
         </header>
@@ -3409,6 +3327,30 @@
         }
         .buffcorp-mobile-menu { display: none !important; }
         .buffcorp-mobile-menu svg { width: 18px; height: 18px; }
+        .buffcorp-top-actions .notify-wrap {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--buff-line);
+            border-radius: 8px;
+            background: var(--buff-surface);
+        }
+        .buffcorp-top-actions .notify-bell {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            place-items: center;
+            border: 0;
+            background: transparent;
+            color: var(--buff-text);
+            cursor: pointer;
+        }
+        .buffcorp-top-actions .notify-bell svg { width: 18px; height: 18px; }
+        .notify-wrap.open .notify-bell { position: relative; z-index: 10031; }
         .notify-panel {
             top: 0 !important;
             right: 0 !important;
@@ -3615,14 +3557,19 @@
 	        #payroll-content.payroll-content-ready .payroll-detail-btn {
 	            height: 38px;
 	        }
-	        .payroll-wrap:not(.open) .payroll-button:focus,
-	        .payroll-wrap:not(.open) .payroll-button:focus-visible,
-	        .notify-wrap:not(.open) .notify-bell:focus,
-	        .notify-wrap:not(.open) .notify-bell:focus-visible {
+        .payroll-wrap:not(.open) .payroll-button:focus,
+        .payroll-wrap:not(.open) .payroll-button:focus-visible {
 	            outline: 0;
 	            background: transparent !important;
 	            box-shadow: none !important;
 	        }
+        .buffcorp-top-actions .notify-bell:focus-visible {
+            outline: 2px solid var(--buff-brand);
+            outline-offset: 2px;
+        }
+        body.buffcorp-dark .buffcorp-top-actions .notify-bell:focus-visible {
+            outline-color: #8ec5ff;
+        }
 
         .buffcorp-page .admin-dashboard,
         .sales-page,
@@ -3870,6 +3817,156 @@
         .cuttpw-note { color: var(--buff-muted); }
         .cuttpw-num { color: var(--buff-brand); }
 
+	        body.buffcorp-dark {
+	            --buff-bg: #0d1117;
+	            --buff-surface: #161b22;
+	            --buff-text: #f2f4f7;
+	            --buff-muted: #98a2b3;
+            --buff-line: #30363d;
+            --buff-brand: #4c8fd8;
+	            --buff-brand-dark: #7fb0e6;
+	            --buff-shadow: none;
+	        }
+	        body.buffcorp-dark .list-ui {
+	            --list-bg: #0d1117;
+	            --list-surface: #141b24;
+	            --list-text: #edf5ff;
+	            --list-muted: #a8b6c7;
+	            --list-line: #334155;
+	            --list-primary: #5b9cf0;
+	            --list-primary-dark: #7bb3ff;
+	            --list-shadow: none;
+	        }
+	        body.buffcorp-dark,
+	        body.buffcorp-dark .main-content,
+	        body.buffcorp-dark .buffcorp-page { background: var(--buff-bg); color: var(--buff-text); }
+        body.buffcorp-dark .buffcorp-topbar,
+        body.buffcorp-dark .buffcorp-module-card,
+        body.buffcorp-dark .buffcorp-form-card,
+        body.buffcorp-dark .buffcorp-module-toolbar,
+        body.buffcorp-dark .left-menu,
+        body.buffcorp-dark .buffcorp-sidebar,
+        body.buffcorp-dark .buffcorp-brand { background: var(--buff-surface) !important; color: var(--buff-text); }
+        body.buffcorp-dark .buffcorp-menu .header,
+        body.buffcorp-dark .buffcorp-menu .children > a,
+        body.buffcorp-dark .sidebar-support-item,
+        body.buffcorp-dark .buffcorp-brand-copy strong { color: #c8dbed !important; }
+        body.buffcorp-dark .buffcorp-menu .header:hover,
+        body.buffcorp-dark .buffcorp-menu .mainrow > .header,
+        body.buffcorp-dark .buffcorp-menu .children > a:hover,
+        body.buffcorp-dark .buffcorp-menu .children > a.active,
+        body.buffcorp-dark .sidebar-support-item:hover { background: #173f64 !important; color: #fff !important; }
+	        body.buffcorp-dark .buffcorp-page input,
+	        body.buffcorp-dark .buffcorp-page select,
+	        body.buffcorp-dark .buffcorp-page textarea,
+	        body.buffcorp-dark .buffcorp-global-search,
+	        body.buffcorp-dark .buffcorp-global-search input { border-color: var(--buff-line); background: var(--buff-surface); color: var(--buff-text); }
+	        body.buffcorp-dark .list-ui,
+	        body.buffcorp-dark .list-ui .list-page,
+	        body.buffcorp-dark .list-ui .list-header,
+	        body.buffcorp-dark .list-ui .list-filter-panel,
+	        body.buffcorp-dark .list-ui .list-content {
+	            background: var(--list-bg) !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-page,
+	        body.buffcorp-dark .list-ui .list-filter-card,
+	        body.buffcorp-dark .list-ui .list-table-scroll {
+	            border-color: var(--list-line) !important;
+	            background: var(--list-surface) !important;
+	            box-shadow: none !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-title h1,
+	        body.buffcorp-dark .list-ui .filter-field label {
+	            color: #d8eaff !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-title p {
+	            color: var(--list-muted) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-search-control,
+	        body.buffcorp-dark .list-ui .list-filter-form select,
+	        body.buffcorp-dark .list-ui .list-filter-form input:not([type="checkbox"]):not([type="radio"]):not([type="image"]),
+	        body.buffcorp-dark .list-ui .list-filter-form textarea {
+	            border-color: var(--list-line) !important;
+	            background: #101822 !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-search-control input {
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-search-control input::placeholder,
+	        body.buffcorp-dark .list-ui .list-filter-form input::placeholder,
+	        body.buffcorp-dark .list-ui .list-filter-form textarea::placeholder {
+	            color: #8394a8 !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-filter-form select {
+	            background-image: linear-gradient(45deg, transparent 50%, #d8eaff 50%), linear-gradient(135deg, #d8eaff 50%, transparent 50%) !important;
+	        }
+	        body.buffcorp-dark .list-ui .filter-control-wrap > svg,
+	        body.buffcorp-dark .list-ui .list-search-control svg {
+	            color: #8fb6e8 !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-btn-secondary,
+	        body.buffcorp-dark .list-ui .list-filter-form > a {
+	            border-color: var(--list-line) !important;
+	            background: #101822 !important;
+	            color: #dcecff !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-btn-secondary:hover,
+	        body.buffcorp-dark .list-ui .list-filter-form > a:hover {
+	            border-color: #5b9cf0 !important;
+	            background: #16263a !important;
+	            color: #fff !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table {
+	            background: var(--list-surface) !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table tr.header td,
+	        body.buffcorp-dark .list-ui .data-table tr.header th {
+	            border-color: var(--list-line) !important;
+	            background: #1b2635 !important;
+	            color: #c8d7ea !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table td {
+	            border-color: #273445 !important;
+	            background: var(--list-surface) !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table tr:nth-child(even) td {
+	            background: #111a25 !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table tr:hover td {
+	            background: #18283a !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table a:not(.list-row-action) {
+	            color: #8ec5ff !important;
+	        }
+	        body.buffcorp-dark .list-ui .note-box,
+	        body.buffcorp-dark .list-ui .attendance-note-list {
+	            scrollbar-color: #52657c #101822;
+	        }
+	        body.buffcorp-dark .sales-table th,
+	        body.buffcorp-dark .kpi-table th,
+	        body.buffcorp-dark .admin-table th { background: #1c222b !important; color: #b8c9da !important; }
+        body.buffcorp-dark .buffcorp-user-toggle:hover,
+        body.buffcorp-dark .buffcorp-user-menu.open .buffcorp-user-toggle,
+        body.buffcorp-dark .buffcorp-user-dropdown a:hover { background: #1c334a; color: #d8eaff; }
+        body.buffcorp-dark .buffcorp-top-actions .payroll-button:hover,
+        body.buffcorp-dark .buffcorp-top-actions .notify-bell:hover,
+        body.buffcorp-dark .buffcorp-top-actions .payroll-wrap.open .payroll-button,
+        body.buffcorp-dark .buffcorp-top-actions .notify-wrap.open .notify-bell { background: #1c334a; color: #d8eaff; }
+        body.buffcorp-dark .buffcorp-user-dropdown { box-shadow: 0 14px 30px rgba(0, 0, 0, .35); }
+        body.buffcorp-dark .buffcorp-user-dropdown .buffcorp-user-logout:hover { background: #3a2024; color: #ffb4b4; }
+        body.buffcorp-dark .admin-dashboard-title h1,
+        body.buffcorp-dark .sales-toolbar h2,
+        body.buffcorp-dark .kpi-toolbar h2,
+        body.buffcorp-dark .kpi-head h2,
+        body.buffcorp-dark .org-title,
+        body.buffcorp-dark .admin-card-title,
+        body.buffcorp-dark .sales-panel h3,
+        body.buffcorp-dark .kpi-panel h3,
+	        body.buffcorp-dark .org-card-title { color: #d8eaff; }
         @media (max-width: 1280px) {
             .admin-kpi-grid,
             .admin-finance-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
@@ -4594,12 +4691,49 @@
                     setClass(layout, 'menu-open', open);
                     if (menuButton) menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
                 }
+                function initUserMenu() {
+                    var menu = document.getElementById('buffcorp-user-menu');
+                    var button = document.getElementById('buffcorp-user-toggle');
+                    if (!menu || !button) return;
+                    function isOpen() { return (' ' + menu.className + ' ').indexOf(' open ') >= 0; }
+                    function close() {
+                        menu.className = menu.className.replace(/ ?open/g, '');
+                        button.setAttribute('aria-expanded', 'false');
+                    }
+                    function closeTopPanels() {
+                        var notify = document.getElementById('notify-wrap');
+                        var notifyButton = document.getElementById('notify-bell');
+                        var payroll = document.getElementById('payroll-wrap');
+                        var payrollButton = document.getElementById('payroll-button');
+                        if (notify) notify.className = notify.className.replace(/ ?open/g, '');
+                        if (notifyButton) notifyButton.setAttribute('aria-expanded', 'false');
+                        if (payroll) payroll.className = payroll.className.replace(/ ?open/g, '');
+                        if (payrollButton) payrollButton.setAttribute('aria-expanded', 'false');
+                    }
+                    button.onclick = function () {
+                        if (isOpen()) close();
+                        else {
+                            closeTopPanels();
+                            menu.className += ' open';
+                            button.setAttribute('aria-expanded', 'true');
+                        }
+                    };
+                    document.addEventListener('click', function (event) {
+                        if (!menu.contains(event.target)) close();
+                    }, false);
+                    document.addEventListener('keydown', function (event) {
+                        if (event.key !== 'Escape' || !isOpen()) return;
+                        close();
+                        button.focus();
+                    }, false);
+                }
                 function syncViewport() {
                     if (window.innerWidth <= 820) setClass(layout, 'sidebar-collapsed', false);
                     else setMenuOpen(false);
                 }
 
                 initializeRouteLoader();
+                initUserMenu();
                 if (menuButton) menuButton.onclick = function () { setMenuOpen(!hasClass(layout, 'menu-open')); };
                 if (overlay) overlay.onclick = function () { setMenuOpen(false); };
 

@@ -62,6 +62,11 @@
 		return count($names) ? implode(' / ', $names) : 'Chưa phân phòng';
 	}
 
+	function gvTaskDepartmentTone($department)
+	{
+		return 'gv-dept-'.((int)sprintf('%u', crc32((string)$department)) % 5);
+	}
+
 	function gvTaskIsAdministrator()
 	{
 		return strtolower((string)(isset($_SESSION['loginname']) ? $_SESSION['loginname'] : '')) == 'administrator';
@@ -355,6 +360,7 @@ function mosListNew($id)
 			'initials' => gvTaskEscape(gvTaskInitials($row['fullname'])),
 			'role' => gvTaskEscape($role),
 			'department' => gvTaskEscape($department),
+			'department_tone' => gvTaskDepartmentTone($department),
 			'total' => (int)$memberStats['total'],
 			'progress' => (int)$memberStats['progress'],
 			'done' => (int)$memberStats['done'],
