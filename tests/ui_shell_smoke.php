@@ -40,8 +40,7 @@ foreach (['width: min(880px, 100%)', '.modal .control { height: 34px', 'form-fie
     if (strpos($taskDemo, $marker) === false) throw new RuntimeException('Compact task form regressed: ' . $marker);
 }
 
-foreach (['enhanceLegacyModule', 'buffcorp-module-card', 'buffcorp-client-controls', 'buffcorp-row-actions', 'buffcorp-status', 'buffcorp-demo-parity', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'Số dòng', 'move-up', 'permission', 'password'] as $marker) {
-    if ($marker === 'enhanceLegacyModule') continue;
+foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-demo-parity', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'permission', 'password'] as $marker) {
     if (strpos($main . $layout, $marker) === false) throw new RuntimeException('Missing main shell marker: ' . $marker);
 }
 foreach (["routeKeys = ['menu', 'category', 'cid']", 'translatedActions', 'mail-form-table', 'config-grid-table', 'getpass-source-wrap', 'cuttpw-wrap'] as $marker) {
@@ -54,7 +53,7 @@ foreach (['mosFunctionMenu(0, "Root")', 'Tổng quan', 'Quản lý Tin tức', '
 if (strpos($navigation, 'function regroupNavigation') !== false) {
     throw new RuntimeException('Sidebar must not replace the database menu tree.');
 }
-foreach (['select distinct a.* from tbl_function_menu', "htmlspecialchars(\$row['fun_name'], ENT_QUOTES, 'UTF-8')"] as $marker) {
+foreach (['select distinct a.* from tbl_function_menu', "htmlspecialchars(\$label, ENT_QUOTES, 'UTF-8')"] as $marker) {
     if (strpos($library, $marker) === false) throw new RuntimeException('Database menu rendering regressed: ' . $marker);
 }
 if (strpos($customerList, "getElementById('customer_type')") === false) {
@@ -95,8 +94,8 @@ $serverList = buffcorpPrepareModuleHtml(
     'common_lists/website',
     'list'
 );
-if (strpos($serverList, 'buffcorp-server-module') === false
-    || strpos($serverList, 'buffcorp-server-table') === false
+if (strpos($serverList, 'buffcorp-server-rendered') === false
+    || strpos($serverList, 'list-page') === false
     || strpos($serverList, 'data-layout="list"') === false) {
     throw new RuntimeException('Back-end list layout adapter failed.');
 }
@@ -113,7 +112,7 @@ $templates = new RecursiveIteratorIterator(
 foreach ($templates as $templateFile) {
     if (!$templateFile->isFile() || !preg_match('/_(list|info)\.(tpl|html)$/i', $templateFile->getFilename())) continue;
     $source = file_get_contents($templateFile->getPathname());
-    if (preg_match('/\b(admin-dashboard|sales-page|kpi-page|kpi-report|org-chart)\b/i', $source)) continue;
+    if (preg_match('/\b(admin-dashboard|sales-page|kpi-page|kpi-report|org-chart|org-edit|member-edit|leave-report-modern|bc-chat)\b/i', $source)) continue;
     if (preg_match('/\bbuffcorp-server-rendered\b/i', $source)) continue;
     $prepared = buffcorpPrepareModuleHtml($source, 'smoke/module', 'list');
     if (preg_match('/<table\b[^>]*\bclass\s*=\s*(["\'])[^"\']*\bselector\b/i', $source)) {

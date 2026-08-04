@@ -1,83 +1,154 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<div class="toolbar">
-<a href="JavaScript:doCreate()"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create new</span></a>
+<div class="list-ui filter-ui">
+  <section class="list-page buffcorp-server-rendered buffcorp-module-ready list-page--common-lists-keyads" data-layout="list" data-option="{funname}" data-mode="list">
+    <section class="list-filter-panel">
+      <div class="list-filter-card filter-panel">
+        <div class="filter-primary">
+          <div class="filter-grid">
+            <div class="filter-field filter-field--search filter-field-search">
+              <label>Tìm kiếm</label>
+              <div class="list-search-control filter-control">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+                <input type="search" placeholder="Tìm trong ads google - web..." aria-label="Tìm trong danh sách">
+              </div>
+            </div>
+            <button type="button" class="list-btn list-btn-secondary list-filter-toggle" aria-expanded="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
+              <span>Bộ lọc</span>
+            </button>
+            <div class="list-filter-fields">
+              <form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" class="list-filter-form" style="margin:0px;">
+                <input type="hidden" name="option" id="option" value="{funname}">
+                <input type="hidden" name="mode" id="mode" value="list">
+                <div class="filter-field">
+                  <label>Danh sách Key Ads : NV QL</label>
+                  <div class="filter-control-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
+                    <!-- DO ComboFromTable("member_id1", "tbl_member", "member_id", "fullname", "member_id", 0, " All " , "0" , "active=1 order by member_id" , "doReShow()", 1) -->
+                  </div>
+                </div>
+                <div class="filter-field">
+                  <label>Website</label>
+                  <div class="filter-control-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
+                    <select size="1" name="website_id" alt="Website">
+                      <option value="0">Chọn Website</option>
+                      <!-- BEGIN website_list -->
+                      <option value="{website_list.website_id}">{website_list.website_name}</option>
+                      <!-- END website_list -->
+                    </select>
+                  </div>
+                </div>
+                <div class="filter-field filter-field-checkbox">
+                  <label>Đang Ads</label>
+                  <div class="filter-control-wrap">
+                    <input type="checkbox" name="active1" value="1" {active} onChange="doReShow()" />
+                  </div>
+                </div>
+                <div class="filter-field filter-field-submit">
+                  <button type="submit" class="list-btn list-btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+                    <span>Tìm kiếm</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="filter-actions list-inline-actions">
+          <div class="filter-actions__secondary">
+            <button type="button" class="list-btn list-btn-secondary" data-list-refresh>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6v5h-5M4 18v-5h5"></path><path d="M18 9a7 7 0 0 0-12-3L4 8M6 15a7 7 0 0 0 12 3l2-2"></path></svg>
+              <span>Làm mới</span>
+            </button>
+            <a href="JavaScript:doCreate()" class="list-btn list-btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              <span>Thêm mới</span>
+            </a>
+          </div>
+          <div class="filter-actions__primary">
+            <button type="button" class="list-btn list-btn-secondary" data-list-clear><span>Xóa bộ lọc</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="list-content">
+      <div class="list-table-scroll">
+        <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%" class="data-table" style="border-collapse:collapse">
+          <tr class="header">
+            <td width="20" align="center">#</td>
+            <td width="120" align="left">Website</td>
+            <td width="200" align="left">Chủ đề</td>
+            <td width="150" align="left">Slug</td>
+            <td width="400" align="left">Url đích</td>
+            <td width="30" align="left">Sort1</td>
+            <td width="30" align="left">Sort2</td>
+            <td width="30" align="left">Get1</td>
+            <td width="30" align="left">Get2</td>
+            <td width="20" align="left">Us1</td>
+            <td width="55" align="left">Linkdown1</td>
+            <td width="20" align="left">Us2</td>
+            <td width="55" align="left">Linkdown2</td>
+            <td width="20" align="left">Ads</td>
+            <td width="70" align="left">NV QL</td>
+            <td width="150" align="left">Chủ đề Old</td>
+            <td class="list-actions-head">Thao tác</td>
+          </tr>
+          <!-- BEGIN list -->
+          <tr class="{list.className}{list.status}">
+            <td align="center" style="vertical-align:middle;background-color: rgb(129, 129, 235) {list.issave};">{list.order}</td>
+            <td style="vertical-align:middle"><b><a href="https://{list.website_name}" target="_blank">{list.website_name}</a></b></td>
+            <td style="vertical-align:middle">[{list.traffic_type_name}] {list.camp_traffic_name}</td>
+            <td style="vertical-align:middle">{list.slug}</td>
+            <td style="vertical-align:middle"><a href="{list.pass}" target="_blank">{list.pass}</a></td>
+            <td style="vertical-align:middle">{list.sort1}</td>
+            <td style="vertical-align:middle">{list.sort2}</td>
+            <td style="vertical-align:middle">{list.get1}</td>
+            <td style="vertical-align:middle">{list.get2}</td>
+            <td style="vertical-align:middle">{list.us1}</td>
+            <td style="vertical-align:middle">{list.linkdown1}</td>
+            <td style="vertical-align:middle">{list.us2}</td>
+            <td style="vertical-align:middle">{list.linkdown2}</td>
+            <td width="70" align="center" style="vertical-align:middle; background-color: {list.isstop};"><span style="display:{list.active}"><font face="Wingdings"><b><font size="3" color="#008000">ü</font></b></font></span></td>
+            <td style="vertical-align:middle">{list.fullname}</td>
+            <td style="vertical-align:middle">{list.keyads_name}</td>
+            <td class="list-actions-cell">
+              <div class="list-row-actions">
+                <a href="?option={funname}&mode=info&l={LANGUAGEID}&id={list.keyads_id}" class="list-row-action list-action-edit" title="Sửa" aria-label="Sửa">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"></path></svg>
+                </a>
+                <a href="JavaScript:deleteItem({list.keyads_id})" class="list-row-action list-action-delete" title="Xóa" aria-label="Xóa">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"></path></svg>
+                </a>
+              </div>
+            </td>
+          </tr>
+          <!-- END list -->
+        </table>
+      </div>
+      <div class="mobile-list-cards" aria-live="polite"></div>
+      <div class="list-empty-state"><strong>Không tìm thấy kết quả</strong><small>Hãy thử thay đổi từ khóa hoặc xóa bớt bộ lọc.</small></div>
+    </section>
+  </section>
 </div>
 
-<div class="tabtitle"><form action="main.php" method="POST" enctype="multipart/form-data" name="mainForm" id="mainForm" style="margin:0px;" >
-	<input type="hidden" name="option" id="option" value="{funname}">
-	<input type="hidden" name="mode" id="mode" value="list">
-  Danh sách Key Ads : NV QL
-  <!-- DO ComboFromTable("member_id1", "tbl_member", "member_id", "fullname", "member_id", 0, " All " , "0" , "active=1 order by member_id" , "doReShow()", 1) -->
-  Website <select size="1" name="website_id" alt="Website">
-        <option value=0>Chọn Website</option>
-        <!-- BEGIN website_list -->
-        <option value="{website_list.website_id}">{website_list.website_name}</option>
-        <!-- END website_list -->
-      </select>
-   Đang Ads <input type="checkbox" name="active1" value="1" {active} onChange="doReShow()" /> <input name="" type="submit" value="Search" style="height:18px; margin-top:4px;" /></form></div><script>mainForm.website_id.value = '{website_id}';mainForm.member_id1.value = '{member_id}';</script>
-<div style="overflow:auto; height:80%">
-  <table border="0" cellpadding="0" cellspacing="0" bordercolor="#111111" width="100%"  class="selector" style="border-collapse:collapse">
-    <tr class="header">
-      <td width="20" align="center" >#</td>
-      <td width="120" align="left" >Website</td>
-      <td width="200" align="left" >Chủ đề</td>
-      <td width="150" align="left" >Slug</td>
-      <td width="400" align="left" >Url đích</td>
-      <td width="30" align="left" >Sort1</td>
-      <td width="30" align="left" >Sort2</td>
-      <td width="30" align="left" >Get1</td>
-      <td width="30" align="left" >Get2</td>
-      <td width="20" align="left" >Us1</td>
-      <td width="55" align="left" >Linkdown1</td>
-      <td width="20" align="left" >Us2</td>
-      <td width="55" align="left" >Linkdown2</td>
-      <td width="20" align="left" >Ads</td>
-      <td width="70" align="left" >NV QL</td>
-      <td width="150" align="left" >Chủ đề Old</td>
-      <td  colspan="4" ></td>
-    </tr>
-    <!-- BEGIN list -->
-    <tr class="{list.className}{list.status}">
-      <td align="center" style="vertical-align:middle;background-color: rgb(129, 129, 235) {list.issave};">{list.order}</td>
-      <td style="vertical-align:middle"><b><a href="https://{list.website_name}" target="_blank">{list.website_name}</a></b></td>
-      <td style="vertical-align:middle">[{list.traffic_type_name}] {list.camp_traffic_name}</td>
-      <td style="vertical-align:middle">{list.slug}</td>
-      <td style="vertical-align:middle"><a href="{list.pass}" target="_blank">{list.pass}</a></td>
-      <td style="vertical-align:middle">{list.sort1}</td>
-      <td style="vertical-align:middle">{list.sort2}</td>
-      <td style="vertical-align:middle">{list.get1}</td>
-      <td style="vertical-align:middle">{list.get2}</td>
-      <td style="vertical-align:middle">{list.us1}</td>
-      <td style="vertical-align:middle">{list.linkdown1}</td>
-      <td style="vertical-align:middle">{list.us2}</td>
-      <td style="vertical-align:middle">{list.linkdown2}</td>
-      <td width="70" align="center" style="vertical-align:middle; background-color: {list.isstop};"><span style="display:{list.active}"><font face="Wingdings"><b><font size="3" color="#008000">ü</font></b></font></span></td>
-      <td style="vertical-align:middle">{list.fullname}</td>
-      <td style="vertical-align:middle">{list.keyads_name}</td>
-      <td width="20" align="center"><a href="?option={funname}&mode=up&id={list.keyads_id}&l={LANGUAGEID}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
-      <td width="20" align="center"><a href="?option={funname}&mode=down&id={list.keyads_id}&l={LANGUAGEID}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
-      <td width="24" align="center"><a href="?option={funname}&mode=info&l={LANGUAGEID}&id={list.keyads_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
-      <td width="35" align="center"><a href="JavaScript:deleteItem({list.keyads_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
-    </tr>
-    <!-- END list -->
-  </table>
-  </center>
-</div>
 <p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
-<Script Language="JavaScript">
-function doReShow(){	
-	mainForm.submit();
-}
-function doCreate(){	
-	document.location='?option={funname}&mode=info&l={LANGUAGEID}'
-}
-function updateItem(id){	
-  document.location = '?option={funname}&mode=info&l={LANGUAGEID}&id=' + id
-}
-function deleteItem(id){	
-  if (confirm ("Are you sure you want to delete ?."))
-	document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
-}		
-</Script>
 
+<script type="text/javascript">
+if (typeof mainForm !== 'undefined') {
+  if (mainForm.website_id) mainForm.website_id.value = '{website_id}';
+  if (mainForm.member_id1) mainForm.member_id1.value = '{member_id}';
+}
+function doReShow(){
+  mainForm.submit();
+}
+function doCreate(){
+  document.location='?option={funname}&mode=info&l={LANGUAGEID}'
+}
+function deleteItem(id){
+  if (confirm ("Are you sure you want to delete ?."))
+    document.location = '?option={funname}&mode=delete&l={LANGUAGEID}&id=' + id
+}
+</script>

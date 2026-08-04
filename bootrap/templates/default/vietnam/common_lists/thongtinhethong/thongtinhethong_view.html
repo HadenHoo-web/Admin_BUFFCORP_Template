@@ -1,19 +1,198 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
-.system-info-page{font-family:Tahoma,Arial,Helvetica,sans-serif;font-size:13px;color:#111;background:#e9e9e9;padding:10px;min-height:100%;box-sizing:border-box}
-.system-info-toolbar{background:#f4f4f4;border:1px solid #888;border-bottom:0;padding:6px 8px}
-.system-info-toolbar a{color:#000080;text-decoration:none;font-weight:bold;margin-right:14px}
-.system-info-title{background:#808080;color:#fff;font-weight:bold;padding:6px 8px;border:1px solid #666}
-.system-info-expiry{display:{expiry_display};background:#fff3cd;border:1px solid #f0ad4e;color:#9a5600;padding:8px;margin-top:8px;font-weight:bold}
-.system-info-content{background:#fff;border:1px solid #c0c0c0;margin:12px auto 0;padding:38px 52px;max-width:920px;min-height:520px;white-space:normal;color:#111;box-shadow:0 1px 6px rgba(0,0,0,.18);box-sizing:border-box}
+.system-doc-page,
+.system-doc-page * {
+  box-sizing: border-box;
+}
+
+.system-doc-page {
+  --doc-text: #17324d;
+  --doc-muted: #667892;
+  --doc-line: #d9e6f3;
+  --doc-blue: #2e6cbf;
+  --doc-blue-dark: #1f559c;
+  width: 100%;
+  min-height: 100%;
+  padding: 0;
+  color: var(--doc-text);
+  font-family: Manrope, "Segoe UI", Arial, sans-serif;
+}
+
+.system-doc-shell {
+  display: grid;
+  gap: 16px;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.system-doc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--doc-line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(46,108,191,.08);
+}
+
+.system-doc-title {
+  min-width: 0;
+}
+
+.system-doc-title span {
+  display: block;
+  color: var(--doc-muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.system-doc-title h1 {
+  margin: 2px 0 0;
+  color: #123f70;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+.system-doc-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.system-doc-btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid var(--doc-line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--doc-text);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.system-doc-btn:hover {
+  border-color: #9fc0e3;
+  color: var(--doc-blue);
+}
+
+.system-doc-btn-primary {
+  border-color: var(--doc-blue);
+  background: var(--doc-blue);
+  color: #fff;
+}
+
+.system-doc-btn-primary:hover {
+  background: var(--doc-blue-dark);
+  color: #fff;
+}
+
+.system-doc-btn svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+}
+
+.system-doc-expiry {
+  display: {expiry_display};
+  padding: 12px 14px;
+  border: 1px solid #f5c97a;
+  border-radius: 8px;
+  background: #fff8e6;
+  color: #a15c00;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.system-doc-content-wrap {
+  padding: 22px;
+  border: 1px solid var(--doc-line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 14px 40px rgba(46,108,191,.08);
+}
+
+.system-doc-content {
+  width: min(880px, 100%);
+  min-height: 620px;
+  margin: 0 auto;
+  padding: 42px 54px;
+  border: 1px solid #e6edf5;
+  border-radius: 8px;
+  background: #fff;
+  color: #1f2937;
+  box-shadow: 0 8px 28px rgba(15,23,42,.08);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.system-doc-content img,
+.system-doc-content table {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .system-doc-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .system-doc-actions,
+  .system-doc-btn {
+    width: 100%;
+  }
+
+  .system-doc-content-wrap {
+    padding: 12px;
+  }
+
+  .system-doc-content {
+    min-height: 420px;
+    padding: 24px 18px;
+    font-size: 16px;
+  }
+}
 </style>
 
-<div class="system-info-page">
-  <div class="system-info-toolbar">
-    <a href="{back_link}"><img border="0" src="templates/{skin}/images/back.gif" width="18" height="18" align="absmiddle"> Trở về danh sách</a>
-    <a href="{download_link}" style="display:{download_display}"><img border="0" src="templates/{skin}/images/button-save.gif" width="18" height="18" align="absmiddle"> Tải file</a>
+<div class="system-doc-page">
+  <div class="system-doc-shell">
+    <header class="system-doc-header">
+      <div class="system-doc-title">
+        <span>{info_category}</span>
+        <h1>{info_title}</h1>
+      </div>
+      <div class="system-doc-actions">
+        <a class="system-doc-btn" href="{back_link}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="M11 18l-6-6 6-6"></path></svg>
+          <span>Trở về danh sách</span>
+        </a>
+        <a class="system-doc-btn system-doc-btn-primary" href="{download_link}" style="display:{download_display}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+          <span>Tải file</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="system-doc-expiry">{expiry_message}</div>
+
+    <section class="system-doc-content-wrap">
+      <article class="system-doc-content">{content_html}</article>
+    </section>
   </div>
-  <div class="system-info-title">{info_title}</div>
-  <div class="system-info-expiry">{expiry_message}</div>
-  <div class="system-info-content">{content_html}</div>
 </div>

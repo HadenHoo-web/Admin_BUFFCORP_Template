@@ -87,7 +87,7 @@
     align-items: center;
     gap: 10px;
     min-height: 44px;
-    margin: 0 18px 10px;
+    margin: 14px 18px 10px;
     padding: 0 12px;
     border: 1px solid #cfd7e2;
     border-radius: 8px;
@@ -103,11 +103,16 @@
 .bc-chat-search input {
     width: 100%;
     min-width: 0;
-    border: 0;
+    min-height: 0 !important;
+    height: 40px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
     outline: 0;
+    box-shadow: none !important;
     color: var(--bc-text);
-    font-size: 13px;
-    background: transparent;
+    font: 13px/40px Tahoma, Arial, sans-serif !important;
+    background: transparent !important;
 }
 
 .bc-chat-search input::placeholder {

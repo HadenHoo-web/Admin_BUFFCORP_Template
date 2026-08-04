@@ -101,7 +101,7 @@
   	$cond .= ($created_by_id)?' and tbl_giaoviec.created_by_id = '.$created_by_id:'';
   	$cond .= ($active == 0)?' and tbl_giaoviec.active = 1':'';
 	//$sql = "select tbl_giaoviec.*, SUBSTRING(tbl_giaoviec.ngay, 7, 4) as y, SUBSTRING(tbl_giaoviec.ngay, 4, 2) as m , SUBSTRING(tbl_giaoviec.ngay, 1, 2) as d,tbl_member.fullname, tbl_website.website_name from (tbl_giaoviec left join tbl_member on tbl_giaoviec.member_id = tbl_member.member_id) left join tbl_website on tbl_giaoviec.website_id = tbl_website.website_id where 1 and tbl_giaoviec.parent_id = 0 and SUBSTRING(tbl_giaoviec.ngay, 4, 2) = '$month' and SUBSTRING(tbl_giaoviec.ngay, 7, 4) = '$year' $cond order by y DESC, m DESC, d DESC, soluong, giaoviec_id";
-	$sql = "select tbl_giaoviec.*, SUBSTRING(tbl_giaoviec.created_date, 1, 4) AS Y, SUBSTRING(tbl_giaoviec.created_date, 6, 2) AS m , SUBSTRING(tbl_giaoviec.created_date, 9, 2) AS d,tbl_member.fullname, tbl_member.member_type_id, tbl_member.extra_member_type_id, tbl_website.website_name from (tbl_giaoviec left join tbl_member on tbl_giaoviec.member_id = tbl_member.member_id) left join tbl_website on tbl_giaoviec.website_id = tbl_website.website_id where 1 and SUBSTRING(tbl_giaoviec.created_date, 6, 2) = '$month' and SUBSTRING(tbl_giaoviec.ngay, 7, 4) = '$year' $cond order by y DESC, m DESC, d DESC, fullname, soluong, giaoviec_id";
+	$sql = "select tbl_giaoviec.*, SUBSTRING(tbl_giaoviec.created_date, 1, 4) AS Y, SUBSTRING(tbl_giaoviec.created_date, 6, 2) AS m , SUBSTRING(tbl_giaoviec.created_date, 9, 2) AS d,tbl_member.fullname, tbl_member.member_type_id, tbl_member.extra_member_type_id, tbl_website.website_name from (tbl_giaoviec left join tbl_member on tbl_giaoviec.member_id = tbl_member.member_id) left join tbl_website on tbl_giaoviec.website_id = tbl_website.website_id where 1 and tbl_giaoviec.parent_id = 0 and SUBSTRING(tbl_giaoviec.created_date, 6, 2) = '$month' and SUBSTRING(tbl_giaoviec.created_date, 1, 4) = '$year' $cond order by y DESC, m DESC, d DESC, fullname, soluong, giaoviec_id";
 	$contentDepartmentId = gvKpiContentDepartmentId();
 	$tam = "";$tam_name = "";
 	if ( !($result = $db->sql_query($sql)) ) message_die( SERVER_BUSY );
@@ -1032,10 +1032,18 @@ function mosDelete()
 		$ids = array();
 		$contentDepartmentId = gvKpiContentDepartmentId();
 		if ($contentDepartmentId <= 0) return $ids;
-		$sql = "select member_id from tbl_member where active = 1 and (member_type_id = ".$contentDepartmentId." or extra_member_type_id = ".$contentDepartmentId.") order by fullname";
+		$sql = "select member_id from tbl_member where (member_type_id = ".$contentDepartmentId." or extra_member_type_id = ".$contentDepartmentId.") order by active desc, fullname";
 		if ($result = $db->sql_query($sql)) {
 			while ($row = $db->sql_fetchrow($result)) {
 				$ids[] = (int)$row['member_id'];
+			}
+		}
+		if (empty($ids)) {
+			$sql = "select member_id from tbl_member where fullname like '%Content%' order by active desc, fullname";
+			if ($result = $db->sql_query($sql)) {
+				while ($row = $db->sql_fetchrow($result)) {
+					$ids[] = (int)$row['member_id'];
+				}
 			}
 		}
 		return $ids;
@@ -1330,7 +1338,7 @@ function mosDelete()
 				sum(case when gv.giaoviec_id is not null and not (trim(gv.giaoviec_name) <> '' and ifnull(gv.giaoviec_num,0) > 0 and trim(gv.link_demo) <> '' and gv.soluong = 2) then case when ifnull(gv.giaoviec_num,0) > 0 then gv.giaoviec_num else 1 end else 0 end) as invalid_tasks
 			from tbl_member m
 			left join tbl_giaoviec gv on gv.member_id = m.member_id ".$dateCond." and gv.active = 1 ".$kpiTaskCond."
-			where m.active = 1 and m.member_id in (".$teamSql.") ".$memberCond."
+			where m.member_id in (".$teamSql.") ".$memberCond."
 			group by m.member_id, m.fullname
 			order by kpi_done desc, m.fullname
 		";
@@ -1432,7 +1440,7 @@ function mosDelete()
 		}
 
 		$memberListCond = $canViewOverview ? "member_id in (".$teamSql.")" : "member_id = ".$loginId;
-		$sql = "select member_id, fullname from tbl_member where active = 1 and ".$memberListCond." order by fullname";
+		$sql = "select member_id, fullname from tbl_member where ".$memberListCond." order by active desc, fullname";
 		if (!($result = $db->sql_query($sql))) message_die(SERVER_BUSY);
 		while ($row = $db->sql_fetchrow($result)) {
 			$template->assign_block_vars('member_list', array(

@@ -67,32 +67,59 @@
 
     .note-cell {
         text-align: left;
-        padding: 6px !important;
+        padding: 8px !important;
     }
 
     .note-box {
-        max-height: 150px;
+        max-height: 224px;
         overflow-y: auto;
-        padding-right: 4px;
+        padding: 4px 6px 4px 4px;
+        scrollbar-width: thin;
+        scrollbar-color: #b9c9dc #f2f6fb;
+    }
+
+    .note-box::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    .note-box::-webkit-scrollbar-track {
+        background: #f2f6fb;
+        border-radius: 10px;
+    }
+
+    .note-box::-webkit-scrollbar-thumb {
+        background: #b9c9dc;
+        border-radius: 10px;
     }
 
     .note-empty {
-        color: #888;
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        border: 1px dashed #cfdceb;
+        border-radius: 8px;
+        background: #f8fbff;
+        color: #7a8da3;
         font-style: italic;
-        font-size: 12px;
-        padding: 6px 4px;
+        font-size: 13px;
+        padding: 7px 10px;
     }
 
     .note-item {
-        background: #f8f9fb;
-        border: 1px solid #dfe3ea;
-        border-left: 4px solid #9aa7bd;
-        border-radius: 6px;
-        padding: 6px 8px;
-        margin-bottom: 6px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 8px;
+        align-items: start;
+        background: #f8fbff;
+        border: 1px solid #d9e7f5;
+        border-left: 5px solid #7f92aa;
+        border-radius: 8px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
         line-height: 1.45;
-        font-size: 12px;
-        color: #333;
+        font-size: 13px;
+        color: #17324d;
+        box-shadow: 0 4px 12px rgba(31, 80, 128, .05);
     }
 
     .note-item:last-child {
@@ -100,43 +127,69 @@
     }
 
     .note-item.note-late {
-        border-left-color: #f0ad4e;
-        background: #fff8ee;
+        border-left-color: #f59e0b;
+        background: #fff8ed;
+        border-color: #fde3b7;
     }
 
     .note-item.note-leave {
-        border-left-color: #5bc0de;
-        background: #eef8fc;
+        border-left-color: #2e6cbf;
+        background: #f2f7ff;
+        border-color: #d6e6fb;
     }
 
     .note-item.note-danger {
-        border-left-color: #d9534f;
-        background: #fff1f1;
+        border-left-color: #dc2626;
+        background: #fff3f3;
+        border-color: #ffd5d5;
     }
 
     .js-late-deduct-box {
-        max-height: 105px;
+        max-height: 224px;
+        min-width: 220px;
     }
 
     .js-late-deduct-box .note-empty {
-        font-size: 11px;
-        padding: 3px 2px;
+        font-size: 13px;
     }
 
     .js-late-deduct-box .note-item {
-        border-radius: 4px;
-        border-left-width: 3px;
-        font-size: 11px;
-        line-height: 1.25;
-        margin-bottom: 4px;
-        padding: 4px 5px;
+        grid-template-columns: auto 1fr;
+        border-left-width: 5px;
+        font-size: 13px;
+        line-height: 1.35;
+        margin-bottom: 8px;
+        padding: 8px 10px;
     }
 
     .note-date {
         font-weight: bold;
-        color: #222;
-        display: inline-block;
-        margin-right: 6px;
+        color: #0f4c8a;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 52px;
+        height: 24px;
+        border-radius: 999px;
+        background: #e8f1fc;
+        font-size: 12px;
+        line-height: 1;
+    }
+
+    .note-content {
+        display: block;
+        min-width: 0;
+        white-space: normal;
+    }
+
+    .bangluong-table td:nth-child(10),
+    .bangluong-table td:nth-child(24) {
+        background: #fffaf0;
+    }
+
+    .bangluong-table td:nth-child(10) {
+        color: #c05621;
+        font-weight: 800;
     }
 
     .money-strong {
@@ -266,6 +319,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    formatSalaryNotes();
+    window.addEventListener('load', function () {
+        setTimeout(formatSalaryNotes, 80);
+    });
+
+    function formatSalaryNotes() {
     var rows = document.querySelectorAll('.bangluong-table tr');
 
     rows.forEach(function (row) {
@@ -292,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
     lateDeductBoxes.forEach(function (box) {
         renderLateDeductBox(box);
     });
+    }
 
     document.addEventListener('click', function (e) {
         var item = e.target.closest('.js-edit-note');
@@ -347,8 +407,8 @@ document.addEventListener('DOMContentLoaded', function () {
             item.setAttribute('data-note', newReason);
             item.setAttribute('data-raw-content', newContent);
 
-            var dateSpanHtml = '<span class="note-date">' + escapeHtml(shortDate + ':') + '</span>';
-            item.innerHTML = dateSpanHtml + '<span>' + escapeHtml(newContent) + '</span>';
+            var dateSpanHtml = '<span class="note-date">' + escapeHtml(shortDate) + '</span>';
+            item.innerHTML = dateSpanHtml + '<span class="note-content">' + escapeHtml(newContent) + '</span>';
 
             alert('Đã lưu note');
         })
@@ -358,14 +418,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function renderNoteBox(box) {
-        var raw = (box.textContent || '').trim();
+        var raw = (box.getAttribute('data-raw-note') || box.textContent || '').trim();
+
+        if (box.querySelector('.note-item, .note-empty')) return;
+        box.setAttribute('data-raw-note', raw);
 
         if (!raw) {
             box.innerHTML = '<div class="note-empty">Không có ghi chú</div>';
             return;
         }
 
-        var items = raw.split('||').map(function (item) {
+        var items = splitNoteItems(raw).map(function (item) {
             return item.trim();
         }).filter(function (item) {
             return item !== '';
@@ -402,10 +465,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 cls += ' note-danger';
             }
 
-            var firstColon = item.indexOf(':');
-            if (firstColon > -1) {
-                var datePart = item.substring(0, firstColon).trim(); // vd 10-03
-                var contentPart = item.substring(firstColon + 1).trim();
+            var parsed = parseDatedItem(item);
+            if (parsed.date) {
+                var datePart = parsed.date;
+                var contentPart = parsed.content;
 
                 var extractedNote = buildEditableNote(contentPart);
 
@@ -416,11 +479,11 @@ document.addEventListener('DOMContentLoaded', function () {
                      + ' data-raw-content="' + escapeHtml(contentPart) + '"'
                      + ' style="cursor:pointer;"'
                      + ' title="Click để sửa note">'
-                     + '<span class="note-date">' + escapeHtml(datePart + ':') + '</span>'
-                     + '<span>' + escapeHtml(contentPart) + '</span>'
+                     + '<span class="note-date">' + escapeHtml(datePart) + '</span>'
+                     + '<span class="note-content">' + escapeHtml(contentPart) + '</span>'
                      + '</div>';
             } else {
-                html += '<div class="' + cls + '">' + escapeHtml(item) + '</div>';
+                html += '<div class="' + cls + '"><span class="note-content">' + escapeHtml(item) + '</span></div>';
             }
         });
 
@@ -428,14 +491,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderLateDeductBox(box) {
-        var raw = (box.textContent || '').trim();
+        var raw = (box.getAttribute('data-raw-note') || box.textContent || '').trim();
+
+        if (box.querySelector('.note-item, .note-empty')) return;
+        box.setAttribute('data-raw-note', raw);
 
         if (!raw) {
             box.innerHTML = '<div class="note-empty">Không có giờ trừ</div>';
             return;
         }
 
-        var items = raw.split('||').map(function (item) {
+        var items = splitNoteItems(raw).map(function (item) {
             return item.trim();
         }).filter(function (item) {
             return item !== '';
@@ -456,10 +522,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 cls += ' note-danger';
             }
 
-            html += '<div class="' + cls + '">' + escapeHtml(item) + '</div>';
+            var parsed = parseDatedItem(item);
+            if (parsed.date) {
+                html += '<div class="' + cls + '"><span class="note-date">' + escapeHtml(parsed.date) + '</span><span class="note-content">' + escapeHtml(parsed.content) + '</span></div>';
+            } else {
+                html += '<div class="' + cls + '"><span class="note-content">' + escapeHtml(item) + '</span></div>';
+            }
         });
 
         box.innerHTML = html;
+    }
+
+    function splitNoteItems(raw) {
+        raw = (raw || '').replace(/\r\n?/g, '\n').replace(/<br\s*\/?>/gi, '\n');
+        var protectedText = raw.replace(/(\d{2}[-\/]\d{2})(?=\S)/g, '\n$1');
+        return protectedText.split(/\s*\|\|\s*|\n+/);
+    }
+
+    function parseDatedItem(item) {
+        item = (item || '').trim();
+        var match = item.match(/^(\d{2}[-\/]\d{2})\s*:?\s*(.*)$/);
+        if (!match) return { date: '', content: item };
+        return { date: match[1], content: (match[2] || '').trim() };
     }
 
     function buildEditableNote(content) {

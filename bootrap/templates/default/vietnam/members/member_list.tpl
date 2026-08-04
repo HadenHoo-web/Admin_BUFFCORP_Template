@@ -1,6 +1,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <div class="toolbar">
-	  <a href="?option={funname}&mode=info"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Create new member</span></a>
+	  <a href="?option={funname}&mode=info"><img border="0" src="templates/{skin}/images/button-article-create.gif" alt="Create new"><span>Thêm mới</span></a>
 </div>
 <div class="tabtitle"><span class="header">Member List</span></div>
 <div style="overflow:auto; height:80%">
@@ -13,9 +13,9 @@
     <td width="50" >Phòng ban</td>
     <td width="200" >Email</td>
     <td width="50" >Active</td>
-    <td width="100" colspan="4" >&nbsp;</td>
+    <td width="90">Thao tác</td>
   </tr>
-<!-- BEGIN list -->  
+<!-- BEGIN list -->
   <tr class="{list.className}">
     <td align="center" style="vertical-align:middle">{list.order}</td>
     <td style="vertical-align:middle">{list.loginname}</td>
@@ -24,12 +24,9 @@
     <td style="vertical-align:middle">{list.member_type_name}</td>
     <td style="vertical-align:middle">{list.email}</td>
     <td style="vertical-align:middle">{list.active}</td>
-    <td><a href="?option={funname}&mode=setpass&id={list.member_id}"><img border="0" src="templates/{skin}/images/icon_securityroles_32px.gif" alt="Create password" width="20" height="20"></a></td>
-    <td> <a href="?option={funname}&mode=permission_list&id={list.member_id}"><img border="0" src="templates/{skin}/images/DB_user.png" alt="Permission" width="20" height="20"></a></td>
-    <td><a href="?option={funname}&mode=info&id={list.member_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a></td>
-    <td width="4%" style="vertical-align:middle"><a href="#" onClick="doDelete({list.member_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a> </td>
+    <td style="vertical-align:middle"><a href="?option={funname}&mode=info&id={list.member_id}"><img border="0" src="templates/{skin}/images/editbutton.gif" alt="Update" width="20" height="20"></a><a href="#" onClick="doDelete({list.member_id})"><img border="0" src="templates/{skin}/images/button-delete.gif" width="20" height="20" alt="Delete"></a></td>
   </tr>
-<!-- END list -->  
+<!-- END list -->
  </table>
 </div>
 <p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>

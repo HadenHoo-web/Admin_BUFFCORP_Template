@@ -1,163 +1,432 @@
 <style type="text/css">
-.leave-stats {display:flex; gap:10px; margin:8px 0 10px 0; flex-wrap:wrap;}
-.leave-stat {border:1px solid #c9d7e2; background:#f5f9fc; padding:8px 12px; min-width:125px;}
-.leave-stat b {display:block; font-size:18px; color:#005a8f;}
-.leave-wrap {overflow:auto; height:38%; margin-bottom:12px;}
-.leave-table {width:100%; border-collapse:collapse;}
-.leave-table td {padding:5px 6px; vertical-align:middle;}
-.leave-table .header td {font-weight:bold; text-align:center;}
-.leave-number {text-align:center; font-weight:bold;}
-.leave-remain {color:#1f7a33;}
-.leave-used {color:#cc6600;}
-.leave-half {color:#cc6600; font-weight:bold;}
-.leave-zero {color:#cc0000; font-weight:bold;}
-.leave-detail-note {min-width:260px; line-height:1.35;}
-.leave-section-title {background:#777; color:#fff; font-weight:bold; padding:5px 8px; margin-top:8px;}
-.leave-month-cell {text-align:center; min-width:42px;}
+.leave-report-modern {
+  color: #17324d;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.leave-report-modern * {
+  box-sizing: border-box;
+}
+.leave-filter-card,
+.leave-section,
+.leave-message {
+  background: #fff;
+  border: 1px solid #d8e7f5;
+  border-radius: 8px;
+  box-shadow: 0 10px 26px rgba(31, 80, 128, .06);
+}
+.leave-filter-card {
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+.leave-filter-form {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.4fr) minmax(180px, .8fr) minmax(150px, .55fr) minmax(150px, .55fr) auto;
+  gap: 16px;
+  align-items: end;
+}
+.leave-filter-member {
+  display: {filter_member_display};
+}
+.leave-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #17324d;
+  font-size: 16px;
+  font-weight: 700;
+}
+.leave-select-wrap {
+  position: relative;
+}
+.leave-select-wrap:before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  background: currentColor;
+  color: #6a7f99;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 3H2l8 9.46V19l4 2v-8.54L22 3z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 3H2l8 9.46V19l4 2v-8.54L22 3z'/%3E%3C/svg%3E") center / contain no-repeat;
+  pointer-events: none;
+}
+.leave-field select {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #d4e4f4;
+  border-radius: 8px;
+  background: #fff;
+  color: #17324d;
+  font-size: 16px;
+  padding: 0 44px 0 52px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #17324d 50%), linear-gradient(135deg, #17324d 50%, transparent 50%);
+  background-position: calc(100% - 25px) 22px, calc(100% - 16px) 22px;
+  background-size: 9px 9px, 9px 9px;
+  background-repeat: no-repeat;
+}
+.leave-field select:focus {
+  border-color: #2e6cbf;
+  box-shadow: 0 0 0 3px rgba(46, 108, 191, .12);
+}
+.leave-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.leave-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 140px;
+  height: 52px;
+  border: 1px solid #d4e4f4;
+  border-radius: 8px;
+  background: #fff;
+  color: #17324d;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.leave-btn svg {
+  width: 20px;
+  height: 20px;
+}
+.leave-btn-primary {
+  border-color: #2e6cbf;
+  background: #2e6cbf;
+  color: #fff;
+}
+.leave-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #e8f0f8;
+}
+.leave-stat-card {
+  min-height: 94px;
+  padding: 16px 18px;
+  border: 1px solid #d8e7f5;
+  border-radius: 8px;
+  background: #f8fbff;
+}
+.leave-stat-card b {
+  display: block;
+  margin-bottom: 6px;
+  color: #1d63ad;
+  font-size: 28px;
+  line-height: 1;
+}
+.leave-stat-card span {
+  color: #5f7187;
+  font-size: 15px;
+  font-weight: 600;
+}
+.leave-stat-card.used b {
+  color: #d97706;
+}
+.leave-stat-card.remain b {
+  color: #16823a;
+}
+.leave-section {
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.leave-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #d8e7f5;
+  background: #f5f8fc;
+}
+.leave-section-head h3 {
+  margin: 0;
+  color: #17324d;
+  font-size: 18px;
+  font-weight: 800;
+}
+.leave-section-head span {
+  color: #6b7f97;
+  font-size: 14px;
+  font-weight: 600;
+}
+.leave-table-scroll {
+  width: 100%;
+  overflow: auto;
+}
+.leave-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.leave-table th,
+.leave-table td {
+  height: 48px;
+  padding: 10px 14px;
+  border-right: 1px solid #e1edf8;
+  border-bottom: 1px solid #e8f0f8;
+  color: #17324d;
+  font-size: 15px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.leave-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f5f8fc;
+  color: #526a84;
+  font-weight: 800;
+  text-align: left;
+}
+.leave-table th.center,
+.leave-table td.center {
+  text-align: center;
+}
+.leave-table tr:nth-child(even) td {
+  background: #fbfdff;
+}
+.leave-table .leave-name {
+  font-weight: 800;
+}
+.leave-number,
+.leave-month-cell {
+  text-align: center;
+  font-weight: 800;
+}
+.leave-month-cell {
+  min-width: 56px;
+}
+.leave-remain {
+  color: #16823a !important;
+}
+.leave-used,
+.leave-half {
+  color: #d97706 !important;
+}
+.leave-zero {
+  color: #dc2626 !important;
+}
+.leave-detail-note {
+  min-width: 360px;
+  white-space: normal !important;
+  line-height: 1.45;
+}
+.leave-message {
+  padding: 14px 16px;
+  color: #dc2626;
+  font-weight: 800;
+  text-align: center;
+}
+@media (max-width: 1280px) {
+  .leave-filter-form {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+  .leave-actions {
+    justify-content: flex-start;
+  }
+  .leave-stats-grid {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .leave-filter-card {
+    padding: 16px;
+  }
+  .leave-filter-form,
+  .leave-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .leave-actions,
+  .leave-btn {
+    width: 100%;
+  }
+}
 </style>
 
-<div class="toolbar">
-  <a href="main.php?option={funname}&mode=list"><img border="0" src="templates/{skin}/images/button-article-create.gif"><span>Thống kê phép</span></a>
+<div class="leave-report-modern">
+  <section class="leave-filter-card">
+    <form action="main.php" method="GET" name="mainForm" id="mainForm" class="leave-filter-form">
+      <input type="hidden" name="option" value="{funname}">
+      <input type="hidden" name="mode" value="list">
+
+      <div class="leave-field leave-filter-member">
+        <label>Nhân viên</label>
+        <div class="leave-select-wrap">
+          <select name="member_id1">
+            <option value="0">Tất cả nhân viên</option>
+            <!-- BEGIN member_list -->
+            <option value="{member_list.member_id}" {member_list.selected}>{member_list.member_name}</option>
+            <!-- END member_list -->
+          </select>
+        </div>
+      </div>
+
+      <div class="leave-field">
+        <label>Tháng</label>
+        <div class="leave-select-wrap">
+          <select name="month">
+            <option value="01" {m01}>Tháng 01</option>
+            <option value="02" {m02}>Tháng 02</option>
+            <option value="03" {m03}>Tháng 03</option>
+            <option value="04" {m04}>Tháng 04</option>
+            <option value="05" {m05}>Tháng 05</option>
+            <option value="06" {m06}>Tháng 06</option>
+            <option value="07" {m07}>Tháng 07</option>
+            <option value="08" {m08}>Tháng 08</option>
+            <option value="09" {m09}>Tháng 09</option>
+            <option value="10" {m10}>Tháng 10</option>
+            <option value="11" {m11}>Tháng 11</option>
+            <option value="12" {m12}>Tháng 12</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="leave-field">
+        <label>Năm</label>
+        <div class="leave-select-wrap">
+          <select name="year">
+            <option value="2023" {y2023}>2023</option>
+            <option value="2024" {y2024}>2024</option>
+            <option value="2025" {y2025}>2025</option>
+            <option value="2026" {y2026}>2026</option>
+            <option value="2027" {y2027}>2027</option>
+            <option value="2028" {y2028}>2028</option>
+            <option value="2029" {y2029}>2029</option>
+            <option value="2030" {y2030}>2030</option>
+            <option value="2031" {y2031}>2031</option>
+            <option value="2032" {y2032}>2032</option>
+            <option value="2033" {y2033}>2033</option>
+            <option value="2034" {y2034}>2034</option>
+            <option value="2035" {y2035}>2035</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="leave-actions">
+        <button class="leave-btn leave-btn-primary" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>Lọc</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="leave-stats-grid">
+      <div class="leave-stat-card"><b>{total_members}</b><span>Nhân viên</span></div>
+      <div class="leave-stat-card"><b>{total_annual_default}</b><span>Tổng phép năm</span></div>
+      <div class="leave-stat-card used"><b>{total_month_used}</b><span>Đã trừ tháng {month}</span></div>
+      <div class="leave-stat-card used"><b>{total_annual_used}</b><span>Đã trừ năm {year}</span></div>
+      <div class="leave-stat-card remain"><b>{total_annual_remain}</b><span>Còn lại năm {year}</span></div>
+    </div>
+  </section>
+
+  <section class="leave-section">
+    <div class="leave-section-head">
+      <h3>Tổng hợp phép năm {year}</h3>
+      <span>Phép theo từng tháng</span>
+    </div>
+    <div class="leave-table-scroll">
+      <table class="leave-table">
+        <thead>
+          <tr>
+            <th class="center" style="min-width:58px;">#</th>
+            <th style="min-width:220px;">Nhân viên</th>
+            <th style="min-width:140px;">Mã chấm công</th>
+            <th class="center" style="min-width:110px;">Phép / tháng</th>
+            <th class="center">T1</th>
+            <th class="center">T2</th>
+            <th class="center">T3</th>
+            <th class="center">T4</th>
+            <th class="center">T5</th>
+            <th class="center">T6</th>
+            <th class="center">T7</th>
+            <th class="center">T8</th>
+            <th class="center">T9</th>
+            <th class="center">T10</th>
+            <th class="center">T11</th>
+            <th class="center">T12</th>
+            <th class="center" style="min-width:120px;">Đã trừ năm</th>
+            <th class="center" style="min-width:120px;">Còn lại năm</th>
+            <th class="center" style="min-width:150px;">Số ngày trong tháng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- BEGIN list -->
+          <tr class="{list.className}">
+            <td class="center">{list.order}</td>
+            <td class="leave-name">{list.member_name}</td>
+            <td>{list.attendance_user_id}</td>
+            <td class="leave-number">{list.monthly_default}</td>
+            <td class="leave-month-cell {list.m01_class}" title="Đã trừ: {list.m01_used}">{list.m01_remain}</td>
+            <td class="leave-month-cell {list.m02_class}" title="Đã trừ: {list.m02_used}">{list.m02_remain}</td>
+            <td class="leave-month-cell {list.m03_class}" title="Đã trừ: {list.m03_used}">{list.m03_remain}</td>
+            <td class="leave-month-cell {list.m04_class}" title="Đã trừ: {list.m04_used}">{list.m04_remain}</td>
+            <td class="leave-month-cell {list.m05_class}" title="Đã trừ: {list.m05_used}">{list.m05_remain}</td>
+            <td class="leave-month-cell {list.m06_class}" title="Đã trừ: {list.m06_used}">{list.m06_remain}</td>
+            <td class="leave-month-cell {list.m07_class}" title="Đã trừ: {list.m07_used}">{list.m07_remain}</td>
+            <td class="leave-month-cell {list.m08_class}" title="Đã trừ: {list.m08_used}">{list.m08_remain}</td>
+            <td class="leave-month-cell {list.m09_class}" title="Đã trừ: {list.m09_used}">{list.m09_remain}</td>
+            <td class="leave-month-cell {list.m10_class}" title="Đã trừ: {list.m10_used}">{list.m10_remain}</td>
+            <td class="leave-month-cell {list.m11_class}" title="Đã trừ: {list.m11_used}">{list.m11_remain}</td>
+            <td class="leave-month-cell {list.m12_class}" title="Đã trừ: {list.m12_used}">{list.m12_remain}</td>
+            <td class="leave-number leave-used">{list.annual_used}</td>
+            <td class="leave-number leave-remain">{list.annual_remain}</td>
+            <td class="leave-number">{list.detail_count}</td>
+          </tr>
+          <!-- END list -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="leave-section">
+    <div class="leave-section-head">
+      <h3>Chi tiết ngày bị trừ phép</h3>
+      <span>Tháng {month}/{year}</span>
+    </div>
+    <div class="leave-table-scroll">
+      <table class="leave-table">
+        <thead>
+          <tr>
+            <th class="center" style="min-width:58px;">#</th>
+            <th style="min-width:220px;">Nhân viên</th>
+            <th style="min-width:120px;">Ngày</th>
+            <th style="min-width:160px;">Loại nghỉ</th>
+            <th class="center" style="min-width:120px;">Phép bị trừ</th>
+            <th class="center" style="min-width:150px;">Còn lại sau ngày đó</th>
+            <th style="min-width:120px;">Check In</th>
+            <th style="min-width:120px;">Check Out</th>
+            <th style="min-width:360px;">Ghi chú</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- BEGIN detail_list -->
+          <tr class="{detail_list.className}">
+            <td class="center">{detail_list.order}</td>
+            <td class="leave-name">{detail_list.member_name}</td>
+            <td>{detail_list.date}</td>
+            <td>{detail_list.session}</td>
+            <td class="leave-number leave-used">{detail_list.used_leave}</td>
+            <td class="leave-number leave-remain">{detail_list.remain_after}</td>
+            <td>{detail_list.check_in}</td>
+            <td>{detail_list.check_out}</td>
+            <td class="leave-detail-note">{detail_list.note}</td>
+          </tr>
+          <!-- END detail_list -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="leave-message">{MESSAGE}</div>
 </div>
-
-<div class="tabtitle">
-<form action="main.php" method="GET" name="mainForm" id="mainForm" style="margin:0px;">
-  <input type="hidden" name="option" value="{funname}">
-  <input type="hidden" name="mode" value="list">
-
-  <span style="display:{filter_member_display}">
-    Nhân viên
-    <select name="member_id1">
-      <option value="0">All</option>
-      <!-- BEGIN member_list -->
-      <option value="{member_list.member_id}" {member_list.selected}>{member_list.member_name}</option>
-      <!-- END member_list -->
-    </select>
-  </span>
-
-  Tháng
-  <select name="month">
-    <option value="01" {m01}>01</option>
-    <option value="02" {m02}>02</option>
-    <option value="03" {m03}>03</option>
-    <option value="04" {m04}>04</option>
-    <option value="05" {m05}>05</option>
-    <option value="06" {m06}>06</option>
-    <option value="07" {m07}>07</option>
-    <option value="08" {m08}>08</option>
-    <option value="09" {m09}>09</option>
-    <option value="10" {m10}>10</option>
-    <option value="11" {m11}>11</option>
-    <option value="12" {m12}>12</option>
-  </select>
-
-  Năm
-  <select name="year">
-    <option value="2023" {y2023}>2023</option>
-    <option value="2024" {y2024}>2024</option>
-    <option value="2025" {y2025}>2025</option>
-    <option value="2026" {y2026}>2026</option>
-    <option value="2027" {y2027}>2027</option>
-    <option value="2028" {y2028}>2028</option>
-    <option value="2029" {y2029}>2029</option>
-    <option value="2030" {y2030}>2030</option>
-    <option value="2031" {y2031}>2031</option>
-    <option value="2032" {y2032}>2032</option>
-    <option value="2033" {y2033}>2033</option>
-    <option value="2034" {y2034}>2034</option>
-    <option value="2035" {y2035}>2035</option>
-  </select>
-
-  <input type="submit" value="Lọc" style="height:18px; margin-top:4px;">
-</form>
-</div>
-
-<div class="leave-stats">
-  <div class="leave-stat"><b>{total_members}</b>Nhân viên</div>
-  <div class="leave-stat"><b>{total_annual_default}</b>Tổng phép năm</div>
-  <div class="leave-stat"><b>{total_month_used}</b>Đã trừ tháng {month}</div>
-  <div class="leave-stat"><b>{total_annual_used}</b>Đã trừ năm {year}</div>
-  <div class="leave-stat"><b>{total_annual_remain}</b>Còn lại năm {year}</div>
-</div>
-
-<div class="leave-section-title">Tổng hợp phép năm {year} - phép theo từng tháng</div>
-<div class="leave-wrap">
-  <table border="0" cellpadding="0" cellspacing="0" class="selector leave-table">
-    <tr class="header">
-      <td width="35">#</td>
-      <td width="180">Nhân viên</td>
-      <td width="120">Mã chấm công</td>
-      <td width="70">Phép / tháng</td>
-      <td width="55">T1</td>
-      <td width="55">T2</td>
-      <td width="55">T3</td>
-      <td width="55">T4</td>
-      <td width="55">T5</td>
-      <td width="55">T6</td>
-      <td width="55">T7</td>
-      <td width="55">T8</td>
-      <td width="55">T9</td>
-      <td width="55">T10</td>
-      <td width="55">T11</td>
-      <td width="55">T12</td>
-      <td width="85">Đã trừ năm</td>
-      <td width="85">Còn lại năm</td>
-      <td width="100">Số ngày trong tháng</td>
-    </tr>
-    <!-- BEGIN list -->
-    <tr class="{list.className}">
-      <td align="center">{list.order}</td>
-      <td><b>{list.member_name}</b></td>
-      <td>{list.attendance_user_id}</td>
-      <td class="leave-number">{list.monthly_default}</td>
-      <td class="leave-month-cell {list.m01_class}" title="Đã trừ: {list.m01_used}">{list.m01_remain}</td>
-      <td class="leave-month-cell {list.m02_class}" title="Đã trừ: {list.m02_used}">{list.m02_remain}</td>
-      <td class="leave-month-cell {list.m03_class}" title="Đã trừ: {list.m03_used}">{list.m03_remain}</td>
-      <td class="leave-month-cell {list.m04_class}" title="Đã trừ: {list.m04_used}">{list.m04_remain}</td>
-      <td class="leave-month-cell {list.m05_class}" title="Đã trừ: {list.m05_used}">{list.m05_remain}</td>
-      <td class="leave-month-cell {list.m06_class}" title="Đã trừ: {list.m06_used}">{list.m06_remain}</td>
-      <td class="leave-month-cell {list.m07_class}" title="Đã trừ: {list.m07_used}">{list.m07_remain}</td>
-      <td class="leave-month-cell {list.m08_class}" title="Đã trừ: {list.m08_used}">{list.m08_remain}</td>
-      <td class="leave-month-cell {list.m09_class}" title="Đã trừ: {list.m09_used}">{list.m09_remain}</td>
-      <td class="leave-month-cell {list.m10_class}" title="Đã trừ: {list.m10_used}">{list.m10_remain}</td>
-      <td class="leave-month-cell {list.m11_class}" title="Đã trừ: {list.m11_used}">{list.m11_remain}</td>
-      <td class="leave-month-cell {list.m12_class}" title="Đã trừ: {list.m12_used}">{list.m12_remain}</td>
-      <td class="leave-number leave-used">{list.annual_used}</td>
-      <td class="leave-number leave-remain">{list.annual_remain}</td>
-      <td class="leave-number">{list.detail_count}</td>
-    </tr>
-    <!-- END list -->
-  </table>
-</div>
-
-<div class="leave-section-title">Chi tiết ngày bị trừ phép trong tháng {month}/{year}</div>
-<div class="leave-wrap">
-  <table border="0" cellpadding="0" cellspacing="0" class="selector leave-table">
-    <tr class="header">
-      <td width="35">#</td>
-      <td width="170">Nhân viên</td>
-      <td width="90">Ngày</td>
-      <td width="120">Loại nghỉ</td>
-      <td width="90">Phép bị trừ</td>
-      <td width="90">Còn lại sau ngày đó</td>
-      <td width="80">Check In</td>
-      <td width="80">Check Out</td>
-      <td>Ghi chú</td>
-    </tr>
-    <!-- BEGIN detail_list -->
-    <tr class="{detail_list.className}">
-      <td align="center">{detail_list.order}</td>
-      <td><b>{detail_list.member_name}</b></td>
-      <td>{detail_list.date}</td>
-      <td>{detail_list.session}</td>
-      <td class="leave-number leave-used">{detail_list.used_leave}</td>
-      <td class="leave-number leave-remain">{detail_list.remain_after}</td>
-      <td>{detail_list.check_in}</td>
-      <td>{detail_list.check_out}</td>
-      <td class="leave-detail-note">{detail_list.note}</td>
-    </tr>
-    <!-- END detail_list -->
-  </table>
-</div>
-
-<p align="center"><font color="#FF0000"><b>{MESSAGE}</b></font></p>
