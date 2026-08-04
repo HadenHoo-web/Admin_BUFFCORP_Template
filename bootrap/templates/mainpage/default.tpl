@@ -143,8 +143,11 @@
         }
 
         .payroll-wrap.open ~ .notify-wrap {
-            z-index: 1;
+            z-index: 9999;
             pointer-events: none;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
         }
 
         .admin-home-wrap {
@@ -171,16 +174,38 @@
             transition: transform .18s ease, color .18s ease;
         }
 
-        .notify-bell:hover,
         .admin-home-button:hover,
         .payroll-button:hover {
             color: #111;
             animation: topIconPop .42s ease;
         }
 
+        .notify-bell:hover {
+            color: #111;
+        }
+
         .notify-wrap.has-unread .notify-bell {
-            animation: notifyBellShake 1.4s ease-in-out infinite;
+            animation: none;
             transform-origin: 50% 4px;
+        }
+
+        .notify-wrap.notify-suppress-flash {
+            pointer-events: none;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            transition: none !important;
+            animation: none !important;
+        }
+
+        .notify-wrap.notify-suppress-flash .notify-bell,
+        .notify-wrap.notify-suppress-flash .notify-bell:hover,
+        .notify-wrap.notify-suppress-flash.has-unread .notify-bell {
+            color: #4b4b4b !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            animation: none !important;
+            transform: none !important;
         }
 
         .notify-bell svg {
@@ -586,6 +611,7 @@
         }
 
         .notify-count {
+            display: none;
             position: absolute;
             right: -6px;
             top: -7px;
@@ -601,11 +627,14 @@
             text-align: center;
             box-sizing: border-box;
             border: 1px solid #fff;
-            transform: scale(0);
+            opacity: 0;
+            transform: scale(.72);
             transition: transform .18s ease;
         }
 
         .notify-count.show {
+            display: block;
+            opacity: 1;
             transform: scale(1);
         }
 
@@ -948,8 +977,11 @@
         }
 
         .buffcorp-top-actions .payroll-wrap.open ~ .notify-wrap {
-            z-index: 1;
+            z-index: 9999;
             pointer-events: none;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
         }
 
         .main-content.dashboard-header-icons .buffcorp-top-actions .admin-home-wrap,
@@ -1010,6 +1042,86 @@
             top: -5px;
             right: -5px;
             border-color: #fff;
+        }
+
+        .buffcorp-top-actions .notify-bell:focus,
+        .buffcorp-top-actions .notify-bell:focus-visible,
+        .buffcorp-top-actions .notify-bell:active,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell:focus,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell:focus-visible,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell:active {
+            outline: 0;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .buffcorp-top-actions .notify-bell svg,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell svg {
+            fill: none !important;
+        }
+
+        .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell,
+        .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell:hover,
+        .buffcorp-top-actions .notify-wrap.notify-suppress-flash.has-unread .notify-bell,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash .notify-bell:hover,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash.has-unread .notify-bell {
+            color: var(--buff-text) !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            animation: none !important;
+            transform: none !important;
+        }
+
+        .notify-wrap.notify-suppress-flash .notify-count {
+            transition: none !important;
+        }
+
+        .notify-wrap.notify-suppress-flash,
+        .notify-wrap.notify-suppress-flash .notify-count,
+        .buffcorp-top-actions .notify-wrap.notify-suppress-flash,
+        .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap.notify-suppress-flash {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            transition: none !important;
+            animation: none !important;
+        }
+
+        body.payroll-popup-settling .notify-wrap,
+        body.payroll-popup-settling .buffcorp-top-actions .notify-wrap {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            transition: none !important;
+            animation: none !important;
+            outline: 0 !important;
+            border-color: var(--buff-line) !important;
+            background: var(--buff-surface) !important;
+            box-shadow: none !important;
+        }
+
+        body.payroll-popup-settling .notify-bell,
+        body.payroll-popup-settling .notify-bell:hover,
+        body.payroll-popup-settling .notify-bell:focus,
+        body.payroll-popup-settling .notify-bell:active,
+        body.payroll-popup-settling .notify-count,
+        body.payroll-popup-settling .buffcorp-top-actions .notify-bell,
+        body.payroll-popup-settling .buffcorp-top-actions .notify-bell:hover,
+        body.payroll-popup-settling .buffcorp-top-actions .notify-bell:focus,
+        body.payroll-popup-settling .buffcorp-top-actions .notify-bell:active {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            transition: none !important;
+            animation: none !important;
+            outline: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        body.payroll-popup-settling .notify-panel {
+            display: none !important;
         }
 
         .buffcorp-page {
@@ -1764,6 +1876,45 @@
             justify-content: center;
         }
 
+        .list-ui .list-page--functionmenu-functionmenu .data-table {
+            width: 100%;
+            min-width: 1280px;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > :nth-child(1) {
+            width: 64px;
+            text-align: center !important;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > :nth-child(2) {
+            min-width: 300px;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > :nth-child(3) {
+            min-width: 190px;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > :nth-child(4) {
+            min-width: 300px;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > :nth-child(5) {
+            width: 160px;
+            text-align: center !important;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > .list-actions-head,
+        .list-ui .list-page--functionmenu-functionmenu .data-table tr > .list-actions-cell {
+            width: 112px !important;
+            min-width: 112px !important;
+            max-width: 112px !important;
+            text-align: center !important;
+        }
+
+        .list-ui .list-page--functionmenu-functionmenu .list-row-actions {
+            justify-content: center;
+        }
+
         .list-ui .list-page--customer-customer .data-table tr.customer-type-green td {
             background: #f2fbf5 !important;
         }
@@ -1975,6 +2126,10 @@
 
         .list-ui .list-action-delete {
             color: var(--list-danger);
+        }
+
+        .list-ui .list-action-permission {
+            color: var(--list-primary);
         }
 
         .list-ui .mobile-list-cards {
@@ -2221,7 +2376,7 @@
         .menu-tree-link { display: inline-flex; align-items: center; gap: 9px; color: #173f67; font-weight: 700; text-decoration: none; }
         .menu-tree-link:hover { color: var(--buff-brand); }
         .menu-tree-icon {
-            display: inline-block;
+            display: none;
             width: 16px;
             height: 13px;
             border: 1.5px solid currentColor;
@@ -2513,6 +2668,63 @@
     var readAllBtn = document.getElementById('notify-read-all');
     var closeBtn = document.getElementById('notify-close');
     if (!wrap || !bell || !countEl || !listEl) return;
+    var notifyDebug = window.location && window.location.search && window.location.search.indexOf('debug_notify=1') >= 0;
+
+    window.buffNotifyDebug = function (label) {
+        if (!notifyDebug || !window.console || !console.log) return;
+        var payrollWrap = document.getElementById('payroll-wrap');
+        var payrollButton = document.getElementById('payroll-button');
+        var wrapStyle = window.getComputedStyle ? window.getComputedStyle(wrap) : null;
+        var bellStyle = window.getComputedStyle ? window.getComputedStyle(bell) : null;
+        var countStyle = window.getComputedStyle ? window.getComputedStyle(countEl) : null;
+        console.groupCollapsed('[payroll-notify-debug] ' + label);
+	        console.log('notifyWrap.className:', wrap.className);
+	        console.log('body.className:', document.body ? document.body.className : '(missing)');
+	        console.log('notifyCount.className/text:', countEl.className, countEl.innerHTML);
+        console.log('payrollWrap.className:', payrollWrap ? payrollWrap.className : '(missing)');
+        console.log('activeElement:', document.activeElement ? (document.activeElement.id || document.activeElement.className || document.activeElement.tagName) : '(none)');
+        console.log('notify bell matches :hover/:focus/:active:', bell.matches ? {
+            hover: bell.matches(':hover'),
+            focus: bell.matches(':focus'),
+            active: bell.matches(':active')
+        } : '(matches unsupported)');
+        if (wrapStyle) {
+            console.log('notify wrap computed:', {
+                opacity: wrapStyle.opacity,
+                visibility: wrapStyle.visibility,
+                zIndex: wrapStyle.zIndex,
+                transform: wrapStyle.transform,
+                pointerEvents: wrapStyle.pointerEvents
+            });
+        }
+        if (bellStyle) {
+            console.log('notify bell computed:', {
+                color: bellStyle.color,
+                backgroundColor: bellStyle.backgroundColor,
+                boxShadow: bellStyle.boxShadow,
+                animationName: bellStyle.animationName,
+                animationDuration: bellStyle.animationDuration,
+                transform: bellStyle.transform,
+                pointerEvents: bellStyle.pointerEvents
+            });
+        }
+        if (countStyle) {
+            console.log('notify count computed:', {
+                display: countStyle.display,
+                transform: countStyle.transform,
+                transition: countStyle.transition,
+                opacity: countStyle.opacity
+            });
+        }
+        if (payrollButton && payrollButton.matches) {
+            console.log('payroll button matches :hover/:focus/:active:', {
+                hover: payrollButton.matches(':hover'),
+                focus: payrollButton.matches(':focus'),
+                active: payrollButton.matches(':active')
+            });
+        }
+        console.groupEnd();
+    };
 
     function htmlEscape(text) {
         text = text == null ? '' : String(text);
@@ -2609,6 +2821,7 @@
 
     function openNotify(e) {
         if (e && e.stopPropagation) e.stopPropagation();
+        if (window.buffNotifyDebug) window.buffNotifyDebug('notify click before guard');
         var notifyTarget = e ? (e.target || e.srcElement) : null;
         while (notifyTarget && notifyTarget !== document) {
             if (notifyTarget.id === 'payroll-wrap' || notifyTarget.id === 'payroll-button') return false;
@@ -2616,15 +2829,29 @@
         }
         var payrollWrap = document.getElementById('payroll-wrap');
         if (payrollWrap) payrollWrap.className = payrollWrap.className.replace(/ ?open/g, '');
+        var payrollButton = document.getElementById('payroll-button');
+        if (payrollButton && payrollButton.blur) payrollButton.blur();
         positionPanel();
-        wrap.className = wrap.className.indexOf('open') >= 0 ? wrap.className.replace(/ ?open/g, '') : wrap.className + ' open';
+        var wasOpen = wrap.className.indexOf('open') >= 0;
+        wrap.className = wasOpen ? wrap.className.replace(/ ?open/g, '') : wrap.className + ' open';
         if (wrap.className.indexOf('open') >= 0) {
             load('list');
+        } else if (bell.blur) {
+            bell.blur();
         }
+        if (window.buffNotifyDebug) window.buffNotifyDebug('notify click after toggle');
     }
 
     function closeNotify() {
+        if (window.buffNotifyDebug) window.buffNotifyDebug('notify close before');
         wrap.className = wrap.className.replace(/ ?open/g, '');
+        if (bell && bell.blur) bell.blur();
+        if (window.setTimeout && bell && bell.blur) {
+            setTimeout(function () {
+                bell.blur();
+                if (window.buffNotifyDebug) window.buffNotifyDebug('notify close after 0ms');
+            }, 0);
+        }
     }
 
     if (bell.addEventListener) bell.addEventListener('click', openNotify, false);
@@ -2934,24 +3161,101 @@
             panel.style.top = (rect.bottom + 7) + 'px';
         }
 
+        function clearTransientFocus() {
+            var active = document.activeElement;
+            if (active && active.blur) active.blur();
+            if (document.body) {
+                if (!document.body.getAttribute('tabindex')) document.body.setAttribute('tabindex', '-1');
+                if (document.body.focus) {
+                    try {
+                        document.body.focus({ preventScroll: true });
+                    } catch (e) {
+                        document.body.focus();
+                    }
+                }
+            }
+        }
+
+        function suppressNotifyFlash() {
+            var notifyWrap = document.getElementById('notify-wrap');
+            var notifyBell = document.getElementById('notify-bell');
+            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify before');
+            if (document.body) {
+                if (document.body.className.indexOf('payroll-popup-settling') < 0) {
+                    document.body.className += ' payroll-popup-settling';
+                }
+            }
+            if (notifyWrap) {
+                notifyWrap.className = notifyWrap.className.replace(/ ?open/g, '');
+                if (notifyWrap.className.indexOf('notify-suppress-flash') < 0) {
+                    notifyWrap.className += ' notify-suppress-flash';
+                }
+            }
+            if (notifyBell && notifyBell.blur) notifyBell.blur();
+            clearTransientFocus();
+            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify applied');
+            if (window.setTimeout) {
+                setTimeout(function () {
+                    if (notifyBell && notifyBell.blur) notifyBell.blur();
+                    clearTransientFocus();
+                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify after 0ms');
+                }, 0);
+                setTimeout(function () {
+                    clearTransientFocus();
+                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify after 120ms');
+                }, 120);
+                setTimeout(function () {
+                    clearTransientFocus();
+                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify before release');
+                }, 500);
+                setTimeout(function () {
+                    clearTransientFocus();
+                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify after 900ms');
+                }, 900);
+                setTimeout(function () {
+                    if (notifyWrap) {
+                        notifyWrap.className = notifyWrap.className.replace(/ ?notify-suppress-flash/g, '');
+                    }
+                    if (document.body) {
+                        document.body.className = document.body.className.replace(/ ?payroll-popup-settling/g, '');
+                    }
+                    clearTransientFocus();
+                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll suppress notify released');
+                }, 1600);
+            }
+        }
+
         function closePanel() {
+            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll close before');
             wrap.className = wrap.className.replace(/ ?open/g, '');
+            if (button && button.blur) button.blur();
+            if (closeBtn && closeBtn.blur) closeBtn.blur();
+            clearTransientFocus();
+            suppressNotifyFlash();
+            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll close after');
+            if (window.setTimeout) {
+                setTimeout(function () {
+                    if (button && button.blur) button.blur();
+                    if (closeBtn && closeBtn.blur) closeBtn.blur();
+                    clearTransientFocus();
+                    if (window.buffNotifyDebug) window.buffNotifyDebug('payroll close after 0ms');
+                }, 0);
+            }
         }
 
         function togglePanel(e) {
             if (e && e.preventDefault) e.preventDefault();
             if (e && e.stopPropagation) e.stopPropagation();
             if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
-            var notifyWrap = document.getElementById('notify-wrap');
-            if (notifyWrap) notifyWrap.className = notifyWrap.className.replace(/ ?open/g, '');
-            var notifyBell = document.getElementById('notify-bell');
-            if (notifyBell && notifyBell.blur) notifyBell.blur();
+            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll toggle before');
+            suppressNotifyFlash();
             positionPanel();
             if (wrap.className.indexOf('open') >= 0) {
                 closePanel();
                 return;
             }
             wrap.className += ' open';
+            if (window.buffNotifyDebug) window.buffNotifyDebug('payroll toggle opened');
             if (!loaded) {
                 loaded = true;
                 loadEmployees(loadPayroll);
@@ -3088,7 +3392,7 @@
         </div>
         <div class="{NOTIFICATION_WRAP_CLASS}" id="notify-wrap">
             <button type="button" class="notify-bell" id="notify-bell" title="Thông báo">
-                <svg viewBox="0 0 24 24" fill="#e5e5e5" stroke="currentColor" stroke-width="1.8">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
@@ -3218,36 +3522,157 @@
             font-weight: 700;
         }
 
-        .payroll-panel {
-            top: 50% !important;
-            right: auto !important;
-            left: 50% !important;
-            width: 520px;
-            max-width: calc(100vw - 24px);
-            max-height: calc(100vh - 32px);
-            border: 0;
-            border-radius: 12px;
-            background: var(--buff-surface);
-            color: var(--buff-text);
-            box-shadow: 0 0 0 100vmax rgba(16,24,40,.55), 0 24px 50px rgba(16,24,40,.25);
+	        .payroll-panel {
+	            top: 50% !important;
+	            right: auto !important;
+	            left: 50% !important;
+	            display: flex;
+	            width: min(1360px, calc(100vw - 48px));
+	            max-width: calc(100vw - 48px);
+	            max-height: calc(100vh - 32px);
+	            flex-direction: column;
+	            overflow: hidden;
+	            border: 0;
+	            border-radius: 12px;
+	            background: var(--buff-surface);
+	            color: var(--buff-text);
+	            box-shadow: 0 0 0 100vmax rgba(16,24,40,.55), 0 24px 50px rgba(16,24,40,.25);
             transform: translate(-50%,-46%) scale(.97);
             transform-origin: center;
             z-index: 10040;
         }
         .payroll-wrap.open .payroll-panel { transform: translate(-50%,-50%) scale(1); }
         .payroll-head {
-            min-height: 68px;
-            padding: 22px 52px 18px 22px;
+            display: flex;
+            min-height: 46px;
+            align-items: center;
+            padding: 10px 52px 10px 22px;
             border-bottom: 1px solid var(--buff-line);
             background: var(--buff-surface);
             color: var(--buff-text);
-            font-size: 17px;
-            text-align: left;
-        }
-        .payroll-close { top: 16px; right: 16px; color: var(--buff-muted); }
-        .payroll-body { padding: 18px 22px 22px; color: var(--buff-text); }
-        .payroll-filter { color: var(--buff-muted); }
-        .payroll-filter select { border-color: var(--buff-line); border-radius: 6px; background: var(--buff-surface); color: var(--buff-text); }
+	            font-size: 16px;
+	            text-align: left;
+	        }
+	        .payroll-close {
+	            top: 7px;
+	            right: 14px;
+	            width: 32px;
+	            height: 32px;
+	            color: var(--buff-muted);
+	            line-height: 28px;
+	        }
+	        .payroll-body {
+	            flex: 1 1 auto;
+	            min-height: 0;
+	            overflow: hidden;
+	            padding: 14px 28px 16px;
+	            color: var(--buff-text);
+	        }
+	        .payroll-filter {
+	            display: flex;
+	            min-height: 30px;
+	            align-items: center;
+	            justify-content: flex-end;
+	            gap: 8px;
+	            padding: 0 0 8px 0;
+	            color: var(--buff-muted);
+	            text-align: left;
+	        }
+	        .payroll-employee-filter {
+	            float: none;
+	            margin-right: auto;
+	        }
+	        .payroll-filter select { border-color: var(--buff-line); border-radius: 6px; background: var(--buff-surface); color: var(--buff-text); }
+		        #payroll-content.payroll-content-ready {
+		            display: grid;
+		            grid-template-columns: minmax(420px,.95fr) minmax(620px,1.35fr);
+		            grid-template-areas:
+		                "hero stats"
+		                "summary stats"
+		                "table-title table-title"
+		                "table table"
+		                "footer footer";
+		            align-items: start;
+		            column-gap: 24px;
+		            row-gap: 10px;
+		        }
+		        #payroll-content.payroll-content-ready .payroll-hero {
+		            grid-area: hero;
+		        }
+		        #payroll-content.payroll-content-ready .payroll-summary {
+		            grid-area: summary;
+		        }
+		        #payroll-content.payroll-content-ready .payroll-stat-grid {
+		            grid-area: stats;
+		        }
+		        #payroll-content.payroll-content-ready .payroll-table-title {
+		            grid-area: table-title;
+		        }
+		        #payroll-content.payroll-content-ready .payroll-table {
+		            grid-area: table;
+		        }
+		        #payroll-content.payroll-content-ready .payroll-footer {
+		            grid-area: footer;
+		        }
+	        #payroll-content.payroll-content-ready .payroll-hero {
+	            padding: 0 0 9px 0;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-summary {
+	            border-bottom: 0;
+	            padding: 8px 0 0;
+	        }
+		        #payroll-content.payroll-content-ready .payroll-stat-grid {
+		            grid-template-columns: 1fr;
+		            gap: 9px;
+		            padding: 0;
+		        }
+	        #payroll-content.payroll-content-ready .payroll-table-title {
+	            margin-top: 0;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-hero-title {
+	            margin-bottom: 5px;
+	            font-size: 14px;
+	            line-height: 18px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-amount {
+	            font-size: 28px;
+	            line-height: 32px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-badge {
+	            margin-top: 3px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-line {
+	            padding: 3px 0;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-line.strong span,
+	        #payroll-content.payroll-content-ready .payroll-line.strong b {
+	            font-size: 13px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-stat {
+	            min-height: 70px;
+	            padding: 9px 11px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-table-title {
+	            padding: 7px 9px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-table th,
+	        #payroll-content.payroll-content-ready .payroll-table td {
+	            padding: 6px 8px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-footer {
+	            padding-top: 7px;
+	        }
+	        #payroll-content.payroll-content-ready .payroll-detail-btn {
+	            height: 38px;
+	        }
+	        .payroll-wrap:not(.open) .payroll-button:focus,
+	        .payroll-wrap:not(.open) .payroll-button:focus-visible,
+	        .notify-wrap:not(.open) .notify-bell:focus,
+	        .notify-wrap:not(.open) .notify-bell:focus-visible {
+	            outline: 0;
+	            background: transparent !important;
+	            box-shadow: none !important;
+	        }
 
         .buffcorp-page .admin-dashboard,
         .sales-page,
@@ -3495,19 +3920,29 @@
         .cuttpw-note { color: var(--buff-muted); }
         .cuttpw-num { color: var(--buff-brand); }
 
-        body.buffcorp-dark {
-            --buff-bg: #0d1117;
-            --buff-surface: #161b22;
-            --buff-text: #f2f4f7;
-            --buff-muted: #98a2b3;
+	        body.buffcorp-dark {
+	            --buff-bg: #0d1117;
+	            --buff-surface: #161b22;
+	            --buff-text: #f2f4f7;
+	            --buff-muted: #98a2b3;
             --buff-line: #30363d;
             --buff-brand: #4c8fd8;
-            --buff-brand-dark: #7fb0e6;
-            --buff-shadow: none;
-        }
-        body.buffcorp-dark,
-        body.buffcorp-dark .main-content,
-        body.buffcorp-dark .buffcorp-page { background: var(--buff-bg); color: var(--buff-text); }
+	            --buff-brand-dark: #7fb0e6;
+	            --buff-shadow: none;
+	        }
+	        body.buffcorp-dark .list-ui {
+	            --list-bg: #0d1117;
+	            --list-surface: #141b24;
+	            --list-text: #edf5ff;
+	            --list-muted: #a8b6c7;
+	            --list-line: #334155;
+	            --list-primary: #5b9cf0;
+	            --list-primary-dark: #7bb3ff;
+	            --list-shadow: none;
+	        }
+	        body.buffcorp-dark,
+	        body.buffcorp-dark .main-content,
+	        body.buffcorp-dark .buffcorp-page { background: var(--buff-bg); color: var(--buff-text); }
         body.buffcorp-dark .buffcorp-topbar,
         body.buffcorp-dark .buffcorp-module-card,
         body.buffcorp-dark .buffcorp-form-card,
@@ -3525,14 +3960,99 @@
         body.buffcorp-dark .buffcorp-menu .children > a:hover,
         body.buffcorp-dark .buffcorp-menu .children > a.active,
         body.buffcorp-dark .sidebar-support-item:hover { background: #173f64 !important; color: #fff !important; }
-        body.buffcorp-dark .buffcorp-page input,
-        body.buffcorp-dark .buffcorp-page select,
-        body.buffcorp-dark .buffcorp-page textarea,
-        body.buffcorp-dark .buffcorp-global-search,
-        body.buffcorp-dark .buffcorp-global-search input { border-color: var(--buff-line); background: var(--buff-surface); color: var(--buff-text); }
-        body.buffcorp-dark .sales-table th,
-        body.buffcorp-dark .kpi-table th,
-        body.buffcorp-dark .admin-table th { background: #1c222b !important; color: #b8c9da !important; }
+	        body.buffcorp-dark .buffcorp-page input,
+	        body.buffcorp-dark .buffcorp-page select,
+	        body.buffcorp-dark .buffcorp-page textarea,
+	        body.buffcorp-dark .buffcorp-global-search,
+	        body.buffcorp-dark .buffcorp-global-search input { border-color: var(--buff-line); background: var(--buff-surface); color: var(--buff-text); }
+	        body.buffcorp-dark .list-ui,
+	        body.buffcorp-dark .list-ui .list-page,
+	        body.buffcorp-dark .list-ui .list-header,
+	        body.buffcorp-dark .list-ui .list-filter-panel,
+	        body.buffcorp-dark .list-ui .list-content {
+	            background: var(--list-bg) !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-page,
+	        body.buffcorp-dark .list-ui .list-filter-card,
+	        body.buffcorp-dark .list-ui .list-table-scroll {
+	            border-color: var(--list-line) !important;
+	            background: var(--list-surface) !important;
+	            box-shadow: none !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-title h1,
+	        body.buffcorp-dark .list-ui .filter-field label {
+	            color: #d8eaff !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-title p {
+	            color: var(--list-muted) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-search-control,
+	        body.buffcorp-dark .list-ui .list-filter-form select,
+	        body.buffcorp-dark .list-ui .list-filter-form input:not([type="checkbox"]):not([type="radio"]):not([type="image"]),
+	        body.buffcorp-dark .list-ui .list-filter-form textarea {
+	            border-color: var(--list-line) !important;
+	            background: #101822 !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-search-control input {
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-search-control input::placeholder,
+	        body.buffcorp-dark .list-ui .list-filter-form input::placeholder,
+	        body.buffcorp-dark .list-ui .list-filter-form textarea::placeholder {
+	            color: #8394a8 !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-filter-form select {
+	            background-image: linear-gradient(45deg, transparent 50%, #d8eaff 50%), linear-gradient(135deg, #d8eaff 50%, transparent 50%) !important;
+	        }
+	        body.buffcorp-dark .list-ui .filter-control-wrap > svg,
+	        body.buffcorp-dark .list-ui .list-search-control svg {
+	            color: #8fb6e8 !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-btn-secondary,
+	        body.buffcorp-dark .list-ui .list-filter-form > a {
+	            border-color: var(--list-line) !important;
+	            background: #101822 !important;
+	            color: #dcecff !important;
+	        }
+	        body.buffcorp-dark .list-ui .list-btn-secondary:hover,
+	        body.buffcorp-dark .list-ui .list-filter-form > a:hover {
+	            border-color: #5b9cf0 !important;
+	            background: #16263a !important;
+	            color: #fff !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table {
+	            background: var(--list-surface) !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table tr.header td,
+	        body.buffcorp-dark .list-ui .data-table tr.header th {
+	            border-color: var(--list-line) !important;
+	            background: #1b2635 !important;
+	            color: #c8d7ea !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table td {
+	            border-color: #273445 !important;
+	            background: var(--list-surface) !important;
+	            color: var(--list-text) !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table tr:nth-child(even) td {
+	            background: #111a25 !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table tr:hover td {
+	            background: #18283a !important;
+	        }
+	        body.buffcorp-dark .list-ui .data-table a:not(.list-row-action) {
+	            color: #8ec5ff !important;
+	        }
+	        body.buffcorp-dark .list-ui .note-box,
+	        body.buffcorp-dark .list-ui .attendance-note-list {
+	            scrollbar-color: #52657c #101822;
+	        }
+	        body.buffcorp-dark .sales-table th,
+	        body.buffcorp-dark .kpi-table th,
+	        body.buffcorp-dark .admin-table th { background: #1c222b !important; color: #b8c9da !important; }
         body.buffcorp-dark .admin-dashboard-title h1,
         body.buffcorp-dark .sales-toolbar h2,
         body.buffcorp-dark .kpi-toolbar h2,
@@ -3551,7 +4071,7 @@
             .admin-kpi-grid,
             .admin-finance-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
         }
-        @media (max-width: 820px) {
+	        @media (max-width: 820px) {
             .left-menu {
                 position: fixed;
                 top: 0;
@@ -3585,8 +4105,22 @@
             .layout.sidebar-collapsed .buffcorp-collapse { display: grid !important; }
             .layout.sidebar-collapsed .buffcorp-menu .header,
             .layout.sidebar-collapsed .sidebar-support-item { justify-content: space-between; }
-            .buffcorp-page-title { font-size: 15px; }
-        }
+	            .buffcorp-page-title { font-size: 15px; }
+	            .payroll-panel {
+	                width: calc(100vw - 24px);
+	                max-width: calc(100vw - 24px);
+	            }
+	            #payroll-content.payroll-content-ready {
+	                display: block;
+	            }
+	            #payroll-content.payroll-content-ready .payroll-summary {
+	                border-bottom: 1px solid var(--buff-line);
+	            }
+	            #payroll-content.payroll-content-ready .payroll-stat-grid {
+	                grid-template-columns: 1fr 1fr;
+	                padding-top: 10px;
+	            }
+	        }
         @media (max-width: 620px) {
             .buffcorp-topbar { gap: 8px; }
             .buffcorp-top-actions { gap: 5px; }
@@ -3687,16 +4221,25 @@
                         var panel = menu.querySelector('.list-action-menu-panel');
                         if (!button || !panel) return;
                         var rect = button.getBoundingClientRect();
-                        panel.style.top = Math.round(rect.bottom + 6) + 'px';
+                        panel.style.top = '0px';
                         panel.style.left = 'auto';
                         panel.style.right = Math.max(12, Math.round(window.innerWidth - rect.right)) + 'px';
+                        var panelRect = panel.getBoundingClientRect();
+                        var top = rect.bottom + 6;
+                        if (top + panelRect.height > window.innerHeight - 12) {
+                            top = Math.max(12, rect.top - panelRect.height - 6);
+                        }
+                        panel.style.top = Math.round(top) + 'px';
+                    }
+                    function closeActionMenus(exceptMenu) {
+                        var openMenus = document.querySelectorAll('.list-action-menu.open');
+                        for (var closeIndex = 0; closeIndex < openMenus.length; closeIndex++) {
+                            if (openMenus[closeIndex] !== exceptMenu) removeClass(openMenus[closeIndex], 'open');
+                        }
                     }
                     document.addEventListener('click', function (event) {
                         var menu = closestMenu(event.target);
-                        var menus = document.querySelectorAll('.list-action-menu.open');
-                        for (var i = 0; i < menus.length; i++) {
-                            if (menus[i] !== menu) removeClass(menus[i], 'open');
-                        }
+                        closeActionMenus(menu);
                     });
                     for (var moduleIndex = 0; moduleIndex < modules.length; moduleIndex++) {
                         (function (module) {
@@ -3751,6 +4294,7 @@
                                         var parent = this.parentNode;
                                         if ((' ' + parent.className + ' ').indexOf(' open ') >= 0) removeClass(parent, 'open');
                                         else {
+                                            closeActionMenus(parent);
                                             addClass(parent, 'open');
                                             positionActionMenu(parent);
                                         }
@@ -4030,6 +4574,7 @@
                                         var parent = this.parentNode;
                                         if ((' ' + parent.className + ' ').indexOf(' open ') >= 0) removeClass(parent, 'open');
                                         else {
+                                            closeActionMenus(parent);
                                             addClass(parent, 'open');
                                             positionActionMenu(parent);
                                         }

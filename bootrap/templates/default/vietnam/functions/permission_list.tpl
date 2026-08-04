@@ -1,7 +1,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <div class="toolbar">
-  <a href="#" onClick="doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Lưu quyền"><span>Lưu quyền</span></a>
-  <a href="#" onClick="returnToList()"><img border="0" src="templates/{skin}/images/back.gif" width="20" height="20" alt="Trở về cây menu"><span>Trở về cây menu</span></a>
+  <a href="javascript:doSave()"><img border="0" src="templates/{skin}/images/button-save.gif" width="20" height="20" alt="Lưu quyền"><span>Lưu quyền</span></a>
+  <a href="javascript:returnToList()"><img border="0" src="templates/{skin}/images/back.gif" width="20" height="20" alt="Trở về menu"><span>Trở về menu</span></a>
 </div>
 <div class="tabtitle">
 Phân quyền người dùng cho “{func_name}”
@@ -20,7 +20,7 @@ Phân quyền người dùng cho “{func_name}”
   </select>
   <input type="submit" value="Lọc">
 </form>
-<form method="POST" action="main.php" name="mainForm">
+<form method="POST" action="main.php" name="mainForm" id="permission-main-form">
   <input type="hidden" name="l" value="{LANGUAGEID}">
   <input type="hidden" name="id" value="{member_id}">
   <input type="hidden" name="department_id1" value="{department_id}">
@@ -54,6 +54,7 @@ function returnToList()
 
 function doSave()
 {
-  document.mainForm.submit();
+  var form = document.getElementById('permission-main-form') || document.forms['mainForm'];
+  if (form) form.submit();
 }
 </script>

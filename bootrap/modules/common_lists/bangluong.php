@@ -1589,6 +1589,7 @@ function mosDetailBangLuong() {
             'note'        => h($row['note']),
             'count_text'  => h($row['count_text']),
             'late_text'   => ($row['is_late'] == 1) ? 'Có' : 'Không',
+            'late_class'  => ($row['is_late'] == 1) ? ' is-late' : '',
             'used_leave'  => formatLeaveDays($row['used_leave']),
         ));
     }

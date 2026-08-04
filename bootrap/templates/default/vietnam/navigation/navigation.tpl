@@ -230,10 +230,7 @@ var arrNavigation =
                 <span class="sidebar-support-icon" data-sidebar-icon="chat"></span>
                 <span class="sidebar-support-text">Chat</span>
             </a>
-            <a class="sidebar-support-item" style="display:{allow_menu}" href="?option=functionmenu/functionmenu&amp;mode=list&amp;id=0">
-                <span class="sidebar-support-icon" data-sidebar-icon="settings"></span>
-                <span class="sidebar-support-text">Quản lý menu</span>
-            </a>
+            {menu_admin_link}
             <label class="sidebar-support-item sidebar-language">
                 <span class="sidebar-support-icon" data-sidebar-icon="language"></span>
                 <span class="sidebar-support-text">

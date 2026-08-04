@@ -262,6 +262,19 @@ function buffcorpBuildServerListLayout($html, $option, $mode)
     }
 
     $table = buffcorpModernizeTable($tableMatch[0]);
+    $tableOutput = $table;
+    if ($option === 'functions/functions' && in_array($mode, array('permission_list', 'permission_save'))) {
+        $permissionHiddenInputs = '';
+        if (preg_match('/<form\b[^>]*\bname\s*=\s*(["\'])mainForm\1[^>]*>(.*?)<\/form>/is', $html, $mainFormMatch)) {
+            if (preg_match_all('/<input\b(?=[^>]*\btype\s*=\s*(["\'])hidden\1)[^>]*>/is', $mainFormMatch[2], $hiddenMatches)) {
+                $permissionHiddenInputs = implode('', $hiddenMatches[0]);
+            }
+        }
+        $tableOutput = '<form method="POST" action="main.php" name="mainForm" id="permission-main-form" class="permission-save-form">'
+            . $permissionHiddenInputs
+            . $table
+            . '</form>';
+    }
     $rows = 0;
     if (preg_match_all('/<tr\b(?![^>]*\bclass\s*=\s*(["\'])[^"\']*\bheader\b[^"\']*\1)[^>]*>/i', $table, $rowMatches)) {
         $rows = count($rowMatches[0]);
@@ -293,7 +306,7 @@ function buffcorpBuildServerListLayout($html, $option, $mode)
         . '</div></div>'
         . '<div class="filter-actions list-inline-actions"><div class="filter-actions__secondary"><button type="button" class="list-btn list-btn-secondary" data-list-refresh>' . buffcorpActionIcon('refresh') . '<span>Làm mới</span></button>' . $toolbarActions . '</div><div class="filter-actions__primary"><button type="button" class="list-btn list-btn-secondary" data-list-clear><span>Xóa bộ lọc</span></button></div></div>'
         . '</div></section>'
-        . '<section class="list-content"><div class="list-table-scroll">' . $table . '</div><div class="mobile-list-cards" aria-live="polite"></div><div class="list-empty-state"><strong>Không tìm thấy kết quả</strong><small>Hãy thử thay đổi từ khóa hoặc xóa bớt bộ lọc.</small></div></section>'
+        . '<section class="list-content"><div class="list-table-scroll">' . $tableOutput . '</div><div class="mobile-list-cards" aria-live="polite"></div><div class="list-empty-state"><strong>Không tìm thấy kết quả</strong><small>Hãy thử thay đổi từ khóa hoặc xóa bớt bộ lọc.</small></div></section>'
         . '</section></div>' . $message . $scripts;
 }
 

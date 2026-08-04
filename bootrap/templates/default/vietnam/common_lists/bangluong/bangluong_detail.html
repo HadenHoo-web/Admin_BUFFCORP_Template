@@ -1,174 +1,484 @@
-<div class="toolbar">
-    <a href="{back_link}">
-        <img border="0" src="templates/{skin}/images/button-article-create.gif">
-        <span>Quay lại</span>
-    </a>
+<style>
+.salary-detail-page {
+    --salary-text: #17324d;
+    --salary-muted: #6f8197;
+    --salary-border: #d9e8f7;
+    --salary-soft: #f4f8fd;
+    --salary-blue: #2f70c8;
+    --salary-green: #159447;
+    --salary-red: #ef4444;
+    --salary-amber: #f59e0b;
+    color: var(--salary-text);
+    font-family: Manrope, "Segoe UI", Arial, sans-serif;
+}
+.salary-detail-shell {
+    padding: 18px 14px 28px;
+}
+.salary-detail-card {
+    background: #fff;
+    border: 1px solid var(--salary-border);
+    border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(31, 84, 140, .08);
+    overflow: hidden;
+}
+.salary-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--salary-border);
+}
+.salary-detail-title h1 {
+    margin: 0;
+    color: #123f70;
+    font-size: 26px;
+    line-height: 1.2;
+}
+.salary-detail-title p {
+    margin: 7px 0 0;
+    color: var(--salary-muted);
+    font-size: 15px;
+    font-weight: 600;
+}
+.salary-detail-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.salary-detail-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid #cfe0f2;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--salary-text);
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+}
+.salary-detail-btn:hover {
+    color: var(--salary-blue);
+    border-color: #b9d4f2;
+}
+.salary-detail-btn.primary {
+    background: var(--salary-blue);
+    border-color: var(--salary-blue);
+    color: #fff;
+}
+.salary-detail-btn.primary:hover {
+    color: #fff;
+    background: #245fb0;
+}
+.salary-detail-btn svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+}
+.salary-detail-body {
+    padding: 22px 24px 26px;
+}
+.salary-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+}
+.salary-stat {
+    min-height: 96px;
+    padding: 16px;
+    border: 1px solid var(--salary-border);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+}
+.salary-stat span {
+    display: block;
+    color: #5d7188;
+    font-size: 13px;
+    font-weight: 800;
+}
+.salary-stat strong {
+    display: block;
+    margin-top: 10px;
+    color: #205ea8;
+    font-size: 24px;
+    line-height: 1.15;
+}
+.salary-stat.is-green strong {
+    color: var(--salary-green);
+}
+.salary-stat.is-red strong {
+    color: var(--salary-red);
+}
+.salary-section {
+    margin-top: 18px;
+    border: 1px solid var(--salary-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+.salary-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 18px;
+    background: #f3f7fc;
+    border-bottom: 1px solid var(--salary-border);
+}
+.salary-section-head h2 {
+    margin: 0;
+    color: #17324d;
+    font-size: 18px;
+    line-height: 1.2;
+}
+.salary-section-head span {
+    color: var(--salary-muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+.salary-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 0;
+}
+.salary-summary-item {
+    min-height: 74px;
+    padding: 14px 16px;
+    border-right: 1px solid var(--salary-border);
+    border-bottom: 1px solid var(--salary-border);
+}
+.salary-summary-item:nth-child(4n) {
+    border-right: 0;
+}
+.salary-summary-item span {
+    display: block;
+    color: #687c92;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.salary-summary-item strong {
+    display: block;
+    margin-top: 7px;
+    color: var(--salary-text);
+    font-size: 15px;
+    line-height: 1.35;
+}
+.salary-summary-item.highlight strong {
+    color: var(--salary-blue);
+    font-size: 20px;
+}
+.salary-summary-item.success strong {
+    color: var(--salary-green);
+}
+.salary-summary-item.danger strong {
+    color: var(--salary-red);
+}
+.salary-detail-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+.salary-detail-table {
+    width: 100%;
+    min-width: 1240px;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--salary-text);
+    font-size: 14px;
+}
+.salary-detail-table th,
+.salary-detail-table td {
+    padding: 13px 14px;
+    border-right: 1px solid #e5eff9;
+    border-bottom: 1px solid #e5eff9;
+    vertical-align: top;
+    text-align: left;
+}
+.salary-detail-table th {
+    background: #f3f7fc;
+    color: #506985;
+    font-weight: 900;
+    white-space: nowrap;
+}
+.salary-detail-table th:first-child,
+.salary-detail-table td:first-child {
+    text-align: center;
+    width: 58px;
+}
+.salary-detail-table tr.inv td {
+    background: #f8fbff;
+}
+.salary-detail-table .number-cell,
+.salary-detail-table .center-cell {
+    text-align: center;
+    white-space: nowrap;
+}
+.salary-status-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #eef6ff;
+    color: #245fb0;
+    font-weight: 800;
+    white-space: nowrap;
+}
+.salary-late-badge {
+    color: var(--salary-green);
+    font-weight: 900;
+}
+.salary-late-badge.is-late {
+    color: var(--salary-red);
+}
+.salary-note-box,
+.salary-count-box {
+    display: block;
+    max-width: 520px;
+    min-width: 220px;
+    padding: 10px 12px;
+    border: 1px solid #dce9f6;
+    border-radius: 8px;
+    background: #fbfdff;
+    color: #29435e;
+    line-height: 1.55;
+    white-space: normal;
+}
+.salary-count-box {
+    background: #fff8ed;
+    border-color: #f5d9aa;
+}
+.salary-note-box:empty::before,
+.salary-count-box:empty::before {
+    content: "-";
+    color: #9aacbd;
+}
+.salary-empty-note {
+    color: #9aacbd;
+}
+@media (max-width: 1280px) {
+    .salary-stat-grid {
+        grid-template-columns: repeat(4, minmax(150px, 1fr));
+    }
+    .salary-summary-grid {
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+    }
+    .salary-summary-item:nth-child(4n) {
+        border-right: 1px solid var(--salary-border);
+    }
+    .salary-summary-item:nth-child(3n) {
+        border-right: 0;
+    }
+}
+@media (max-width: 760px) {
+    .salary-detail-shell {
+        padding: 12px 8px 22px;
+    }
+    .salary-detail-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px;
+    }
+    .salary-detail-actions,
+    .salary-detail-btn {
+        width: 100%;
+    }
+    .salary-detail-title h1 {
+        font-size: 22px;
+    }
+    .salary-detail-body {
+        padding: 16px;
+    }
+    .salary-stat-grid,
+    .salary-summary-grid {
+        grid-template-columns: 1fr;
+    }
+    .salary-summary-item,
+    .salary-summary-item:nth-child(3n),
+    .salary-summary-item:nth-child(4n) {
+        border-right: 0;
+    }
+}
+body.buffcorp-dark .salary-detail-page,
+html[data-theme="dark"] .salary-detail-page,
+.dark .salary-detail-page {
+    --salary-text: #e8f1fb;
+    --salary-muted: #9fb2c7;
+    --salary-border: #2d4056;
+    --salary-soft: #111923;
+    background: transparent;
+}
+body.buffcorp-dark .salary-detail-card,
+body.buffcorp-dark .salary-section,
+html[data-theme="dark"] .salary-detail-card,
+html[data-theme="dark"] .salary-section,
+.dark .salary-detail-card,
+.dark .salary-section {
+    background: #111923;
+}
+body.buffcorp-dark .salary-stat,
+html[data-theme="dark"] .salary-stat,
+.dark .salary-stat {
+    background: linear-gradient(180deg, #142130 0%, #101923 100%);
+}
+body.buffcorp-dark .salary-section-head,
+body.buffcorp-dark .salary-detail-table th,
+html[data-theme="dark"] .salary-section-head,
+html[data-theme="dark"] .salary-detail-table th,
+.dark .salary-section-head,
+.dark .salary-detail-table th {
+    background: #162231;
+}
+body.buffcorp-dark .salary-detail-table tr.inv td,
+html[data-theme="dark"] .salary-detail-table tr.inv td,
+.dark .salary-detail-table tr.inv td {
+    background: #111d2a;
+}
+</style>
 
-    &nbsp;&nbsp;
+<div class="salary-detail-page">
+    <div class="salary-detail-shell">
+        <section class="salary-detail-card">
+            <div class="salary-detail-header">
+                <div class="salary-detail-title">
+                    <h1>Phiếu lương nhân viên</h1>
+                    <p>{member_name} - Tháng {month}/{year}</p>
+                </div>
+                <div class="salary-detail-actions">
+                    <a class="salary-detail-btn" href="{back_link}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M19 12H5"></path>
+                            <path d="m12 19-7-7 7-7"></path>
+                        </svg>
+                        <span>Trở về bảng lương</span>
+                    </a>
+                    <a class="salary-detail-btn primary" href="{export_link}" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <path d="M7 10l5 5 5-5"></path>
+                            <path d="M12 15V3"></path>
+                        </svg>
+                        <span>Xuất Excel phiếu lương</span>
+                    </a>
+                </div>
+            </div>
 
-    <a href="{export_link}" target="_blank">
-        <img border="0" src="templates/{skin}/images/button-article-create.gif">
-        <span>Xuất Excel phiếu lương</span>
-    </a>
-</div>
+            <div class="salary-detail-body">
+                <div class="salary-stat-grid">
+                    <div class="salary-stat">
+                        <span>Lương cơ bản</span>
+                        <strong>{base_salary}</strong>
+                    </div>
+                    <div class="salary-stat">
+                        <span>Tổng giờ tính lương</span>
+                        <strong>{total_paid_text}</strong>
+                    </div>
+                    <div class="salary-stat">
+                        <span>Công quy đổi</span>
+                        <strong>{work_days_float}</strong>
+                    </div>
+                    <div class="salary-stat">
+                        <span>Tổng hoa hồng</span>
+                        <strong>{total_commission}</strong>
+                    </div>
+                    <div class="salary-stat">
+                        <span>Trách nhiệm</span>
+                        <strong>{responsibility_amount}</strong>
+                    </div>
+                    <div class="salary-stat is-red">
+                        <span>Số lần đi trễ</span>
+                        <strong>{late_count}</strong>
+                    </div>
+                    <div class="salary-stat is-green">
+                        <span>Tổng lương</span>
+                        <strong>{total_salary}</strong>
+                    </div>
+                </div>
 
-<div class="tabtitle" style="padding:10px; font-weight:bold;">
-    PHIẾU LƯƠNG NHÂN VIÊN: {member_name} - THÁNG {month}/{year}
-</div>
+                <section class="salary-section">
+                    <div class="salary-section-head">
+                        <h2>Thông tin tổng hợp</h2>
+                        <span>{member_name}</span>
+                    </div>
+                    <div class="salary-summary-grid">
+                        <div class="salary-summary-item"><span>Số công chuẩn tháng</span><strong>{working_days}</strong></div>
+                        <div class="salary-summary-item"><span>1 công</span><strong>{hours_per_day} tiếng</strong></div>
+                        <div class="salary-summary-item"><span>Lương / ngày</span><strong>{salary_per_day}</strong></div>
+                        <div class="salary-summary-item"><span>Lương / giờ</span><strong>{salary_per_hour}</strong></div>
+                        <div class="salary-summary-item"><span>Tổng ngày đi làm</span><strong>{actual_days}</strong></div>
+                        <div class="salary-summary-item"><span>Tổng giờ tính lương</span><strong>{total_paid_text}</strong></div>
+                        <div class="salary-summary-item"><span>Công quy đổi</span><strong>{work_days_float}</strong></div>
+                        <div class="salary-summary-item"><span>Số giờ nghỉ</span><strong>{absent_hours}</strong></div>
+                        <div class="salary-summary-item danger"><span>Số lần đi trễ</span><strong>{late_count}</strong></div>
+                        <div class="salary-summary-item danger"><span>Tiền trừ nghỉ</span><strong>{deduct_amount}</strong></div>
+                        <div class="salary-summary-item"><span>Ngày phép tháng</span><strong>{leave_default}</strong></div>
+                        <div class="salary-summary-item"><span>Đã dùng phép</span><strong>{leave_used}</strong></div>
+                        <div class="salary-summary-item success"><span>Còn phép</span><strong>{leave_remain}</strong></div>
+                        <div class="salary-summary-item success"><span>Chuyên cần thực nhận</span><strong>{attendance_bonus}</strong></div>
+                        <div class="salary-summary-item"><span>Doanh thu Kinh Doanh</span><strong>{sales_revenue}</strong></div>
+                        <div class="salary-summary-item"><span>Doanh thu Kỹ thuật</span><strong>{technical_revenue}</strong></div>
+                        <div class="salary-summary-item"><span>Hoa hồng cá nhân</span><strong>{sales_commission}</strong></div>
+                        <div class="salary-summary-item"><span>HH kỹ thuật 1%</span><strong>{technical_commission}</strong></div>
+                        <div class="salary-summary-item"><span>Hoa hồng trưởng phòng</span><strong>{manager_commission}</strong></div>
+                        <div class="salary-summary-item"><span>Tổng HH</span><strong>{total_commission}</strong></div>
+                        <div class="salary-summary-item"><span>Lương làm việc</span><strong>{salary_work}</strong></div>
+                        <div class="salary-summary-item"><span>Trách nhiệm</span><strong>{responsibility_amount}</strong></div>
+                        <div class="salary-summary-item"><span>Tổng trước trách nhiệm</span><strong>{salary_work} + {attendance_bonus} + {total_commission}</strong></div>
+                        <div class="salary-summary-item highlight"><span>Tổng lương</span><strong>{total_salary}</strong></div>
+                    </div>
+                </section>
 
-<div style="padding:10px 10px 0 10px;">
-    <table width="100%" cellpadding="6" cellspacing="6" border="0">
-        <tr>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Lương cơ bản</b></div>
-                <div style="font-size:18px; color:#003399;">{base_salary}</div>
-            </td>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Tổng giờ tính lương</b></div>
-                <div style="font-size:18px; color:#003399;">{total_paid_text}</div>
-            </td>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Công quy đổi</b></div>
-                <div style="font-size:18px; color:#003399;">{work_days_float}</div>
-            </td>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Tổng HH</b></div>
-                <div style="font-size:18px; color:#003399;">{total_commission}</div>
-            </td>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Trách nhiệm</b></div>
-                <div style="font-size:18px; color:#003399;">{responsibility_amount}</div>
-            </td>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Số lần đi trễ</b></div>
-                <div style="font-size:18px; color:#cc0000;">{late_count}</div>
-            </td>
-            <td style="background:#f2f2f2; border:1px solid #ccc; text-align:center;">
-                <div><b>Tổng lương</b></div>
-                <div style="font-size:20px; color:#008000; font-weight:bold;">{total_salary}</div>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div style="padding:10px;">
-    <table border="0" cellpadding="6" cellspacing="1" width="100%" class="selector">
-        <tr class="header">
-            <td colspan="4">THÔNG TIN TỔNG HỢP</td>
-        </tr>
-        <tr class="alt">
-            <td width="20%"><b>Nhân viên</b></td>
-            <td width="30%">{member_name}</td>
-            <td width="20%"><b>Lương cơ bản</b></td>
-            <td width="30%">{base_salary}</td>
-        </tr>
-        <tr class="inv">
-            <td><b>Số công chuẩn tháng</b></td>
-            <td>{working_days}</td>
-            <td><b>1 công</b></td>
-            <td>{hours_per_day} tiếng</td>
-        </tr>
-        <tr class="alt">
-            <td><b>Lương / ngày</b></td>
-            <td>{salary_per_day}</td>
-            <td><b>Lương / giờ</b></td>
-            <td>{salary_per_hour}</td>
-        </tr>
-        <tr class="inv">
-            <td><b>Tổng ngày đi làm</b></td>
-            <td>{actual_days}</td>
-            <td><b>Tổng giờ tính lương</b></td>
-            <td>{total_paid_text}</td>
-        </tr>
-        <tr class="alt">
-            <td><b>Công quy đổi</b></td>
-            <td>{work_days_float}</td>
-            <td><b>Số giờ nghỉ</b></td>
-            <td>{absent_hours}</td>
-        </tr>
-        <tr class="inv">
-            <td><b>Số lần đi trễ</b></td>
-            <td>{late_count}</td>
-            <td><b>Tiền trừ nghỉ</b></td>
-            <td>{deduct_amount}</td>
-        </tr>
-        <tr class="alt">
-            <td><b>Ngày phép tháng</b></td>
-            <td>{leave_default}</td>
-            <td><b>Đã dùng phép</b></td>
-            <td>{leave_used}</td>
-        </tr>
-        <tr class="inv">
-            <td><b>Còn phép</b></td>
-            <td>{leave_remain}</td>
-            <td><b>Chuyên cần thực nhận</b></td>
-            <td>{attendance_bonus}</td>
-        </tr>
-        <tr class="alt">
-            <td><b>Doanh thu Kinh Doanh</b></td>
-            <td>{sales_revenue}</td>
-            <td><b>Doanh thu Kỹ thuật</b></td>
-            <td>{technical_revenue}</td>
-        </tr>
-        <tr class="inv">
-            <td><b>Hoa hồng cá nhân</b></td>
-            <td>{sales_commission}</td>
-            <td><b>HH kỹ thuật 1%</b></td>
-            <td>{technical_commission}</td>
-        </tr>
-        <tr class="alt">
-            <td><b>Hoa hồng trưởng phòng</b></td>
-            <td>{manager_commission}</td>
-            <td><b>Tổng HH</b></td>
-            <td>{total_commission}</td>
-        </tr>
-        <tr class="inv">
-            <td><b>Lương làm việc</b></td>
-            <td>{salary_work}</td>
-            <td><b>Trách nhiệm</b></td>
-            <td>{responsibility_amount}</td>
-        </tr>
-        <tr class="alt">
-            <td><b>Tổng trước trách nhiệm</b></td>
-            <td>{salary_work} + {attendance_bonus} + {total_commission}</td>
-            <td><b>TỔNG LƯƠNG</b></td>
-            <td style="color:#cc0000; font-size:18px; font-weight:bold;">{total_salary}</td>
-        </tr>
-    </table>
-</div>
-
-<div style="padding:10px;">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="selector">
-        <tr class="header">
-            <td>#</td>
-            <td>Ngày</td>
-            <td>Thứ</td>
-            <td>Check In</td>
-            <td>Check Out</td>
-            <td>Giờ tính lương</td>
-            <td>Giờ nghỉ</td>
-            <td>Đi trễ</td>
-            <td>Dùng phép</td>
-            <td>Trạng thái</td>
-            <td>Note</td>
-            <td>Đếm</td>
-        </tr>
-
-        <!-- BEGIN detail -->
-        <tr class="{detail.className}">
-            <td>{detail.order}</td>
-            <td>{detail.work_date}</td>
-            <td>{detail.thu}</td>
-            <td>{detail.check_in}</td>
-            <td>{detail.check_out}</td>
-            <td>{detail.work_time}</td>
-            <td>{detail.absent_time}</td>
-            <td>{detail.late_text}</td>
-            <td>{detail.used_leave}</td>
-            <td>{detail.status}</td>
-            <td>{detail.note}</td>
-            <td style="text-align:left;">{detail.count_text}</td>
-        </tr>
-        <!-- END detail -->
-    </table>
+                <section class="salary-section">
+                    <div class="salary-section-head">
+                        <h2>Chi tiết ngày công</h2>
+                        <span>Tháng {month}/{year}</span>
+                    </div>
+                    <div class="salary-detail-table-wrap">
+                        <table class="salary-detail-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ngày</th>
+                                    <th>Thứ</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Giờ tính lương</th>
+                                    <th>Giờ nghỉ</th>
+                                    <th>Đi trễ</th>
+                                    <th>Dùng phép</th>
+                                    <th>Trạng thái</th>
+                                    <th>Note</th>
+                                    <th>Đếm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- BEGIN detail -->
+                                <tr class="{detail.className}">
+                                    <td>{detail.order}</td>
+                                    <td class="center-cell">{detail.work_date}</td>
+                                    <td class="center-cell">{detail.thu}</td>
+                                    <td class="center-cell">{detail.check_in}</td>
+                                    <td class="center-cell">{detail.check_out}</td>
+                                    <td class="center-cell">{detail.work_time}</td>
+                                    <td class="center-cell">{detail.absent_time}</td>
+                                    <td class="center-cell"><span class="salary-late-badge{detail.late_class}">{detail.late_text}</span></td>
+                                    <td class="center-cell">{detail.used_leave}</td>
+                                    <td><span class="salary-status-badge">{detail.status}</span></td>
+                                    <td><span class="salary-note-box">{detail.note}</span></td>
+                                    <td><span class="salary-count-box">{detail.count_text}</span></td>
+                                </tr>
+                                <!-- END detail -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
 </div>
