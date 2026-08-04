@@ -2,12 +2,32 @@
 $root = dirname(__DIR__);
 require_once $root . '/bootrap/includes/ui_layout.php';
 $main = file_get_contents($root . '/bootrap/templates/mainpage/default.tpl');
+$mainpage = file_get_contents($root . '/bootrap/mainpage.php');
 $layout = file_get_contents($root . '/bootrap/includes/ui_layout.php');
 $navigation = file_get_contents($root . '/bootrap/templates/default/vietnam/navigation/navigation.tpl');
 $library = file_get_contents($root . '/bootrap/includes/library.php');
 
-foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report'] as $marker) {
+foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'setNotifyOpen', 'aria-controls="notify-panel"', 'aria-controls="payroll-panel"', 'closeTopPanels'] as $marker) {
     if (strpos($main . $layout, $marker) === false) throw new RuntimeException('Missing main shell marker: ' . $marker);
+}
+if (preg_match('/\.payroll-wrap\.open ~ \.notify-wrap\s*\{[^}]*pointer-events\s*:\s*none/s', $main)) {
+    throw new RuntimeException('Notification button must remain clickable while payroll is open.');
+}
+if (preg_match('/suppressNotifyFlash|payroll-popup-settling|notify-suppress-flash/', $main)) {
+    throw new RuntimeException('Closing payroll must not apply a temporary notification layer.');
+}
+if (!preg_match('/\.buffcorp-top-actions \.notify-bell\s*\{[^}]*width\s*:\s*38px/s', $main)) {
+    throw new RuntimeException('Notification bell must share the top action button styling.');
+}
+if (!preg_match('/\.notify-wrap\.open \.notify-bell\s*\{[^}]*z-index\s*:\s*10031/s', $main)) {
+    throw new RuntimeException('Notification bell must remain clickable above its open panel.');
+}
+if (preg_match('/\.notify-wrap\s*\{[^}]*z-index\s*:\s*9999/s', $main)) {
+    throw new RuntimeException('Notification wrapper must not sit above normal UI.');
+}
+
+foreach (['buffcorp-user-menu', 'buffcorp-user-toggle', 'buffcorp-user-dropdown', 'initUserMenu', 'USER_PROFILE_URL', 'USER_ACCOUNT_URL', 'logout.php'] as $marker) {
+    if (strpos($main . $mainpage, $marker) === false) throw new RuntimeException('Missing account menu marker: ' . $marker);
 }
 if (strpos($navigation, 'function regroupNavigation') !== false) {
     throw new RuntimeException('Sidebar must not replace the database menu tree.');

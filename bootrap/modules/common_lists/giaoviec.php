@@ -62,6 +62,11 @@
 		return count($names) ? implode(' / ', $names) : 'Chưa phân phòng';
 	}
 
+	function gvTaskDepartmentTone($department)
+	{
+		return 'gv-dept-'.((int)sprintf('%u', crc32((string)$department)) % 5);
+	}
+
 	function gvZaloLog($message)
 	{
 		$logDir = dirname(__FILE__).'/../../zalo/logs';
@@ -288,6 +293,7 @@ function mosListNew($id)
 			'initials' => gvTaskEscape(gvTaskInitials($row['fullname'])),
 			'role' => gvTaskEscape($role),
 			'department' => gvTaskEscape($department),
+			'department_tone' => gvTaskDepartmentTone($department),
 			'total' => (int)$memberStats['total'],
 			'progress' => (int)$memberStats['progress'],
 			'done' => (int)$memberStats['done'],
@@ -355,13 +361,16 @@ function mosListNew($id)
 		'view' => $view,
 		'task_toast' => $taskToast,
 		'selected_date' => $selectedDate,
-		'directory_filter_view' => $view == 'month' ? 'month' : 'day',
-		'directory_day_active' => $view == 'month' ? '' : 'active',
+		'directory_filter_view' => $view,
+		'directory_day_active' => $view == 'day' ? 'active' : '',
 		'directory_month_active' => $view == 'month' ? 'active' : '',
-		'directory_day_pressed' => $view == 'month' ? 'false' : 'true',
+		'directory_year_active' => $view == 'year' ? 'active' : '',
+		'directory_day_pressed' => $view == 'day' ? 'true' : 'false',
 		'directory_month_pressed' => $view == 'month' ? 'true' : 'false',
-		'directory_day_hidden' => $view == 'month' ? 'hidden' : '',
+		'directory_year_pressed' => $view == 'year' ? 'true' : 'false',
+		'directory_day_hidden' => $view == 'day' ? '' : 'hidden',
 		'directory_month_hidden' => $view == 'month' ? '' : 'hidden',
+		'directory_year_hidden' => $view == 'year' ? '' : 'hidden',
 		'directory_hidden' => $member_id > 0 ? 'hidden' : '',
 		'task_view_hidden' => $member_id > 0 ? '' : 'hidden',
 		'selected_member_name' => gvTaskEscape($selectedName),

@@ -13,8 +13,8 @@ if (strpos($source, 'body.buffcorp-dark .gv-task-ui') === false || strpos($sourc
 if (strpos($module, "\$month = \$selectedDate ? substr(\$selectedDate, 5, 2) : date('m');") === false || strpos($module, "\$year = \$selectedDate ? substr(\$selectedDate, 0, 4) : date('Y');") === false || strpos($module, "date('Y-m-d')") === false || strpos($module, 'order by STR_TO_DATE(LEFT(ngay, 10)') !== false) {
     throw new RuntimeException('Task directory must default to the current date, not the newest task date.');
 }
-foreach (array('name="day" value="{selected_date}"', 'name="period" value="{period}"', 'gv-directory-compact-filter', 'gv-directory-time-button', 'gv-directory-filter-panel', 'data-directory-compact-mode="day"', 'data-directory-compact-mode="month"', 'showDirectoryFilter', 'updateDirectoryTimeLabel', '{directory_day_hidden}', '{directory_month_hidden}', "\$view == 'day'") as $marker) {
-    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee date or month filter marker: '.$marker);
+foreach (array('name="day" value="{selected_date}"', 'name="period" value="{period}"', 'name="year" min="2000" max="2100"', 'gv-directory-compact-filter', 'gv-directory-time-button', 'gv-directory-filter-panel', 'data-directory-compact-mode="day"', 'data-directory-compact-mode="month"', 'data-directory-compact-mode="year"', 'showDirectoryFilter', 'updateDirectoryTimeLabel', '{directory_day_hidden}', '{directory_month_hidden}', '{directory_year_hidden}', "\$view == 'year'") as $marker) {
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee date, month, or year filter marker: '.$marker);
 }
 foreach (array('overflow-x:clip', 'min-height:44px', 'width:min(280px,calc(100vw - 28px))', '.gv-detail-actions { order:3; width:100%', 'scrollbar-width:none') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing mobile task UI marker: '.$marker);
@@ -24,6 +24,9 @@ foreach (array('function mosListNew', 'buffcorp-server-rendered', 'gv-status-for
 }
 foreach (array('gv-employee-count', 'gvEmployeeCount', 'updateEmployeeCount', 'employeeView && !employeeView.hidden') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee counter marker: '.$marker);
+}
+foreach (array('gvTaskDepartmentTone', 'department_tone', 'gv-dept-0', 'gv-card .gv-avatar', 'font-size:15px') as $marker) {
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee department color or typography marker: '.$marker);
 }
 foreach (array('data-status-filter="todo"', "statusFilter = 'all'", 'gv-status-filtered', 'column.hidden = statusFilter !== \'all\'') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing task status filter marker: '.$marker);
