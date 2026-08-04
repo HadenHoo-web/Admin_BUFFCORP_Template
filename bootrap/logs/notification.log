@@ -17,15 +17,3 @@
 2026-07-30 10:09:20 | INSERT_OK | member_id=79 actor_id=79 type=task_done title=Công việc đã hoàn thành
 2026-07-30 10:27:34 | INSERT_OK | member_id=63 actor_id=63 type=task_assigned title=Bạn được giao việc mới
 2026-07-30 10:27:55 | INSERT_OK | member_id=63 actor_id=63 type=task_assigned title=Bạn được giao việc mới
-2026-08-03 16:38:20 | INSERT_OK | member_id=71 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-03 16:50:54 | INSERT_OK | member_id=71 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-03 16:53:25 | INSERT_OK | member_id=71 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-03 17:02:54 | INSERT_OK | member_id=71 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-03 17:03:07 | INSERT_OK | member_id=71 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:06:14 | INSERT_OK | member_id=65 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:07:24 | INSERT_OK | member_id=65 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:07:39 | INSERT_OK | member_id=65 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:08:18 | INSERT_OK | member_id=65 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:09:34 | INSERT_OK | member_id=65 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:12:31 | INSERT_OK | member_id=65 actor_id=1 type=task_assigned title=Bạn được giao việc mới
-2026-08-04 10:49:08 | INSERT_OK | member_id=79 actor_id=1 type=task_assigned title=Bạn được giao việc mới
