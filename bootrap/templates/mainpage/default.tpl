@@ -3102,9 +3102,12 @@
             }
         }
 
+        function isPanelOpen() {
+            return wrap.className.indexOf('open') >= 0;
+        }
+
         function closePanel() {
-            var wasOpen = wrap.className.indexOf('open') >= 0;
-            if (!wasOpen) return;
+            if (!isPanelOpen()) return;
             if (window.buffNotifyDebug) window.buffNotifyDebug('payroll close before');
             wrap.className = wrap.className.replace(/ ?open/g, '');
             button.setAttribute('aria-expanded', 'false');
