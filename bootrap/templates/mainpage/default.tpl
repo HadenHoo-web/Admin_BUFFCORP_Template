@@ -21,9 +21,6 @@
             try {
                 if (sessionStorage.getItem('buffcorp-route-loading') === '1') addClass('buffcorp-preload-route-loading');
             } catch (e) { /* storage unavailable */ }
-            try {
-                if (localStorage.getItem('buffcorp-theme') === 'dark') addClass('buffcorp-preload-dark');
-            } catch (e) { /* storage unavailable */ }
         })();
     </script>
 
@@ -78,11 +75,6 @@
         html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .app-nav-badge,
         html.buffcorp-preload-sidebar-collapsed .layout.sidebar-initializing .sidebar-support-text {
             display: none !important;
-        }
-
-        html.buffcorp-preload-dark body {
-            background: #0d1117;
-            color: #f2f4f7;
         }
 
         html.buffcorp-preload-route-loading .layout.sidebar-initializing .left-menu,
@@ -961,11 +953,9 @@
         .buffcorp-search-empty { color: var(--buff-muted); text-align: center; }
 
         .buffcorp-top-actions .admin-home-wrap,
-        .buffcorp-top-actions .buffcorp-theme-wrap,
         .buffcorp-top-actions .payroll-wrap,
         .buffcorp-top-actions .notify-wrap,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .admin-home-wrap,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .buffcorp-theme-wrap,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .payroll-wrap,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-wrap {
             position: relative;
@@ -989,7 +979,6 @@
         }
 
         .main-content.dashboard-header-icons .buffcorp-top-actions .admin-home-wrap,
-        .main-content.dashboard-header-icons .buffcorp-top-actions .buffcorp-theme-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .payroll-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .notify-wrap {
             top: auto;
@@ -997,22 +986,19 @@
         }
 
         .main-content.dashboard-header-icons .buffcorp-top-actions .admin-home-wrap,
-        .main-content.dashboard-header-icons .buffcorp-top-actions .buffcorp-theme-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .payroll-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .notify-wrap,
         .main-content.dashboard-header-icons .buffcorp-top-actions .admin-home-button,
-        .main-content.dashboard-header-icons .buffcorp-top-actions .buffcorp-theme-button,
-        .main-content.dashboard-header-icons .buffcorp-top-actions .payroll-button {
+        .main-content.dashboard-header-icons .buffcorp-top-actions .payroll-button,
+        .main-content.dashboard-header-icons .buffcorp-top-actions .notify-bell {
             margin: 0;
             transform: none;
         }
 
         .buffcorp-top-actions .admin-home-button,
-        .buffcorp-top-actions .buffcorp-theme-button,
         .buffcorp-top-actions .payroll-button,
         .buffcorp-top-actions .notify-bell,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .admin-home-button,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .buffcorp-theme-button,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .payroll-button,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell {
             display: grid;
@@ -1025,13 +1011,11 @@
             color: var(--buff-text);
         }
 
-        .buffcorp-top-actions .buffcorp-theme-button,
         .buffcorp-top-actions .payroll-button,
         .buffcorp-top-actions .notify-bell {
             border-radius: 8px;
             transition: background .18s ease, color .18s ease, box-shadow .18s ease;
         }
-        .buffcorp-top-actions .buffcorp-theme-button:hover,
         .buffcorp-top-actions .payroll-button:hover,
         .buffcorp-top-actions .notify-bell:hover,
         .buffcorp-top-actions .payroll-wrap.open .payroll-button,
@@ -1041,11 +1025,9 @@
         }
 
         .buffcorp-top-actions .admin-home-button svg,
-        .buffcorp-top-actions .buffcorp-theme-button svg,
         .buffcorp-top-actions .payroll-button svg,
         .buffcorp-top-actions .notify-bell svg,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .admin-home-button svg,
-        .main-content.admin-dashboard-shell .buffcorp-top-actions .buffcorp-theme-button svg,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .payroll-button svg,
         .main-content.admin-dashboard-shell .buffcorp-top-actions .notify-bell svg {
             display: block;
@@ -1536,10 +1518,10 @@
             background: #fff;
         }
 
-        .list-ui .data-table {
-            width: max-content;
-            min-width: 100%;
-            table-layout: auto;
+	        .list-ui .data-table {
+	            width: max-content;
+	            min-width: 100%;
+	            table-layout: auto;
             border: 0;
             border-collapse: collapse;
             border-spacing: 0;
@@ -1973,24 +1955,28 @@
             font-weight: 900;
         }
 
-        .list-ui .list-actions-cell {
-            position: relative;
-            overflow: visible !important;
-            text-align: right;
-            white-space: nowrap;
-            width: 72px;
-        }
+	        .list-ui .list-actions-cell {
+	            position: relative;
+	            overflow: visible !important;
+	            text-align: center !important;
+	            white-space: nowrap;
+	            width: 82px !important;
+	            min-width: 82px !important;
+	            max-width: 82px !important;
+	        }
 
-        .list-ui .list-actions-head {
-            width: 72px;
-            text-align: center !important;
-        }
+	        .list-ui .list-actions-head {
+	            width: 82px !important;
+	            min-width: 82px !important;
+	            max-width: 82px !important;
+	            text-align: center !important;
+	        }
 
-        .list-ui .list-row-actions {
-            display: flex;
-            position: relative;
-            justify-content: flex-end;
-        }
+	        .list-ui .list-row-actions {
+	            display: flex;
+	            position: relative;
+	            justify-content: center;
+	        }
 
         .list-ui .list-action-menu {
             position: relative;
@@ -2260,16 +2246,6 @@
 
         @keyframes buffcorpRouteSpin {
             to { transform: rotate(360deg); }
-        }
-
-        body.buffcorp-dark .buffcorp-route-loader {
-            background: rgba(13,17,23,.78);
-        }
-
-        body.buffcorp-dark .buffcorp-route-loader-card {
-            border-color: transparent;
-            background: transparent;
-            box-shadow: none;
         }
 
         .buffcorp-page div[style*="overflow:auto"][style*="height:80%"] {
@@ -3243,14 +3219,6 @@
                     <input type="search" id="buffcorp-global-search" placeholder="Tìm chức năng..." autocomplete="off" aria-label="Tìm chức năng">
                     <span class="buffcorp-search-results" id="buffcorp-search-results"></span>
                 </label>
-        <div class="buffcorp-theme-wrap">
-            <button type="button" class="buffcorp-theme-button" id="buffcorp-theme-button" title="Chế độ sáng/tối" aria-label="Chế độ sáng/tối">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-                    <circle cx="12" cy="12" r="4"></circle>
-                    <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
-                </svg>
-            </button>
-        </div>
         <div class="payroll-wrap" id="payroll-wrap">
             <button type="button" class="payroll-button" id="payroll-button" title="Bảng lương real time" aria-expanded="false" aria-controls="payroll-panel">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.8">
@@ -3356,7 +3324,6 @@
         }
         .buffcorp-mobile-menu { display: none !important; }
         .buffcorp-mobile-menu svg { width: 18px; height: 18px; }
-        .buffcorp-theme-wrap,
         .buffcorp-top-actions .notify-wrap {
             display: flex;
             width: 40px;
@@ -3368,7 +3335,6 @@
             border-radius: 8px;
             background: var(--buff-surface);
         }
-        .buffcorp-theme-button,
         .buffcorp-top-actions .notify-bell {
             display: grid;
             width: 38px;
@@ -3380,10 +3346,8 @@
             color: var(--buff-text);
             cursor: pointer;
         }
-        .buffcorp-theme-button svg,
         .buffcorp-top-actions .notify-bell svg { width: 18px; height: 18px; }
         .notify-wrap.open .notify-bell { position: relative; z-index: 10031; }
-
         .notify-panel {
             top: 0 !important;
             right: 0 !important;
@@ -3596,12 +3560,10 @@
 	            background: transparent !important;
 	            box-shadow: none !important;
 	        }
-        .buffcorp-top-actions .buffcorp-theme-button:focus-visible,
         .buffcorp-top-actions .notify-bell:focus-visible {
             outline: 2px solid var(--buff-brand);
             outline-offset: 2px;
         }
-        body.buffcorp-dark .buffcorp-top-actions .buffcorp-theme-button:focus-visible,
         body.buffcorp-dark .buffcorp-top-actions .notify-bell:focus-visible {
             outline-color: #8ec5ff;
         }
@@ -3879,7 +3841,6 @@
         body.buffcorp-dark .buffcorp-module-card,
         body.buffcorp-dark .buffcorp-form-card,
         body.buffcorp-dark .buffcorp-module-toolbar,
-        body.buffcorp-dark .buffcorp-theme-wrap,
         body.buffcorp-dark .left-menu,
         body.buffcorp-dark .buffcorp-sidebar,
         body.buffcorp-dark .buffcorp-brand { background: var(--buff-surface) !important; color: var(--buff-text); }
@@ -3988,7 +3949,6 @@
         body.buffcorp-dark .buffcorp-user-toggle:hover,
         body.buffcorp-dark .buffcorp-user-menu.open .buffcorp-user-toggle,
         body.buffcorp-dark .buffcorp-user-dropdown a:hover { background: #1c334a; color: #d8eaff; }
-        body.buffcorp-dark .buffcorp-top-actions .buffcorp-theme-button:hover,
         body.buffcorp-dark .buffcorp-top-actions .payroll-button:hover,
         body.buffcorp-dark .buffcorp-top-actions .notify-bell:hover,
         body.buffcorp-dark .buffcorp-top-actions .payroll-wrap.open .payroll-button,
@@ -4003,8 +3963,7 @@
         body.buffcorp-dark .admin-card-title,
         body.buffcorp-dark .sales-panel h3,
         body.buffcorp-dark .kpi-panel h3,
-        body.buffcorp-dark .org-card-title { color: #d8eaff; }
-
+	        body.buffcorp-dark .org-card-title { color: #d8eaff; }
         @media (max-width: 1280px) {
             .admin-kpi-grid,
             .admin-finance-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
@@ -4066,7 +4025,6 @@
         @media (max-width: 620px) {
             .buffcorp-topbar { gap: 8px; }
             .buffcorp-top-actions { gap: 5px; }
-            .buffcorp-theme-wrap,
             .buffcorp-top-actions .payroll-wrap,
             .buffcorp-top-actions .notify-wrap { width: 37px; height: 37px; flex-basis: 37px; }
             .admin-dashboard-header,
@@ -4173,23 +4131,66 @@
                         }
                         panel.style.top = Math.round(top) + 'px';
                     }
-                    function closeActionMenus(exceptMenu) {
-                        var openMenus = document.querySelectorAll('.list-action-menu.open');
-                        for (var closeIndex = 0; closeIndex < openMenus.length; closeIndex++) {
-                            if (openMenus[closeIndex] !== exceptMenu) removeClass(openMenus[closeIndex], 'open');
-                        }
-                    }
-                    document.addEventListener('click', function (event) {
-                        var menu = closestMenu(event.target);
-                        closeActionMenus(menu);
-                    });
+	                    function closeActionMenus(exceptMenu) {
+	                        var openMenus = document.querySelectorAll('.list-action-menu.open');
+	                        for (var closeIndex = 0; closeIndex < openMenus.length; closeIndex++) {
+	                            if (openMenus[closeIndex] !== exceptMenu) removeClass(openMenus[closeIndex], 'open');
+	                        }
+	                    }
+	                    function closestTableCell(node) {
+	                        while (node && node !== document) {
+	                            var tag = node.tagName ? node.tagName.toLowerCase() : '';
+	                            if (tag === 'td' || tag === 'th') return node;
+	                            node = node.parentNode;
+	                        }
+	                        return null;
+	                    }
+	                    function isEmptyTrailingActionCell(cell) {
+	                        if (!cell || textOf(cell)) return false;
+	                        return !cell.querySelector('a,button,input,select,textarea,img,svg,.list-row-actions,.list-action-menu');
+	                    }
+	                    function normalizeActionHeader(headerRow) {
+	                        if (!headerRow) return;
+	                        var cells = headerRow.querySelectorAll('td,th');
+	                        var actionCell = null;
+	                        for (var i = 0; i < cells.length; i++) {
+	                            var label = textOf(cells[i]).toLowerCase();
+	                            if ((' ' + (cells[i].className || '') + ' ').indexOf(' list-actions-head ') >= 0 || label === 'thao tác') actionCell = cells[i];
+	                        }
+	                        if (!actionCell) return;
+	                        addClass(actionCell, 'list-actions-head');
+	                        addClass(actionCell, 'buffcorp-actions-head');
+	                        var sibling = actionCell.nextElementSibling;
+	                        while (sibling) {
+	                            var next = sibling.nextElementSibling;
+	                            if (isEmptyTrailingActionCell(sibling)) sibling.parentNode.removeChild(sibling);
+	                            sibling = next;
+	                        }
+	                    }
+	                    function normalizeActionTail(row, actionHost) {
+	                        if (!row || !actionHost) return;
+	                        var actionCell = closestTableCell(actionHost);
+	                        if (!actionCell) return;
+	                        addClass(actionCell, 'list-actions-cell');
+	                        var sibling = actionCell.nextElementSibling;
+	                        while (sibling) {
+	                            var next = sibling.nextElementSibling;
+	                            if (isEmptyTrailingActionCell(sibling)) sibling.parentNode.removeChild(sibling);
+	                            sibling = next;
+	                        }
+	                    }
+	                    document.addEventListener('click', function (event) {
+	                        var menu = closestMenu(event.target);
+	                        closeActionMenus(menu);
+	                    });
                     for (var moduleIndex = 0; moduleIndex < modules.length; moduleIndex++) {
                         (function (module) {
                             var table = module.querySelector('table.data-table');
                             if (!table) return;
 
                             var headerRow = table.querySelector('tr.header');
-                            var headerCells = headerRow ? headerRow.querySelectorAll('td,th') : [];
+	                            normalizeActionHeader(headerRow);
+	                            var headerCells = headerRow ? headerRow.querySelectorAll('td,th') : [];
                             var headers = [];
                             for (var h = 0; h < headerCells.length; h++) {
                                 headers.push(textOf(headerCells[h]) || (h === 0 ? '#' : 'Thông tin'));
@@ -4219,12 +4220,14 @@
                                     else if (websiteMarkerStyle.indexOf('98d0b9') >= 0) addClass(rows[rowSetup], 'website-type-mint');
                                     else if (websiteMarkerStyle.indexOf('green') >= 0) addClass(rows[rowSetup], 'website-type-green');
                                 }
-                                for (var cellIndex = 0; cellIndex < cells.length; cellIndex++) {
-                                    cells[cellIndex].setAttribute('data-label', headers[cellIndex] || 'Thông tin');
-                                    if (!cells[cellIndex].getAttribute('title')) cells[cellIndex].setAttribute('title', textOf(cells[cellIndex]));
-                                }
-                                var actionHost = rows[rowSetup].querySelector('.list-row-actions');
-                                if (actionHost && actionHost.parentNode && !actionHost.querySelector('.list-action-menu')) {
+	                                var actionHost = rows[rowSetup].querySelector('.list-row-actions');
+	                                normalizeActionTail(rows[rowSetup], actionHost);
+	                                cells = rows[rowSetup].getElementsByTagName('td');
+	                                for (var cellIndex = 0; cellIndex < cells.length; cellIndex++) {
+	                                    cells[cellIndex].setAttribute('data-label', headers[cellIndex] || 'Thông tin');
+	                                    if (!cells[cellIndex].getAttribute('title')) cells[cellIndex].setAttribute('title', textOf(cells[cellIndex]));
+	                                }
+	                                if (actionHost && actionHost.parentNode && !actionHost.querySelector('.list-action-menu')) {
                                     var menuWrap = makeNode('span', 'list-action-menu');
                                     var menuButton = makeNode('button', 'list-action-menu-button', '⋯');
                                     menuButton.type = 'button';
@@ -4256,13 +4259,22 @@
                             var sortIndex = -1;
                             var sortDir = 1;
 
+                            function keepFilterInteraction(event) {
+                                if (event && event.stopPropagation) event.stopPropagation();
+                                else if (event) event.cancelBubble = true;
+                            }
+
                             if (filterToggle && filterPanel) {
-                                filterToggle.onclick = function () {
+                                filterToggle.onclick = function (event) {
+                                    keepFilterInteraction(event);
                                     var isOpen = (' ' + filterPanel.className + ' ').indexOf(' open ') >= 0;
                                     if (isOpen) removeClass(filterPanel, 'open');
                                     else addClass(filterPanel, 'open');
                                     filterToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
                                 };
+                                filterPanel.onclick = keepFilterInteraction;
+                                filterPanel.onmousedown = keepFilterInteraction;
+                                filterPanel.ontouchstart = keepFilterInteraction;
                             }
 
                             function rowText(row) {
@@ -4438,6 +4450,12 @@
                                     if (type !== 'checkbox' && type !== 'radio' && type !== 'submit' && control.tagName.toLowerCase() !== 'button') {
                                         var controlWrap = makeNode('span', 'filter-control-wrap');
                                         controlWrap.innerHTML = filterControlIcon(control);
+                                        controlWrap.onclick = keepFilterInteraction;
+                                        controlWrap.onmousedown = keepFilterInteraction;
+                                        controlWrap.ontouchstart = keepFilterInteraction;
+                                        control.onclick = keepFilterInteraction;
+                                        control.onmousedown = keepFilterInteraction;
+                                        control.ontouchstart = keepFilterInteraction;
                                         controlWrap.appendChild(control);
                                         wrap.appendChild(controlWrap);
                                     } else {
@@ -4538,7 +4556,7 @@
 
                             for (var headIndex = 0; headIndex < headerCells.length; headIndex++) {
                                 (function (index) {
-                                    if ((' ' + headerCells[index].className + ' ').indexOf(' buffcorp-actions-head ') >= 0) return;
+	                                    if ((' ' + headerCells[index].className + ' ').indexOf(' buffcorp-actions-head ') >= 0 || (' ' + headerCells[index].className + ' ').indexOf(' list-actions-head ') >= 0) return;
                                     headerCells[index].style.cursor = 'pointer';
                                     headerCells[index].setAttribute('title', 'Sắp xếp theo ' + (headers[index] || 'cột này'));
                                     headerCells[index].onclick = function () {
@@ -4600,7 +4618,6 @@
             function initializeDemoParity() {
                 var body = document.body;
                 var layout = document.querySelector('.layout');
-                var themeButton = document.getElementById('buffcorp-theme-button');
                 var menuButton = document.getElementById('buffcorp-mobile-menu');
                 var overlay = document.getElementById('buffcorp-mobile-overlay');
                 if (!body || !layout) return;
@@ -4667,14 +4684,6 @@
                         }, false);
                     }
                 }
-                function applyTheme(dark) {
-                    setClass(body, 'buffcorp-dark', dark);
-                    if (!themeButton) return;
-                    themeButton.setAttribute('aria-pressed', dark ? 'true' : 'false');
-                    themeButton.innerHTML = dark
-                        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path></svg>'
-                        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>';
-                }
                 function setMenuOpen(open) {
                     setClass(layout, 'menu-open', open);
                     if (menuButton) menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -4720,16 +4729,8 @@
                     else setMenuOpen(false);
                 }
 
-                var dark = false;
-                try { dark = localStorage.getItem('buffcorp-theme') === 'dark'; } catch (e) { /* storage unavailable */ }
                 initializeRouteLoader();
                 initUserMenu();
-                applyTheme(dark);
-                if (themeButton) themeButton.onclick = function () {
-                    dark = !hasClass(body, 'buffcorp-dark');
-                    applyTheme(dark);
-                    try { localStorage.setItem('buffcorp-theme', dark ? 'dark' : 'light'); } catch (e) { /* storage unavailable */ }
-                };
                 if (menuButton) menuButton.onclick = function () { setMenuOpen(!hasClass(layout, 'menu-open')); };
                 if (overlay) overlay.onclick = function () { setMenuOpen(false); };
 
@@ -4742,7 +4743,6 @@
                 if (window.addEventListener) window.addEventListener('resize', syncViewport, false);
                 syncViewport();
                 setClass(document.documentElement, 'buffcorp-preload-sidebar-collapsed', false);
-                setClass(document.documentElement, 'buffcorp-preload-dark', false);
                 window.setTimeout(function () {
                     if (window.buffcorpHideRouteLoader) window.buffcorpHideRouteLoader();
                 }, 1000);

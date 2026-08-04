@@ -7,8 +7,11 @@ $layout = file_get_contents($root . '/bootrap/includes/ui_layout.php');
 $navigation = file_get_contents($root . '/bootrap/templates/default/vietnam/navigation/navigation.tpl');
 $library = file_get_contents($root . '/bootrap/includes/library.php');
 
-foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-theme-button', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'setNotifyOpen', 'aria-controls="notify-panel"', 'aria-controls="payroll-panel"', 'closeTopPanels'] as $marker) {
+foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'setNotifyOpen', 'aria-controls="notify-panel"', 'aria-controls="payroll-panel"', 'closeTopPanels'] as $marker) {
     if (strpos($main . $layout, $marker) === false) throw new RuntimeException('Missing main shell marker: ' . $marker);
+}
+if (strpos($main, 'buffcorp-theme-button') !== false || strpos($main, 'buffcorp-theme-wrap') !== false) {
+    throw new RuntimeException('Theme toggle must stay removed to match main.');
 }
 if (preg_match('/\.payroll-wrap\.open ~ \.notify-wrap\s*\{[^}]*pointer-events\s*:\s*none/s', $main)) {
     throw new RuntimeException('Notification button must remain clickable while payroll is open.');
