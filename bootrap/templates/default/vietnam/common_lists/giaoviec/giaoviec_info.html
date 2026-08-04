@@ -1,5 +1,5 @@
 <style>
-  .gv-form-ui { --gv-brand:#2563eb; --gv-ink:#102a43; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-danger:#dc2626; max-width:1120px; margin:0 auto; color:var(--gv-ink); font:13px/1.4 Manrope,Inter,"Segoe UI",Arial,sans-serif; }
+  .gv-form-ui { --gv-brand:#2563eb; --gv-ink:#111827; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-danger:#dc2626; max-width:1120px; margin:0 auto; color:var(--gv-ink); font:13px/1.4 Manrope,"Segoe UI",Arial,sans-serif; }
   .gv-form-ui * { box-sizing:border-box; }
   .gv-form-shell { overflow:hidden; border:1px solid var(--gv-line); border-radius:14px; background:#fff; box-shadow:0 10px 30px rgba(31,68,117,.09); }
   .gv-form-head,.gv-form-foot { display:flex; align-items:center; gap:10px; min-height:62px; padding:12px 16px; }
@@ -9,7 +9,7 @@
   .gv-form-actions { display:flex; gap:8px; margin-left:auto; }
   .gv-form-button { min-height:38px; display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:0 13px; border:1px solid var(--gv-line); border-radius:9px; color:#23415f; background:#fff; font:inherit; font-size:11px; font-weight:800; text-decoration:none; cursor:pointer; }
   .gv-form-button:hover { border-color:#9bbce8; color:var(--gv-brand); background:#f7faff; }
-  .gv-form-button.primary { border-color:var(--gv-brand); color:#fff; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
+  .gv-form-button.primary { border-color:var(--gv-brand); color:#fff !important; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
   .gv-form-body { padding:16px; }
   .gv-form-grid { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:11px; }
   .gv-field { grid-column:span 3; min-width:0; }
@@ -20,6 +20,8 @@
   .gv-field label { display:block; margin-bottom:4px; color:#111827; font-size:10px; font-weight:800; }
   .gv-required { color:var(--gv-danger); }
   .gv-control { width:100%; height:36px; padding:0 10px; border:1px solid #d8e3f1; border-radius:8px; color:#111827; background:#fff; font:inherit; font-size:11px; }
+  .gv-form-ui .gv-field label,.gv-form-ui .gv-form-button,.gv-form-ui .gv-control,.gv-form-ui .gv-control option,.gv-form-ui .gv-switch-row { font-family:Manrope,"Segoe UI",Arial,sans-serif !important; color:#111827; }
+  .gv-form-ui .gv-control::placeholder { color:#6b7280; opacity:1; }
   textarea.gv-control { height:78px; padding-top:8px; resize:vertical; }
   .gv-control:hover { border-color:#acc4e3; }
   .gv-control:focus { border-color:var(--gv-brand); outline:3px solid rgba(37,99,235,.14); outline-offset:1px; }

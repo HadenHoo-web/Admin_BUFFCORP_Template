@@ -1,5 +1,5 @@
 <style>
-  .gv-task-ui { --gv-brand:#2563eb; --gv-ink:#102a43; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-canvas:#f4f7fb; --gv-surface:#fff; --gv-warning:#d97706; --gv-success:#059669; --gv-danger:#dc2626; box-sizing:border-box; color:var(--gv-ink); font:13px/1.45 Manrope,Inter,"Segoe UI",Arial,sans-serif; }
+  .gv-task-ui { --gv-brand:#2563eb; --gv-ink:#111827; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-canvas:#f4f7fb; --gv-surface:#fff; --gv-warning:#d97706; --gv-success:#059669; --gv-danger:#dc2626; box-sizing:border-box; color:var(--gv-ink); font:13px/1.45 Manrope,"Segoe UI",Arial,sans-serif; }
   .gv-task-ui * { box-sizing:border-box; }
   .gv-task-ui [hidden] { display:none !important; }
   .gv-task-ui svg { width:18px; height:18px; }
@@ -9,10 +9,26 @@
   .gv-directory-head strong { font-size:15px; }
   .gv-employee-count { padding:5px 9px; border:1px solid #e3ebf5; border-radius:8px; color:var(--gv-muted); background:#f8fbff; font-size:10px; font-weight:700; }
   .gv-employee-count b { margin-left:5px; color:#26384d; font-size:12px; }
-  .gv-search { position:relative; width:min(300px,100%); margin-left:auto; }
+  .gv-directory-head > strong { order:1; }
+  .gv-directory-head > .gv-employee-count { order:2; }
+  .gv-directory-head > .gv-directory-filters[role="group"] { display:none; }
+  .gv-directory-compact-filter { position:relative; z-index:4; order:3; margin-left:auto; }
+  .gv-directory-time-button { min-width:132px; height:36px; display:flex; align-items:center; gap:7px; padding:0 10px; border:1px solid #d8e3f1; border-radius:9px; color:#3d5875; background:#fff; font:inherit; font-size:11px; font-weight:800; cursor:pointer; }
+  .gv-directory-time-button:hover { border-color:#8db6ed; color:var(--gv-brand); background:#f8fbff; }
+  .gv-directory-time-button .gv-chevron { width:15px; height:15px; margin-left:auto; transition:transform .18s ease; }
+  .gv-directory-compact-filter.open .gv-chevron { transform:rotate(180deg); }
+  .gv-directory-filter-panel { position:absolute; top:calc(100% + 7px); right:0; width:244px; padding:8px; border:1px solid #d8e3f1; border-radius:11px; background:#fff; box-shadow:0 14px 28px rgba(31,64,105,.16); opacity:0; pointer-events:none; transform:translateY(-4px); visibility:hidden; transition:opacity .18s ease,transform .18s ease; }
+  .gv-directory-compact-filter.open .gv-directory-filter-panel { opacity:1; pointer-events:auto; transform:translateY(0); visibility:visible; }
+  .gv-directory-filter-mode { display:flex; gap:2px; margin-bottom:7px; padding:3px; border:1px solid var(--gv-line); border-radius:9px; background:#f8fbff; }
+  .gv-directory-filter-mode button { min-height:26px; display:grid; place-items:center; padding:0 8px; border:0; border-radius:6px; color:#64748b; background:transparent; font:inherit; font-size:10px; font-weight:800; cursor:pointer; }
+  .gv-directory-filter-mode button:hover,.gv-directory-filter-mode button.active { color:var(--gv-brand); background:#e7f0ff; }
+  .gv-directory-filter { display:flex; align-items:center; gap:5px; color:var(--gv-muted); font-size:10px; font-weight:800; }
+  .gv-directory-filter label { display:flex; align-items:center; justify-content:space-between; width:100%; gap:8px; }
+  .gv-directory-filter input { width:156px; height:34px; padding:0 7px; border:1px solid #d8e3f1; border-radius:8px; color:#26384d; background:#fff; font:inherit; }
+  .gv-search { position:relative; order:4; width:min(300px,100%); margin-left:0; }
   .gv-task-ui .gv-search > svg { position:absolute; z-index:1; top:50%; left:12px; color:#8797aa; pointer-events:none; transform:translateY(-50%); }
   .gv-task-ui .gv-search > input { width:100%; height:38px; padding:0 11px 0 42px !important; border:1px solid #d8e3f1; border-radius:9px; color:#111827; background:#fff; font:inherit; }
-  .gv-search input:focus,.gv-button:focus-visible,.gv-icon-button:focus-visible,.gv-card:focus-visible,.gv-calendar-day:focus-visible,.gv-calendar-mode:focus-visible,.gv-drag-handle:focus-visible { outline:3px solid rgba(37,99,235,.22); outline-offset:2px; }
+  .gv-search input:focus,.gv-button:focus-visible,.gv-icon-button:focus-visible,.gv-card:focus-visible,.gv-calendar-day:focus-visible,.gv-calendar-mode:focus-visible,.gv-drag-handle:focus-visible,.gv-directory-time-button:focus-visible,.gv-directory-filter-mode button:focus-visible { outline:3px solid rgba(37,99,235,.22); outline-offset:2px; }
   .gv-employee-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:14px; }
   .gv-card { min-width:0; padding:15px; border:1px solid var(--gv-line); border-radius:12px; color:#26384d; background:#fff; text-decoration:none; transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease; }
   .gv-card:hover { border-color:#8db6ed; box-shadow:0 9px 22px rgba(31,86,150,.12); transform:translateY(-2px); }
@@ -31,8 +47,8 @@
   .gv-button { padding:0 13px; }
   .gv-button:hover,.gv-icon-button:hover { border-color:#9bbce8; color:var(--gv-brand); background:#f7faff; }
   .gv-button:active,.gv-icon-button:active { transform:translateY(1px); }
-  .gv-button-primary { border-color:var(--gv-brand); color:#fff; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
-  .gv-button-primary:hover { border-color:#184fae; color:#fff; background:#184fae; }
+  .gv-button-primary { border-color:var(--gv-brand); color:#fff !important; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
+  .gv-button-primary:hover { border-color:#184fae; color:#fff !important; background:#184fae; }
   .gv-detail-copy { min-width:0; }
   .gv-detail-copy strong,.gv-detail-copy small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .gv-detail-copy strong { font-size:14px; }
@@ -105,9 +121,37 @@
   .gv-empty { display:none; margin:0 10px 10px; padding:22px 10px; border:1px dashed #bac9dc; border-radius:10px; color:var(--gv-muted); text-align:center; font-size:10px; }
   .gv-column.empty .gv-empty { display:block; }
   .gv-message { margin:12px 0 0; color:var(--gv-danger); font-size:11px; font-weight:800; }
+  .gv-message:empty { display:none; }
+  .gv-toast { position:fixed; z-index:40; right:24px; bottom:24px; width:min(360px,calc(100vw - 32px)); display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #a7e4c2; border-radius:12px; color:#14532d; background:#f0fdf4; box-shadow:0 14px 30px rgba(20,83,45,.16); animation:gv-toast-in .18s ease-out; }
+  .gv-toast svg { flex:0 0 auto; color:#16a34a; }
+  .gv-toast-copy { min-width:0; flex:1; }
+  .gv-toast-copy strong,.gv-toast-copy span { display:block; }
+  .gv-toast-copy strong { font-size:12px; }
+  .gv-toast-copy span { margin-top:2px; color:#3f6b51; font-size:10px; }
+  .gv-toast-close { width:28px; height:28px; display:grid; flex:0 0 auto; place-items:center; padding:0; border:0; border-radius:7px; color:#3f6b51; background:transparent; cursor:pointer; }
+  .gv-toast-close:hover,.gv-toast-close:focus-visible { color:#166534; background:#dcfce7; }
+  .gv-toast.error { border-color:#fecaca; color:#991b1b; background:#fef2f2; }
+  .gv-toast.error svg { color:#dc2626; }
+  .gv-toast.error .gv-toast-copy span { color:#8b3a3a; }
+  .gv-toast.error .gv-toast-close { color:#8b3a3a; }
+  .gv-toast.error .gv-toast-close:hover,.gv-toast.error .gv-toast-close:focus-visible { color:#991b1b; background:#fee2e2; }
+  @keyframes gv-toast-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion:reduce) { .gv-toast { animation:none; } }
+  .gv-confirm-dialog { width:min(420px,calc(100vw - 32px)); padding:0; border:1px solid #e1e9f3; border-radius:16px; color:#111827; background:#fff; box-shadow:0 24px 60px rgba(15,35,62,.28); }
+  .gv-confirm-dialog::backdrop { background:rgba(15,35,62,.5); }
+  .gv-confirm-dialog form { margin:0; }
+  .gv-confirm-copy { display:flex; gap:12px; padding:20px 20px 16px; }
+  .gv-confirm-icon { width:40px; height:40px; display:grid; flex:0 0 auto; place-items:center; border-radius:12px; color:#c2410c; background:#fff1e8; }
+  .gv-confirm-copy h2 { margin:1px 0 5px; font-size:15px; }
+  .gv-confirm-copy p { margin:0; color:#5f7085; font-size:12px; line-height:1.5; }
+  .gv-confirm-actions { display:flex; justify-content:flex-end; gap:8px; margin:0; padding:14px 20px 20px; border-top:1px solid #edf1f6; }
+  .gv-confirm-actions button { min-height:38px; padding:0 13px; border:1px solid #d8e3f1; border-radius:9px; color:#334e68; background:#fff; font:inherit; font-size:11px; font-weight:800; cursor:pointer; }
+  .gv-confirm-actions button:hover { border-color:#9bbce8; background:#f7faff; }
+  .gv-confirm-actions .gv-confirm-delete { border-color:#dc2626; color:#fff; background:#dc2626; }
+  .gv-confirm-actions .gv-confirm-delete:hover { border-color:#b91c1c; background:#b91c1c; }
   @media (max-width:1080px) { .gv-employee-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  @media (max-width:760px) { .gv-directory-head,.gv-detail-head,.gv-list-head { flex-wrap:wrap; } .gv-search { width:100%; margin-left:0; } .gv-detail-actions { margin-left:auto; } .gv-board { grid-template-columns:1fr; } .gv-task-list { min-height:150px; max-height:360px; } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:1fr; } }
-  @media (max-width:520px) { .gv-employee-grid { grid-template-columns:1fr; } .gv-detail-actions .gv-button span { display:none; } .gv-date-button { min-width:160px; } }
+  @media (max-width:760px) { .gv-task-ui { overflow-x:clip; } .gv-directory,.gv-panel { border-radius:12px; } .gv-directory-head,.gv-detail-head,.gv-list-head { min-height:0; flex-wrap:wrap; gap:8px; padding:12px; } .gv-directory-compact-filter { margin-left:auto; } .gv-directory-time-button { min-height:44px; height:44px; } .gv-directory-filter-panel { right:0; width:min(280px,calc(100vw - 28px)); } .gv-directory-filter-mode button { min-height:38px; flex:1; } .gv-directory-filter input { height:42px; } .gv-search { flex-basis:100%; width:100%; margin-left:0; } .gv-task-ui .gv-search > input { height:44px; } .gv-detail-head { align-items:flex-start; } .gv-detail-actions { order:3; width:100%; margin-left:0; } .gv-detail-actions .gv-button { flex:1; min-height:44px; } .gv-icon-button { width:42px; min-height:42px; } .gv-list-head { align-items:stretch; } .gv-date-filter { width:100%; } .gv-date-button { width:100%; min-height:44px; } .gv-status-filter { width:100%; justify-content:space-between; gap:4px; overflow-x:auto; scrollbar-width:none; } .gv-status-filter::-webkit-scrollbar { display:none; } .gv-status-filter button { min-height:38px; flex:0 0 auto; } .gv-board { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-task-list { min-height:150px; max-height:360px; } .gv-board.gv-status-filtered .gv-task-list { grid-template-columns:1fr; } .gv-toast { right:16px; bottom:16px; width:min(360px,calc(100vw - 32px)); } .gv-confirm-actions button { min-height:44px; } }
+  @media (max-width:520px) { .gv-directory-head,.gv-detail-head,.gv-list-head { padding:10px; } .gv-directory-head strong { font-size:14px; } .gv-employee-count { padding:5px 7px; } .gv-employee-grid { grid-template-columns:1fr; gap:10px; padding:10px; } .gv-card { padding:13px; } .gv-avatar { width:42px; height:42px; } .gv-directory-filter-panel { width:min(280px,calc(100vw - 24px)); } .gv-date-button { min-width:0; } .gv-calendar { width:min(288px,calc(100vw - 40px)); } }
 </style>
 
 <div class="gv-task-ui buffcorp-server-rendered buffcorp-module-ready" id="gvTaskUi">
@@ -122,12 +166,28 @@
     <symbol id="gv-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
     <symbol id="gv-grip" viewBox="0 0 24 24"><circle cx="8" cy="6" r="1"/><circle cx="16" cy="6" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="16" cy="12" r="1"/><circle cx="8" cy="18" r="1"/><circle cx="16" cy="18" r="1"/></symbol>
     <symbol id="gv-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"/></symbol>
+    <symbol id="gv-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></symbol>
+    <symbol id="gv-close" viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></symbol>
+    <symbol id="gv-alert" viewBox="0 0 24 24"><path d="M12 3 2.8 19a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L12 3Z"/><path d="M12 9v5M12 18h.01"/></symbol>
   </svg>
 
   <section class="gv-directory" id="gvEmployeeView" {directory_hidden}>
     <header class="gv-directory-head">
+      <div class="gv-directory-compact-filter" id="gvDirectoryCompactFilter" data-date="{selected_date}" data-view="{directory_filter_view}">
+        <button class="gv-directory-time-button" id="gvDirectoryTimeButton" type="button" aria-expanded="false" aria-controls="gvDirectoryFilterPanel"><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-calendar"/></svg><span id="gvDirectoryTimeLabel">{selected_date}</span><svg class="gv-chevron" fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-chevron"/></svg></button>
+        <div class="gv-directory-filter-panel" id="gvDirectoryFilterPanel" role="dialog" aria-label="Time filter">
+          <nav class="gv-directory-filter-mode" aria-label="Filter type"><button class="{directory_day_active}" type="button" data-directory-compact-mode="day" aria-pressed="{directory_day_pressed}" aria-controls="gvCompactDirectoryDayFilter">Ng&agrave;y</button><button class="{directory_month_active}" type="button" data-directory-compact-mode="month" aria-pressed="{directory_month_pressed}" aria-controls="gvCompactDirectoryMonthFilter">Th&aacute;ng</button></nav>
+          <form class="gv-directory-filter" id="gvCompactDirectoryDayFilter" data-directory-compact-filter="day" action="main.php" method="get" {directory_day_hidden}><input type="hidden" name="option" value="{funname}"><input type="hidden" name="mode" value="list"><input type="hidden" name="l" value="{LANGUAGEID}"><input type="hidden" name="view" value="day"><label>Ch&#7885;n ng&agrave;y <input type="date" name="day" value="{selected_date}" onchange="this.form.submit()"></label></form>
+          <form class="gv-directory-filter" id="gvCompactDirectoryMonthFilter" data-directory-compact-filter="month" action="main.php" method="get" {directory_month_hidden}><input type="hidden" name="option" value="{funname}"><input type="hidden" name="mode" value="list"><input type="hidden" name="l" value="{LANGUAGEID}"><input type="hidden" name="view" value="month"><label>Ch&#7885;n th&aacute;ng <input type="month" name="period" value="{period}" onchange="this.form.submit()"></label></form>
+        </div>
+      </div>
       <strong>Nhân viên</strong>
       <span class="gv-employee-count">Tổng nhân viên <b id="gvEmployeeCount">0</b></span>
+      <div class="gv-directory-filters" role="group" aria-label="Lọc danh sách nhân viên theo thời gian">
+        <nav class="gv-directory-filter-mode" aria-label="Kiểu lọc"><button class="{directory_day_active}" type="button" data-directory-mode="day" aria-pressed="{directory_day_pressed}" aria-controls="gvDirectoryDayFilter">Theo ngày</button><button class="{directory_month_active}" type="button" data-directory-mode="month" aria-pressed="{directory_month_pressed}" aria-controls="gvDirectoryMonthFilter">Theo tháng</button></nav>
+        <form class="gv-directory-filter" id="gvDirectoryDayFilter" data-directory-filter="day" action="main.php" method="get" {directory_day_hidden}><input type="hidden" name="option" value="{funname}"><input type="hidden" name="mode" value="list"><input type="hidden" name="l" value="{LANGUAGEID}"><input type="hidden" name="view" value="day"><label>Ngày <input type="date" name="day" value="{selected_date}" onchange="this.form.submit()"></label></form>
+        <form class="gv-directory-filter" id="gvDirectoryMonthFilter" data-directory-filter="month" action="main.php" method="get" {directory_month_hidden}><input type="hidden" name="option" value="{funname}"><input type="hidden" name="mode" value="month"><label>Tháng <input type="month" name="period" value="{period}" onchange="this.form.submit()"></label></form>
+      </div>
       <label class="gv-search"><span class="gv-sr-only">Tìm nhân viên</span><svg fill="none" stroke="currentColor" stroke-width="1.8"><use href="#gv-search"/></svg><input id="gvEmployeeSearch" type="search" placeholder="Tìm tên, chức vụ, phòng ban..."></label>
     </header>
     <div class="gv-employee-grid" id="gvEmployeeGrid">
@@ -183,6 +243,8 @@
       <!-- END list -->
     </div>
     <p class="gv-message" aria-live="polite">{MESSAGE}</p>
+    <div class="gv-toast" id="gvTaskToast" data-state="{task_toast}" role="status" aria-live="polite" hidden><svg class="gv-toast-icon" fill="none" stroke="currentColor" stroke-width="2"><use href="#gv-check"/></svg><div class="gv-toast-copy"><strong></strong><span></span></div><button class="gv-toast-close" type="button" aria-label="Close notification"><svg fill="none" stroke="currentColor" stroke-width="2"><use href="#gv-close"/></svg></button></div>
+    <dialog class="gv-confirm-dialog" id="gvDeleteDialog" aria-labelledby="gvDeleteTitle"><form method="dialog"><div class="gv-confirm-copy"><span class="gv-confirm-icon"><svg fill="none" stroke="currentColor" stroke-width="1.9"><use href="#gv-alert"/></svg></span><div><h2 id="gvDeleteTitle">X&oacute;a c&ocirc;ng vi&#7879;c?</h2><p>Thao t&aacute;c n&agrave;y kh&ocirc;ng th&#7875; ho&agrave;n t&aacute;c. B&#7841;n c&oacute; ch&#7855;c mu&#7889;n ti&#7871;p t&#7909;c?</p></div></div><menu class="gv-confirm-actions"><button type="submit" value="cancel">H&#7911;y</button><button class="gv-confirm-delete" type="submit" value="confirm">X&oacute;a c&ocirc;ng vi&#7879;c</button></menu></form></dialog>
   </section>
 </div>
 
@@ -190,12 +252,34 @@
 (function () {
   var root = document.getElementById('gvTaskUi');
   if (!root) return;
+  var taskToast = document.getElementById('gvTaskToast');
+  var toastTimer = 0;
+  function showTaskToast(title, detail, error) { if (!taskToast) return; window.clearTimeout(toastTimer); taskToast.classList.toggle('error', !!error); taskToast.setAttribute('role', error ? 'alert' : 'status'); taskToast.querySelector('.gv-toast-icon use').setAttribute('href', error ? '#gv-alert' : '#gv-check'); taskToast.querySelector('.gv-toast-copy strong').textContent = title; taskToast.querySelector('.gv-toast-copy span').textContent = detail; taskToast.hidden = false; toastTimer = window.setTimeout(function () { taskToast.hidden = true; }, 4000); }
+  var toastStates = { saved:['Đã lưu công việc','Thông tin công việc đã được cập nhật.',false], deleted:['Đã xóa công việc','Công việc đã được xóa khỏi danh sách.',false], delete_blocked:['Không thể xóa công việc','Hãy xóa các công việc con trước khi tiếp tục.',true] };
+  if (taskToast) { var closeToast = taskToast.querySelector('.gv-toast-close'); if (closeToast) closeToast.addEventListener('click', function () { window.clearTimeout(toastTimer); taskToast.hidden = true; }); }
+  if (taskToast && toastStates[taskToast.dataset.state]) { var toastState = toastStates[taskToast.dataset.state]; showTaskToast(toastState[0], toastState[1], toastState[2]); }
+  var deleteDialog = document.getElementById('gvDeleteDialog');
+  var deleteTaskUrl = '';
+  if (deleteDialog) { Array.prototype.forEach.call(root.querySelectorAll('.gv-delete'), function (link) { link.removeAttribute('onclick'); link.addEventListener('click', function (event) { event.preventDefault(); deleteTaskUrl = link.href; deleteDialog.showModal(); }); }); deleteDialog.addEventListener('close', function () { if (deleteDialog.returnValue === 'confirm' && deleteTaskUrl) window.location.href = deleteTaskUrl; deleteTaskUrl = ''; }); }
   var employeeView = document.getElementById('gvEmployeeView');
   var board = document.getElementById('gvBoard');
   var filter = document.getElementById('gvDateFilter');
   if (employeeView && !employeeView.hidden) {
     var employeeSearch = document.getElementById('gvEmployeeSearch');
     var employeeCount = document.getElementById('gvEmployeeCount');
+    var directoryFilter = document.getElementById('gvDirectoryCompactFilter');
+    var directoryTimeButton = document.getElementById('gvDirectoryTimeButton');
+    var directoryTimeLabel = document.getElementById('gvDirectoryTimeLabel');
+    var directoryModeButtons = directoryFilter.querySelectorAll('[data-directory-compact-mode]');
+    var directoryFilters = directoryFilter.querySelectorAll('[data-directory-compact-filter]');
+    function setDirectoryFilterOpen(open) { directoryFilter.classList.toggle('open', open); directoryTimeButton.setAttribute('aria-expanded', String(open)); }
+    function updateDirectoryTimeLabel() { var date = new Date(directoryFilter.dataset.date + 'T00:00:00'); directoryTimeLabel.textContent = directoryFilter.dataset.view === 'month' ? new Intl.DateTimeFormat('vi-VN', {month:'numeric', year:'numeric'}).format(date) : date.toLocaleDateString('vi-VN'); }
+    function showDirectoryFilter(mode, openPicker) { Array.prototype.forEach.call(directoryModeButtons, function (button) { var selected = button.dataset.directoryCompactMode === mode; button.classList.toggle('active', selected); button.setAttribute('aria-pressed', String(selected)); }); Array.prototype.forEach.call(directoryFilters, function (form) { var selected = form.dataset.directoryCompactFilter === mode; form.hidden = !selected; if (selected && openPicker) { var input = form.querySelector('input[type="date"],input[type="month"]'); input.focus(); if (input.showPicker) input.showPicker(); } }); }
+    directoryTimeButton.addEventListener('click', function () { setDirectoryFilterOpen(!directoryFilter.classList.contains('open')); });
+    Array.prototype.forEach.call(directoryModeButtons, function (button) { button.addEventListener('click', function () { showDirectoryFilter(button.dataset.directoryCompactMode, true); }); });
+    document.addEventListener('click', function (event) { if (!directoryFilter.contains(event.target)) setDirectoryFilterOpen(false); });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && directoryFilter.classList.contains('open')) { setDirectoryFilterOpen(false); directoryTimeButton.focus(); } });
+    updateDirectoryTimeLabel();
     function updateEmployeeCount() { if (employeeCount) employeeCount.textContent = document.querySelectorAll('[data-member-card]:not([hidden])').length; }
     if (employeeSearch) employeeSearch.addEventListener('input', function () { Array.prototype.forEach.call(document.querySelectorAll('[data-member-card]'), function (card) { card.hidden = card.textContent.toLowerCase().indexOf(employeeSearch.value.toLowerCase()) === -1; }); updateEmployeeCount(); });
     updateEmployeeCount();
@@ -218,7 +302,7 @@
   function rows() { return Array.prototype.slice.call(board.querySelectorAll('[data-task-card]')); }
   function setOpen(open) { filter.classList.toggle('open', open); dateButton.setAttribute('aria-expanded', String(open)); }
   function statusValue(status) { return status === 'todo' ? 0 : status === 'progress' ? 1 : 2; }
-  function setTaskMessage(message) { var target = root.querySelector('.gv-message'); if (target) target.textContent = message || ''; }
+  function setTaskMessage(message) { var target = root.querySelector('.gv-message'); if (target) target.textContent = ''; if (message) showTaskToast('Không thể cập nhật trạng thái', message, true); }
   function updateColumns() { Array.prototype.forEach.call(board.querySelectorAll('.gv-column'), function (column) { var count = column.querySelectorAll('[data-task-card]:not([hidden])').length; column.querySelector('.gv-count').textContent = count; column.classList.toggle('empty', count === 0); }); }
   function applyFilters() { var query = search.value.trim().toLowerCase(); var length = view === 'year' ? 4 : view === 'month' ? 7 : 10; board.classList.toggle('gv-status-filtered', statusFilter !== 'all'); Array.prototype.forEach.call(board.querySelectorAll('.gv-column'), function (column) { column.hidden = statusFilter !== 'all' && column.dataset.status !== statusFilter; }); rows().forEach(function (card) { card.hidden = (!!query && card.textContent.toLowerCase().indexOf(query) === -1) || card.dataset.date.slice(0, length) !== selectedDate.slice(0, length) || (statusFilter !== 'all' && card.dataset.status !== statusFilter); }); updateColumns(); }
   function updateLabel() { var d = dateFromIso(selectedDate); document.getElementById('gvDateLabel').textContent = view === 'year' ? 'Năm ' + d.getFullYear() : view === 'month' ? 'Tháng ' + new Intl.DateTimeFormat('vi-VN', {month:'numeric',year:'numeric'}).format(d) : d.toLocaleDateString('vi-VN'); Array.prototype.forEach.call(document.querySelectorAll('.gv-calendar-mode'), function (button) { button.classList.toggle('active', button.dataset.view === view); }); }

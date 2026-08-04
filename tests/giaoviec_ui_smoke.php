@@ -5,7 +5,19 @@ $files = array(
     $root.'/bootrap/templates/default/vietnam/common_lists/giaoviec/giaoviec_list.html',
     $root.'/bootrap/templates/default/vietnam/common_lists/giaoviec/giaoviec_info.html',
 );
+$module = file_get_contents($files[0]);
 $source = implode("\n", array_map('file_get_contents', $files));
+if (strpos($source, 'id="gvTaskToast"') === false || strpos($source, 'toastStates =') === false || strpos($source, 'function showTaskToast') === false || strpos($source, 'id="gvDeleteDialog"') === false || strpos($source, "deleteDialog.showModal()") === false || strpos($source, "link.removeAttribute('onclick')") === false || strpos($source, 'Manrope,"Segoe UI",Arial,sans-serif') === false || strpos($module, "\$_REQUEST['task_toast'] = 'saved';") === false || strpos($module, "\$_REQUEST['task_toast'] = 'deleted';") === false || strpos($module, "['MESSAGE' => '']") === false) throw new RuntimeException('Task feedback must use auto-dismissing toasts and an in-app delete confirmation.');
+if (strpos($source, '.gv-button-primary { border-color:var(--gv-brand); color:#fff !important;') === false) throw new RuntimeException('Add-task primary action needs a stable high-contrast text color.');
+if (strpos($module, "\$month = \$selectedDate ? substr(\$selectedDate, 5, 2) : date('m');") === false || strpos($module, "\$year = \$selectedDate ? substr(\$selectedDate, 0, 4) : date('Y');") === false || strpos($module, "date('Y-m-d')") === false || strpos($module, 'order by STR_TO_DATE(LEFT(ngay, 10)') !== false) {
+    throw new RuntimeException('Task directory must default to the current date, not the newest task date.');
+}
+foreach (array('name="day" value="{selected_date}"', 'name="period" value="{period}"', 'gv-directory-compact-filter', 'gv-directory-time-button', 'gv-directory-filter-panel', 'data-directory-compact-mode="day"', 'data-directory-compact-mode="month"', 'showDirectoryFilter', 'updateDirectoryTimeLabel', '{directory_day_hidden}', '{directory_month_hidden}', "\$view == 'day'") as $marker) {
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee date or month filter marker: '.$marker);
+}
+foreach (array('overflow-x:clip', 'min-height:44px', 'width:min(280px,calc(100vw - 28px))', '.gv-detail-actions { order:3; width:100%', 'scrollbar-width:none') as $marker) {
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing mobile task UI marker: '.$marker);
+}
 foreach (array('function mosListNew', 'buffcorp-server-rendered', 'gv-status-form', 'gv-drag-ghost', 'dragCandidate', 'data-task-status', 'scrollbar-width:none', 'aria-label="Công việc chưa thực hiện"', 'name="member_id"', 'name="website_id"', 'name="soluong"', 'name="ngay"') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing task UI marker: '.$marker);
 }

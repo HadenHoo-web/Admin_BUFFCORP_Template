@@ -234,20 +234,25 @@ function mosListNew($id)
 	$month = mosGetParam($_REQUEST, 'month', '');
 	$year = mosGetParam($_REQUEST, 'year', '');
 	$view = mosGetParam($_REQUEST, 'view', 'day');
+	$taskToast = mosGetParam($_REQUEST, 'task_toast', '');
+	if (!in_array($taskToast, array('saved', 'deleted', 'delete_blocked'))) $taskToast = '';
+	$selectedDate = gvTaskIsoDate(mosGetParam($_REQUEST, 'day', ''));
+	$period = mosGetParam($_REQUEST, 'period', '');
 	$member_id = (int)mosGetParam($_REQUEST, 'member_id1', 0);
 	$website_id = (int)mosGetParam($_REQUEST, 'website_id1', 0);
 	$active = mosGetParam($_REQUEST, 'active1', '0');
 	if (!in_array($view, array('day', 'month', 'year'))) $view = 'day';
-
-	$latestDate = '';
-	if (!preg_match('/^\d{2}$/', $month) || !preg_match('/^\d{4}$/', $year)) {
-		$sql = "select ngay from tbl_giaoviec where active = 1 and ngay <> '' order by STR_TO_DATE(LEFT(ngay, 10), '%d-%m-%Y') desc limit 1";
-		if (($result = $db->sql_query($sql)) && ($row = $db->sql_fetchrow($result))) $latestDate = gvTaskIsoDate($row['ngay']);
-		$month = $latestDate ? substr($latestDate, 5, 2) : date('m');
-		$year = $latestDate ? substr($latestDate, 0, 4) : date('Y');
+	if (preg_match('/^\d{4}-\d{2}$/', $period)) {
+		$year = substr($period, 0, 4);
+		$month = substr($period, 5, 2);
+		$view = 'month';
 	}
-	$selectedDate = gvTaskIsoDate(mosGetParam($_REQUEST, 'day', ''));
-	if (!$selectedDate || substr($selectedDate, 0, 7) != $year.'-'.$month) $selectedDate = $latestDate && substr($latestDate, 0, 7) == $year.'-'.$month ? $latestDate : $year.'-'.$month.'-01';
+
+	if (!preg_match('/^\d{2}$/', $month) || !preg_match('/^\d{4}$/', $year)) {
+		$month = $selectedDate ? substr($selectedDate, 5, 2) : date('m');
+		$year = $selectedDate ? substr($selectedDate, 0, 4) : date('Y');
+	}
+	if (!$selectedDate || substr($selectedDate, 0, 7) != $year.'-'.$month) $selectedDate = $year.'-'.$month == date('Y-m') ? date('Y-m-d') : $year.'-'.$month.'-01';
 
 	switch ($_SESSION['login_id']) {
 		case '1': $accessCond = ''; break;
@@ -257,7 +262,8 @@ function mosListNew($id)
 		default: $accessCond = " and (tbl_giaoviec.created_by = '".$_SESSION['membername']."' OR tbl_giaoviec.member_id = '".$_SESSION['login_id']."')";
 	}
 	$periodCond = " and SUBSTRING(tbl_giaoviec.ngay, 7, 4) = '".$year."'";
-	if ($view != 'year') $periodCond .= " and SUBSTRING(tbl_giaoviec.ngay, 4, 2) = '".$month."'";
+	if ($view == 'day') $periodCond .= " and LEFT(tbl_giaoviec.ngay, 10) = '".substr($selectedDate, 8, 2).'-'.substr($selectedDate, 5, 2).'-'.substr($selectedDate, 0, 4)."'";
+	elseif ($view != 'year') $periodCond .= " and SUBSTRING(tbl_giaoviec.ngay, 4, 2) = '".$month."'";
 	$visibleCond = ($active == 0) ? ' and tbl_giaoviec.active = 1' : '';
 	$websiteCond = $website_id ? ' and tbl_giaoviec.website_id = '.$website_id : '';
 
@@ -345,8 +351,17 @@ function mosListNew($id)
 		'member_id' => $member_id,
 		'month' => $month,
 		'year' => $year,
+		'period' => $year.'-'.$month,
 		'view' => $view,
+		'task_toast' => $taskToast,
 		'selected_date' => $selectedDate,
+		'directory_filter_view' => $view == 'month' ? 'month' : 'day',
+		'directory_day_active' => $view == 'month' ? '' : 'active',
+		'directory_month_active' => $view == 'month' ? 'active' : '',
+		'directory_day_pressed' => $view == 'month' ? 'false' : 'true',
+		'directory_month_pressed' => $view == 'month' ? 'true' : 'false',
+		'directory_day_hidden' => $view == 'month' ? 'hidden' : '',
+		'directory_month_hidden' => $view == 'month' ? '' : 'hidden',
 		'directory_hidden' => $member_id > 0 ? 'hidden' : '',
 		'task_view_hidden' => $member_id > 0 ? '' : 'hidden',
 		'selected_member_name' => gvTaskEscape($selectedName),
@@ -908,7 +923,8 @@ function mosSave(){
 		echo 'GV_STATUS_SAVED';
 		exit;
 	}
-	$template->assign_vars(['MESSAGE' => SAVE_SUCCESS]);
+	$_REQUEST['task_toast'] = 'saved';
+	$template->assign_vars(['MESSAGE' => '']);
 	mosList($parent_id);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
@@ -930,12 +946,15 @@ function mosDelete()
 		{	if (($row1['child_count'] == 0)){	
         if(strtolower($_SESSION['membername'])=="administrator"){	
 			    deleteByID("tbl_giaoviec", "giaoviec_id", $giaoviec_id);
-          $template->assign_vars(array('MESSAGE'	=>	DELETE_SUCCESS));
+			  $_REQUEST['task_toast'] = 'deleted';
+          $template->assign_vars(array('MESSAGE'	=>	''));
 		    }else{
-				  $template->assign_vars(array('MESSAGE'	=>	CANT_NOT_DELETE));
+				  $_REQUEST['task_toast'] = 'delete_blocked';
+				  $template->assign_vars(array('MESSAGE'	=>	''));
 			  }
 		}else{	
-      $template->assign_vars(array('MESSAGE' => NONE_EMPTY_ERROR));	}
+		  $_REQUEST['task_toast'] = 'delete_blocked';
+      $template->assign_vars(array('MESSAGE' => ''));	}
 		} 	
 		mosList($parent_id);
 	}
