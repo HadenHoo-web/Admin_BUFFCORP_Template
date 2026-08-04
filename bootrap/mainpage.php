@@ -22,7 +22,23 @@ function buffcorpResolvePageTitle($option)
     global $db;
     $option = trim((string)$option);
     if ($option === 'chat/chat') return 'Chat';
+    if ($option === 'functionmenu/functionmenu') return 'Quản lý menu';
     if ($option === '' || !isset($db)) return 'Tổng quan';
+    $mode = isset($_REQUEST['mode']) ? trim((string)$_REQUEST['mode']) : '';
+    if ($option === 'functions/functions' && in_array($mode, array('permission_list', 'permission_save'))) {
+        $code = isset($_REQUEST['id']) ? trim((string)$_REQUEST['id']) : '';
+        if ($code !== '') {
+            $safeCode = addslashes($code);
+            $sql = "select fun_name from tbl_function_menu where code='$safeCode' limit 1";
+            if ($result = $db->sql_query($sql)) {
+                $row = $db->sql_fetchrow($result);
+                if ($row && isset($row['fun_name']) && trim($row['fun_name']) !== '') {
+                    return 'Phân quyền: ' . trim($row['fun_name']);
+                }
+            }
+        }
+        return 'Phân quyền chức năng';
+    }
     $safeOption = addslashes($option);
     $sql = "select fun_name from tbl_function_menu
             where parent_id > 0 and link like '%option=$safeOption%'

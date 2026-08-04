@@ -8,7 +8,12 @@
 		'funname'	=> 'functionmenu/functionmenu',
 		'LANGUAGEID'=> $languageid,
 		
-	));		
+	));
+
+	if (!functionmenuIsAdministrator()) {
+		mosInvalidURL();
+		exit;
+	}
 
 	switch( $action )
 	{	case 'info':		mosInfo(); break;			
@@ -18,14 +23,27 @@
 		case 'fun_up' 		:  	mosFunMove('up'); break;
 		case 'fun_down'		:	mosFunMove('down'); break;
 		
-		case 'permission_list': mosPermissionList(); break;
-		case 'permission_save': mosPermissionSave(); break;
+		case 'permission_list':
+			if (!functionmenuIsAdministrator()) { mosInvalidURL(); exit; }
+			mosPermissionList();
+			break;
+		case 'permission_save':
+			if (!functionmenuIsAdministrator()) { mosInvalidURL(); exit; }
+			mosPermissionSave();
+			break;
 		default:
 			mosInvalidURL();
 			exit;
 	}
 ?>
 <?php
+//----------------------------------------------------------------------------------------------------------------------------------------
+	function functionmenuIsAdministrator()
+	{
+		$membername = isset($_SESSION['membername']) ? strtolower(trim($_SESSION['membername'])) : '';
+		$loginname = isset($_SESSION['loginname']) ? strtolower(trim($_SESSION['loginname'])) : '';
+		return ($membername == 'administrator' || $loginname == 'administrator');
+	}
 //----------------------------------------------------------------------------------------------------------------------------------------
 	function mosList($sup_id = 0)
 	{	
@@ -78,18 +96,26 @@
 		if ( !($result = $db->sql_query($sql)) ) message_die( DATABASE_BUSY );
 		$order = 0;
 		$num_row = $db->sql_numrows($result);
+		$canManagePermissions = functionmenuIsAdministrator();
 		while( $row = $db->sql_fetchrow($result) )
 		{	$order = $order + 1;
 			$childCount = (int)$row['child_count'];
+			$permissionAction = '';
+			if ($canManagePermissions) {
+				$permissionCode = htmlspecialchars($row['code'], ENT_QUOTES, 'UTF-8');
+				$permissionAction = '<a class="list-row-action list-action-permission" href="?option=functions/functions&amp;mode=permission_list&amp;id='.$permissionCode.'&amp;l='.(int)$languageid.'" title="Phân quyền" aria-label="Phân quyền"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3Z"></path><path d="m9 12 2 2 4-4"></path></svg></a>';
+			}
 			$template->assign_block_vars('list', array(
 				'className'		=>  ($order % 2 == 1) ? 'alt' : 'inv',
 				'order'			=>  $order,
 				'fun_id'	=>	$row['fun_id'],
 				'code'		=>	$row['code'],
 				'fun_name' 	=>	$row['fun_name'],
+				'description' => $row['description'],
 				'node_link'	=>	'?option=functionmenu/functionmenu&mode=list&sup_id='.$row['fun_id'].'&l='.$languageid,
 				'node_class'	=>	($childCount > 0) ? 'has-children' : 'is-leaf',
 				'child_count'	=>	$childCount,
+				'permission_action' => $permissionAction,
 				'up'			=>	($order == 1) ? ' display: none;' : '',
 				'down'			=>	($order == $num_row) ? ' display: none;' : '',
 			));	
@@ -104,7 +130,7 @@
 		$sup_id 	 = mosGetParam( $_REQUEST, 'sup_id', '0' );
 		$id 	 = mosGetParam( $_REQUEST, 'id', '0' );
 		
-		$imgDir="templates/".$skin."/".images."/menu/";
+		$imgDir="templates/".$skin."/images/menu/";
 		if($sup_id!=0)
 		{
 			$sql1 = "select * from tbl_function_menu where fun_id=$sup_id ";
@@ -158,7 +184,7 @@
 		$template->assign_vars(array(
 			'sup_id'		=>	$sup_id,					
 		));	
-		$imgDir="templates/".$skin."/".images."/";
+		$imgDir="templates/".$skin."/images/";
 		$id   	= mosGetParam( $_REQUEST, 'id', '0');
 		$template->assign_vars(array(
 			'code'			=>	mosGetParam( $_REQUEST, 'code', ''),
@@ -192,6 +218,7 @@
 		}
 		$imgDir="templates/".$skin."/images/menu/";
 		mosmkdir($imgDir, 0777);
+		$img = '';
 		//$img = mosUploadImage($imgDir, "new_image");
 		if (($img == '') && ($remove_image == 0))
 		{	if($id !='0')
@@ -229,7 +256,7 @@
 		global $db, $root_path, $skin, $languageid, $template, $theme;	
 		$id=mosGetParam( $_REQUEST, 'id', '');
 		$sup_id=mosGetParam( $_REQUEST, 'sup_id', '');
-		$imgDir="templates/".$skin."/".images."/menu";
+		$imgDir="templates/".$skin."/images/menu";
 		
 		if ($id=='')
 		{

@@ -20,7 +20,6 @@
 			mosInvalidURL();
 			exit;
 	}
-	exit;
 //--------------------------------------------------------------------------------------------------
 	function mosPageListAll($status_id=0)
 	{	global $template, $db, $languageid, $skin, $langpath;

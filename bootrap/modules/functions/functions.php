@@ -16,14 +16,27 @@
 		case 'list':		mosList(); break;
 		case 'save':		mosSave(); break;
 		case 'delete':		mosDelete(); break;
-		case 'permission_list': mosPermissionList(); break;
-		case 'permission_save': mosPermissionSave(); break;
+		case 'permission_list':
+			if (!functionsIsAdministrator()) { mosInvalidURL(); exit; }
+			mosPermissionList();
+			break;
+		case 'permission_save':
+			if (!functionsIsAdministrator()) { mosInvalidURL(); exit; }
+			mosPermissionSave();
+			break;
 		default:
 			mosInvalidURL();
 			exit;
 	}
 ?>
 <?php
+//----------------------------------------------------------------------------------------------------------------------------------------
+	function functionsIsAdministrator()
+	{
+		$membername = isset($_SESSION['membername']) ? strtolower(trim($_SESSION['membername'])) : '';
+		$loginname = isset($_SESSION['loginname']) ? strtolower(trim($_SESSION['loginname'])) : '';
+		return ($membername == 'administrator' || $loginname == 'administrator');
+	}
 //----------------------------------------------------------------------------------------------------------------------------------------
 	function mosList()
 	{	global $db, $root_path, $skin, $languageid, $template, $theme;
@@ -95,7 +108,7 @@
 	function mosInfo()
 	{	global $db, $root_path, $skin, $languageid, $template ,$theme;
 		$the_id 	 = mosGetParam( $_REQUEST, 'id', '0' );
-		$imgDir="templates/".$skin."/".images."/";
+		$imgDir="templates/".$skin."/images/";
 		if ($the_id != '0')
 		{	$sql = "select * from tbl_functions where code = '$the_id'";
 			if ( !($result = $db->sql_query($sql)) ) 
@@ -130,7 +143,7 @@
 	
 	function reShowPage( $message )
 	{	global $db, $root_path, $skin, $languageid, $template, $theme;				
-		$imgDir="templates/".$skin."/".images."/";
+		$imgDir="templates/".$skin."/images/";
 		$id   	= mosGetParam( $_REQUEST, 'id', '0');
 		$template->assign_vars(array(
 			'code'	=>	mosGetParam( $_REQUEST, 'code', ''),
@@ -160,7 +173,7 @@
 		{	mosInvalidURL();
 			exit;
 		}
-		$imgDir="templates/".$skin."/".images."/";
+		$imgDir="templates/".$skin."/images/";
 		mosmkdir($imgDir, 0777);
 		$img = mosUploadImage($imgDir, "new_image");
 		if ($img == '' )
