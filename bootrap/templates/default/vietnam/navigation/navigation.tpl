@@ -128,7 +128,6 @@
 .sidebar-support-icon { display: grid; width: 19px; height: 19px; flex: 0 0 19px; place-items: center; }
 .sidebar-support-icon svg { width: 18px; height: 18px; }
 .sidebar-support-text { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sidebar-language select { max-width: 112px; height: 27px; border: 1px solid #d9e6f3; border-radius: 6px; background: #fff; color: #111827; font-size: 10px; }
 .layout.sidebar-collapsed .left-menu { width: 68px !important; flex-basis: 68px; }
 .layout.sidebar-collapsed .buffcorp-brand { justify-content: center; gap: 0; padding-right: 10px; padding-left: 10px; }
 .layout.sidebar-collapsed .buffcorp-brand-copy,.layout.sidebar-collapsed .buffcorp-collapse,.layout.sidebar-collapsed .buffcorp-section-label,.layout.sidebar-collapsed .app-parent-label,.layout.sidebar-collapsed .app-parent-chevron,.layout.sidebar-collapsed .app-nav-badge,.layout.sidebar-collapsed .sidebar-support-text { display: none !important; }
@@ -137,8 +136,7 @@
 .layout.sidebar-collapsed .buffcorp-menu { width: 100% !important; table-layout: fixed !important; }
 .layout.sidebar-collapsed .buffcorp-menu td { overflow: hidden; }
 .layout.sidebar-collapsed .buffcorp-menu .header,
-.layout.sidebar-collapsed .sidebar-support-item,
-.layout.sidebar-collapsed .sidebar-language {
+.layout.sidebar-collapsed .sidebar-support-item {
     width: 50px;
     height: 40px;
     min-height: 40px;
@@ -231,12 +229,6 @@ var arrNavigation =
                 <span class="sidebar-support-text">Chat</span>
             </a>
             {menu_admin_link}
-            <label class="sidebar-support-item sidebar-language">
-                <span class="sidebar-support-icon" data-sidebar-icon="language"></span>
-                <span class="sidebar-support-text">
-                    <!-- DO ComboFromTable("language_id", "tbl_languages", "language_id", "language_name", "language_id", 0, "" , "" , "isactive = 1" , "reShow(this.value)", 1) -->
-                </span>
-            </label>
             <a class="sidebar-support-item" href="logout.php">
                 <span class="sidebar-support-icon" data-sidebar-icon="logout"></span>
                 <span class="sidebar-support-text">Đăng xuất</span>

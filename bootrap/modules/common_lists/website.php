@@ -75,7 +75,7 @@ function mosList($id){
 
 
 	//$cond .= (strtolower($_SESSION['membername'])=="administrator")?'':((strtolower($_SESSION["login_id"])=="34" || strtolower($_SESSION["login_id"])=="63")?' and tbl_website.member_id not in (1,2)':' and tbl_website.member_id = "'.$_SESSION["login_id"].'"');
-	$sql = "SELECT tbl_website.*,tbl_customer.customer_name, tbl_member.fullname, tbl_website_type.priority FROM ((tbl_website LEFT JOIN tbl_customer ON tbl_website.customer_id = tbl_customer.customer_id) LEFT JOIN tbl_member ON tbl_website.member_id = tbl_member.member_id) LEFT JOIN tbl_website_type ON tbl_website.website_type_id = tbl_website_type.website_type_id  where 1 $cond ORDER BY tbl_website.active DESC, tbl_website_type.priority, tbl_website.kt_id, tbl_website.content_id, tbl_website.code_id, tbl_website.website_type_id, tbl_website.priority, tbl_website.website_name";
+	$sql = "SELECT tbl_website.*, tbl_customer.customer_name, tbl_member.fullname, tbl_website_type.priority, tbl_website_type.bg_color AS website_type_bg_color FROM ((tbl_website LEFT JOIN tbl_customer ON tbl_website.customer_id = tbl_customer.customer_id) LEFT JOIN tbl_member ON tbl_website.member_id = tbl_member.member_id) LEFT JOIN tbl_website_type ON tbl_website.website_type_id = tbl_website_type.website_type_id  where 1 $cond ORDER BY tbl_website.active DESC, tbl_website_type.priority, tbl_website.kt_id, tbl_website.content_id, tbl_website.code_id, tbl_website.website_type_id, tbl_website.priority, tbl_website.website_name";
     if ( !($result = $db->sql_query($sql)) ) message_die( SERVER_BUSY );
 	$num_row = $db->sql_numrows($result);
 	$order = 0;
@@ -85,14 +85,7 @@ function mosList($id){
         if( $row1 = $db->sql_fetchrow($result1))
         $kt_name = $row1['fullname'];
 		$order = $order + 1;
-		$website_type_id = $row['website_type_id'];
-		if ($website_type_id == 1)$bg_website = "Yellow";
-		elseif ($website_type_id == 2)$bg_website = "Orange";
-		elseif ($website_type_id == 3)$bg_website = "AFD788";
-		elseif ($website_type_id == 4)$bg_website = "D7D7D7";
-		elseif ($website_type_id == 5)$bg_website = "98D0B9";
-        elseif ($website_type_id == 8)$bg_website = "Green";
-		else $bg_website="";
+		$bg_website = $row['website_type_bg_color'];
 		$php_version = $row['php_version'];
 		if ($php_version == 1)$version = "5.6";
 		elseif ($php_version == 2)$version = "7.0";

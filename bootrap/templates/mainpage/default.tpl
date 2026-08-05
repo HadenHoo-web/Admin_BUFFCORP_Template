@@ -1564,6 +1564,15 @@
             background: #f8fbff !important;
         }
 
+        .list-ui .list-page--common-lists-website .data-table td[style*="--website-type-bg"] {
+            background: var(--website-type-bg) !important;
+            font-weight: 900;
+        }
+
+        .list-ui .list-page--common-lists-website .data-table tr:hover td[style*="--website-type-bg"] {
+            background: var(--website-type-bg) !important;
+        }
+
         .list-ui .data-table td a:not(.list-row-action) {
             display: inline-block;
             max-width: none;
@@ -1849,7 +1858,6 @@
 
         .list-ui .list-page--customer-customer .data-table tr.customer-type-green td:first-child,
         .list-ui .list-page--customer-customer .data-table td[style*="Green"] {
-            border-left: 5px solid #22c55e !important;
             background: #dcfce7 !important;
             color: #166534 !important;
             font-weight: 900;
@@ -1857,7 +1865,6 @@
 
         .list-ui .list-page--customer-customer .data-table tr.customer-type-yellow td:first-child,
         .list-ui .list-page--customer-customer .data-table td[style*="Yellow"] {
-            border-left: 5px solid #f59e0b !important;
             background: #fef3c7 !important;
             color: #92400e !important;
             font-weight: 900;
@@ -1865,7 +1872,6 @@
 
         .list-ui .list-page--customer-customer .data-table tr.customer-type-grey td:first-child,
         .list-ui .list-page--customer-customer .data-table td[style*="Grey"] {
-            border-left: 5px solid #64748b !important;
             background: #e2e8f0 !important;
             color: #334155 !important;
             font-weight: 900;
@@ -1909,7 +1915,6 @@
 
         .list-ui .list-page--common-lists-website .data-table tr.website-type-yellow td:first-child,
         .list-ui .list-page--common-lists-website .data-table td[style*="Yellow"] {
-            border-left: 5px solid #f59e0b !important;
             background: #fef3c7 !important;
             color: #92400e !important;
             font-weight: 900;
@@ -1917,7 +1922,6 @@
 
         .list-ui .list-page--common-lists-website .data-table tr.website-type-orange td:first-child,
         .list-ui .list-page--common-lists-website .data-table td[style*="Orange"] {
-            border-left: 5px solid #f97316 !important;
             background: #ffedd5 !important;
             color: #9a3412 !important;
             font-weight: 900;
@@ -1925,7 +1929,6 @@
 
         .list-ui .list-page--common-lists-website .data-table tr.website-type-lime td:first-child,
         .list-ui .list-page--common-lists-website .data-table td[style*="AFD788"] {
-            border-left: 5px solid #84cc16 !important;
             background: #ecfccb !important;
             color: #3f6212 !important;
             font-weight: 900;
@@ -1933,7 +1936,6 @@
 
         .list-ui .list-page--common-lists-website .data-table tr.website-type-grey td:first-child,
         .list-ui .list-page--common-lists-website .data-table td[style*="D7D7D7"] {
-            border-left: 5px solid #64748b !important;
             background: #e2e8f0 !important;
             color: #334155 !important;
             font-weight: 900;
@@ -1941,7 +1943,6 @@
 
         .list-ui .list-page--common-lists-website .data-table tr.website-type-mint td:first-child,
         .list-ui .list-page--common-lists-website .data-table td[style*="98D0B9"] {
-            border-left: 5px solid #14b8a6 !important;
             background: #ccfbf1 !important;
             color: #0f766e !important;
             font-weight: 900;
@@ -1949,7 +1950,6 @@
 
         .list-ui .list-page--common-lists-website .data-table tr.website-type-green td:first-child,
         .list-ui .list-page--common-lists-website .data-table td[style*="Green"] {
-            border-left: 5px solid #22c55e !important;
             background: #dcfce7 !important;
             color: #166534 !important;
             font-weight: 900;
