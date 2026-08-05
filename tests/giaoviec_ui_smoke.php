@@ -28,6 +28,9 @@ foreach (array('gv-employee-count', 'gvEmployeeCount', 'updateEmployeeCount', 'e
 foreach (array('gvTaskDepartmentTone', 'department_tone', 'gv-dept-0', 'gv-card .gv-avatar', 'font-size:15px') as $marker) {
     if (strpos($source, $marker) === false) throw new RuntimeException('Missing employee department color or typography marker: '.$marker);
 }
+foreach (array('function gvTaskMemberRole($value)', "if (\$role !== '' && is_numeric(\$role)) return (float)\$role > 0 ? 'Trưởng phòng' : 'Nhân viên';", "\$role = gvTaskMemberRole(\$row['trach_nhiem']);", "\$selectedRole = gvTaskMemberRole(\$row['trach_nhiem']);") as $marker) {
+    if (strpos($module, $marker) === false) throw new RuntimeException('Numeric employee roles must use the default display title.');
+}
 foreach (array('function gvTaskIsAdministrator', 'function gvTaskHasTeamPermission', 'function gvTaskEnsureViewScopeTable', 'tbl_giaoviec_member_access', 'function gvTaskCanViewTeam', "code = 'giaoviec'", 'function gvTaskCanViewMember', 'function gvTaskTeamScopeSql', 'viewer_member_id', 'if ($member_id > 0 && !gvTaskCanViewMember($member_id))', '$accessCond = $member_id > 0 ?', 'if (!gvTaskCanViewMember((int)$row[\'member_id\']))') as $marker) {
     if (strpos($module, $marker) === false) throw new RuntimeException('Missing server-side employee-directory permission marker: '.$marker);
 }
@@ -39,6 +42,9 @@ foreach (array('padding:0 11px 0 42px !important', 'gv-task-card.saving', 'name=
 }
 if (strpos($source, '.gv-board.gv-status-filtered .gv-task-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr));') === false) {
     throw new RuntimeException('Focused-status cards must use a three-column grid.');
+}
+foreach (array('#gvTaskView { font-size:16.25px; }', '.gv-date-button { position:relative; min-width:178px; justify-content:center; gap:7px; padding:0 38px 0 12px; }', '.gv-date-button #gvDateLabel { position:static; transform:none; }', '.gv-form-ui { --gv-brand:#2563eb; --gv-ink:#111827; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-danger:#dc2626; max-width:none; margin:0 auto; color:var(--gv-ink); font:16.25px/1.4') as $marker) {
+    if (strpos($source, $marker) === false) throw new RuntimeException('Missing enlarged detail typography or centered calendar label marker: '.$marker);
 }
 if (strpos($source, 'mode=delete&amp;l={LANGUAGEID}&amp;id={list.giaoviec_id}&amp;member_id1={member_id}') === false) {
     throw new RuntimeException('Delete action must retain the employee detail context.');

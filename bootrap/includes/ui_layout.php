@@ -137,7 +137,7 @@ function buffcorpModernizeTable($table)
 
     $table = preg_replace_callback('/<a\b([^>]*)>\s*<img\b([^>]*)>\s*<\/a>/is', function ($match) {
         $source = $match[0];
-        if (preg_match('/display\s*:\s*none/i', $source)) return '';
+        if (preg_match('/display\s*:\s*none/i', $source)) return '<span class="list-skip-action"></span>';
         $type = buffcorpActionTypeFromHtml($source);
         if (!buffcorpShouldKeepListAction($type)) return '<span class="list-skip-action"></span>';
         $label = buffcorpActionLabel($type);

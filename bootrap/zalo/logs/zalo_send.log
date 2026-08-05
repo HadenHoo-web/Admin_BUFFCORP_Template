@@ -51,3 +51,195 @@
 2026-07-30 10:27:55 | {"step":"INPUT","zalo_user_id":"3096884466588820040","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Kiểm tra tín hiệu các dự án đang phụ trách\n⏰ Deadline: 30-07-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Ms.Tú"}
 2026-07-30 10:27:55 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
 2026-07-30 10:27:55 | CREATE_TASK | false
+2026-08-03 16:17:21 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:22 | DONE_CHECK | old=2 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:24 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:25 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:29 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:31 | DONE_CHECK | old=0 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:44 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:47 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:17:49 | DONE_CHECK | old=0 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:24:24 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:24:27 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=71 should=0
+2026-08-03 16:38:20 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu\n⏰ Deadline: 03-08-2026 23:59\n🌐 Website: ID: 0\n👤 Giao bởi: Administrator"}
+2026-08-03 16:38:20 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-03 16:38:20 | CREATE_TASK | false
+2026-08-03 16:38:23 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:24 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:24 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:25 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:26 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:27 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:28 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:28 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:29 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:30 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:31 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:31 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:32 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:33 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:33 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:34 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:34 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:35 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:36 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:37 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:40 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:41 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:42 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:42 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:51 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:38:52 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:39:14 | DONE_CHECK | old=2 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:39:31 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:39:32 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:39:33 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:39:33 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:50:54 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu\n⏰ Deadline: 03-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-03 16:50:54 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-03 16:50:54 | CREATE_TASK | false
+2026-08-03 16:50:56 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:51:00 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:53:14 | DONE_CHECK | old=0 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:53:25 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu\n⏰ Deadline: 03-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-03 16:53:25 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-03 16:53:25 | CREATE_TASK | false
+2026-08-03 16:53:33 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:53:34 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:53:42 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 16:53:43 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:02:54 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu\n⏰ Deadline: 03-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-03 17:02:54 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-03 17:02:54 | CREATE_TASK | false
+2026-08-03 17:03:07 | {"step":"INPUT","zalo_user_id":"1338271129129644576","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: buú 2 cu\n⏰ Deadline: 03-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-03 17:03:07 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-03 17:03:07 | CREATE_TASK | false
+2026-08-03 17:03:24 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:37 | DONE_CHECK | old=0 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:40 | DONE_CHECK | old=2 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:42 | DONE_CHECK | old=0 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:43 | DONE_CHECK | old=2 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:43 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:44 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:45 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:47 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:48 | DONE_CHECK | old=0 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:49 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:50 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:51 | DONE_CHECK | old=2 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:52 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:52 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:53 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:54 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:03:54 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:04:05 | DONE_CHECK | old=2 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:04:19 | DONE_CHECK | old=2 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:04:21 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:04:22 | DONE_CHECK | old=2 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:07:33 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:07:34 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:37 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:37 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:38 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:39 | DONE_CHECK | old=0 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:40 | DONE_CHECK | old=0 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:44 | DONE_CHECK | old=0 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:47 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:49 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:51 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:13:51 | DONE_CHECK | old=1 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:19:35 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:06 | DONE_CHECK | old=1 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:08 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:08 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:09 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:10 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:10 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:11 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:12 | DONE_CHECK | old=2 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:12 | DONE_CHECK | old=0 new=1 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:13 | DONE_CHECK | old=1 new=2 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-03 17:20:14 | DONE_CHECK | old=1 new=0 assignee=71 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:01:21 | DONE_CHECK | old=2 new=1 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:22 | DONE_CHECK | old=1 new=2 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:24 | DONE_CHECK | old=2 new=1 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:25 | DONE_CHECK | old=1 new=2 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:27 | DONE_CHECK | old=2 new=1 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:29 | DONE_CHECK | old=1 new=2 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:31 | DONE_CHECK | old=2 new=1 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:32 | DONE_CHECK | old=2 new=1 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:40 | DONE_CHECK | old=1 new=2 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:01:41 | DONE_CHECK | old=1 new=2 assignee=75 actor_login=1 actor_member=0 created_by_id=75 should=0
+2026-08-04 10:06:14 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 10:06:14 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 10:06:14 | CREATE_TASK | false
+2026-08-04 10:06:16 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:17 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:17 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:18 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:18 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:19 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:19 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:20 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:20 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:21 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:21 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:22 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:23 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:06:24 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:07:04 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:07:05 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:07:06 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:07:07 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:07:24 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: súc bình xăng con\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 10:07:24 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 10:07:24 | CREATE_TASK | false
+2026-08-04 10:07:39 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: rửa chim\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 10:07:39 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 10:07:39 | CREATE_TASK | false
+2026-08-04 10:07:47 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:07:48 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:08:18 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu lần 2\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 10:08:18 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 10:08:18 | CREATE_TASK | false
+2026-08-04 10:09:34 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu lần 2\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 10:09:34 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 10:09:34 | CREATE_TASK | false
+2026-08-04 10:12:31 | {"step":"INPUT","zalo_user_id":"5886413180367246082","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: bú cu\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 10:12:31 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 10:12:31 | CREATE_TASK | false
+2026-08-04 10:12:44 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:12:46 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:12:47 | DONE_CHECK | old=0 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:12:48 | DONE_CHECK | old=0 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:12:48 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:12:49 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:13:10 | DONE_CHECK | old=2 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:13:12 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:49:08 | NO_ZALO_USER_ID | member_id=79
+2026-08-04 10:55:03 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:55:13 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 10:55:14 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:01:08 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:01:09 | DONE_CHECK | old=0 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:01:09 | DONE_CHECK | old=0 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:01:10 | DONE_CHECK | old=0 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:07:26 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:07:27 | DONE_CHECK | old=1 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:07:28 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 11:07:29 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:05:54 | DONE_CHECK | old=2 new=1 assignee=74 actor_login=1 actor_member=0 created_by_id=74 should=0
+2026-08-04 15:05:55 | DONE_CHECK | old=1 new=2 assignee=74 actor_login=1 actor_member=0 created_by_id=74 should=0
+2026-08-04 15:05:56 | DONE_CHECK | old=2 new=1 assignee=74 actor_login=1 actor_member=0 created_by_id=74 should=0
+2026-08-04 15:05:57 | DONE_CHECK | old=1 new=2 assignee=74 actor_login=1 actor_member=0 created_by_id=74 should=0
+2026-08-04 15:35:57 | DONE_CHECK | old=0 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:35:59 | DONE_CHECK | old=0 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:36:00 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:36:00 | DONE_CHECK | old=1 new=2 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:38:44 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:38:45 | DONE_CHECK | old=2 new=1 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:38:45 | DONE_CHECK | old=2 new=0 assignee=65 actor_login=1 actor_member=0 created_by_id=1 should=0
+2026-08-04 15:41:01 | {"step":"INPUT","zalo_user_id":"3096884466588820040","message":"📌 BẠN ĐƯỢC GIAO VIỆC MỚI\n\n📝 Việc: Tu hú\n⏰ Deadline: 04-08-2026 23:59\n🌐 Website: CTY BUFF CORP\n👤 Giao bởi: Administrator"}
+2026-08-04 15:41:01 | {"step":"ERROR","message":"NO_ACCESS_TOKEN"}
+2026-08-04 15:41:01 | CREATE_TASK | false

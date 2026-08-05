@@ -10,6 +10,9 @@ $library = file_get_contents($root . '/bootrap/includes/library.php');
 foreach (['initializeModernLists', 'buffcorp-module-card', 'buffcorp-mobile-menu', 'menu-open', '.sales-page', '.kpi-report', 'setNotifyOpen', 'aria-controls="notify-panel"', 'aria-controls="payroll-panel"', 'closeTopPanels'] as $marker) {
     if (strpos($main . $layout, $marker) === false) throw new RuntimeException('Missing main shell marker: ' . $marker);
 }
+foreach (['var isEmpty = !data.items || !data.items.length;', "wrap.className += ' is-empty'", "wrap.className = wrap.className.replace(/ ?is-empty/g, '');", '.notify-wrap.is-empty .notify-panel', '.notify-wrap.is-empty .notify-list', '.notify-read-all.show { display:block; }'] as $marker) {
+    if (strpos($main, $marker) === false) throw new RuntimeException('Empty notification panel must remain compact and hide read-all actions.');
+}
 if (strpos($main, 'buffcorp-theme-button') !== false || strpos($main, 'buffcorp-theme-wrap') !== false) {
     throw new RuntimeException('Theme toggle must stay removed to match main.');
 }
@@ -22,8 +25,8 @@ if (preg_match('/suppressNotifyFlash|payroll-popup-settling|notify-suppress-flas
 if (!preg_match('/\.buffcorp-top-actions \.notify-bell\s*\{[^}]*width\s*:\s*38px/s', $main)) {
     throw new RuntimeException('Notification bell must share the top action button styling.');
 }
-if (!preg_match('/\.notify-wrap\.open \.notify-bell\s*\{[^}]*z-index\s*:\s*10031/s', $main)) {
-    throw new RuntimeException('Notification bell must remain clickable above its open panel.');
+if (preg_match('/\.notify-wrap\.open \.notify-bell\s*\{[^}]*z-index\s*:/s', $main)) {
+    throw new RuntimeException('Notification bell must remain behind its open panel.');
 }
 if (preg_match('/\.notify-wrap\s*\{[^}]*z-index\s*:\s*9999/s', $main)) {
     throw new RuntimeException('Notification wrapper must not sit above normal UI.');
@@ -49,6 +52,12 @@ $serverList = buffcorpPrepareModuleHtml(
 );
 if (strpos($serverList, 'buffcorp-server-rendered') === false || strpos($serverList, 'data-layout="list"') === false) {
     throw new RuntimeException('Back-end list layout adapter failed.');
+}
+
+$endpointTable = buffcorpModernizeTable('<table class="selector"><tr class="header"><td>#</td><td>Tên</td><td></td><td></td><td></td><td></td></tr><tr><td>1</td><td>Đầu</td><td><a style="display:none"><img src="up.png"></a></td><td><a><img src="down_blue.png"></a></td><td><a><img src="editbutton.gif"></a></td><td><a><img src="button-delete.gif"></a></td></tr><tr><td>2</td><td>Giữa</td><td><a><img src="up.png"></a></td><td><a><img src="down_blue.png"></a></td><td><a><img src="editbutton.gif"></a></td><td><a><img src="button-delete.gif"></a></td></tr><tr><td>3</td><td>Cuối</td><td><a><img src="up.png"></a></td><td><a style="display:none"><img src="down_blue.png"></a></td><td><a><img src="editbutton.gif"></a></td><td><a><img src="button-delete.gif"></a></td></tr></table>');
+preg_match_all('/<tr\\b[^>]*>(.*?)<\\/tr>/is', $endpointTable, $endpointRows);
+foreach ($endpointRows[1] as $endpointRow) {
+    if (preg_match_all('/<td\\b/i', $endpointRow) !== 3) throw new RuntimeException('First and last list records must match the header column count.');
 }
 
 $adaptedLists = 0;
