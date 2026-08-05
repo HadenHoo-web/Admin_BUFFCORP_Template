@@ -2671,10 +2671,13 @@
 
     function render(data) {
         setCount(data.unread);
-        if (!data.items || !data.items.length) {
+        var isEmpty = !data.items || !data.items.length;
+        if (isEmpty) {
+            if (wrap.className.indexOf('is-empty') < 0) wrap.className += ' is-empty';
             listEl.innerHTML = '<div class="notify-empty">Chưa có thông báo</div>';
             return;
         }
+        wrap.className = wrap.className.replace(/ ?is-empty/g, '');
         var html = '';
         for (var i = 0; i < data.items.length; i++) {
             var item = data.items[i];
@@ -3350,7 +3353,6 @@
             cursor: pointer;
         }
         .buffcorp-top-actions .notify-bell svg { width: 18px; height: 18px; }
-        .notify-wrap.open .notify-bell { position: relative; z-index: 10031; }
         .notify-panel {
             top: 0 !important;
             right: 0 !important;
@@ -3372,6 +3374,17 @@
             z-index: 10030;
         }
         .notify-wrap.open .notify-panel { transform: translateX(0); }
+        .notify-wrap.is-empty .notify-panel {
+            top: 80px !important;
+            right: 16px !important;
+            bottom: auto;
+            width: 330px;
+            max-width: calc(100vw - 32px);
+            max-height: calc(100vh - 96px);
+            border: 1px solid var(--buff-line);
+            border-radius: 12px;
+            box-shadow: 0 16px 34px rgba(16,24,40,.16);
+        }
         .notify-head {
             min-height: 76px;
             padding: 18px 22px;
@@ -3395,14 +3408,14 @@
             cursor: pointer;
         }
         .notify-list { min-height: 0; max-height: none; flex: 1; overflow: auto; padding: 0 20px; }
+        .notify-wrap.is-empty .notify-list { min-height:126px; flex:0 0 126px; display:grid; place-items:center; padding:20px; }
         .notify-item { padding: 15px 3px; border-bottom: 1px solid var(--buff-line); color: var(--buff-text); }
         .notify-item:hover { background: var(--buff-bg); }
         .notify-item.unread { background: transparent; }
         .notify-title { color: var(--buff-text); font-size: 12px; }
         .notify-message { color: var(--buff-muted); font-size: 11px; line-height: 16px; }
-        .notify-read-all,
-        .notify-read-all.show {
-            display: block;
+        .notify-read-all {
+            display: none;
             width: auto;
             height: 38px;
             margin: 16px 20px;
@@ -3413,6 +3426,7 @@
             font-size: 11px;
             font-weight: 700;
         }
+        .notify-read-all.show { display:block; }
 
 	        .payroll-panel {
 	            top: 50% !important;

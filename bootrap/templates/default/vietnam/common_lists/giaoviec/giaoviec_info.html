@@ -1,13 +1,14 @@
 <style>
-  .gv-form-ui { --gv-brand:#2563eb; --gv-ink:#111827; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-danger:#dc2626; max-width:1120px; margin:0 auto; color:var(--gv-ink); font:13px/1.4 Manrope,"Segoe UI",Arial,sans-serif; }
+  .gv-form-ui { --gv-brand:#2563eb; --gv-ink:#111827; --gv-muted:#64748b; --gv-line:#dfe8f5; --gv-danger:#dc2626; max-width:none; margin:0 auto; color:var(--gv-ink); font:16.25px/1.4 Manrope,"Segoe UI",Arial,sans-serif; }
+  @media (min-width:621px) { .buffcorp-page:has(.gv-form-ui) { padding:14px 16px 24px; } }
   .gv-form-ui * { box-sizing:border-box; }
   .gv-form-shell { overflow:hidden; border:1px solid var(--gv-line); border-radius:14px; background:#fff; box-shadow:0 10px 30px rgba(31,68,117,.09); }
   .gv-form-head,.gv-form-foot { display:flex; align-items:center; gap:10px; min-height:62px; padding:12px 16px; }
   .gv-form-head { border-bottom:1px solid var(--gv-line); }
-  .gv-form-head h1 { margin:0; font-size:15px; }
-  .gv-form-head small { display:block; margin-top:2px; color:var(--gv-muted); font-size:10px; }
+  .gv-form-head h1 { margin:0; font-size:18.75px; }
+  .gv-form-head small { display:block; margin-top:2px; color:var(--gv-muted); font-size:12.5px; }
   .gv-form-actions { display:flex; gap:8px; margin-left:auto; }
-  .gv-form-button { min-height:38px; display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:0 13px; border:1px solid var(--gv-line); border-radius:9px; color:#23415f; background:#fff; font:inherit; font-size:11px; font-weight:800; text-decoration:none; cursor:pointer; }
+  .gv-form-button { min-height:38px; display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:0 13px; border:1px solid var(--gv-line); border-radius:9px; color:#23415f; background:#fff; font:inherit; font-size:13.75px; font-weight:800; text-decoration:none; cursor:pointer; }
   .gv-form-button:hover { border-color:#9bbce8; color:var(--gv-brand); background:#f7faff; }
   .gv-form-button.primary { border-color:var(--gv-brand); color:#fff !important; background:var(--gv-brand); box-shadow:0 8px 18px rgba(37,99,235,.2); }
   .gv-form-body { padding:16px; }
@@ -17,28 +18,42 @@
   .gv-field.span-6 { grid-column:span 6; }
   .gv-field.span-8 { grid-column:span 8; }
   .gv-field.full { grid-column:1 / -1; }
-  .gv-field label { display:block; margin-bottom:4px; color:#111827; font-size:10px; font-weight:800; }
+  .gv-form-inline-row { display:grid; grid-column:1 / -1; grid-template-columns:repeat(5,minmax(0,1fr)); gap:11px; }
+  .gv-form-inline-row .gv-field { grid-column:auto; }
+  .gv-field label { display:block; margin-bottom:4px; color:#111827; font-size:12.5px; font-weight:800; }
   .gv-required { color:var(--gv-danger); }
-  .gv-control { width:100%; height:36px; padding:0 10px; border:1px solid #d8e3f1; border-radius:8px; color:#111827; background:#fff; font:inherit; font-size:11px; }
-  .gv-form-ui .gv-field label,.gv-form-ui .gv-form-button,.gv-form-ui .gv-control,.gv-form-ui .gv-control option,.gv-form-ui .gv-switch-row { font-family:Manrope,"Segoe UI",Arial,sans-serif !important; color:#111827; }
+  .gv-control { width:100%; height:36px; padding:0 10px; border:1px solid #d8e3f1; border-radius:8px; color:#111827; background:#fff; font:inherit; font-size:13.75px; }
+  .gv-form-ui .gv-field label,.gv-form-ui .gv-form-button,.gv-form-ui .gv-control,.gv-form-ui .gv-control option { font-family:Manrope,"Segoe UI",Arial,sans-serif !important; color:#111827; }
   .gv-form-ui .gv-control::placeholder { color:#6b7280; opacity:1; }
   textarea.gv-control { height:78px; padding-top:8px; resize:vertical; }
+  .gv-rich-editor { overflow:hidden; border:1px solid #d8e3f1; border-radius:8px; background:#fff; }
+  .gv-rich-editor .cke { display:block; border:0 !important; box-shadow:none !important; }
+  .gv-rich-editor .cke_top { min-height:40px; padding:5px 7px !important; border:0 !important; border-bottom:1px solid #d8e3f1 !important; background:#f7faff !important; }
+  .gv-rich-editor .cke_toolgroup { margin:0 4px 0 0 !important; border:1px solid #d8e3f1 !important; border-radius:6px !important; background:#fff !important; box-shadow:none !important; }
+  .gv-rich-editor .cke_button { min-width:28px; min-height:28px; padding:5px 6px !important; border:0 !important; border-radius:5px !important; }
+  .gv-rich-editor .cke_button:hover,.gv-rich-editor .cke_button:focus,.gv-rich-editor .cke_button_on { background:#e7f0ff !important; }
+  .gv-rich-editor .cke_contents { height:112px !important; border:0 !important; }
+  .gv-rich-editor .cke_bottom { display:none !important; }
   .gv-control:hover { border-color:#acc4e3; }
   .gv-control:focus { border-color:var(--gv-brand); outline:3px solid rgba(37,99,235,.14); outline-offset:1px; }
   .gv-datetime { display:grid; grid-template-columns:minmax(0,1fr) 88px; gap:6px; }
-  .gv-switch-row { display:flex; align-items:center; gap:8px; height:36px; color:#26384d; font-size:11px; }
-  .gv-switch-row input { width:17px; height:17px; accent-color:var(--gv-brand); }
   .gv-form-foot { justify-content:flex-end; border-top:1px solid var(--gv-line); }
-  .gv-message { margin:10px 0 0; color:var(--gv-danger); font-size:11px; font-weight:800; }
+  .gv-message { margin:10px 0 0; color:var(--gv-danger); font-size:13.75px; font-weight:800; }
   body.buffcorp-dark .gv-form-ui { --gv-brand:#8abcf8; --gv-ink:#f2f4f7; --gv-muted:#a8b5c4; --gv-line:#30363d; --gv-danger:#ff9d9d; }
   body.buffcorp-dark .gv-form-shell { border-color:var(--gv-line); background:#161b22; box-shadow:0 10px 28px rgba(0,0,0,.22); }
-  body.buffcorp-dark .gv-form-ui .gv-field label,body.buffcorp-dark .gv-form-ui .gv-form-button,body.buffcorp-dark .gv-form-ui .gv-control,body.buffcorp-dark .gv-form-ui .gv-control option,body.buffcorp-dark .gv-form-ui .gv-switch-row { color:var(--gv-ink) !important; }
+  body.buffcorp-dark .gv-form-ui .gv-field label,body.buffcorp-dark .gv-form-ui .gv-form-button,body.buffcorp-dark .gv-form-ui .gv-control,body.buffcorp-dark .gv-form-ui .gv-control option { color:var(--gv-ink) !important; }
   body.buffcorp-dark .gv-form-button,body.buffcorp-dark .gv-control { border-color:var(--gv-line); background:#0d1117; }
   body.buffcorp-dark .gv-form-button:hover { border-color:var(--gv-brand); color:var(--gv-brand) !important; background:#1c2734; }
   body.buffcorp-dark .gv-form-ui .gv-control::placeholder { color:#a8b5c4; }
   body.buffcorp-dark .gv-form-button.primary,body.buffcorp-dark .gv-form-button.primary:hover { border-color:var(--gv-brand); color:#07121e !important; background:var(--gv-brand); }
+  body.buffcorp-dark .gv-rich-editor { border-color:var(--gv-line); background:#0d1117; }
+  body.buffcorp-dark .gv-rich-editor .cke_top { border-color:var(--gv-line) !important; background:#161b22 !important; }
+  body.buffcorp-dark .gv-rich-editor .cke_toolgroup { border-color:var(--gv-line) !important; background:#0d1117 !important; }
+  body.buffcorp-dark .gv-rich-editor .cke_button:hover,body.buffcorp-dark .gv-rich-editor .cke_button:focus,body.buffcorp-dark .gv-rich-editor .cke_button_on { background:#1c344d !important; }
+  @media (max-width:980px) { .gv-form-inline-row { grid-template-columns:repeat(3,minmax(0,1fr)); } }
   @media (max-width:760px) { .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:span 6; } }
-  @media (max-width:510px) { .gv-form-head { flex-wrap:wrap; } .gv-form-actions { margin-left:auto; } .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:1 / -1; } .gv-form-button { min-height:42px; } }
+  @media (max-width:760px) { .gv-form-inline-row { grid-template-columns:repeat(2,minmax(0,1fr)); } .gv-form-inline-row .gv-field { grid-column:auto; } }
+  @media (max-width:510px) { .gv-form-head { flex-wrap:wrap; } .gv-form-actions { margin-left:auto; } .gv-field,.gv-field.span-4,.gv-field.span-6,.gv-field.span-8 { grid-column:1 / -1; } .gv-form-inline-row { grid-template-columns:1fr; } .gv-form-inline-row .gv-field { grid-column:auto; } .gv-form-button { min-height:42px; } }
 </style>
 
 <div class="gv-form-ui buffcorp-server-rendered buffcorp-module-ready">
@@ -52,6 +67,8 @@
     <input type="hidden" name="day" value="{day}">
     <input type="hidden" name="view" value="{view}">
     <input type="hidden" name="member_id1" value="{context_member_id}">
+    <input type="hidden" name="soluong" value="{soluong}">
+    <input type="hidden" name="active" value="{active_value}">
     <section class="gv-form-shell">
       <header class="gv-form-head">
         <div><h1>{form_title}</h1><small>{parent_name}</small></div>
@@ -61,28 +78,28 @@
         <div class="gv-form-grid">
           <div class="gv-field span-8"><label for="giaoviec_name">Tên công việc <span class="gv-required">*</span></label><input class="gv-control" id="giaoviec_name" name="giaoviec_name" value="{giaoviec_name}" required {allow_edit}></div>
           <div class="gv-field span-4"><label for="giaoviec_num">Số lượng</label><input class="gv-control" id="giaoviec_num" name="giaoviec_num" type="number" min="0" value="{giaoviec_num}"></div>
-          <div class="gv-field span-4"><label for="member_id">Người thực hiện <span class="gv-required">*</span></label><select class="gv-control" id="member_id" name="member_id" required {allow_edit}><option value="">Chọn nhân viên</option>
-            <!-- BEGIN member_list -->
-            <option value="{member_list.member_id}" {member_list.selected}>{member_list.member_name}</option>
-            <!-- END member_list -->
-          </select></div>
-          <div class="gv-field span-4"><label for="website_id">Website <span class="gv-required">*</span></label><select class="gv-control" id="website_id" name="website_id" required {allow_edit}><option value="">Chọn website</option>
-            <!-- BEGIN website_list -->
-            <option value="{website_list.website_id}">{website_list.website_name}</option>
-            <!-- END website_list -->
-          </select></div>
-          <div class="gv-field span-4"><label for="parent_id">Công việc cha</label><select class="gv-control" id="parent_id" name="parent_id" {allow_edit}><option value="0">Không có</option>
-            <!-- BEGIN cha_list -->
-            <option value="{cha_list.giaoviec_id}">{cha_list.giaoviec_name}</option>
-            <!-- END cha_list -->
-          </select></div>
-          <div class="gv-field span-6"><label>Ngày bắt đầu</label><div class="gv-datetime"><input class="gv-control" name="ngay_bat_dau" type="date" value="{ngay_bat_dau}" {allow_edit}><input class="gv-control" name="gio_bat_dau" type="time" value="{gio_bat_dau}" {allow_edit}></div></div>
-          <div class="gv-field span-6"><label>Hạn hoàn thành <span class="gv-required">*</span></label><div class="gv-datetime"><input class="gv-control" name="ngay" type="date" value="{ngay}" required {allow_edit}><input class="gv-control" name="gio_deadline" type="time" value="{gio_deadline}" {allow_edit}></div></div>
+          <div class="gv-form-inline-row">
+            <div class="gv-field span-4"><label for="member_id">Người thực hiện <span class="gv-required">*</span></label><select class="gv-control" id="member_id" name="member_id" required {allow_edit}><option value="">Chọn nhân viên</option>
+              <!-- BEGIN member_list -->
+              <option value="{member_list.member_id}" {member_list.selected}>{member_list.member_name}</option>
+              <!-- END member_list -->
+            </select></div>
+            <div class="gv-field span-4"><label for="website_id">Website <span class="gv-required">*</span></label><select class="gv-control" id="website_id" name="website_id" required {allow_edit}><option value="">Chọn website</option>
+              <!-- BEGIN website_list -->
+              <option value="{website_list.website_id}">{website_list.website_name}</option>
+              <!-- END website_list -->
+            </select></div>
+            <div class="gv-field span-4"><label for="parent_id">Công việc cha</label><select class="gv-control" id="parent_id" name="parent_id" {allow_edit}><option value="0">Không có</option>
+              <!-- BEGIN cha_list -->
+              <option value="{cha_list.giaoviec_id}">{cha_list.giaoviec_name}</option>
+              <!-- END cha_list -->
+            </select></div>
+            <div class="gv-field span-6"><label>Ngày bắt đầu</label><div class="gv-datetime"><input class="gv-control" name="ngay_bat_dau" type="date" value="{ngay_bat_dau}" {allow_edit}><input class="gv-control" name="gio_bat_dau" type="time" value="{gio_bat_dau}" {allow_edit}></div></div>
+            <div class="gv-field span-6"><label>Hạn hoàn thành <span class="gv-required">*</span></label><div class="gv-datetime"><input class="gv-control" name="ngay" type="date" value="{ngay}" required {allow_edit}><input class="gv-control" name="gio_deadline" type="time" value="{gio_deadline}" {allow_edit}></div></div>
+          </div>
           <div class="gv-field span-4" style="display:{kpi_type_display}"><label for="kpi_type">Loại KPI</label><select class="gv-control" id="kpi_type" name="kpi_type"><option value="">Không tính KPI</option><option value="viet_content" style="display:{content_kpi_option_display}">Viết content</option><option value="audit_content" style="display:{content_kpi_option_display}">Audit content</option><option value="nghien_cuu_tu_khoa" style="display:{content_kpi_option_display}">Nghiên cứu từ khóa</option><option value="tim_khach_hang" style="display:{sales_kpi_option_display}">Tìm khách hàng</option></select></div>
-          <div class="gv-field span-4"><label for="soluong">Trạng thái</label><select class="gv-control" id="soluong" name="soluong"><option value="0">Chưa thực hiện</option><option value="1">Đang thực hiện</option><option value="2">Đã xong</option></select></div>
-          <div class="gv-field span-4"><label>Hiển thị</label><label class="gv-switch-row"><input name="active" type="checkbox" value="1" {active}><span>Đang hiển thị</span></label></div>
-          <div class="gv-field full"><label for="link_demo">Link hoàn thành</label><input class="gv-control" id="link_demo" name="link_demo" type="url" value="{link_demo}" placeholder="https://" {allow_edit}></div>
-          <div class="gv-field full"><label for="chitiet">Chi tiết</label><textarea class="gv-control" id="chitiet" name="chitiet">{chitiet}</textarea></div>
+          <div class="gv-field span-8"><label for="link_demo">Link hoàn thành</label><input class="gv-control" id="link_demo" name="link_demo" type="url" value="{link_demo}" placeholder="https://" {allow_edit}></div>
+          <div class="gv-field full"><label for="chitiet">Chi tiết</label><div class="gv-rich-editor"><textarea class="gv-control" id="chitiet" name="chitiet">{chitiet}</textarea></div></div>
         </div>
         <p class="gv-message">{MESSAGE}</p>
       </div>
@@ -91,6 +108,7 @@
   </form>
 </div>
 
+<script type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script>
 (function () {
   var form = document.getElementById('gvTaskForm');
@@ -98,7 +116,29 @@
   form.member_id.value = '{member_id}';
   form.website_id.value = '{website_id}';
   form.parent_id.value = '{parent_id}';
-  form.soluong.value = '{soluong}';
   if (form.kpi_type) form.kpi_type.value = '{kpi_type}';
+  if (!window.CKEDITOR) return;
+  var detailEditor = CKEDITOR.replace('chitiet', {
+    height:112,
+    resize_enabled:false,
+    toolbarCanCollapse:false,
+    removePlugins:'elementspath,resize',
+    toolbar:[
+      ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat','-','PasteText','PasteFromWord'],
+      ['Styles','Format','Font','FontSize','-','Bold','Italic','Underline','Strike','Subscript','Superscript','-','TextColor','BGColor'],
+      ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','Anchor','-','Image','Table','HorizontalRule','SpecialChar','Smiley','-','Maximize']
+    ]
+  });
+  detailEditor.on('instanceReady', function (event) {
+    var editorBody = event.editor.document.getBody();
+    editorBody.setStyle('font-family', 'Manrope, "Segoe UI", Arial, sans-serif');
+    editorBody.setStyle('font-size', '14px');
+    editorBody.setStyle('line-height', '1.5');
+    if (document.body.classList.contains('buffcorp-dark')) {
+      editorBody.setStyle('background-color', '#0d1117');
+      editorBody.setStyle('color', '#f2f4f7');
+    }
+  });
+  form.addEventListener('submit', function () { detailEditor.updateElement(); });
 }());
 </script>

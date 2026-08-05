@@ -67,6 +67,13 @@
 		return 'gv-dept-'.((int)sprintf('%u', crc32((string)$department)) % 5);
 	}
 
+	function gvTaskMemberRole($value)
+	{
+		$role = trim((string)$value);
+		if ($role !== '' && is_numeric($role)) return (float)$role > 0 ? 'Trưởng phòng' : 'Nhân viên';
+		return $role !== '' ? $role : 'Nhân viên';
+	}
+
 	function gvTaskIsAdministrator()
 	{
 		return strtolower((string)(isset($_SESSION['loginname']) ? $_SESSION['loginname'] : '')) == 'administrator';
@@ -352,7 +359,7 @@ function mosListNew($id)
 	while ($row = $db->sql_fetchrow($result)) {
 		$currentMemberId = (int)$row['member_id'];
 		$department = gvTaskDepartment($row['primary_department'], $row['extra_department']);
-		$role = trim((string)$row['trach_nhiem']) ? $row['trach_nhiem'] : 'Nhân viên';
+		$role = gvTaskMemberRole($row['trach_nhiem']);
 		$memberStats = isset($stats[$currentMemberId]) ? $stats[$currentMemberId] : array('total' => 0, 'progress' => 0, 'done' => 0);
 		$template->assign_block_vars('member_list', array(
 			'member_id' => $currentMemberId,
@@ -376,7 +383,7 @@ function mosListNew($id)
 		$sql = "select fullname, trach_nhiem from tbl_member where member_id = ".$member_id." limit 1";
 		if (($result = $db->sql_query($sql)) && ($row = $db->sql_fetchrow($result))) {
 			$selectedName = $row['fullname'];
-			$selectedRole = trim((string)$row['trach_nhiem']) ? $row['trach_nhiem'] : 'Nhân viên';
+			$selectedRole = gvTaskMemberRole($row['trach_nhiem']);
 			$selectedDepartment = 'Chưa phân phòng';
 		}
 	}
@@ -560,7 +567,7 @@ function mosInfo(){
 				'chitiet'		=> gvTaskEscape($row['chitiet']),
 				'soluong'		=> $row['soluong'],
 				'parent_id' 	=> $row['parent_id'],
-				'active'		=> ($row['active'] == 1) ? 'checked' : '',
+				'active_value'	=> (int)$row['active'],
 
 				'member_id'		=> $row['member_id'],
 				'website_id'	=> $row['website_id'],
@@ -580,7 +587,7 @@ function mosInfo(){
 		$template->assign_vars(array(
 			'form_title' => 'Thêm công việc',
 			'giaoviec_id' => 0,
-			'active'	   => 'checked',
+			'active_value' => 1,
 			'allow'        => 'hidden',
 			'member_id'    => $context_member_id,
 			'website_id'   => 0,
@@ -698,6 +705,10 @@ function mosSave(){
 	if ($giaoviec_id === ''){
 		mosInvalidURL();
 		exit;
+	}
+	if ($giaoviec_id == '0') {
+		$soluong = 0;
+		$active = 1;
 	}
 
 	if ($isContentMember && gvKpiIsContentTaskType($kpi_type) && (int)$soluong == 2) {
@@ -1085,7 +1096,7 @@ function mosDelete()
 			'member_id'		   =>	mosGetParam( $_REQUEST, 'member_id', 0),
 			'website_id'		 =>	mosGetParam( $_REQUEST, 'website_id', 0),
 			'parent_id'		   =>	mosGetParam( $_REQUEST, 'parent_id', 0),
-			'active'		   =>	mosGetParam( $_REQUEST, 'active', 0) ? 'checked' : '',
+			'active_value'	 =>	mosGetParam( $_REQUEST, 'active', 1) ? 1 : 0,
 		));
 		$template->set_filenames_new(array(
 			'giaoviec' => 'common_lists/giaoviec/giaoviec_info.html')
