@@ -38,6 +38,7 @@ function mosList(){
             'order'				=>  $order,
             'website_type_id'			=>	$row['website_type_id'],
             'website_type_name'			=>	$row['website_type_name'],
+            'bg_color'			=>	$row['bg_color'],
             'active' 		=>	($row['active'] == 1) ? '' : 'none',
             'up'			=>	($order == 1) ? ' display: none;' : '',
             'down'			=>	($order == $num_row) ? ' display: none;' : '',
@@ -62,6 +63,7 @@ function mosInfo()
 				$template->assign_vars(array(
 					'website_type_id'	=>	$website_type_id,
 					'website_type_name'	=>	$row['website_type_name'],
+					'bg_color'	=>	$row['bg_color'],
 					'active'	=>	($row['active'] == 1) ? 'checked' : '',
 				));
 			} else
@@ -98,8 +100,12 @@ function mosSave()
 		global $db, $root_path, $skin, $languageid, $template;	
 		$website_type_id 	= mosGetParam( $_REQUEST, 'id', '0');
 		$website_type_name	= mosGetParam( $_REQUEST, 'website_type_name', '');
+		$bg_color	= mosGetParam( $_REQUEST, 'bg_color', '');
 		$active			= mosGetParam( $_REQUEST, 'active', 0);
-		
+		if ($bg_color != '' && !preg_match('/^#[0-9A-Fa-f]{6}$/', $bg_color)) {
+			$bg_color = '';
+		}
+
 		if ($website_type_id == '')
 		{	
 			mosInvalidURL();
@@ -112,14 +118,14 @@ function mosSave()
 				exit;
 			}
 			$priority = mosGetPriority("tbl_website_type", "priority", "");
-			$sql = "insert into tbl_website_type (website_type_name, active, priority, language_id) values ('$website_type_name', $active, $priority, $languageid)";
+			$sql = "insert into tbl_website_type (website_type_name, bg_color, active, priority, language_id) values ('$website_type_name', '$bg_color', $active, $priority, $languageid)";
 		} else
-			{ 
+			{
 			if (checkDuplicate("tbl_website_type", array('website_type_name' => $website_type_name), "website_type_name",0,false,"website_type_id != $website_type_id"))
 			{	reShowPage( DUPLICATE_ENTRY );
 				exit;
 			}
-			$sql = "update tbl_website_type set website_type_name ='$website_type_name', active = $active where website_type_id = $website_type_id";
+			$sql = "update tbl_website_type set website_type_name ='$website_type_name', bg_color = '$bg_color', active = $active where website_type_id = $website_type_id";
 			}
 
 		if ( !($result = $db->sql_query($sql)) ) message_die( SERVER_BUSY );
@@ -150,6 +156,7 @@ function mosDelete()
 		$id   	= mosGetParam( $_REQUEST, 'id', '0');
 		$template->assign_vars(array(
 			'website_type_name' 	=>	mosGetParam( $_REQUEST, 'website_type_name', ''),
+			'bg_color' 	=>	mosGetParam( $_REQUEST, 'bg_color', ''),
 			'MESSAGE'		=>	DUPLICATE_ENTRY,
 			'website_type_id'	=>	$id,
 		));

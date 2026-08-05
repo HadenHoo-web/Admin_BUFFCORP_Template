@@ -17,6 +17,13 @@
     <td width="22%" height="25" >Loại Dự Án:<font color="#FF0000">*</font></td>
     <td width="78%"><input name="website_type_name" notnull = "1" type="text" size="70" alt="Loại Dự án" value="{website_type_name}" /></td>
   </tr>
+  <tr >
+    <td width="22%" height="25" >Màu:</td>
+    <td width="78%">
+      <input name="bg_color" id="bg_color" type="text" size="12" maxlength="7" value="{bg_color}" placeholder="#FFA500" />
+      <input id="bg_color_picker" type="color" value="#ffffff" onchange="mainForm.bg_color.value=this.value" />
+    </td>
+  </tr>
   <tr>
     <td ></td>
     <td ><input type="checkbox" name="active" value="1" id="fp1" {active} />
@@ -38,6 +45,9 @@
 
 	function returnToList()
 	{	document.location='?option={funname}&mode=list&l={LANGUAGEID}'
+	}
+	if (/^#[0-9A-Fa-f]{6}$/.test(mainForm.bg_color.value)) {
+		document.getElementById('bg_color_picker').value = mainForm.bg_color.value;
 	}
 	mainForm.website_type_name.focus()
 </Script>

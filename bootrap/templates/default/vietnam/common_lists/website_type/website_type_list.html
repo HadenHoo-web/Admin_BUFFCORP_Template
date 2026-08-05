@@ -10,6 +10,7 @@
     <tr class="header">
       <td width="83" align="center" >#</td>
       <td width="440" align="left" >Loại Dự Án</td>
+      <td width="90" align="left" >Màu</td>
       <td width="123" align="left" >Active</td>
       <td  colspan="4" ></td>
     </tr>
@@ -17,6 +18,7 @@
     <tr class="{list.className}{list.status}">
       <td width="83" align="center" style="vertical-align:middle">{list.order}</td>
       <td width="440" style="vertical-align:middle">{list.website_type_name}</td>
+      <td width="90" style="vertical-align:middle"><span style="display:inline-block;width:28px;height:18px;border:1px solid #cccccc;background-color:{list.bg_color}"></span> {list.bg_color}</td>
       <td width="70" align="center" style="vertical-align:middle"><span style="display:{list.active}"><font face="Wingdings"><b><font size="3" color="#008000">ü</font></b></font></span></td>
       <td width="20" align="center"><a href="?option={funname}&mode=up&id={list.website_type_id}&l={LANGUAGEID}"  target="_self"> <img border="0" src="templates/{skin}/images/up.png" width="16" height="16" style="{list.up}"></a> </td>
       <td width="20" align="center"><a href="?option={funname}&mode=down&id={list.website_type_id}&l={LANGUAGEID}" target="_self"> <img  style="{list.down}" border="0" src="templates/{skin}/images/down_blue.png" width="16" height="16"></a></td>
